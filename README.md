@@ -1,17 +1,27 @@
-# Wasa's CakePHP2.4 library.
+Wasa's CakePHP2.4 library.
+========================================
 
-## Requirements
+Notice
+------
+
+* Should not use draft.
+* I have been implementing code yet.
+* Manual is secret policy now.
+
+Requirements
+-----------------
 
 * [CakePHP(2.4.x)](http://cakephp.jp/)
 * [Bootstrap(3.2.0)](http://getbootstrap.com/)
 
-## Installation
+Installation
+-----------------
 
-1. Copy "app/Lib/Wasa/" directory to your "app/Lib/Wasa/" directory.
-2. Make "Bootstrap" files with site which [customizes "Bootstrap".](http://getbootstrap.com/customize/)
-3. Copy made "Bootstrap" files to your "app/webroot/css/", "app/webroot/fonts/" and "app/webroot/js/" directory.
-4. Copy ["jQuery"](http://jquery.com/) file to your "app/webroot/js/" directory.
-5. Add following into "app/Config/bootstrap.php" file.
+* Procedure 1: Copy "app/Lib/Wasa/" directory to your "app/Lib/Wasa/" directory.
+* Procedure 2: Make "Bootstrap" files with site which [customizes "Bootstrap".](http://getbootstrap.com/customize/)
+* Procedure 3: Copy made "Bootstrap" files to your "app/webroot/css/", "app/webroot/fonts/" and "app/webroot/js/" directory.
+* Procedure 4: Copy ["jQuery"](http://jquery.com/) file to your "app/webroot/js/" directory.
+* Procedure 5: Add following into "app/Config/bootstrap.php" file.
 
 ```php
 App::build(array ('Controller' => array ('../Lib/Wasa/Controller/')));
@@ -20,7 +30,7 @@ App::build(array ('View/Helper' => array ('../Lib/Wasa/View/Helper/')));
 CakePlugin::load('BoostCake');
 ```
 
-6. Add following to "app/Controller/AppController.php".
+* Procedure 6: Add following to "app/Controller/AppController.php".
 
 ```php
 class AppController extends Controller
@@ -36,4 +46,10 @@ class AppController extends Controller
 }
 ```
 
-7. Copy ["BoostCake" plugin](https://github.com/slywalker/cakephp-plugin-boost_cake) to your "app/Plugin/BoostCake/" directory.
+* Procedure 7: Copy ["BoostCake" plugin](https://github.com/slywalker/cakephp-plugin-boost_cake) to your "app/Plugin/BoostCake/" directory.
+
+Change log
+----------
+
+* I repaired ID of "\WasaBootstrap030200FormHelper::displayCheckboxes()" and "\WasaBootstrap030200FormHelper::displayRadioButtons()" class method.
+* I created "\WasaBootstrap030200FormHelper::displayTelForGrid120()" class method.

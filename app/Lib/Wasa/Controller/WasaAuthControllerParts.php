@@ -34,21 +34,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category CakePHP_Library_Of_Wasa
+ * @category DUMMY
  * @package  DUMMY
  * @author   Hidenori Wasa <public@hidenori-wasa.com>
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
- * @link     https://github.com/hidenori-wasa/CakePHP0204Lib/
+ * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 /**
- * Auth コンポーネントを使用しているコントローラから呼び出すスタティッククラス
+ * Statical class to call from controller which uses "Auth" component.
  *
- * @category CakePHP_Library_Of_Wasa
+ * @category DUMMY
  * @package  DUMMY
  * @author   Hidenori Wasa <public@hidenori-wasa.com>
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
  * @version  Draft: 1.0.0
- * @link     https://github.com/hidenori-wasa/CakePHP0204Lib/
+ * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 final class WasaAuthControllerParts
 {
@@ -59,8 +59,7 @@ final class WasaAuthControllerParts
      * @param array $param Association array which has parameter names as keys.
      *
      * @return void
-     * @link http://localhost/WasaManual/index.php#WasaAuthControllerParts-construct-
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
+     * @link http://localhost/_WasaManual/index.php#WasaAuthControllerParts-construct
      */
     static function construct($param)
     {
@@ -100,8 +99,7 @@ final class WasaAuthControllerParts
      * @param array $param Association array which has parameter names as keys.
      *
      * @return void
-     * @link http://localhost/WasaManual/index.php#WasaAuthControllerParts-login-
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
+     * @link http://localhost/_WasaManual/index.php#WasaAuthControllerParts-login
      */
     static function login($param)
     {
@@ -124,8 +122,7 @@ final class WasaAuthControllerParts
      * @param array $param Association array which has parameter names as keys.
      *
      * @return void
-     * @link http://localhost/WasaManual/index.php#WasaAuthControllerParts-logout-
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
+     * @link http://localhost/_WasaManual/index.php#WasaAuthControllerParts-logout
      */
     static function logout($param)
     {

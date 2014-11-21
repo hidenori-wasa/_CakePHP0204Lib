@@ -35,21 +35,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @category CakePHP_Library_Of_Wasa
+ * @category DUMMY
  * @package  DUMMY
  * @author   Hidenori Wasa <public@hidenori-wasa.com>
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
- * @link     https://github.com/hidenori-wasa/CakePHP0204Lib/
+ * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 /**
  * The form helper for bootstrap3.
  *
- * @category CakePHP_Library_Of_Wasa
+ * @category DUMMY
  * @package  DUMMY
  * @author   Hidenori Wasa <public@hidenori-wasa.com>
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
  * @version  Draft: 1.0.0
- * @link     https://github.com/hidenori-wasa/CakePHP0204Lib/
+ * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 final class WasaBootstrap030200FormHelper
 {
@@ -62,7 +62,6 @@ final class WasaBootstrap030200FormHelper
      * @param object $form The form helper instance.
      *
      * @return void
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
      */
     static function construct($form)
     {
@@ -75,8 +74,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params Parameter's association array.
      *
      * @return array "Bootstrap's 'has-error' class" of each field name key.
-     * @link http://localhost/WasaManual/index.php#WasaBootstrap030200FormHelper-displayErrorWithAlert-
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
+     * @link http://localhost/_WasaManual/index.php#WasaBootstrap030200FormHelper-displayErrorWithAlert
      */
     static function displayErrorWithAlert($params)
     {
@@ -98,13 +96,59 @@ final class WasaBootstrap030200FormHelper
     }
 
     /**
+     * Displays the telephone text boxes.
+     *
+     * @param array $params Parameter's association array.
+     *
+     * @return void
+     * @link http://localhost/_WasaManual/index.php#WasaBootstrap030200FormHelper-displayTelForGrid120
+     */
+    static function displayTelForGrid120($params)
+    {
+        extract($params);
+
+        echo '<div class="form-group">';
+        // Defines bootstrap's "control-label" class to a label for error display and horizontal form display support.
+        echo '<p class="control-label ' . $titleColClass . '"><strong>' . $title . '</strong></p>';
+        echo '<div class="' . $contentsColClass . '">';
+        for ($count = 0;; $count++) {
+            $fieldName = $fieldNames[$count];
+            $placeholder = $placeholders[$count];
+            // エラーの場合、入力フォームをエラー色にする
+            echo '<div style="padding: 0;" class="col-sm-34 ' . $hasErrors[$fieldName] . '">';
+            // tel テキストボックス、入力値を保持する
+            echo self::$__form->input(
+                // フィールド名
+                $fieldName,
+                // 属性
+                array (
+                // 電話入力フォーム
+                'type' => 'tel',
+                //'type' => 'text',
+                // 入力フォームに初期表示する説明文字列
+                'placeholder' => $placeholder,
+                // 入力フォームには Bootstrap の form-control クラスを定義する
+                'class' => 'form-control',
+                )
+            );
+            echo '</div>';
+            if ($count === 2) {
+                break;
+            }
+            // 横幅によってグリッド間隔が変化しないように small medium large それぞれのグリッド幅を設定する
+            echo '<div class="col-sm-6 col-md-5 col-lg-4" style="padding: 5px 0 0 5px;">―</div>';
+        }
+        echo '</div>';
+        echo '</div>';
+    }
+
+    /**
      * Displays checkboxes.
      *
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/WasaManual/index.php#WasaBootstrap030200FormHelper-displayCheckboxes-
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
+     * @link http://localhost/_WasaManual/index.php#WasaBootstrap030200FormHelper-displayCheckboxes
      */
     static function displayCheckboxes($params)
     {
@@ -136,37 +180,33 @@ EOD;
         echo '<div class="' . $contentsColClass . '">';
         for ($count = 0, $number = count($values); $count < $number; $count++) {
             $fieldName = $fieldNames[$count];
-            $id = self::$__form->defaultModel . \Inflector::camelize($fieldName);
             $value = $values[$count];
             $label = $labels[$count];
+
+            if ($labelLocation === 'front') {
+                $style = 'position: static; margin: 0';
+            } else {
+                $style = 'position: static; margin: ' . $frontMargin;
+            }
+            $checkboxElement = self::$__form->input(
+                $fieldName, //
+                array (
+                'type' => 'checkbox',
+                'value' => $value,
+                'style' => $style,
+                )
+            );
+            $id = preg_replace('`^.*<input type="checkbox".* id="(.*)".*$`XU', '$1', $checkboxElement);
 
             echo '<label class="' . $class . '" for="' . $id . '" style="' . $contentsStyle . '">';
             if ($labelLocation === 'front') {
                 // Displays the front label.
                 echo '<span style="position: static; margin: ' . $frontMargin . '">' . $label . '</span>';
                 // Displays checkbox and keeps input value.
-                $style = 'position: static; margin: 0';
-                echo self::$__form->input(
-                    $fieldName, //
-                    array (
-                    'type' => 'checkbox',
-                    'value' => $value,
-                    'id' => $id,
-                    'style' => $style,
-                    )
-                );
+                echo $checkboxElement;
             } else {
                 // Displays checkbox and keeps input value.
-                $style = 'position: static; margin: ' . $frontMargin;
-                echo self::$__form->input(
-                    $fieldName, //
-                    array (
-                    'type' => 'checkbox',
-                    'value' => $value,
-                    'id' => $id,
-                    'style' => $style,
-                    )
-                );
+                echo $checkboxElement;
                 // Displays the rear label.
                 echo $label;
             }
@@ -182,8 +222,7 @@ EOD;
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/WasaManual/index.php#WasaBootstrap030200FormHelper-displayRadioButtons-
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
+     * @link http://localhost/_WasaManual/index.php#WasaBootstrap030200FormHelper-displayRadioButtons
      */
     static function displayRadioButtons($params)
     {
@@ -241,8 +280,8 @@ EOD;
             }
         }
         for ($count = 0, $number = count($values); $count < $number; $count++) {
-            list($modelName, $fieldName) = explode('.', self::$__form->_entityPath);
-            $id = $modelName . \Inflector::camelize($fieldName) . $values[$count];
+            $radioElement = $radioElements[$count];
+            $id = preg_replace('`^.* id="(.*)".*$`XU', '$1', $radioElement);
             $label = $labels[$count];
 
             echo '<label class="' . $class . '" for="' . $id . '" style="' . $contentsStyle . '">';
@@ -250,10 +289,10 @@ EOD;
                 // Displays the front label.
                 echo '<span style="position: static; margin: ' . $frontMargin . '">' . $label . '</span>';
                 // Displays radio button and keeps input value.
-                echo $radioElements[$count];
+                echo $radioElement;
             } else {
                 // Displays radio button and keeps input value.
-                echo $radioElements[$count];
+                echo $radioElement;
                 // Displays the rear label.
                 echo $label;
             }
