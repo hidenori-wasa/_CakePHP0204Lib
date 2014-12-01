@@ -1,18 +1,16 @@
-Wasa's CakePHP2.4 library.
+Wasa's Bootstrap3 form library.
 ========================================
 
 Notice
 ------
 
-* Should not use draft.
-* I have been implementing code yet.
-* Manual is secret policy now.
+* This cannot use because I have been implementing code yet.
 
 Requirements
 -----------------
 
-* [CakePHP(2.4.x)](http://cakephp.jp/)
-* [Bootstrap(3.2.0)](http://getbootstrap.com/)
+* [CakePHP(2.4-)](http://cakephp.jp/)
+* [Bootstrap(3.2-)](http://getbootstrap.com/)
 
 Installation
 -----------------
@@ -47,9 +45,11 @@ class AppController extends Controller
 ```
 
 * Procedure 7: Copy ["BoostCake" plugin](https://github.com/slywalker/cakephp-plugin-boost_cake) to your "app/Plugin/BoostCake/" directory.
+* Procedure 8: Copy "_WasaManual" to "http://localhost/_WasaManual/".
 
 Change log
 ----------
 
-* I repaired ID of "\WasaBootstrap030200FormHelper::displayCheckboxes()" and "\WasaBootstrap030200FormHelper::displayRadioButtons()" class method.
-* I created "\WasaBootstrap030200FormHelper::displayTelForGrid120()" class method.
+* I created execution sample.
+* I created link manual by "_WasaManual" directory files.
+* I added link manual installation procedure 8.

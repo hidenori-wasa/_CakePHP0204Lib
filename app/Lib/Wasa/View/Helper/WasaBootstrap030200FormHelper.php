@@ -74,7 +74,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params Parameter's association array.
      *
      * @return array "Bootstrap's 'has-error' class" of each field name key.
-     * @link http://localhost/_WasaManual/index.php#WasaBootstrap030200FormHelper-displayErrorWithAlert
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayErrorWithAlert
      */
     static function displayErrorWithAlert($params)
     {
@@ -101,7 +101,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/index.php#WasaBootstrap030200FormHelper-displayTelForGrid120
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayTelForGrid120-JP
      */
     static function displayTelForGrid120($params)
     {
@@ -148,7 +148,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/index.php#WasaBootstrap030200FormHelper-displayCheckboxes
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayCheckboxes
      */
     static function displayCheckboxes($params)
     {
@@ -222,7 +222,7 @@ EOD;
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/index.php#WasaBootstrap030200FormHelper-displayRadioButtons
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayRadioButtons
      */
     static function displayRadioButtons($params)
     {
