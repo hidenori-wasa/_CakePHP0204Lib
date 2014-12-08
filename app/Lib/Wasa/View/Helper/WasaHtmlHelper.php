@@ -19,7 +19,8 @@
  * @link      http://cakephp.org CakePHP(tm) Project
  * @since     CakePHP(tm) v 0.2.9
  */
-App::uses('HtmlHelper', 'View/Helper');
+//App::uses('HtmlHelper', 'View/Helper');
+App::uses('AppHelper', 'View/Helper');
 /**
  * Customized HTML helper.
  *

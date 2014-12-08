@@ -9,15 +9,17 @@ class WasaBootstrap030200FormSample extends \AppModel
             'tel1' => array (
                 'rule' => array ('phone', '`^ 0 [[:digit:]]{1,4} $`xX'),
                 'message' => '市外局番が間違っています。',
-                'allowEmpty' => true,
+                // 'allowEmpty' => true,
             ),
             'tel2' => array (
                 'rule' => array ('phone', '`^ [[:digit:]]{1,4} $`xX'),
                 'message' => '市内局番１が間違っています。',
+                // 'allowEmpty' => true,
             ),
             'tel3' => array (
                 'rule' => array ('phone', '`^ [[:digit:]]{4} $`xX'),
                 'message' => '市内局番２が間違っています。',
+                // 'allowEmpty' => true,
             ),
         );
 

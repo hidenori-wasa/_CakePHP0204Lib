@@ -95,49 +95,123 @@ final class WasaBootstrap030200FormHelper
         return $hasErrors;
     }
 
+//    /**
+//     * Displays the telephone text boxes.
+//     *
+//     * @param array $params Parameter's association array.
+//     *
+//     * @return void
+//     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayTelForGrid120-JP
+//     */
+//    static function displayTelForGrid120($params)
+//    {
+//        extract($params);
+//
+//        echo '<div class="form-group">';
+//        // Defines bootstrap's "control-label" class to a label for error display and horizontal form display support.
+//        echo '<p class="control-label ' . $titleColClass . '"><strong>' . $title . '</strong></p>';
+//        echo '<div class="' . $contentsColClass . '">';
+//        for ($count = 0;; $count++) {
+//            $fieldName = $fieldNames[$count];
+//            $placeholder = $placeholders[$count];
+//            // エラーの場合、入力フォームをエラー色にする
+//            echo '<div style="padding: 0;" class="col-sm-34 ' . $hasErrors[$fieldName] . '">';
+//            // tel テキストボックス、入力値を保持する
+//            echo self::$__form->input(
+//                // フィールド名
+//                $fieldName,
+//                // 属性
+//                array (
+//                // 電話入力フォーム
+//                'type' => 'tel',
+//                //'type' => 'text',
+//                // 入力フォームに初期表示する説明文字列
+//                'placeholder' => $placeholder,
+//                // 入力フォームには Bootstrap の form-control クラスを定義する
+//                'class' => 'form-control',
+//                )
+//            );
+//            echo '</div>';
+//            if ($count === 2) {
+//                break;
+//            }
+//            // 横幅によってグリッド間隔が変化しないように small medium large それぞれのグリッド幅を設定する
+//            echo '<div class="col-sm-6 col-md-5 col-lg-4" style="padding: 5px 0 0 5px;">―</div>';
+//        }
+//        echo '</div>';
+//        echo '</div>';
+//    }
+
     /**
-     * Displays the telephone text boxes.
+     * 電話用のタイトルとテキストコントロールを３つ表示する
      *
-     * @param array $params Parameter's association array.
+     * @param array $params パラメータの連想配列
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayTelForGrid120-JP
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayTelForJP
      */
-    static function displayTelForGrid120($params)
+    static function displayTelForJP($params)
     {
         extract($params);
 
         echo '<div class="form-group">';
-        // Defines bootstrap's "control-label" class to a label for error display and horizontal form display support.
+        // エラー表示と水平フォーム表示をサポートするためにラベルにブートストラップの control-label クラスを設定する
         echo '<p class="control-label ' . $titleColClass . '"><strong>' . $title . '</strong></p>';
         echo '<div class="' . $contentsColClass . '">';
-        for ($count = 0;; $count++) {
+
+        for ($count = 0; $count < 3; $count++) {
             $fieldName = $fieldNames[$count];
             $placeholder = $placeholders[$count];
-            // エラーの場合、入力フォームをエラー色にする
-            echo '<div style="padding: 0;" class="col-sm-34 ' . $hasErrors[$fieldName] . '">';
-            // tel テキストボックス、入力値を保持する
-            echo self::$__form->input(
+            // 電話番号テキストボックスの入力値を保持する設定をし、その HTML を取得する
+            $telHTML[$count] = self::$__form->input(
                 // フィールド名
                 $fieldName,
                 // 属性
                 array (
                 // 電話入力フォーム
                 'type' => 'tel',
-                //'type' => 'text',
                 // 入力フォームに初期表示する説明文字列
                 'placeholder' => $placeholder,
-                // 入力フォームには Bootstrap の form-control クラスを定義する
-                'class' => 'form-control',
+                // 入力フォームにはブートストラップの form-control クラスを設定し、
+                // それぞれの画面サイズで別々のレイアウトで表示するので、複数の同じ入力コントロールのデータを同期させる必要がある為、wasa-data-sync クラスを設定する
+                'class' => 'form-control wasa-data-sync',
                 )
             );
+        }
+
+        echo '<div style="padding: 0;" class="hidden-xs">';
+        // echo '<div style="padding: 0;">'; // For debug.
+        for ($count = 0;; $count++) {
+            $fieldName = $fieldNames[$count];
+            // エラーの場合、入力フォームをエラー色にする
+            echo '<div class="' . $hasErrors[$fieldName] . '" style="float: left; width: 30%">';
+            // 電話番号テキストボックス
+            echo $telHTML[$count];
             echo '</div>';
             if ($count === 2) {
                 break;
             }
-            // 横幅によってグリッド間隔が変化しないように small medium large それぞれのグリッド幅を設定する
-            echo '<div class="col-sm-6 col-md-5 col-lg-4" style="padding: 5px 0 0 5px;">―</div>';
+            echo '<span style="float: left; margin-top: 4px;">―</span>';
         }
+        echo '</div>';
+        echo '<div class="clearfix"></div>';
+
+        echo '<div style="padding: 0;" class="visible-xs">';
+        // echo '<div style="padding: 0;">'; // For debug.
+        for ($count = 0;; $count++) {
+            $fieldName = $fieldNames[$count];
+            // エラーの場合、入力フォームをエラー色にする
+            echo '<div class="' . $hasErrors[$fieldName] . '">';
+            // 電話番号テキストボックス
+            echo $telHTML[$count];
+            echo '</div>';
+            if ($count === 2) {
+                break;
+            }
+            echo '<div class="wasa-center-block">｜</div>';
+        }
+        echo '</div>';
+
         echo '</div>';
         echo '</div>';
     }

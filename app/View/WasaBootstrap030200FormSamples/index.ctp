@@ -29,12 +29,12 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         );
 
         $fieldNames = array ('tel1', 'tel2', 'tel3');
-        // Displays it if error.
+        // エラーならば表示する
         $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
-        // Displays the telephone text boxes.
-        WF::displayTelForGrid120(array (
+        // 電話用のタイトルとテキストコントロールを３つ表示する
+        WF::displayTelForJP(array (
             'titleColClass' => 'col-sm-40',
-            'title' => '電話番号サンプル',
+            'title' => '電話番号',
             'contentsColClass' => 'col-sm-80',
             'fieldNames' => $fieldNames,
             'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),

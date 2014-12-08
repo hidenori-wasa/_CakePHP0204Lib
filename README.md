@@ -22,8 +22,8 @@ Installation
 * Procedure 5: Add following into "app/Config/bootstrap.php" file.
 
 ```php
-App::build(array ('Controller' => array ('../Lib/Wasa/Controller/')));
-App::build(array ('Model' => array ('../Lib/Wasa/Model/')));
+App::build(array ('Wasa/Controller' => array ('../Lib/Wasa/Controller/')));
+App::build(array ('Wasa/Model' => array ('../Lib/Wasa/Model/')));
 App::build(array ('View/Helper' => array ('../Lib/Wasa/View/Helper/')));
 CakePlugin::load('BoostCake');
 ```
@@ -50,6 +50,4 @@ class AppController extends Controller
 Change log
 ----------
 
-* I created execution sample.
-* I created link manual by "_WasaManual" directory files.
-* I added link manual installation procedure 8.
+* I created "\WasaBootstrap030200FormHelper::displayTelForJP()" instead of "\WasaBootstrap030200FormHelper::displayTelForGrid120()".
