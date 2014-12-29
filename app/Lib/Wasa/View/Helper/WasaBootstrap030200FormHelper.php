@@ -41,6 +41,8 @@
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
+use \WasaBootstrap030200FormHelper as WBFH;
+
 /**
  * The form helper for bootstrap3.
  *
@@ -53,8 +55,15 @@
  */
 final class WasaBootstrap030200FormHelper
 {
+    /**
+     * @const string Inline block style. Width is required because "iOS" or "Android" terminal may need it.
+     */
+    const INLINE_BLOCK_STYLE = 'position: static !important; display: inline-block !important; width: auto;';
+
     private static $__form;
     private static $__onceFlag = array ();
+    static $titlesColClass;
+    static $contentsColClass;
 
     /**
      * Registers the form helper instance to static property.
@@ -95,53 +104,6 @@ final class WasaBootstrap030200FormHelper
         return $hasErrors;
     }
 
-//    /**
-//     * Displays the telephone text boxes.
-//     *
-//     * @param array $params Parameter's association array.
-//     *
-//     * @return void
-//     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayTelForGrid120-JP
-//     */
-//    static function displayTelForGrid120($params)
-//    {
-//        extract($params);
-//
-//        echo '<div class="form-group">';
-//        // Defines bootstrap's "control-label" class to a label for error display and horizontal form display support.
-//        echo '<p class="control-label ' . $titleColClass . '"><strong>' . $title . '</strong></p>';
-//        echo '<div class="' . $contentsColClass . '">';
-//        for ($count = 0;; $count++) {
-//            $fieldName = $fieldNames[$count];
-//            $placeholder = $placeholders[$count];
-//            // エラーの場合、入力フォームをエラー色にする
-//            echo '<div style="padding: 0;" class="col-sm-34 ' . $hasErrors[$fieldName] . '">';
-//            // tel テキストボックス、入力値を保持する
-//            echo self::$__form->input(
-//                // フィールド名
-//                $fieldName,
-//                // 属性
-//                array (
-//                // 電話入力フォーム
-//                'type' => 'tel',
-//                //'type' => 'text',
-//                // 入力フォームに初期表示する説明文字列
-//                'placeholder' => $placeholder,
-//                // 入力フォームには Bootstrap の form-control クラスを定義する
-//                'class' => 'form-control',
-//                )
-//            );
-//            echo '</div>';
-//            if ($count === 2) {
-//                break;
-//            }
-//            // 横幅によってグリッド間隔が変化しないように small medium large それぞれのグリッド幅を設定する
-//            echo '<div class="col-sm-6 col-md-5 col-lg-4" style="padding: 5px 0 0 5px;">―</div>';
-//        }
-//        echo '</div>';
-//        echo '</div>';
-//    }
-
     /**
      * 電話用のタイトルとテキストコントロールを３つ表示する
      *
@@ -154,10 +116,11 @@ final class WasaBootstrap030200FormHelper
     {
         extract($params);
 
+        // 入力フォームグループは、form-group ブートストラップクラスで包む
         echo '<div class="form-group">';
         // エラー表示と水平フォーム表示をサポートするためにラベルにブートストラップの control-label クラスを設定する
-        echo '<p class="control-label ' . $titleColClass . '"><strong>' . $title . '</strong></p>';
-        echo '<div class="' . $contentsColClass . '">';
+        echo '<p class="control-label ' . self::$titlesColClass . '"><strong>' . $title . '</strong></p>';
+        echo '<div class="' . self::$contentsColClass . ' wasa-form-contents">';
 
         for ($count = 0; $count < 3; $count++) {
             $fieldName = $fieldNames[$count];
@@ -184,17 +147,16 @@ final class WasaBootstrap030200FormHelper
         for ($count = 0;; $count++) {
             $fieldName = $fieldNames[$count];
             // エラーの場合、入力フォームをエラー色にする
-            echo '<div class="' . $hasErrors[$fieldName] . '" style="float: left; width: 30%">';
+            echo '<span class="' . $hasErrors[$fieldName] . '" style="' . WBFH::INLINE_BLOCK_STYLE . ' width: 30%">';
             // 電話番号テキストボックス
             echo $telHTML[$count];
-            echo '</div>';
+            echo '</span>';
             if ($count === 2) {
                 break;
             }
-            echo '<span style="float: left; margin-top: 4px;">―</span>';
+            echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' vertical-align: top; margin-top: ' . $separaterMarginTop . ';">―</span>';
         }
         echo '</div>';
-        echo '<div class="clearfix"></div>';
 
         echo '<div style="padding: 0;" class="visible-xs">';
         // echo '<div style="padding: 0;">'; // For debug.
@@ -208,7 +170,7 @@ final class WasaBootstrap030200FormHelper
             if ($count === 2) {
                 break;
             }
-            echo '<div class="wasa-center-block">｜</div>';
+            echo '<div style="text-align: center">｜</div>';
         }
         echo '</div>';
 
@@ -232,9 +194,6 @@ final class WasaBootstrap030200FormHelper
             self::$__onceFlag[__FUNCTION__] = true;
             echo <<<EOD
 <style type="text/css">
-    .checkbox-inline:hover, .checkbox:hover{
-        background-color: $hoveringBackgroundColor;
-    }
     .form-horizontal .checkbox-inline , .checkbox-inline + .checkbox-inline {
         padding: 0;
         margin: 0;
@@ -247,42 +206,37 @@ EOD;
         } else {
             $class = 'checkbox';
         }
-
+        // The input form group must wrap with bootstrap's "form-group" class.
         echo '<div class="form-group">';
         // Defines bootstrap's "control-label" class to a label for error display and horizontal form display support.
-        echo '<p class="control-label ' . $titleColClass . '"><strong>' . $title . '</strong></p>';
-        echo '<div class="' . $contentsColClass . '">';
+        echo '<p class="control-label ' . self::$titlesColClass . '"><strong>' . $title . '</strong></p>';
+        echo '<div class="' . self::$contentsColClass . ' wasa-form-contents">';
         for ($count = 0, $number = count($values); $count < $number; $count++) {
             $fieldName = $fieldNames[$count];
             $value = $values[$count];
             $label = $labels[$count];
-
-            if ($labelLocation === 'front') {
-                $style = 'position: static; margin: 0';
-            } else {
-                $style = 'position: static; margin: ' . $frontMargin;
-            }
             $checkboxElement = self::$__form->input(
                 $fieldName, //
                 array (
                 'type' => 'checkbox',
                 'value' => $value,
-                'style' => $style,
+                'style' => WBFH::INLINE_BLOCK_STYLE,
                 )
             );
-            $id = preg_replace('`^.*<input type="checkbox".* id="(.*)".*$`XU', '$1', $checkboxElement);
+            preg_match('`<input [[:space:]]+ type [[:space:]]* = [[:space:]]* "checkbox" .* [[:space:]]+ id [[:space:]]* = [[:space:]]* "(.*)"`xXU', $checkboxElement, $matches);
+            $id = $matches[1];
 
             echo '<label class="' . $class . '" for="' . $id . '" style="' . $contentsStyle . '">';
             if ($labelLocation === 'front') {
                 // Displays the front label.
-                echo '<span style="position: static; margin: ' . $frontMargin . '">' . $label . '</span>';
+                echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
                 // Displays checkbox and keeps input value.
                 echo $checkboxElement;
             } else {
                 // Displays checkbox and keeps input value.
                 echo $checkboxElement;
                 // Displays the rear label.
-                echo $label;
+                echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
             }
             echo '</label>';
         }
@@ -306,9 +260,6 @@ EOD;
             self::$__onceFlag[__FUNCTION__] = true;
             echo <<<EOD
 <style type="text/css">
-    .radio-inline:hover, .radio:hover{
-        background-color: $hoveringBackgroundColor;
-    }
     .form-horizontal .radio-inline , .radio-inline + .radio-inline {
         padding: 0;
         margin: 0;
@@ -321,11 +272,6 @@ EOD;
         } else {
             $class = 'radio';
         }
-        if ($labelLocation === 'front') {
-            $style = 'position: static; margin: 0';
-        } else {
-            $style = 'position: static; margin: ' . $frontMargin;
-        }
         foreach ($values as $value) {
             $values2[$value] = null;
         }
@@ -333,20 +279,21 @@ EOD;
             $fieldName, //
             array (
             'type' => 'radio',
-            'style' => $style,
+            'style' => WBFH::INLINE_BLOCK_STYLE,
             'options' => $values2,
             'legend' => false,
             'label' => false
             )
         );
-        preg_match_all('`<input type="hidden".*/>`XU', $inputElementStr, $hiddenElements);
-        preg_match_all('`<input type="radio".*/>`XU', $inputElementStr, $radioElements);
+        preg_match_all('`<input [[:space:]]+ type [[:space:]]* = [[:space:]]* "hidden".*/>`xXUs', $inputElementStr, $hiddenElements);
+        preg_match_all('`<input [[:space:]]+ type [[:space:]]* = [[:space:]]* "radio".*/>`xXUs', $inputElementStr, $radioElements);
         $radioElements = $radioElements[0];
 
+        // The input form group must wrap with bootstrap's "form-group" class.
         echo '<div class="form-group">';
         // Defines bootstrap's "control-label" class to a label for error display and horizontal form display support.
-        echo '<p class="control-label ' . $titleColClass . '"><strong>' . $title . '</strong></p>';
-        echo '<div class="' . $contentsColClass . '">';
+        echo '<p class="control-label ' . self::$titlesColClass . '"><strong>' . $title . '</strong></p>';
+        echo '<div class="' . self::$contentsColClass . ' wasa-form-contents">';
         if (array_key_exists(0, $hiddenElements)) {
             $hiddenElements = $hiddenElements[0];
             foreach ($hiddenElements as $hiddenElement) {
@@ -361,17 +308,97 @@ EOD;
             echo '<label class="' . $class . '" for="' . $id . '" style="' . $contentsStyle . '">';
             if ($labelLocation === 'front') {
                 // Displays the front label.
-                echo '<span style="position: static; margin: ' . $frontMargin . '">' . $label . '</span>';
+                echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
                 // Displays radio button and keeps input value.
                 echo $radioElement;
             } else {
                 // Displays radio button and keeps input value.
                 echo $radioElement;
                 // Displays the rear label.
-                echo $label;
+                echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
             }
             echo '</label>';
         }
+        echo '</div>';
+        echo '</div>';
+    }
+
+    /**
+     * 年月日セレクトボックスを表示する
+     *
+     * @param array $params パラメータの連想配列
+     *
+     * @return void
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayDateForJP
+     */
+    static function displayDateForJP($params)
+    {
+        extract($params);
+
+        // デバッグ時、データベーステーブルスキーマ "`< fieldName >` date NOT NULL" をチェックする
+        self::$__form->checkSchema($fieldName, 'date', false);
+        // 入力フォームグループは、form-group ブートストラップクラスで包む
+        echo '<div class="form-group">';
+        // エラー表示と水平フォーム表示をサポートするためにラベルにブートストラップの control-label クラスを設定する
+        echo '<p class="control-label ' . self::$titlesColClass . '"><strong>' . $title . '</strong></p>';
+        echo '<div class="' . self::$contentsColClass . ' wasa-form-contents">';
+
+        // 日付セレクトボックスの入力値を保持する設定をし、その HTML を取得する
+        $dateHTML = self::$__form->input(
+            // フィールド名
+            $fieldName,
+            // 属性
+            array (
+            // 日付入力フォーム
+            'type' => 'date',
+            // 年月日フォーマット
+            'dateFormat' => 'YMD',
+            'minYear' => $minYear,
+            'maxYear' => $maxYear,
+            // 月を数値で表示する
+            'monthNames' => false,
+            // 入力フォームにはブートストラップの form-control クラスを設定し、
+            // それぞれの画面サイズで別々のレイアウトで表示するので、複数の同じ入力コントロールのデータを同期させる必要がある為、wasa-data-sync クラスを設定する
+            'class' => 'form-control wasa-data-sync',
+            )
+        );
+        // CakePHP が生成したＨＴＭＬから年月日セレクトボックス部分を抽出する
+        preg_match_all('`( <select [[:space:]] .* </select [[:space:]]? > )`xXUs', $dateHTML, $matches);
+        $yearHTML = $matches[1][0];
+        $monthHTML = $matches[1][1];
+        $dayHTML = $matches[1][2];
+        $centerBlockStyle = "text-align: center";
+
+        // 画面サイズがエキストラスモール以外の場合のレイアウト
+        echo '<div style="padding: 0;" class="hidden-xs">';
+        // echo '<div style="padding: 0;">'; // For debug.
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $yearHTML . '</span>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">年</span>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $monthHTML . '</span>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">月</span>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $dayHTML . '</span>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">日</span>';
+        echo '</div>';
+
+        // 画面サイズがエキストラスモールの場合のレイアウト
+        echo '<div style="padding: 0;" class="visible-xs">';
+        // echo '<div style="padding: 0;">'; // For debug.
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' width: 90%">';
+        echo $yearHTML;
+        echo '</span>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' margin-top: 0;">年</span>';
+        echo '<div style="' . $centerBlockStyle . '">｜</div>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' width: 90%">';
+        echo $monthHTML;
+        echo '</span>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' margin-top: 0;">月</span>';
+        echo '<div style="' . $centerBlockStyle . '">｜</div>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' width: 90%">';
+        echo $dayHTML;
+        echo '</span>';
+        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' margin-top: 0;">日</span>';
+        echo '</div>';
+
         echo '</div>';
         echo '</div>';
     }

@@ -6,16 +6,6 @@
  */
 function wasaOnResize()
 {
-    var $leftMargin;
-
-    $(".wasa-center-block").each(function () {
-        $(this).css("margin-left", "0px");
-        $(this).css("display", "inline");
-        $leftMargin = $(this).width() / -2;
-        $(this).css("display", "block");
-        $leftMargin += $(this).width() / 2;
-        $(this).css("margin-left", $leftMargin + "px");
-    });
 }
 
 $(function () {
@@ -27,9 +17,9 @@ $(function () {
         $("<img>").attr("src", $(this).attr("src").replace(/^(.+)(\.[a-z]+)$/, "$1_on$2"));
     });
 
-    $(".wasa-data-sync").change(function () {
+    $("form .wasa-data-sync").change(function () {
         var $newVal = $(this).val();
-        $(".wasa-data-sync#" + $(this).attr("id")).each(function () {
+        $("form .wasa-data-sync#" + $(this).attr("id")).each(function () {
             $(this).val($newVal);
         });
     });

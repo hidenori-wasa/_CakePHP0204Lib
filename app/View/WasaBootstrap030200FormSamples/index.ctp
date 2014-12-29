@@ -6,6 +6,34 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
 
 ?>
 
+<!-- Form's CSS. -->
+<style type="text/css">
+    body {
+        line-height: normal;
+    }
+    .form-group {
+        background-color: #fa0;
+        margin-bottom: 0;
+    }
+    .control-label {
+        color: black;
+        padding: 7px 15px 7px;
+    }
+    .wasa-label {
+        margin: 0 10px 0 0;
+    }
+    .wasa-form-contents {
+        color: white;
+        background-color: #555;
+    }
+    .checkbox-inline:hover, .checkbox:hover, .radio-inline:hover, .radio:hover {
+        background-color: gray;
+    }
+    .radio input[type="radio"], .checkbox input[type="checkbox"], .radio-inline input[type="radio"], .checkbox-inline input[type="checkbox"] {
+        margin: 2px 10px 0 0;
+    }
+</style>
+
 <!-- Bootstrap's row. -->
 <div class="row">
     <!-- Bootstrap's grid system. -->
@@ -28,17 +56,19 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
             )
         );
 
+        WF::$titlesColClass = 'col-sm-50';
+        WF::$contentsColClass = 'col-sm-70';
+
         $fieldNames = array ('tel1', 'tel2', 'tel3');
         // エラーならば表示する
         $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
         // 電話用のタイトルとテキストコントロールを３つ表示する
         WF::displayTelForJP(array (
-            'titleColClass' => 'col-sm-40',
             'title' => '電話番号',
-            'contentsColClass' => 'col-sm-80',
             'fieldNames' => $fieldNames,
             'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),
             'hasErrors' => $hasErrors,
+            'separaterMarginTop' => '7px',
         ));
 
         $fieldNames = array ('checkbox11', 'checkbox12');
@@ -46,12 +76,8 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
         // Displays checkboxes of rear labels.
         WF::displayCheckboxes(array (
-            'titleColClass' => 'col-sm-40',
             'title' => 'Checkboxes sample 1.',
-            'contentsColClass' => 'col-sm-80',
             'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-            'hoveringBackgroundColor' => 'white',
-            'frontMargin' => '4px 10px 0 0',
             'fieldNames' => $fieldNames,
             'values' => array (true, true),
             'labelLocation' => 'rear',
@@ -64,12 +90,8 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
         // Displays checkboxes of front labels.
         WF::displayCheckboxes(array (
-            'titleColClass' => 'col-sm-40',
             'title' => 'Checkboxes sample 2.',
-            'contentsColClass' => 'col-sm-80',
             'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-            'hoveringBackgroundColor' => 'white',
-            'frontMargin' => '4px 10px 0 0',
             'fieldNames' => $fieldNames,
             'values' => array (true, true),
             'labelLocation' => 'front',
@@ -82,12 +104,8 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
         // Displays inline checkboxes of rear labels.
         WF::displayCheckboxes(array (
-            'titleColClass' => 'col-sm-40',
             'title' => 'An inline checkboxes sample 1.',
-            'contentsColClass' => 'col-sm-80',
             'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-            'hoveringBackgroundColor' => 'white',
-            'frontMargin' => '4px 10px 0 0',
             'fieldNames' => $fieldNames,
             'values' => array (true, true),
             'labelLocation' => 'rear',
@@ -100,12 +118,8 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
         // Displays inline checkboxes of front labels.
         WF::displayCheckboxes(array (
-            'titleColClass' => 'col-sm-40',
             'title' => 'An inline checkboxes sample 2.',
-            'contentsColClass' => 'col-sm-80',
             'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-            'hoveringBackgroundColor' => 'white',
-            'frontMargin' => '4px 10px 0 0',
             'fieldNames' => $fieldNames,
             'values' => array (true, true),
             'labelLocation' => 'front',
@@ -118,12 +132,8 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
         // Displays radio buttons of rear labels.
         WF::displayRadioButtons(array (
-            'titleColClass' => 'col-sm-40',
             'title' => 'Radio buttons sample 1.',
-            'contentsColClass' => 'col-sm-80',
             'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-            'hoveringBackgroundColor' => 'white',
-            'frontMargin' => '4px 10px 0 0',
             'fieldName' => $fieldName,
             'values' => array (11, 12),
             'labelLocation' => 'rear',
@@ -136,12 +146,8 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
         // Displays radio buttons of front labels.
         WF::displayRadioButtons(array (
-            'titleColClass' => 'col-sm-40',
             'title' => 'Radio buttons sample 2.',
-            'contentsColClass' => 'col-sm-80',
             'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-            'hoveringBackgroundColor' => 'white',
-            'frontMargin' => '4px 10px 0 0',
             'fieldName' => $fieldName,
             'values' => array (21, 22),
             'labelLocation' => 'front',
@@ -154,12 +160,8 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
         // Displays inline radio buttons of rear labels.
         WF::displayRadioButtons(array (
-            'titleColClass' => 'col-sm-40',
             'title' => 'An inline radio buttons sample 1.',
-            'contentsColClass' => 'col-sm-80',
             'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-            'hoveringBackgroundColor' => 'white',
-            'frontMargin' => '4px 10px 0 0',
             'fieldName' => $fieldName,
             'values' => array (31, 32),
             'labelLocation' => 'rear',
@@ -172,12 +174,8 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
         WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
         // Displays inline radio buttons of front labels.
         WF::displayRadioButtons(array (
-            'titleColClass' => 'col-sm-40',
             'title' => 'An inline radio buttons sample 2.',
-            'contentsColClass' => 'col-sm-80',
             'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-            'hoveringBackgroundColor' => 'white',
-            'frontMargin' => '4px 10px 0 0',
             'fieldName' => $fieldName,
             'values' => array (41, 42),
             'labelLocation' => 'front',
@@ -185,18 +183,18 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
             'inlineDisplay' => true
         ));
 
+        // 年月日セレクトボックスを表示する
+        WF::displayDateForJP(array (
+            'title' => '日付',
+            'fieldName' => 'date',
+            'minYear' => 2050,
+            'maxYear' => 2050,
+        ));
+
         ?>
-        <!-- 日付フォームグループ -->
-        <div class="form-group">
-
-
-
-
-
-        </div>
         <div class="col-sm-offset-40">
             <?php
-            // ロールオーバー画像ボタン、ＣＳＲＦ対策トークン、フォーム終了のＨＴＭＬを出力する
+            // Displays rollover image button, token for CSRF and form ending HTML.
             echo $form->end(array ('label' => 'WasaBootstrap030200FormSamples/send.png', 'class' => 'wasa-rollover'));
 
             ?>

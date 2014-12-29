@@ -8,7 +8,6 @@
         <meta charset="utf-8">
         <script src="./js/WasaGlobalErrorHandler.js"></script>
         <title>Wasa's library manual.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Manual of BoostCake plugin.">
         <meta name="author" content="Hidenori Wasa <public@hidenori-wasa.com>">
         <!-- Loads Bootstrap's CSS. -->
@@ -44,20 +43,17 @@
 
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
-$fieldNames = array ('<fieldName>', ...);
+$fieldNames = array ('< fieldName >', ...);
 // Displays it if error.
 WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
 // Displays (inline) checkboxes of (rear | front) labels.
 WF::displayCheckboxes(array (
-    'titleColClass' => '<Bootstrap grid system class of title.>',
-    'title' => '<title>',
-    'contentsColClass' => '<Bootstrap grid system class of checkboxes and labels.>',
+    'title' => '< title >',
     'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-    'frontMargin' => '4px 10px 0 0',
     'fieldNames' => $fieldNames,
-    'values' => array ('<value>', ...),
+    'values' => array ('< value >', ...),
     'labelLocation' => 'rear' | 'front',
-    'labels' => array ('<label>', ...),
+    'labels' => array ('< label >', ...),
     'inlineDisplay' => true | false
 ));
 
@@ -65,46 +61,40 @@ WF::displayCheckboxes(array (
 
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
-$fieldNames = array ('checkbox1', 'checkbox2');
+$fieldNames = array ('checkbox11', 'checkbox12');
 // Displays it if error.
 WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
-// Displays inline checkboxes of rear labels.
+// Displays checkboxes of rear labels.
 WF::displayCheckboxes(array (
-    'titleColClass' => 'col-sm-40',
-    'title' => 'An inline checkbox sample.',
-    'contentsColClass' => 'col-sm-80',
+    'title' => 'Checkboxes sample 1.',
     'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-    'hoveringBackgroundColor' => 'white',
-    'frontMargin' => '4px 10px 0 0',
     'fieldNames' => $fieldNames,
     'values' => array (true, true),
     'labelLocation' => 'rear',
-    'labels' => array ('label1', 'label2'),
-    'inlineDisplay' => true
+    'labels' => array ('1-1', '1-2'),
+    'inlineDisplay' => false
 ));</textarea>
 
-                                        <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayErrorWithAlert" style="display:none">
+            <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayErrorWithAlert" style="display:none">
 // Template code. //////////////////////////////////////////////////////////////
 
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
-$fieldNames = array ('<fieldName>', ...);
+$fieldNames = array ('< fieldName >', ...);
 // Displays error with alert bootstrap class.
 WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));</textarea>
 
-                                        <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayTelForGrid120-JP" style="display:none">
+            <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayTelForJP" style="display:none">
 // Template code. //////////////////////////////////////////////////////////////
 
-use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
+use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
 
-$fieldNames = array ('<fieldname1>', '<fieldname2>', '<fieldname3>');
-// Displays it if error.
+$fieldNames = array ('< フィールド名１ >', '< フィールド名２ >', '< フィールド名３ >');
+// エラーならば表示する
 $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
-// Displays the telephone text boxes.
-WF::displayTelForGrid120(array (
-    'titleColClass' => '<Bootstrap's grid system class of title.>',
+// 電話用のタイトルとテキストコントロールを３つ表示する
+WF::displayTelForJP(array (
     'title' => '電話番号',
-    'contentsColClass' => '<Bootstrap's grid system class of telephone text boxes.>',
     'fieldNames' => $fieldNames,
     'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),
     'hasErrors' => $hasErrors,
@@ -112,40 +102,35 @@ WF::displayTelForGrid120(array (
 
 // Example code. ///////////////////////////////////////////////////////////////
 
-use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
+use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
 
 $fieldNames = array ('tel1', 'tel2', 'tel3');
-// Displays it if error.
+// エラーならば表示する
 $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
-// Displays the telephone text boxes.
-WF::displayTelForGrid120(array (
-   'titleColClass' => 'col-sm-40',
+// 電話用のタイトルとテキストコントロールを３つ表示する
+WF::displayTelForJP(array (
    'title' => '電話番号',
-   'contentsColClass' => 'col-sm-80',
    'fieldNames' => $fieldNames,
    'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),
    'hasErrors' => $hasErrors,
 ));</textarea>
 
-                                                                <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayRadioButtons" style="display:none">
+            <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayRadioButtons" style="display:none">
 // Template code. //////////////////////////////////////////////////////////////
 
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
-$fieldName = '<fieldname>';
+$fieldName = '< fieldname >';
 // Displays it if error.
 WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
 // Displays inline radio buttons of rear labels.
 WF::displayRadioButtons(array (
-   'titleColClass' => '<Bootstrap's grid system class of title.>',
-   'title' => '<title>',
-   'contentsColClass' => '<Bootstrap's grid system class of radio buttons and labels.>',
+   'title' => '< title >',
    'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-   'frontMargin' => '4px 10px 0 0',
    'fieldName' => $fieldName,
-   'values' => array ('<value>', ...),
+   'values' => array ('< value >', ...),
    'labelLocation' => 'rear' | 'front',
-   'labels' => array ('<label>', ...),
+   'labels' => array ('< label >', ...),
    'inlineDisplay' => true | false
 ));
 
@@ -156,28 +141,47 @@ use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priorit
 $fieldName = 'radio1';
 // Displays it if error.
 WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
-// Displays inline radio buttons of rear labels.
+// Displays radio buttons of rear labels.
 WF::displayRadioButtons(array (
-   'titleColClass' => 'col-sm-40',
-   'title' => 'Radio buttons sample.',
-   'contentsColClass' => 'col-sm-80',
-   'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
-   'hoveringBackgroundColor' => 'white',
-   'frontMargin' => '4px 10px 0 0',
-   'fieldName' => $fieldName,
-   'values' => array (1, 2),
-   'labelLocation' => 'rear',
-   'labels' => array ('label1', 'label2'),
-   'inlineDisplay' => true
+    'title' => 'Radio buttons sample 1.',
+    'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
+    'fieldName' => $fieldName,
+    'values' => array (11, 12),
+    'labelLocation' => 'rear',
+    'labels' => array ('1-1', '1-2'),
+    'inlineDisplay' => false
 ));</textarea>
 
-                                                                                            <!-- <===== Data until here. -->
-                                                                                            </form>
+            <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayDateForJP" style="display:none">
+// Template code. //////////////////////////////////////////////////////////////
 
-                                                                                            <!-- Loads jQuery's JavaScript. -->
-                                                                                            <script src="./js/jquery-1.10.2.min.js"></script>
-                                                                                            <!-- Loads Bootstrap's JavaScript. -->
-                                                                                            <script src="./js/bootstrap-3.2.0.min.js"></script>
-                                                                                            <script src="./js/WasaAccordionByHearDocuments.js"></script>
-                                                                                            </body>
-                                                                                            </html>
+use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
+
+WF::displayDateForJP(array (
+    'title' => '< タイトル >',
+    'fieldName' => '< フィールド名 >',
+    'minYear' => < 最小年 >,
+    'maxYear' => < 最大年 >,
+));
+
+// Example code. ///////////////////////////////////////////////////////////////
+
+use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
+
+WF::displayDateForJP(array (
+    'title' => '日付',
+    'fieldName' => 'date',
+    'minYear' => 2050,
+    'maxYear' => 2050,
+));</textarea>
+
+            <!-- <===== Data until here. -->
+        </form>
+
+        <!-- Loads jQuery's JavaScript. -->
+        <script src="./js/jquery-1.10.2.min.js"></script>
+        <!-- Loads Bootstrap's JavaScript. -->
+        <script src="./js/bootstrap-3.2.0.min.js"></script>
+        <script src="./js/WasaAccordionByHearDocuments.js"></script>
+    </body>
+</html>

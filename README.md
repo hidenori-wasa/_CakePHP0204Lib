@@ -1,5 +1,5 @@
 Wasa's Bootstrap3 form library.
-========================================
+===============================
 
 Notice
 ------
@@ -7,13 +7,22 @@ Notice
 * This cannot use because I have been implementing code yet.
 
 Requirements
------------------
+------------
 
 * [CakePHP(2.4-)](http://cakephp.jp/)
 * [Bootstrap(3.2-)](http://getbootstrap.com/)
 
+Requirements of browser.
+------------------------
+
+* Windows: Newer Chrome browser. Newer FireFox browser. Newer Opera browser. Since Internet Explorer 8 browser.
+* Mac:     Newer Chrome browser. Newer FireFox browser. Newer Opera browser. Newer Safari browser.
+* Linux:   Newer Chrome browser. Newer FireFox browser.
+* iOS:     Newer Chrome browser. Newer Safari browser.
+* Android: Newer Chrome browser.
+
 Installation
------------------
+------------
 
 * Procedure 1: Copy "app/Lib/Wasa/" directory to your "app/Lib/Wasa/" directory.
 * Procedure 2: Make "Bootstrap" files with site which [customizes "Bootstrap".](http://getbootstrap.com/customize/)
@@ -50,4 +59,10 @@ class AppController extends Controller
 Change log
 ----------
 
-* I created "\WasaBootstrap030200FormHelper::displayTelForJP()" instead of "\WasaBootstrap030200FormHelper::displayTelForGrid120()".
+* I repaired CSS property from "float:left" to "display:inline-block" because it can adjust vertical alignment.
+* I repaired "\WasaBootstrap030200FormHelper::displayCheckboxes()".
+* I repaired "\WasaBootstrap030200FormHelper::displayRadioButtons()".
+* I repaired "\WasaBootstrap030200FormHelper::displayDateForJP()".
+* I repaired "Wasa.js" for responsibility.
+* I repaired regular expression of "preg_match()" and "preg_match_all()".
+* I updated "_WasaManual".

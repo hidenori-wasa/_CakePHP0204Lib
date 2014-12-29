@@ -35,7 +35,7 @@
  */
 final class WasaFormHelper extends \FormHelper
 {
-    private $__debugLevel = null;
+    //private $__debugLevel = null;
 
     /**
      * Sets the debug's level.
@@ -47,10 +47,53 @@ final class WasaFormHelper extends \FormHelper
      */
     public function __construct(View $View, $settings = array ())
     {
-        $this->__debugLevel = \Configure::read('debug');
+        //$this->__debugLevel = \Configure::read('debug');
         \WasaBootstrap030200FormHelper::construct($this);
 
         parent::__construct($View, $settings);
+    }
+
+    //public function checkSchema($modelName, $fieldName, $expectedFieldType, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedLength = null, $expectedExtra = null)
+    public function checkSchema($fieldName, $expectedFieldType, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedLength = null, $expectedExtra = null)
+    {
+        $modelName = $this->defaultModel;
+        if (WASA_DEBUG_LEVEL === 0 // If production.
+            || $modelName === null // If this form does not use model.
+        ) {
+            return;
+        }
+        $model = $this->_getModel($modelName);
+        $fieldSchema = $model->schema($fieldName);
+        $errorMessagePrefix = $modelName . '.' . $fieldName . ' field must be that ';
+        //$tmp = $fieldSchema['DoesNotExists'];
+        if ($fieldSchema['type'] !== $expectedFieldType) {
+            throw new \CakeException($errorMessagePrefix . $expectedFieldType . ' type.');
+        }
+        if ($doesNullAllow !== null //
+            && $fieldSchema['null'] !== $doesNullAllow //
+        ) {
+            throw new \CakeException($errorMessagePrefix . 'null allowing is ' . (string) $doesNullAllow . '.');
+        }
+        if ($expectedDefaultValue !== null //
+            && $fieldSchema['default'] !== $expectedDefaultValue //
+        ) {
+            throw new \CakeException($errorMessagePrefix . 'default value is ' . $expectedDefaultValue . '.');
+        }
+        if ($expectedKeyType !== null //
+            && $fieldSchema['key'] !== $expectedKeyType //
+        ) {
+            throw new \CakeException($errorMessagePrefix . 'key type is ' . $expectedKeyType . '.');
+        }
+        if ($expectedLength !== null //
+            && $fieldSchema['length'] !== $expectedLength //
+        ) {
+            throw new \CakeException($errorMessagePrefix . 'byte size is ' . $expectedLength . '.');
+        }
+        if ($expectedExtra !== null //
+            && $fieldSchema['extra'] !== $expectedExtra //
+        ) {
+            throw new \CakeException($errorMessagePrefix . 'extra is ' . $expectedExtra . '.');
+        }
     }
 
     /**
