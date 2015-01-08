@@ -154,7 +154,7 @@ final class WasaBootstrap030200FormHelper
             if ($count === 2) {
                 break;
             }
-            echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' vertical-align: top; margin-top: ' . $separaterMarginTop . ';">―</span>';
+            echo '<span class="wasa-tel-separator-margin" style="' . WBFH::INLINE_BLOCK_STYLE . '">―</span>';
         }
         echo '</div>';
 
@@ -190,17 +190,6 @@ final class WasaBootstrap030200FormHelper
     {
         extract($params);
 
-        if (!isset(self::$__onceFlag[__FUNCTION__])) {
-            self::$__onceFlag[__FUNCTION__] = true;
-            echo <<<EOD
-<style type="text/css">
-    .form-horizontal .checkbox-inline , .checkbox-inline + .checkbox-inline {
-        padding: 0;
-        margin: 0;
-    }
-</style>
-EOD;
-        }
         if ($inlineDisplay) {
             $class = 'checkbox-inline';
         } else {
@@ -226,7 +215,7 @@ EOD;
             preg_match('`<input [[:space:]]+ type [[:space:]]* = [[:space:]]* "checkbox" .* [[:space:]]+ id [[:space:]]* = [[:space:]]* "(.*)"`xXU', $checkboxElement, $matches);
             $id = $matches[1];
 
-            echo '<label class="' . $class . '" for="' . $id . '" style="' . $contentsStyle . '">';
+            echo '<label class="' . $class . ' wasa-checkbox" for="' . $id . '">';
             if ($labelLocation === 'front') {
                 // Displays the front label.
                 echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
@@ -256,17 +245,6 @@ EOD;
     {
         extract($params);
 
-        if (!isset(self::$__onceFlag[__FUNCTION__])) {
-            self::$__onceFlag[__FUNCTION__] = true;
-            echo <<<EOD
-<style type="text/css">
-    .form-horizontal .radio-inline , .radio-inline + .radio-inline {
-        padding: 0;
-        margin: 0;
-    }
-</style>
-EOD;
-        }
         if ($inlineDisplay) {
             $class = 'radio-inline';
         } else {
@@ -305,7 +283,7 @@ EOD;
             $id = preg_replace('`^.* id="(.*)".*$`XU', '$1', $radioElement);
             $label = $labels[$count];
 
-            echo '<label class="' . $class . '" for="' . $id . '" style="' . $contentsStyle . '">';
+            echo '<label class="' . $class . ' wasa-radio" for="' . $id . '">';
             if ($labelLocation === 'front') {
                 // Displays the front label.
                 echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
@@ -363,7 +341,7 @@ EOD;
             )
         );
         // CakePHP が生成したＨＴＭＬから年月日セレクトボックス部分を抽出する
-        preg_match_all('`( <select [[:space:]] .* </select [[:space:]]? > )`xXUs', $dateHTML, $matches);
+        preg_match_all('`( <select [[:space:]] .* </select [[:space:]]* > )`xXUs', $dateHTML, $matches);
         $yearHTML = $matches[1][0];
         $monthHTML = $matches[1][1];
         $dayHTML = $matches[1][2];

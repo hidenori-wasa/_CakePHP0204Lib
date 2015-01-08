@@ -35,7 +35,6 @@
  */
 final class WasaFormHelper extends \FormHelper
 {
-    //private $__debugLevel = null;
 
     /**
      * Sets the debug's level.
@@ -47,13 +46,11 @@ final class WasaFormHelper extends \FormHelper
      */
     public function __construct(View $View, $settings = array ())
     {
-        //$this->__debugLevel = \Configure::read('debug');
         \WasaBootstrap030200FormHelper::construct($this);
 
         parent::__construct($View, $settings);
     }
 
-    //public function checkSchema($modelName, $fieldName, $expectedFieldType, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedLength = null, $expectedExtra = null)
     public function checkSchema($fieldName, $expectedFieldType, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedLength = null, $expectedExtra = null)
     {
         $modelName = $this->defaultModel;
@@ -65,7 +62,6 @@ final class WasaFormHelper extends \FormHelper
         $model = $this->_getModel($modelName);
         $fieldSchema = $model->schema($fieldName);
         $errorMessagePrefix = $modelName . '.' . $fieldName . ' field must be that ';
-        //$tmp = $fieldSchema['DoesNotExists'];
         if ($fieldSchema['type'] !== $expectedFieldType) {
             throw new \CakeException($errorMessagePrefix . $expectedFieldType . ' type.');
         }

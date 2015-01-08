@@ -37,7 +37,7 @@ App::build(array ('View/Helper' => array ('../Lib/Wasa/View/Helper/')));
 CakePlugin::load('BoostCake');
 ```
 
-* Procedure 6: Add following to "app/Controller/AppController.php".
+* Procedure 6: Add following into "app/Controller/AppController.php" file.
 
 ```php
 class AppController extends Controller
@@ -55,14 +55,15 @@ class AppController extends Controller
 
 * Procedure 7: Copy ["BoostCake" plugin](https://github.com/slywalker/cakephp-plugin-boost_cake) to your "app/Plugin/BoostCake/" directory.
 * Procedure 8: Copy "_WasaManual" to "http://localhost/_WasaManual/".
+* Procedure 9: Add following into "app/Config/core.php" file.
+
+```php
+const WASA_DEBUG_LEVEL = 2;
+Configure::write('debug', WASA_DEBUG_LEVEL);
+```
 
 Change log
 ----------
 
-* I repaired CSS property from "float:left" to "display:inline-block" because it can adjust vertical alignment.
-* I repaired "\WasaBootstrap030200FormHelper::displayCheckboxes()".
-* I repaired "\WasaBootstrap030200FormHelper::displayRadioButtons()".
-* I repaired "\WasaBootstrap030200FormHelper::displayDateForJP()".
-* I repaired "Wasa.js" for responsibility.
-* I repaired regular expression of "preg_match()" and "preg_match_all()".
+* I extracted CSS to "app/webroot/css/Wasa/WasaBootstrap030200FormHelper.css".
 * I updated "_WasaManual".

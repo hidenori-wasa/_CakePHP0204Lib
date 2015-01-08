@@ -6,7 +6,7 @@
         <!-- Makes compatibility mode of Internet Explorer invalid because layout collapses. -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- For responsive web design, browser for smart phone is denied the display width change automatically. -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
         <?php
         // Loads "WasaGlobalErrorHandler" JavaScript.

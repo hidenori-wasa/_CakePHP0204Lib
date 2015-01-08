@@ -4,7 +4,7 @@
         <!-- Makes compatibility mode of Internet Explorer invalid because layout collapses. -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- For responsive web design, browser for smart phone is denied the display width change automatically. -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
         <script src="./js/WasaGlobalErrorHandler.js"></script>
         <title>Wasa's library manual.</title>
@@ -43,13 +43,19 @@
 
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
+// Loads form's CSS.
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// Sets columns width.
+WF::$titlesColClass = '< Bootstrap's grid system class >';
+WF::$contentsColClass = '< Bootstrap's grid system class >';
+
 $fieldNames = array ('< fieldName >', ...);
 // Displays it if error.
 WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
 // Displays (inline) checkboxes of (rear | front) labels.
 WF::displayCheckboxes(array (
     'title' => '< title >',
-    'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
     'fieldNames' => $fieldNames,
     'values' => array ('< value >', ...),
     'labelLocation' => 'rear' | 'front',
@@ -61,13 +67,19 @@ WF::displayCheckboxes(array (
 
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
+// Loads form's CSS.
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// Sets columns width.
+WF::$titlesColClass = 'col-sm-50';
+WF::$contentsColClass = 'col-sm-70';
+
 $fieldNames = array ('checkbox11', 'checkbox12');
 // Displays it if error.
 WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
 // Displays checkboxes of rear labels.
 WF::displayCheckboxes(array (
     'title' => 'Checkboxes sample 1.',
-    'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
     'fieldNames' => $fieldNames,
     'values' => array (true, true),
     'labelLocation' => 'rear',
@@ -89,6 +101,13 @@ WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));</textarea>
 
 use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
 
+// フォームのＣＳＳをロードする
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// カラム幅を設定する
+WF::$titlesColClass = '< Bootstrap's grid system class >';
+WF::$contentsColClass = '< Bootstrap's grid system class >';
+
 $fieldNames = array ('< フィールド名１ >', '< フィールド名２ >', '< フィールド名３ >');
 // エラーならば表示する
 $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
@@ -104,15 +123,22 @@ WF::displayTelForJP(array (
 
 use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
 
+// フォームのＣＳＳをロードする
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// カラム幅を設定する
+WF::$titlesColClass = 'col-sm-50';
+WF::$contentsColClass = 'col-sm-70';
+
 $fieldNames = array ('tel1', 'tel2', 'tel3');
 // エラーならば表示する
 $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
 // 電話用のタイトルとテキストコントロールを３つ表示する
 WF::displayTelForJP(array (
-   'title' => '電話番号',
-   'fieldNames' => $fieldNames,
-   'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),
-   'hasErrors' => $hasErrors,
+    'title' => '電話番号',
+    'fieldNames' => $fieldNames,
+    'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),
+    'hasErrors' => $hasErrors,
 ));</textarea>
 
             <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayRadioButtons" style="display:none">
@@ -120,13 +146,19 @@ WF::displayTelForJP(array (
 
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
+// Loads form's CSS.
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// Sets columns width.
+WF::$titlesColClass = '< Bootstrap's grid system class >';
+WF::$contentsColClass = '< Bootstrap's grid system class >';
+
 $fieldName = '< fieldname >';
 // Displays it if error.
 WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
 // Displays inline radio buttons of rear labels.
 WF::displayRadioButtons(array (
    'title' => '< title >',
-   'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
    'fieldName' => $fieldName,
    'values' => array ('< value >', ...),
    'labelLocation' => 'rear' | 'front',
@@ -138,13 +170,19 @@ WF::displayRadioButtons(array (
 
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
+// Loads form's CSS.
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// Sets columns width.
+WF::$titlesColClass = 'col-sm-50';
+WF::$contentsColClass = 'col-sm-70';
+
 $fieldName = 'radio1';
 // Displays it if error.
 WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
 // Displays radio buttons of rear labels.
 WF::displayRadioButtons(array (
     'title' => 'Radio buttons sample 1.',
-    'contentsStyle' => 'padding: 7px 20px 7px 0; font-weight: normal',
     'fieldName' => $fieldName,
     'values' => array (11, 12),
     'labelLocation' => 'rear',
@@ -157,6 +195,13 @@ WF::displayRadioButtons(array (
 
 use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
 
+// フォームのＣＳＳをロードする
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// カラム幅を設定する
+WF::$titlesColClass = '< Bootstrap's grid system class >';
+WF::$contentsColClass = '< Bootstrap's grid system class >';
+
 WF::displayDateForJP(array (
     'title' => '< タイトル >',
     'fieldName' => '< フィールド名 >',
@@ -167,6 +212,13 @@ WF::displayDateForJP(array (
 // Example code. ///////////////////////////////////////////////////////////////
 
 use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
+
+// フォームのＣＳＳをロードする
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// カラム幅を設定する
+WF::$titlesColClass = 'col-sm-50';
+WF::$contentsColClass = 'col-sm-70';
 
 WF::displayDateForJP(array (
     'title' => '日付',
