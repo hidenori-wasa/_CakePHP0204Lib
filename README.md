@@ -58,12 +58,13 @@ class AppController extends Controller
 * Procedure 9: Add following into "app/Config/core.php" file.
 
 ```php
-const WASA_DEBUG_LEVEL = 2;
+const WASA_DEBUG_LEVEL = 2; // This value is 0-2.
 Configure::write('debug', WASA_DEBUG_LEVEL);
 ```
 
 Change log
 ----------
 
-* I extracted CSS to "app/webroot/css/Wasa/WasaBootstrap030200FormHelper.css".
+* I added "\WasaBootstrap030200FormHelper::displayEmail()" class method.
+* I added "\WasaBootstrap030200FormHelper::generateEmailRegularExpression()" class method.
 * I updated "_WasaManual".

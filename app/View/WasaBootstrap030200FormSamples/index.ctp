@@ -158,8 +158,19 @@ WF::$contentsColClass = 'col-sm-70';
             'maxYear' => 2050,
         ));
 
+        $fieldName = 'email';
+        // Displays it if error.
+        $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
+        // Displays text box for email.
+        WF::displayEmail(array (
+            'title' => 'Email',
+            'fieldName' => $fieldName,
+            'placeholder' => 'Email address.',
+            'hasErrors' => $hasErrors,
+        ));
+
         ?>
-        <div class="col-sm-offset-40">
+        <div class="col-sm-offset-50">
             <?php
             // Displays rollover image button, token for CSRF and form ending HTML.
             echo $form->end(array ('label' => 'WasaBootstrap030200FormSamples/send.png', 'class' => 'wasa-rollover'));

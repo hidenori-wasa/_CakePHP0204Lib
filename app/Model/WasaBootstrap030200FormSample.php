@@ -1,59 +1,41 @@
 <?php
 
+use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
+
+\App::uses('WasaBootstrap030200FormHelper', 'View/Helper');
 class WasaBootstrap030200FormSample extends \AppModel
 {
 
     function __construct()
     {
         $this->validate = array (
+            'email' => array (
+                array (
+                    //'rule' => array ('email', true, WF::generateEmailRegularExpression()),
+                    'rule' => array ('custom', WF::generateEmailRegularExpression()),
+                    'message' => 'メールアドレスが間違っています。',
+                ),
+                array (
+                    'rule' => array ('custom', '`.{3,' . WF::EMAIL_ADDR_MAX_LEN . '}`xX'),
+                    'message' => 'メールアドレスが長すぎます。',
+                ),
+            ),
             'tel1' => array (
                 'rule' => array ('phone', '`^ 0 [[:digit:]]{1,4} $`xX'),
                 'message' => '市外局番が間違っています。',
-                // 'allowEmpty' => true,
+            // 'allowEmpty' => true,
             ),
             'tel2' => array (
                 'rule' => array ('phone', '`^ [[:digit:]]{1,4} $`xX'),
                 'message' => '市内局番１が間違っています。',
-                // 'allowEmpty' => true,
+            // 'allowEmpty' => true,
             ),
             'tel3' => array (
                 'rule' => array ('phone', '`^ [[:digit:]]{4} $`xX'),
                 'message' => '市内局番２が間違っています。',
-                // 'allowEmpty' => true,
+            // 'allowEmpty' => true,
             ),
         );
-
-        $debugLevel = \Configure::read('debug');
-        if ($debugLevel > 0) {
-            $validate = array (
-                'checkbox11' => array (
-                    array (
-                        'rule' => 'boolean',
-                        'message' => 'checkbox11 フィールドの値または型はブールでなければなりません。',
-                    ),
-                ),
-                'checkbox12' => array (
-                    array (
-                        'rule' => 'boolean',
-                        'message' => 'checkbox12 フィールドの値または型はブールでなければなりません。',
-                    ),
-                ),
-                'checkbox21' => array (
-                    array (
-                        'rule' => 'boolean',
-                        'message' => 'checkbox21 フィールドの値または型はブールでなければなりません。',
-                    ),
-                ),
-                'checkbox22' => array (
-                    array (
-                        'rule' => 'boolean',
-                        'message' => 'checkbox22 フィールドの値または型はブールでなければなりません。',
-                    ),
-                ),
-            );
-
-            $this->validate += $validate;
-        }
 
         parent::__construct();
     }
@@ -67,7 +49,7 @@ class WasaBootstrap030200FormSample extends \AppModel
   `tel1` varchar(5) NOT NULL,
   `tel2` varchar(4) NOT NULL,
   `tel3` varchar(4) NOT NULL,
-  `email` varchar(10) NOT NULL,
+  `email` varchar(254) NOT NULL,
   `number` float NOT NULL,
   `text` varchar(10) NOT NULL,
   `password` varchar(60) NOT NULL,
@@ -76,10 +58,10 @@ class WasaBootstrap030200FormSample extends \AppModel
   `select1` varchar(10) NOT NULL,
   `select2` varchar(10) NOT NULL,
   `select3` varchar(10) NOT NULL,
-  `radio1` int(10) unsigned,
-  `radio2` int(10) unsigned,
-  `radio3` int(10) unsigned,
-  `radio4` int(10) unsigned,
+  `radio1` int(4) unsigned,
+  `radio2` int(4) unsigned,
+  `radio3` int(4) unsigned,
+  `radio4` int(4) unsigned,
   `checkbox11` tinyint(1) NOT NULL,
   `checkbox12` tinyint(1) NOT NULL,
   `checkbox21` tinyint(1) NOT NULL,

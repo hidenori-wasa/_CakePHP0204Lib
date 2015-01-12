@@ -44,7 +44,7 @@
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
 // Loads form's CSS.
-echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->Html->css('< CSS file path for "WasaBootstrap030200FormHelper" >');
 echo $this->fetch('css');
 // Sets columns width.
 WF::$titlesColClass = '< Bootstrap's grid system class >';
@@ -102,7 +102,7 @@ WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));</textarea>
 use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
 
 // フォームのＣＳＳをロードする
-echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->Html->css('< "WasaBootstrap030200FormHelper" 用ＣＳＳファイルパス >');
 echo $this->fetch('css');
 // カラム幅を設定する
 WF::$titlesColClass = '< Bootstrap's grid system class >';
@@ -147,7 +147,7 @@ WF::displayTelForJP(array (
 use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
 
 // Loads form's CSS.
-echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->Html->css('< CSS file path for "WasaBootstrap030200FormHelper" >');
 echo $this->fetch('css');
 // Sets columns width.
 WF::$titlesColClass = '< Bootstrap's grid system class >';
@@ -196,7 +196,7 @@ WF::displayRadioButtons(array (
 use \WasaBootstrap030200FormHelper as WF; // これはファイルスコープであり、クラス識別子より優先度が高い
 
 // フォームのＣＳＳをロードする
-echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->Html->css('< "WasaBootstrap030200FormHelper" 用ＣＳＳファイルパス >');
 echo $this->fetch('css');
 // カラム幅を設定する
 WF::$titlesColClass = '< Bootstrap's grid system class >';
@@ -225,6 +225,51 @@ WF::displayDateForJP(array (
     'fieldName' => 'date',
     'minYear' => 2050,
     'maxYear' => 2050,
+));</textarea>
+
+            <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayEmail" style="display:none">
+// Template code. //////////////////////////////////////////////////////////////
+
+use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
+
+// Loads form's CSS.
+echo $this->Html->css('< CSS file path for "WasaBootstrap030200FormHelper" >');
+echo $this->fetch('css');
+// Sets columns width.
+WF::$titlesColClass = '< Bootstrap's grid system class >';
+WF::$contentsColClass = '< Bootstrap's grid system class >';
+
+$fieldName = '< fieldname >';
+// Displays it if error.
+$hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
+// Displays text box for email.
+WF::displayEmail(array (
+    'title' => '< title >',
+    'fieldName' => $fieldName,
+    'placeholder' => '< Character string to display when input control box is empty. >',
+    'hasErrors' => $hasErrors,
+));
+
+// Example code. ///////////////////////////////////////////////////////////////
+
+use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
+
+// Loads form's CSS.
+echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->fetch('css');
+// Sets columns width.
+WF::$titlesColClass = 'col-sm-50';
+WF::$contentsColClass = 'col-sm-70';
+
+$fieldName = 'email';
+// Displays it if error.
+$hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)));
+// Displays text box for email.
+WF::displayEmail(array (
+    'title' => 'Email',
+    'fieldName' => $fieldName,
+    'placeholder' => 'Email address.',
+    'hasErrors' => $hasErrors,
 ));</textarea>
 
             <!-- <===== Data until here. -->

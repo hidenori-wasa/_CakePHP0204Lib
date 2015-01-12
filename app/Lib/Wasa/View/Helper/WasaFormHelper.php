@@ -51,7 +51,21 @@ final class WasaFormHelper extends \FormHelper
         parent::__construct($View, $settings);
     }
 
-    public function checkSchema($fieldName, $expectedFieldType, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedLength = null, $expectedExtra = null)
+    /**
+     * Checks the schema of field.
+     *
+     * @param string $fieldName            Field name to check.
+     * @param string $expectedFieldType    Expected field type.
+     * @param int    $expectedByteSize     Expected byte size.
+     * @param bool   $doesNullAllow        Does null allow?
+     * @param mixed  $expectedDefaultValue Expected default value.
+     * @param string $expectedKeyType      Expected key type. (PRI | UNI | MUL)
+     * @param type   $expectedExtra        Expected extra information. (AUTO_INCREMENT)
+     *
+     * @return void
+     * @throws \CakeException
+     */
+    public function checkSchema($fieldName, $expectedFieldType, $expectedByteSize = null, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedExtra = null)
     {
         $modelName = $this->defaultModel;
         if (WASA_DEBUG_LEVEL === 0 // If production.
@@ -80,10 +94,10 @@ final class WasaFormHelper extends \FormHelper
         ) {
             throw new \CakeException($errorMessagePrefix . 'key type is ' . $expectedKeyType . '.');
         }
-        if ($expectedLength !== null //
-            && $fieldSchema['length'] !== $expectedLength //
+        if ($expectedByteSize !== null //
+            && $fieldSchema['length'] !== $expectedByteSize //
         ) {
-            throw new \CakeException($errorMessagePrefix . 'byte size is ' . $expectedLength . '.');
+            throw new \CakeException($errorMessagePrefix . 'byte size is ' . $expectedByteSize . '.');
         }
         if ($expectedExtra !== null //
             && $fieldSchema['extra'] !== $expectedExtra //
