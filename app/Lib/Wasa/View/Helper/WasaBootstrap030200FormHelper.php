@@ -41,8 +41,10 @@
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
-use \WasaBootstrap030200FormHelper as WBFH;
+use \WasaBootstrap030200FormHelper as WBFH; // This is this file scope and priority is high.
+use \WasaCache as WC;
 
+\App::uses('WasaCache', 'Wasa/Cache');
 /**
  * The form helper for bootstrap3.
  *
@@ -155,8 +157,8 @@ final class WasaBootstrap030200FormHelper
         // $ctext = '[\x21-\x27\x2A-\x5B\x5D-\x7E' . $obsCtext . ']';
         $VCHAR = '\x21-\x7E';
         $obsQp = '\\ [\x0' . $obsNO_WS_CTL . '\r\n]';
-        $quotedPair = "(\\ [{$VCHAR}[:blank:]]) | $obsQp";
-        // I could not implement because "CommentSubPattern" existed plural.
+        $quotedPair = "(\\\\ [{$VCHAR}[:blank:]]) | $obsQp";
+        // I do not code because "CommentSubPattern" exists plural and this coding is complication.
         // $comment = "(?P<CommentSubPattern> ($FWS? ($ctext | $quotedPair | (?P>CommentSubPattern)))* $FWS?)";
         // $CFWS = "((($FWS? $comment)+ $FWS?) | $FWS)";
         $CFWS = "((($FWS?)+ $FWS?) | $FWS)";
@@ -179,7 +181,7 @@ final class WasaBootstrap030200FormHelper
 
         // $result = preg_replace('`' . $addrSpec . '`xX', 'D', "example@nifty.com"); // For debug.
 
-        return '`' . $addrSpec . '`xX';
+        return '`^ ' . $addrSpec . ' $`xX';
     }
 
     /**
@@ -221,12 +223,17 @@ final class WasaBootstrap030200FormHelper
     {
         extract($params);
 
+        foreach ($validation as $key => $value) {
+            $fieldNames[] = $key;
+        }
         // デバッグ時、データベーステーブルスキーマ "`< fieldName >` varchar(5) NOT NULL" をチェックする
         self::$__form->checkSchema($fieldNames[0], 'string', 5, false);
         // デバッグ時、データベーステーブルスキーマ "`< fieldName >` varchar(4) NOT NULL" をチェックする
         self::$__form->checkSchema($fieldNames[1], 'string', 4, false);
         // デバッグ時、データベーステーブルスキーマ "`< fieldName >` varchar(4) NOT NULL" をチェックする
         self::$__form->checkSchema($fieldNames[2], 'string', 4, false);
+        // コントローラに渡すバリデーションをキャッシュする
+        WC::write(self::$__form->getModelName(), $validation);
 
         // 入力フォームグループは、form-group ブートストラップクラスで包む
         echo '<div class="form-group">';
@@ -510,8 +517,11 @@ final class WasaBootstrap030200FormHelper
     {
         extract($params);
 
+        $fieldName = key($validation);
         // Checks "`< fieldName >` varchar(254) NOT NULL" schema of field if debug.
         self::$__form->checkSchema($fieldName, 'string', self::EMAIL_ADDR_MAX_LEN, false);
+        // Caches the validation to deliver to controller.
+        WC::write(self::$__form->getModelName(), $validation);
         // The input form group must wrap with bootstrap's "form-group" class.
         echo '<div class="form-group">';
         // Defines bootstrap's "control-label" class to a label for error display and horizontal form display support.
@@ -528,8 +538,7 @@ final class WasaBootstrap030200FormHelper
             // Description character string which displays at early stage into input form.
             'placeholder' => $placeholder,
             // Input form must set "form-control" bootstrap class.
-            // And, adds class of "wasa-data-sync" to sync data of same plural input control because HTML is other layout by each display size.
-            'class' => 'form-control wasa-data-sync',
+            'class' => 'form-control',
             )
         );
 

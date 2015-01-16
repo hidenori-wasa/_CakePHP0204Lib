@@ -34,23 +34,15 @@ Installation
 App::build(array ('Wasa/Controller' => array ('../Lib/Wasa/Controller/')));
 App::build(array ('Wasa/Model' => array ('../Lib/Wasa/Model/')));
 App::build(array ('View/Helper' => array ('../Lib/Wasa/View/Helper/')));
+App::build(array ('Wasa/Cache' => array ('../Lib/Wasa/Cache/')));
 CakePlugin::load('BoostCake');
 ```
 
-* Procedure 6: Add following into "app/Controller/AppController.php" file.
+* Procedure 6: Extend "\WasaAppController" like following to your "Controller" class.
 
 ```php
-class AppController extends Controller
-{
-    /**
-     * @var array Helpers for view.
-     */
-    public $helpers = array (
-        'Form' => array ('className' => 'WasaForm'), // Uses "WasaForm" helper instead of "Form" helper.
-        'Paginator' => array ('className' => 'BoostCake.BoostCakePaginator'), // Uses "BoostCakePaginator" helper instead of "Paginator" helper.
-        'WasaHtml',
-    );
-}
+\App::uses('WasaAppController', 'Wasa/Controller');
+class SomethingController extends \WasaAppController
 ```
 
 * Procedure 7: Copy ["BoostCake" plugin](https://github.com/slywalker/cakephp-plugin-boost_cake) to your "app/Plugin/BoostCake/" directory.
@@ -65,6 +57,8 @@ Configure::write('debug', WASA_DEBUG_LEVEL);
 Change log
 ----------
 
-* I added "\WasaBootstrap030200FormHelper::displayEmail()" class method.
-* I added "\WasaBootstrap030200FormHelper::generateEmailRegularExpression()" class method.
+* I repaired "\WasaBootstrap030200FormHelper::generateEmailRegularExpression()" class method.
+* I added validation parameter to "\WasaBootstrap030200FormHelper::displayTelForJP()" class method.
+* I added validation parameter to "\WasaBootstrap030200FormHelper::displayEmail()" class method.
+* I created "\WasaCache" class to deliver data from helper to controller because I needed to deliver validation parameter.
 * I updated "_WasaManual".

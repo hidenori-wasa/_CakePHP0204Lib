@@ -41,9 +41,25 @@ WF::$contentsColClass = 'col-sm-70';
         // 電話用のタイトルとテキストコントロールを３つ表示する
         WF::displayTelForJP(array (
             'title' => '電話番号',
-            'fieldNames' => $fieldNames,
-            'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),
+            'placeholders' => array ('市外局番', '市内局番', '加入者番号'),
             'hasErrors' => $hasErrors,
+            'validation' => array (
+                $fieldNames[0] => array (
+                    'rule' => array ('phone', '`^ 0 [[:digit:]]{1,4} $`xX'),
+                    'message' => '市外局番が間違っています。',
+                // 'allowEmpty' => true,
+                ),
+                $fieldNames[1] => array (
+                    'rule' => array ('phone', '`^ [[:digit:]]{1,4} $`xX'),
+                    'message' => '市内局番が間違っています。',
+                // 'allowEmpty' => true,
+                ),
+                $fieldNames[2] => array (
+                    'rule' => array ('phone', '`^ [[:digit:]]{4} $`xX'),
+                    'message' => '加入者番号が間違っています。',
+                // 'allowEmpty' => true,
+                ),
+            ),
         ));
 
         $fieldNames = array ('checkbox11', 'checkbox12');
@@ -164,10 +180,24 @@ WF::$contentsColClass = 'col-sm-70';
         // Displays text box for email.
         WF::displayEmail(array (
             'title' => 'Email',
-            'fieldName' => $fieldName,
             'placeholder' => 'Email address.',
             'hasErrors' => $hasErrors,
+            'validation' => array (
+                $fieldName => array (
+                    array (
+                        // 'rule' => array ('email', true, WF::generateEmailRegularExpression()),
+                        'rule' => array ('email', false, WF::generateEmailRegularExpression()),
+                        'message' => 'Mail address is mistaken.',
+                    ),
+                    array (
+                        'rule' => array ('custom', '`.{3,' . WF::EMAIL_ADDR_MAX_LEN . '}`xX'),
+                        'message' => 'Mail address is too long.',
+                    ),
+                ),
+            ),
         ));
+
+        // 郵便番号用のタイトルとテキストコントロールを２つ表示する
 
         ?>
         <div class="col-sm-offset-50">

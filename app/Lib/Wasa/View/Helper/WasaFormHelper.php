@@ -3,35 +3,55 @@
 /**
  * Customized form helper.
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP = 2.4.x
+ * Bootstrap = 3.2.0
  *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
+ * LICENSE OVERVIEW:
+ * 1. Do not change license text.
+ * 2. Copyrighters do not take responsibility for this file code.
  *
- * @category  DUMMY
- * @package   DUMMY
- * @author    CakePHP(tm) <dummy@dummy.com>
- * @copyright 2005-2014 Copyright (c) , Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version   2.4.9
- * @link      http://cakephp.org CakePHP(tm) Project
- * @since     CakePHP(tm) v 0.2.9
+ * LICENSE:
+ * Copyright (c) 2015, Hidenori Wasa
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer
+ * in the documentation and/or other materials provided with the distribution.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category DUMMY
+ * @package  DUMMY
+ * @author   Hidenori Wasa <public@hidenori-wasa.com>
+ * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
+ * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 \App::uses('FormHelper', 'View/Helper');
 \App::uses('WasaBootstrap030200FormHelper', 'View/Helper');
 /**
  * Customized form helper.
  *
- * @category  DUMMY
- * @package   DUMMY
- * @author    CakePHP(tm) <dummy@dummy.com>
- * @copyright 2005-2014 Copyright (c) , Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version   2.4.9
- * @link      http://cakephp.org CakePHP(tm) Project
- * @since     CakePHP(tm) v 0.2.9
+ * @category DUMMY
+ * @package  DUMMY
+ * @author   Hidenori Wasa <public@hidenori-wasa.com>
+ * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
+ * @version  Draft: 1.0.0
+ * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 final class WasaFormHelper extends \FormHelper
 {
@@ -41,14 +61,28 @@ final class WasaFormHelper extends \FormHelper
      *
      * @param View  $View     Same as parent.
      * @param array $settings Same as parent.
-     *
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
      */
     public function __construct(View $View, $settings = array ())
     {
         \WasaBootstrap030200FormHelper::construct($this);
 
         parent::__construct($View, $settings);
+    }
+
+    /**
+     * Gets model name.
+     *
+     * @return string The model name.
+     * @throws \CakeException
+     */
+    function getModelName()
+    {
+        $modelName = $this->defaultModel;
+        // If this form does not use model.
+        if ($modelName === null) {
+            throw new \CakeException('You must use model.');
+        }
+        return $modelName;
     }
 
     /**
@@ -65,7 +99,7 @@ final class WasaFormHelper extends \FormHelper
      * @return void
      * @throws \CakeException
      */
-    public function checkSchema($fieldName, $expectedFieldType, $expectedByteSize = null, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedExtra = null)
+    function checkSchema($fieldName, $expectedFieldType, $expectedByteSize = null, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedExtra = null)
     {
         $modelName = $this->defaultModel;
         if (WASA_DEBUG_LEVEL === 0 // If production.
@@ -113,8 +147,6 @@ final class WasaFormHelper extends \FormHelper
      * @param array  $options   Options. This parameter is called from "\WasaBootstrap030200FormHelper" class methods.
      *
      * @return string The single HTML element.
-     * @throws \CakeException
-     * @author Hidenori Wasa <public@hidenori-wasa.com>
      */
     public function input($fieldName, $options = array ())
     {

@@ -114,10 +114,26 @@ $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
 // 電話用のタイトルとテキストコントロールを３つ表示する
 WF::displayTelForJP(array (
     'title' => '電話番号',
-    'fieldNames' => $fieldNames,
-    'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),
+    'placeholders' => array ('市外局番', '市内局番', '加入者番号'),
     'hasErrors' => $hasErrors,
-'));
+    'validation' => array (
+        $fieldNames[0] => array (
+            'rule' => array ('phone', '`^ 0 [[:digit:]]{1,4} $`xX'),
+            'message' => '市外局番が間違っています。',
+        // 'allowEmpty' => true,
+        ),
+        $fieldNames[1] => array (
+            'rule' => array ('phone', '`^ [[:digit:]]{1,4} $`xX'),
+            'message' => '市内局番が間違っています。',
+        // 'allowEmpty' => true,
+        ),
+        $fieldNames[2] => array (
+            'rule' => array ('phone', '`^ [[:digit:]]{4} $`xX'),
+            'message' => '加入者番号が間違っています。',
+        // 'allowEmpty' => true,
+        ),
+    ),
+));
 
 // Example code. ///////////////////////////////////////////////////////////////
 
@@ -136,9 +152,25 @@ $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => $fieldNames));
 // 電話用のタイトルとテキストコントロールを３つ表示する
 WF::displayTelForJP(array (
     'title' => '電話番号',
-    'fieldNames' => $fieldNames,
-    'placeholders' => array ('市外局番', '市内局番１', '市内局番２'),
+    'placeholders' => array ('市外局番', '市内局番', '加入者番号'),
     'hasErrors' => $hasErrors,
+    'validation' => array (
+        $fieldNames[0] => array (
+            'rule' => array ('phone', '`^ 0 [[:digit:]]{1,4} $`xX'),
+            'message' => '市外局番が間違っています。',
+        // 'allowEmpty' => true,
+        ),
+        $fieldNames[1] => array (
+            'rule' => array ('phone', '`^ [[:digit:]]{1,4} $`xX'),
+            'message' => '市内局番が間違っています。',
+        // 'allowEmpty' => true,
+        ),
+        $fieldNames[2] => array (
+            'rule' => array ('phone', '`^ [[:digit:]]{4} $`xX'),
+            'message' => '加入者番号が間違っています。',
+        // 'allowEmpty' => true,
+        ),
+    ),
 ));</textarea>
 
             <textarea class="wasa-hear-document" id="WasaBootstrap030200FormHelper-displayRadioButtons" style="display:none">
@@ -245,9 +277,20 @@ $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)
 // Displays text box for email.
 WF::displayEmail(array (
     'title' => '< title >',
-    'fieldName' => $fieldName,
     'placeholder' => '< Character string to display when input control box is empty. >',
     'hasErrors' => $hasErrors,
+    'validation' => array (
+        $fieldName => array (
+            array (
+                'rule' => array ('email', true, WF::generateEmailRegularExpression()),
+                'message' => '< Error message >',
+            ),
+            array (
+                'rule' => array ('custom', '`.{3,' . WF::EMAIL_ADDR_MAX_LEN . '}`xX'),
+                'message' => '< Error message >',
+            ),
+        ),
+    ),
 ));
 
 // Example code. ///////////////////////////////////////////////////////////////
@@ -267,9 +310,21 @@ $hasErrors = WF::displayErrorWithAlert(array ('fieldNames' => array ($fieldName)
 // Displays text box for email.
 WF::displayEmail(array (
     'title' => 'Email',
-    'fieldName' => $fieldName,
     'placeholder' => 'Email address.',
     'hasErrors' => $hasErrors,
+    'validation' => array (
+        $fieldName => array (
+            array (
+                // 'rule' => array ('email', true, WF::generateEmailRegularExpression()),
+                'rule' => array ('email', false, WF::generateEmailRegularExpression()),
+                'message' => 'Mail address is mistaken.',
+            ),
+            array (
+                'rule' => array ('custom', '`.{3,' . WF::EMAIL_ADDR_MAX_LEN . '}`xX'),
+                'message' => 'Mail address is too long.',
+            ),
+        ),
+    ),
 ));</textarea>
 
             <!-- <===== Data until here. -->

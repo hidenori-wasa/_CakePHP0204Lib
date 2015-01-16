@@ -1,41 +1,15 @@
 <?php
 
-use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
+use \WasaCache as WC; // This is this file scope and priority is high.
 
 \App::uses('WasaBootstrap030200FormHelper', 'View/Helper');
+\App::uses('WasaCache', 'Wasa/Cache');
 class WasaBootstrap030200FormSample extends \AppModel
 {
 
     function __construct()
     {
-        $this->validate = array (
-            'email' => array (
-                array (
-                    //'rule' => array ('email', true, WF::generateEmailRegularExpression()),
-                    'rule' => array ('custom', WF::generateEmailRegularExpression()),
-                    'message' => 'メールアドレスが間違っています。',
-                ),
-                array (
-                    'rule' => array ('custom', '`.{3,' . WF::EMAIL_ADDR_MAX_LEN . '}`xX'),
-                    'message' => 'メールアドレスが長すぎます。',
-                ),
-            ),
-            'tel1' => array (
-                'rule' => array ('phone', '`^ 0 [[:digit:]]{1,4} $`xX'),
-                'message' => '市外局番が間違っています。',
-            // 'allowEmpty' => true,
-            ),
-            'tel2' => array (
-                'rule' => array ('phone', '`^ [[:digit:]]{1,4} $`xX'),
-                'message' => '市内局番１が間違っています。',
-            // 'allowEmpty' => true,
-            ),
-            'tel3' => array (
-                'rule' => array ('phone', '`^ [[:digit:]]{4} $`xX'),
-                'message' => '市内局番２が間違っています。',
-            // 'allowEmpty' => true,
-            ),
-        );
+        $this->validate = WC::read(__CLASS__);
 
         parent::__construct();
     }

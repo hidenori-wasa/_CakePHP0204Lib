@@ -1,16 +1,8 @@
 <?php
 
-App::uses('\AppController', '\Controller');
-class WasaBootstrap030200FormSamplesController extends \AppController
+\App::uses('WasaAppController', 'Wasa/Controller');
+class WasaBootstrap030200FormSamplesController extends \WasaAppController
 {
-    /**
-     * @var array Helpers for view.
-     */
-    public $helpers = array (
-        'Form' => array ('className' => 'WasaForm'), // Uses "WasaForm" helper instead of "Form" helper.
-        'Paginator' => array ('className' => 'BoostCake.BoostCakePaginator'), // Uses "BoostCakePaginator" helper instead of "Paginator" helper.
-        'WasaHtml',
-    );
     public $uses = array ('WasaBootstrap030200FormSample');
 
     function index()
