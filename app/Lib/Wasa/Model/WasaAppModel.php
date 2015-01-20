@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Wasa's Application Controller
+ * Wasa's Application Model.
  *
  * CakePHP = 2.4.x
  * Bootstrap = 3.2.0
@@ -41,9 +41,10 @@
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
-\App::uses('AppController', 'Controller');
+\App::uses('AppModel', 'Model');
+\App::uses('WasaAppController', 'Wasa/Controller');
 /**
- * Wasa's Application Controller
+ * Wasa's Application Model.
  *
  * @category DUMMY
  * @package  DUMMY
@@ -52,31 +53,25 @@
  * @version  Draft: 1.0.0
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
-class WasaAppController extends AppController
+class WasaAppModel extends \AppModel
 {
-    /**
-     * @var array Helpers for view.
-     */
-    public $helpers = array (
-        'Form' => array ('className' => 'WasaForm'), // Uses "WasaForm" helper instead of "Form" helper.
-        'Paginator' => array ('className' => 'BoostCake.BoostCakePaginator'), // Uses "BoostCakePaginator" helper instead of "Paginator" helper.
-        'WasaHtml',
-    );
-
-    const WASA_CONTROLLER_KEY = 'WasaController';
 
     /**
-     * Constructs instance.
+     * Gets the model validation.
      *
-     * @param CakeRequest  $request  Request from client to server.
-     * @param CakeResponse $response Response from server to client.
+     * @return mixed Validation array.
      */
-    function __construct($request = null, $response = null)
+    protected function _getModelValidation()
     {
-        parent::__construct($request, $response);
-
-        // Registers controller instance.
-        \ClassRegistry::addObject(self::WASA_CONTROLLER_KEY, $this);
+        // Gets controller instance.
+        $self = \ClassRegistry::getObject(\WasaAppController::WASA_CONTROLLER_KEY);
+        // If data was posted from form.
+        if ($self->request->is('post')) {
+            // Returns the model validation.
+            return \WasaCache::read($self->modelClass);
+        } else { // If first time.
+            return null;
+        }
     }
 
 }

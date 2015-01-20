@@ -1,15 +1,12 @@
 <?php
 
-use \WasaCache as WC; // This is this file scope and priority is high.
-
-\App::uses('WasaBootstrap030200FormHelper', 'View/Helper');
-\App::uses('WasaCache', 'Wasa/Cache');
-class WasaBootstrap030200FormSample extends \AppModel
+\App::uses('WasaAppModel', 'Wasa/Model');
+class WasaBootstrap030200FormSample extends \WasaAppModel
 {
 
     function __construct()
     {
-        $this->validate = WC::read(__CLASS__);
+        $this->validate = $this->_getModelValidation();
 
         parent::__construct();
     }
@@ -52,5 +49,3 @@ class WasaBootstrap030200FormSample extends \AppModel
   PRIMARY KEY (`id`)
   ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
  */
-
-?>

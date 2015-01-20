@@ -38,11 +38,14 @@ App::build(array ('Wasa/Cache' => array ('../Lib/Wasa/Cache/')));
 CakePlugin::load('BoostCake');
 ```
 
-* Procedure 6: Extend "\WasaAppController" like following to your "Controller" class.
+* Procedure 6: Extend your classes of "Controller" and "Model" as below.
 
 ```php
 \App::uses('WasaAppController', 'Wasa/Controller');
 class SomethingController extends \WasaAppController
+
+\App::uses('WasaAppModel', 'Wasa/Model');
+class WasaBootstrap030200FormSample extends \WasaAppModel
 ```
 
 * Procedure 7: Copy ["BoostCake" plugin](https://github.com/slywalker/cakephp-plugin-boost_cake) to your "app/Plugin/BoostCake/" directory.
@@ -57,8 +60,6 @@ Configure::write('debug', WASA_DEBUG_LEVEL);
 Change log
 ----------
 
-* I repaired "\WasaBootstrap030200FormHelper::generateEmailRegularExpression()" class method.
-* I added validation parameter to "\WasaBootstrap030200FormHelper::displayTelForJP()" class method.
-* I added validation parameter to "\WasaBootstrap030200FormHelper::displayEmail()" class method.
-* I created "\WasaCache" class to deliver data from helper to controller because I needed to deliver validation parameter.
-* I updated "_WasaManual".
+* I added "\WasaCache" class feature to decrease disc access.
+* I repaired "\WasaAppController" class.
+* I created "\WasaAppModel" class for model validation.
