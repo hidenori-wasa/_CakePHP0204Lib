@@ -199,8 +199,13 @@ WF::$contentsColClass = 'col-sm-70';
 
         // 郵便番号用のタイトルとテキストコントロールを２つ表示する
         //
+        // \WasaCache::readArray($form->model()); // For debug. (Autodetection.)
+        //
         // Ends the cache writing.
-        \WasaCache::endWriting($form->model());
+        \WasaCache::writeArray($form->model());
+
+        // \WasaCache::writeArray($form->model()); // For debug. (Autodetection.)
+        // \WasaCache::addArray($form->model(), array('dummy')); // For debug. (Autodetection.)
 
         ?>
         <div class="col-sm-offset-50">

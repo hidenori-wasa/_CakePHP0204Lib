@@ -79,7 +79,7 @@ class WasaAppModel extends \AppModel
         // If data was posted from form.
         if ($self->request->is('post')) {
             // Returns the model validation.
-            return \WasaCache::read($self->modelClass);
+            return \WasaCache::readArray($self->modelClass);
         } else { // If first time.
             return null;
         }

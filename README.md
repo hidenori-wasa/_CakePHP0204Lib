@@ -60,6 +60,4 @@ Configure::write('debug', WASA_DEBUG_LEVEL);
 Change log
 ----------
 
-* I added "\WasaAppModel::__construct()" class method.
-* I repaired "\WasaCache::__write()" class method.
-* I repaired "\WasaBootstrap030200FormHelper" class.
+* I repaired "\WasaCache" class.

@@ -231,8 +231,8 @@ final class WasaBootstrap030200FormHelper
         self::$__form->checkSchema($fieldNames[1], 'string', 4, false);
         // デバッグ時、データベーステーブルスキーマ "`< fieldName >` varchar(4) NOT NULL" をチェックする
         self::$__form->checkSchema($fieldNames[2], 'string', 4, false);
-        // コントローラに渡すバリデーションをキャッシュする
-        WC::write(self::$__form->getModelName(), $validation);
+        // コントローラに渡すバリデーションをバッファする
+        WC::addArray(self::$__form->getModelName(), $validation);
 
         // 入力フォームグループは、form-group ブートストラップクラスで包む
         echo '<div class="form-group">';
@@ -519,8 +519,8 @@ final class WasaBootstrap030200FormHelper
         $fieldName = key($validation);
         // Checks "`< fieldName >` varchar(254) NOT NULL" schema of field if debug.
         self::$__form->checkSchema($fieldName, 'string', self::EMAIL_ADDR_MAX_LEN, false);
-        // Caches the validation to deliver to controller.
-        WC::write(self::$__form->getModelName(), $validation);
+        // Buffers the validation to deliver to controller.
+        WC::addArray(self::$__form->getModelName(), $validation);
         // The input form group must wrap with bootstrap's "form-group" class.
         echo '<div class="form-group">';
         // Defines bootstrap's "control-label" class to a label for error display and horizontal form display support.

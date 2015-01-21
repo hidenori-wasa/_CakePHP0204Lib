@@ -6,18 +6,6 @@
  * Requirement:
  *      CakePHP = 2.4.x
  *
- * example:
- *      // Adds array to the cache.
- *      WC::write('CacheKey', $array1);
- *      WC::write('CacheKey', $array2);
- *          .
- *          .
- *          .
- *      // Ends the cache writing.
- *      \WasaCache::endWriting('CacheKey');
- *      // Reads array from cache.
- *      $readArray = \WasaCache::read('CacheKey');
- *
  * LICENSE OVERVIEW:
  * 1. Do not change license text.
  * 2. Copyrighters do not take responsibility for this file code.
@@ -56,6 +44,24 @@
 /**
  * Simple cache class which doesn't depend on environment.
  *
+ * Example:
+ * <pre>
+ *
+ * <code>
+ *      // Adds the array to the array buffer.
+ *      WC::addArray('CacheKey', $array1);
+ *      WC::addArray('CacheKey', $array2);
+ *          .
+ *          .
+ *          .
+ *      // Writes the array to cache only once.
+ *      \WasaCache::writeArray('CacheKey');
+ *      // Reads array from cache.
+ *      $readArray = \WasaCache::readArray('CacheKey');
+ * </code>
+ *
+ * </pre>
+ *
  * @category DUMMY
  * @package  DUMMY
  * @author   Hidenori Wasa <public@hidenori-wasa.com>
@@ -67,8 +73,20 @@ class WasaCache
 {
     const SETTING_NAME = 'wasa';
 
+    /**
+     * @var array The array buffer.
+     */
+    private static $__arrayBuffer = array ();
+
+    /**
+     * @var bool Did setting?
+     */
     private static $__didSetting = false;
-    private static $__didWrite = false;
+
+    /**
+     * @var bool Was cache cleared?
+     */
+    private static $__wasCacheCleared = false;
 
     /**
      * Sets the configuration.
@@ -76,7 +94,7 @@ class WasaCache
      * @return void
      * @throws \CakeException
      */
-    private static function __setConfiguration()
+    private static function _setConfiguration()
     {
         // If first time after request.
         if (self::$__didSetting === false) {
@@ -90,9 +108,9 @@ class WasaCache
             if (WASA_DEBUG_LEVEL && $result === false) {
                 throw new \CakeException('The cache configuration failed.');
             }
-            // Waits until cache initialization.
-            while (!\Cache::isInitialized(self::SETTING_NAME)) {
-                usleep(10000);
+            // Checks initialization of the cache configuration.
+            if (WASA_DEBUG_LEVEL && !\Cache::isInitialized(self::SETTING_NAME)) {
+                throw new \CakeException('The cache configuration has not been initialized.');
             }
         }
     }
@@ -103,81 +121,24 @@ class WasaCache
      * @param string $key The cache key.
      *
      * @return array The read array.
-     * @//throws \CakeException
-     */
-    private static function __read($key)
-    {
-        // Reads the cache without lock.
-        $array = \Cache::read($key, self::SETTING_NAME);
-        // If this is not array.
-        if (!is_array($array)) {
-            // Returns an empty array.
-            return array ();
-        }
-        return $array;
-    }
-
-    /**
-     * Reads array from cache.
-     *
-     * @param string $key The cache key.
-     *
-     * @return array The read array.
      * @throws \CakeException
      */
-    static function read($key)
+    static function readArray($key)
     {
         // Sets the configuration.
-        self::__setConfiguration();
+        self::_setConfiguration();
         // Reads the cache without lock.
-        $array = self::__read($key);
-        // Checks the writing end flag.
-        if (WASA_DEBUG_LEVEL && !array_key_exists('WasaCacheDidAllWriting', $array)) {
-            throw new \CakeException('You must write all data before read.');
+        $cacheArray = \Cache::read($key, self::SETTING_NAME);
+        // If cache does not exist.
+        if (WASA_DEBUG_LEVEL && $cacheArray === false) {
+            throw new \CakeException('You must execute "\WasaCache::readArray()" after "\WasaCache::writeArray()" execution.');
         }
-        return $array;
+        //return $array;
+        return $cacheArray;
     }
 
     /**
-     * Adds array to the cache.
-     *
-     * @param string $key         The cache key.
-     * @param array  $nativeArray Native array.
-     * @param array  $array       A array to add in cache.
-     *
-     * @return void
-     * @throws \CakeException
-     */
-    private static function __write($key, $nativeArray, $array)
-    {
-        // New array value overwrites for writing during reading.
-        $array = $nativeArray + $array;
-        // If the cache value is changed because other process may write same value.
-        if ($array !== $nativeArray) {
-            // Locks the cache.
-            \Cache::set(array ('lock' => true), self::SETTING_NAME);
-            $result = true;
-            $currentArray = \Cache::read($key, self::SETTING_NAME);
-            if (!\is_array($currentArray)) {
-                $currentArray = array ();
-            }
-            // If other process has not written.
-            if ($currentArray === $nativeArray) {
-                // Writes to the cache.
-                $result = \Cache::write($key, $array, self::SETTING_NAME);
-            }
-            // Unlocks the cache.
-            \Cache::set(array ('lock' => false), self::SETTING_NAME);
-            if (WASA_DEBUG_LEVEL && $result === false) {
-                throw new \CakeException('Cache writing failed.');
-            }
-        } else if (WASA_DEBUG_LEVEL) { // If debug.
-            throw new \CakeException('You must not write same value.');
-        }
-    }
-
-    /**
-     * Adds array to the cache.
+     * Adds the array to the array buffer.
      *
      * @param string $key   The cache key.
      * @param array  $array A array to add in cache.
@@ -185,10 +146,10 @@ class WasaCache
      * @return void
      * @throws \CakeException
      */
-    static function write($key, $array)
+    static function addArray($key, $array)
     {
         // Sets the configuration.
-        self::__setConfiguration();
+        self::_setConfiguration();
         // If debug.
         if (WASA_DEBUG_LEVEL) {
             // Checks the value type to write.
@@ -196,42 +157,71 @@ class WasaCache
                 throw new \CakeException('You must set array value to second parameter.');
             }
             // If first time after request.
-            if (self::$__didWrite === false) {
-                self::$__didWrite = true;
+            if (self::$__wasCacheCleared === false) {
+                self::$__wasCacheCleared = true;
                 // Clears cache for debug.
                 if (\Cache::clear(false, self::SETTING_NAME) !== false) {
                     \Cache::gc(self::SETTING_NAME);
                 }
             }
         }
-        // Reads native array.
-        $nativeArray = self::__read($key);
-        // If "WasaCache" did all writing.
-        if (array_key_exists('WasaCacheDidAllWriting', $array)) {
-            return;
+        // If debug.
+        if (WASA_DEBUG_LEVEL) {
+            // If the cache exists.
+            if (\Cache::read($key, self::SETTING_NAME) !== false) {
+                throw new \CakeException('You must not execute "\WasaCache::addArray()" after "\WasaCache::writeArray()".');
+            }
         }
-        // Adds array to the cache.
-        self::__write($key, $nativeArray, $array);
+        // If the cache key is first time addition.
+        if (!array_key_exists($key, self::$__arrayBuffer)) {
+            self::$__arrayBuffer[$key] = array ();
+        }
+        $arrayBuffer = &self::$__arrayBuffer[$key];
+        // Merges the array buffer and the array.
+        $array = $arrayBuffer + $array;
+        // If this is same value in case of debug.
+        if (WASA_DEBUG_LEVEL && $array === $arrayBuffer) {
+            throw new \CakeException('You must not write same value.');
+        }
+        // Adds the array to the array buffer.
+        $arrayBuffer = $array;
     }
 
     /**
-     * End writing.
+     * Writes the array to cache only once.
      *
      * @param string $key The cache key.
      *
      * @return void
      */
-    static function endWriting($key)
+    static function writeArray($key)
     {
         // Sets the configuration.
-        self::__setConfiguration();
-        $nativeArray = self::__read($key);
-        // If "WasaCache" did all writing.
-        if (array_key_exists('WasaCacheDidAllWriting', $nativeArray)) {
-            return;
+        self::_setConfiguration();
+        // Reads the cache without lock.
+        $cacheArray = \Cache::read($key, self::SETTING_NAME);
+        // If the cache exists.
+        if (WASA_DEBUG_LEVEL && $cacheArray !== false) {
+            throw new \CakeException('You must execute "\WasaCache::writeArray()" only once.');
         }
-        // Writes the writing end flag.
-        self::__write($key, $nativeArray, array ('WasaCacheDidAllWriting' => true));
+        // The cache may exist at here. However, it is no problem because it is overwritten.
+        //
+        // Locks the cache. (Here does hard disk access.)
+        \Cache::set(array ('lock' => true), self::SETTING_NAME);
+        try {
+            // Writes the array to cache only once. (Here does hard disk access.)
+            $result = \Cache::write($key, self::$__arrayBuffer[$key], self::SETTING_NAME);
+        } catch (\Exception $e) {
+            // Unlocks the cache. (Here does hard disk access.)
+            \Cache::set(array ('lock' => false), self::SETTING_NAME);
+            throw $e;
+        }
+        // Unlocks the cache. (Here does hard disk access.)
+        \Cache::set(array ('lock' => false), self::SETTING_NAME);
+        // Checks error.
+        if (WASA_DEBUG_LEVEL && $result === false) {
+            throw new \CakeException('Cache writing failed.');
+        }
     }
 
 }
