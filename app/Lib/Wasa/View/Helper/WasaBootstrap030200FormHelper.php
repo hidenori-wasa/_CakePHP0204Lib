@@ -41,8 +41,7 @@
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
-use \WasaBootstrap030200FormHelper as WBFH; // This is this file scope and priority is high.
-use \WasaCache as WC;
+use \WasaCache as WC; // This is this file scope and priority is high.
 
 \App::uses('WasaCache', 'Wasa/Cache');
 /**
@@ -266,14 +265,14 @@ final class WasaBootstrap030200FormHelper
         for ($count = 0;; $count++) {
             $fieldName = $fieldNames[$count];
             // エラーの場合、入力フォームをエラー色にする
-            echo '<span class="' . $hasErrors[$fieldName] . '" style="' . WBFH::INLINE_BLOCK_STYLE . ' width: 30%">';
+            echo '<span class="' . $hasErrors[$fieldName] . '" style="' . self::INLINE_BLOCK_STYLE . ' width: 30%">';
             // 電話番号テキストボックス
             echo $telHTML[$count];
             echo '</span>';
             if ($count === 2) {
                 break;
             }
-            echo '<span class="wasa-tel-separator-margin" style="' . WBFH::INLINE_BLOCK_STYLE . '">―</span>';
+            echo '<span class="wasa-tel-separator-margin" style="' . self::INLINE_BLOCK_STYLE . '">―</span>';
         }
         echo '</div>';
 
@@ -330,7 +329,7 @@ final class WasaBootstrap030200FormHelper
                 array (
                 'type' => 'checkbox',
                 'value' => $value,
-                'style' => WBFH::INLINE_BLOCK_STYLE,
+                'style' => self::INLINE_BLOCK_STYLE,
                 )
             );
             preg_match('`<input [[:space:]]+ type [[:space:]]* = [[:space:]]* "checkbox" .* [[:space:]]+ id [[:space:]]* = [[:space:]]* "(.*)"`xXU', $checkboxElement, $matches);
@@ -339,14 +338,14 @@ final class WasaBootstrap030200FormHelper
             echo '<label class="' . $class . ' wasa-checkbox" for="' . $id . '">';
             if ($labelLocation === 'front') {
                 // Displays the front label.
-                echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
+                echo '<span class="wasa-label" style="' . self::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
                 // Displays checkbox and keeps input value.
                 echo $checkboxElement;
             } else {
                 // Displays checkbox and keeps input value.
                 echo $checkboxElement;
                 // Displays the rear label.
-                echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
+                echo '<span class="wasa-label" style="' . self::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
             }
             echo '</label>';
         }
@@ -381,7 +380,7 @@ final class WasaBootstrap030200FormHelper
             $fieldName, //
             array (
             'type' => 'radio',
-            'style' => WBFH::INLINE_BLOCK_STYLE,
+            'style' => self::INLINE_BLOCK_STYLE,
             'options' => $values2,
             'legend' => false,
             'label' => false
@@ -410,14 +409,14 @@ final class WasaBootstrap030200FormHelper
             echo '<label class="' . $class . ' wasa-radio" for="' . $id . '">';
             if ($labelLocation === 'front') {
                 // Displays the front label.
-                echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
+                echo '<span class="wasa-label" style="' . self::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
                 // Displays radio button and keeps input value.
                 echo $radioElement;
             } else {
                 // Displays radio button and keeps input value.
                 echo $radioElement;
                 // Displays the rear label.
-                echo '<span class="wasa-label" style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
+                echo '<span class="wasa-label" style="' . self::INLINE_BLOCK_STYLE . '">' . $label . '</span>';
             }
             echo '</label>';
         }
@@ -474,31 +473,31 @@ final class WasaBootstrap030200FormHelper
         // 画面サイズがエキストラスモール以外の場合のレイアウト
         echo '<div style="padding: 0;" class="hidden-xs">';
         // echo '<div style="padding: 0;">'; // For debug.
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $yearHTML . '</span>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">年</span>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $monthHTML . '</span>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">月</span>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">' . $dayHTML . '</span>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . '">日</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . '">' . $yearHTML . '</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . '">年</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . '">' . $monthHTML . '</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . '">月</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . '">' . $dayHTML . '</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . '">日</span>';
         echo '</div>';
 
         // 画面サイズがエキストラスモールの場合のレイアウト
         echo '<div style="padding: 0;" class="visible-xs">';
         // echo '<div style="padding: 0;">'; // For debug.
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' width: 90%">';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . ' width: 90%">';
         echo $yearHTML;
         echo '</span>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' margin-top: 0;">年</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . ' margin-top: 0;">年</span>';
         echo '<div style="' . $centerBlockStyle . '">｜</div>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' width: 90%">';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . ' width: 90%">';
         echo $monthHTML;
         echo '</span>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' margin-top: 0;">月</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . ' margin-top: 0;">月</span>';
         echo '<div style="' . $centerBlockStyle . '">｜</div>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' width: 90%">';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . ' width: 90%">';
         echo $dayHTML;
         echo '</span>';
-        echo '<span style="' . WBFH::INLINE_BLOCK_STYLE . ' margin-top: 0;">日</span>';
+        echo '<span style="' . self::INLINE_BLOCK_STYLE . ' margin-top: 0;">日</span>';
         echo '</div>';
 
         echo '</div>';

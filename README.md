@@ -60,6 +60,6 @@ Configure::write('debug', WASA_DEBUG_LEVEL);
 Change log
 ----------
 
-* I added "\WasaCache" class feature to decrease disc access.
-* I repaired "\WasaAppController" class.
-* I created "\WasaAppModel" class for model validation.
+* I added "\WasaAppModel::__construct()" class method.
+* I repaired "\WasaCache::__write()" class method.
+* I repaired "\WasaBootstrap030200FormHelper" class.

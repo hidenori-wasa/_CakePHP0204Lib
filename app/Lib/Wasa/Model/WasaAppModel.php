@@ -43,6 +43,7 @@
  */
 \App::uses('AppModel', 'Model');
 \App::uses('WasaAppController', 'Wasa/Controller');
+\App::uses('WasaCache', 'Wasa/Cache');
 /**
  * Wasa's Application Model.
  *
@@ -55,6 +56,16 @@
  */
 class WasaAppModel extends \AppModel
 {
+
+    /**
+     * Sets "$validate" property for model validation.
+     */
+    function __construct()
+    {
+        $this->validate = $this->_getModelValidation();
+
+        parent::__construct();
+    }
 
     /**
      * Gets the model validation.

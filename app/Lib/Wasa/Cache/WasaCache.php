@@ -110,7 +110,7 @@ class WasaCache
         // Reads the cache without lock.
         $array = \Cache::read($key, self::SETTING_NAME);
         // If this is not array.
-        if (!\is_array($array)) {
+        if (!is_array($array)) {
             // Returns an empty array.
             return array ();
         }
@@ -156,8 +156,16 @@ class WasaCache
         if ($array !== $nativeArray) {
             // Locks the cache.
             \Cache::set(array ('lock' => true), self::SETTING_NAME);
-            // Writes to the cache.
-            $result = \Cache::write($key, $array, self::SETTING_NAME);
+            $result = true;
+            $currentArray = \Cache::read($key, self::SETTING_NAME);
+            if (!\is_array($currentArray)) {
+                $currentArray = array ();
+            }
+            // If other process has not written.
+            if ($currentArray === $nativeArray) {
+                // Writes to the cache.
+                $result = \Cache::write($key, $array, self::SETTING_NAME);
+            }
             // Unlocks the cache.
             \Cache::set(array ('lock' => false), self::SETTING_NAME);
             if (WASA_DEBUG_LEVEL && $result === false) {

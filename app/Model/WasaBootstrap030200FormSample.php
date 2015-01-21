@@ -4,15 +4,9 @@
 class WasaBootstrap030200FormSample extends \WasaAppModel
 {
 
-    function __construct()
-    {
-        $this->validate = $this->_getModelValidation();
-
-        parent::__construct();
-    }
+}
 
 // \Validation:
-}
 
 /*
   CREATE TABLE IF NOT EXISTS `wasa_bootstrap030200_form_samples` (
