@@ -5,8 +5,9 @@ $this->set('title_for_layout', 'The Bootstrap form samples.');
 use \WasaBootstrap3FormHelper as WF; // This is this file scope and priority is high.
 
 // Loads form's CSS.
-echo $this->Html->css('/WasaBootstrap3/css/WasaBootstrap3FormHelperA');
-echo $this->fetch('css');
+//echo $this->Html->css('/WasaBootstrap3/css/WasaBootstrap3FormHelperA');
+echo $this->Html->css('WasaBootstrap3.WasaBootstrap3FormHelperA');
+//echo $this->fetch('css');
 // Sets columns width.
 WF::$titlesColClass = 'col-sm-50';
 WF::$contentsColClass = 'col-sm-70';

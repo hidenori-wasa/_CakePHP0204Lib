@@ -24,40 +24,33 @@ Requirements of browser.
 Installation
 ------------
 
-* Procedure 1: Copy "app/Lib/Wasa/" directory to your "app/Lib/Wasa/" directory.
-* Procedure 2: Make "Bootstrap" files with site which [customizes "Bootstrap".](http://getbootstrap.com/customize/)
-* Procedure 3: Copy made "Bootstrap" files to your "app/webroot/css/", "app/webroot/fonts/" and "app/webroot/js/" directory.
-* Procedure 4: Copy ["jQuery"](http://jquery.com/) file to your "app/webroot/js/" directory.
-* Procedure 5: Add following into "app/Config/bootstrap.php" file.
+Please, follow procedure.
+
+* Procedure 1: Copy "app/Plugin/Wasa/" and "app/Plugin/WasaBootstrap3/" directory.
+* Procedure 2: Add following into "app/Config/bootstrap.php" file.
 
 ```php
-App::build(array ('Wasa/Controller' => array ('../Lib/Wasa/Controller/')));
-App::build(array ('Wasa/Model' => array ('../Lib/Wasa/Model/')));
-App::build(array ('View/Helper' => array ('../Lib/Wasa/View/Helper/')));
-App::build(array ('Wasa/Cache' => array ('../Lib/Wasa/Cache/')));
-CakePlugin::load('BoostCake');
+\CakePlugin::load('WasaBootstrap3', array ('bootstrap' => true));
 ```
 
-* Procedure 6: Extend your classes of "Controller" and "Model" as below.
+* Procedure 3: Extend your classes of "Controller" and "Model" as below.
 
 ```php
-\App::uses('WasaAppController', 'Wasa/Controller');
-class SomethingController extends \WasaAppController
+\App::uses('WasaBootstrap3AppController', 'WasaBootstrap3.Controller');
+class SomethingController extends \WasaBootstrap3AppController
 
-\App::uses('WasaAppModel', 'Wasa/Model');
-class WasaBootstrap030200FormSample extends \WasaAppModel
+\App::uses('WasaAppModel', 'Wasa.Model');
+class WasaBootstrap3FormSample extends \WasaAppModel
 ```
 
-* Procedure 7: Copy ["BoostCake" plugin](https://github.com/slywalker/cakephp-plugin-boost_cake) to your "app/Plugin/BoostCake/" directory.
-* Procedure 8: Copy "_WasaManual" to "http://localhost/_WasaManual/".
-* Procedure 9: Add following into "app/Config/core.php" file.
-
-```php
-const WASA_DEBUG_LEVEL = 2; // This value is 0-2.
-Configure::write('debug', WASA_DEBUG_LEVEL);
-```
+* Procedure 4: Copy ["BoostCake" plugin](https://github.com/slywalker/cakephp-plugin-boost_cake) to your "app/Plugin/BoostCake/" directory.
+* Procedure 5: Copy "_WasaManual" to "http://localhost/_WasaManual/".
+* Procedure 6: Read option procedure of "CakePHP" in "BreakpointDebugging_PHPUnit.php" file.
+* Option procedure 1: Make "Bootstrap" files with site which [customizes "Bootstrap".](http://getbootstrap.com/customize/)
+* Option procedure 2: Copy made "Bootstrap" files to your "app/Plugin/WasaBootstrap3/webroot/css/", "app/Plugin/WasaBootstrap3/webroot/fonts/" and "app/Plugin/WasaBootstrap3/webroot/js/" directory.
+* Option procedure 3: Copy ["jQuery"](http://jquery.com/) file to your "app/Plugin/Wasa/webroot/js/" directory.
 
 Change log
 ----------
 
-* I repaired "\WasaCache" class.
+* I transformed "Lib" to "Plugin".
