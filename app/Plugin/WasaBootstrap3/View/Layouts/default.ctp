@@ -1,4 +1,4 @@
-<!-- "WasaBootstrap030200" layout. -->
+<!-- "WasaBootstrap3" layout. -->
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -10,8 +10,7 @@
         <meta charset="utf-8">
         <?php
         // Loads "WasaGlobalErrorHandler" JavaScript.
-        echo $this->Html->script('WasaGlobalErrorHandler');
-        echo $this->fetch('script');
+        echo $this->Html->script('Wasa.WasaGlobalErrorHandler');
 
         ?>
         <title>
@@ -21,9 +20,8 @@
         <meta name="author" content="">
         <?php
         // Loads the Bootstrap 3.2.0 CSS.
-        echo $this->Html->css('bootstrap-3.2.0.grid120.min');
-        echo $this->Html->css('bootstrap-3.2.0-theme.min');
-        echo $this->fetch('css');
+        echo $this->Html->css('WasaBootstrap3.bootstrap-3.2.0.grid120.min');
+        echo $this->Html->css('WasaBootstrap3.bootstrap-3.2.0-theme.min');
 
         ?>
         <style>
@@ -48,12 +46,11 @@
 
         <?php
         // Loads jQuery 1.10.2 JavaScript.
-        echo $this->Html->script('jquery-1.10.2.min');
+        echo $this->Html->script('Wasa.jquery-1.10.2.min');
         // Loads the Bootstrap 3.2.0 JavaScript.
-        echo $this->Html->script('bootstrap-3.2.0.min');
+        echo $this->Html->script('WasaBootstrap3.bootstrap-3.2.0.min');
         // Loads "Wasa" JavaScript.
-        echo $this->Html->script('Wasa');
-        echo $this->fetch('script');
+        echo $this->Html->script('Wasa.Wasa');
         echo $this->element('sql_dump');
 
         ?>

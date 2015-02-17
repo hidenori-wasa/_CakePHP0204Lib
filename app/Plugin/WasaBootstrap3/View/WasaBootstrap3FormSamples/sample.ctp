@@ -1,11 +1,11 @@
 <?php
-$this->layout = 'WasaBootstrap030200';
+$this->layout = 'WasaBootstrap3.default';
 $this->set('title_for_layout', 'The Bootstrap form samples.');
 
-use \WasaBootstrap030200FormHelper as WF; // This is this file scope and priority is high.
+use \WasaBootstrap3FormHelper as WF; // This is this file scope and priority is high.
 
 // Loads form's CSS.
-echo $this->Html->css('Wasa/WasaBootstrap030200FormHelper');
+echo $this->Html->css('/WasaBootstrap3/css/WasaBootstrap3FormHelperA');
 echo $this->fetch('css');
 // Sets columns width.
 WF::$titlesColClass = 'col-sm-50';
@@ -28,7 +28,7 @@ WF::$contentsColClass = 'col-sm-70';
         // Displays the CSRF token and the form start HTML.
         echo $form->create(
             // The model name.
-            'WasaBootstrap030200FormSample', //
+            'WasaBootstrap3.WasaBootstrap3FormSample', //
             array (
             // Adds Bootstrap's horizontal form class and well class to the form element class attribute.
             'class' => 'form-horizontal well'
@@ -199,19 +199,19 @@ WF::$contentsColClass = 'col-sm-70';
 
         // 郵便番号用のタイトルとテキストコントロールを２つ表示する
         //
-        // \WasaCache::readArray($form->model()); // For debug. (Autodetection.)
+        // \WasaCache::readArray($form->defaultModel); // For debug. (Autodetection.)
         //
         // Ends the cache writing.
-        \WasaCache::writeArray($form->model());
+        \WasaCache::writeArray($form->defaultModel);
 
-        // \WasaCache::writeArray($form->model()); // For debug. (Autodetection.)
-        // \WasaCache::addArray($form->model(), array('dummy')); // For debug. (Autodetection.)
+        // \WasaCache::writeArray($form->defaultModel); // For debug. (Autodetection.)
+        // \WasaCache::addArray($form->defaultModel, array('dummy')); // For debug. (Autodetection.)
 
         ?>
         <div class="col-sm-offset-50">
             <?php
             // Displays rollover image button, token for CSRF and form ending HTML.
-            echo $form->end(array ('label' => 'WasaBootstrap030200FormSamples/send.png', 'class' => 'wasa-rollover'));
+            echo $form->end(array ('label' => '/WasaBootstrap3/img/send.png', 'class' => 'wasa-rollover'));
 
             ?>
         </div>

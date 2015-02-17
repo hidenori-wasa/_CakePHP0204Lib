@@ -42,8 +42,8 @@
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 \App::uses('AppModel', 'Model');
-\App::uses('WasaAppController', 'Wasa/Controller');
-\App::uses('WasaCache', 'Wasa/Cache');
+\App::uses('WasaBootstrap3AppController', 'WasaBootstrap3.Controller');
+\App::uses('WasaCache', 'Wasa.Lib');
 /**
  * Wasa's Application Model.
  *
@@ -75,11 +75,17 @@ class WasaAppModel extends \AppModel
     protected function _getModelValidation()
     {
         // Gets controller instance.
-        $self = \ClassRegistry::getObject(\WasaAppController::WASA_CONTROLLER_KEY);
+        $self = \ClassRegistry::getObject(\WasaBootstrap3AppController::WASA_CONTROLLER_KEY);
         // If data was posted from form.
         if ($self->request->is('post')) {
+            $defaultModel = $self->plugin;
+            if (empty($defaultModel)) {
+                $defaultModel = $self->modelClass;
+            } else {
+                $defaultModel .= '.' . $self->modelClass;
+            }
             // Returns the model validation.
-            return \WasaCache::readArray($self->modelClass);
+            return \WasaCache::readArray($defaultModel);
         } else { // If first time.
             return null;
         }

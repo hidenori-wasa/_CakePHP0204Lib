@@ -42,7 +42,7 @@
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 \App::uses('FormHelper', 'View/Helper');
-\App::uses('WasaBootstrap030200FormHelper', 'View/Helper');
+\App::uses('WasaBootstrap3FormHelper', 'WasaBootstrap3.View/Helper');
 /**
  * Customized form helper.
  *
@@ -64,7 +64,7 @@ final class WasaFormHelper extends \FormHelper
      */
     public function __construct(View $View, $settings = array ())
     {
-        \WasaBootstrap030200FormHelper::construct($this);
+        \WasaBootstrap3FormHelper::construct($this);
 
         parent::__construct($View, $settings);
     }
@@ -144,7 +144,7 @@ final class WasaFormHelper extends \FormHelper
      * Overrides to return single HTML element only.
      *
      * @param string $fieldName This must be 'FieldName' or 'ModelName.FieldName'.
-     * @param array  $options   Options. This parameter is called from "\WasaBootstrap030200FormHelper" class methods.
+     * @param array  $options   Options. This parameter is called from "\WasaBootstrap3FormHelper" class methods.
      *
      * @return string The single HTML element.
      */

@@ -52,15 +52,14 @@
  * @version  Draft: 1.0.0
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
-class WasaAppController extends AppController
+class WasaBootstrap3AppController extends AppController
 {
     /**
      * @var array Helpers for view.
      */
     public $helpers = array (
-        'Form' => array ('className' => 'WasaForm'), // Uses "WasaForm" helper instead of "Form" helper.
+        'Form' => array ('className' => 'WasaBootstrap3.WasaForm'), // Uses "WasaForm" helper instead of "Form" helper.
         'Paginator' => array ('className' => 'BoostCake.BoostCakePaginator'), // Uses "BoostCakePaginator" helper instead of "Paginator" helper.
-        'WasaHtml',
     );
 
     const WASA_CONTROLLER_KEY = 'WasaController';

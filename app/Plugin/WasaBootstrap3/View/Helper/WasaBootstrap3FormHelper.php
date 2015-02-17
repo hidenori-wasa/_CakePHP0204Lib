@@ -43,7 +43,7 @@
  */
 use \WasaCache as WC; // This is this file scope and priority is high.
 
-\App::uses('WasaCache', 'Wasa/Cache');
+\App::uses('WasaCache', 'Wasa.Lib');
 /**
  * The form helper for bootstrap3.
  *
@@ -54,7 +54,7 @@ use \WasaCache as WC; // This is this file scope and priority is high.
  * @version  Draft: 1.0.0
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
-final class WasaBootstrap030200FormHelper
+final class WasaBootstrap3FormHelper
 {
     /**
      * @const string Inline block style. Width is required because "iOS" or "Android" terminal may need it.
@@ -189,7 +189,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params Parameter's association array.
      *
      * @return array "Bootstrap's 'has-error' class" of each field name key.
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayErrorWithAlert
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayErrorWithAlert
      */
     static function displayErrorWithAlert($params)
     {
@@ -216,7 +216,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params パラメータの連想配列
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayTelForJP
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayTelForJP
      */
     static function displayTelForJP($params)
     {
@@ -302,7 +302,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayCheckboxes
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayCheckboxes
      */
     static function displayCheckboxes($params)
     {
@@ -359,7 +359,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayRadioButtons
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayRadioButtons
      */
     static function displayRadioButtons($params)
     {
@@ -430,7 +430,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params パラメータの連想配列
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayDateForJP
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayDateForJP
      */
     static function displayDateForJP($params)
     {
@@ -510,7 +510,7 @@ final class WasaBootstrap030200FormHelper
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap030200FormHelper-displayEmail
+     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayEmail
      */
     static function displayEmail($params)
     {

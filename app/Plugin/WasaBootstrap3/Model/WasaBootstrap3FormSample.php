@@ -1,7 +1,7 @@
 <?php
 
-\App::uses('WasaAppModel', 'Wasa/Model');
-class WasaBootstrap030200FormSample extends \WasaAppModel
+\App::uses('WasaAppModel', 'Wasa.Model');
+class WasaBootstrap3FormSample extends \WasaAppModel
 {
 
 }
@@ -9,7 +9,7 @@ class WasaBootstrap030200FormSample extends \WasaAppModel
 // \Validation:
 
 /*
-  CREATE TABLE IF NOT EXISTS `wasa_bootstrap030200_form_samples` (
+CREATE TABLE IF NOT EXISTS `wasa_bootstrap3_form_samples` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `tel1` varchar(5) NOT NULL,
   `tel2` varchar(4) NOT NULL,
@@ -23,10 +23,10 @@ class WasaBootstrap030200FormSample extends \WasaAppModel
   `select1` varchar(10) NOT NULL,
   `select2` varchar(10) NOT NULL,
   `select3` varchar(10) NOT NULL,
-  `radio1` int(4) unsigned,
-  `radio2` int(4) unsigned,
-  `radio3` int(4) unsigned,
-  `radio4` int(4) unsigned,
+  `radio1` int(4) unsigned DEFAULT NULL,
+  `radio2` int(4) unsigned DEFAULT NULL,
+  `radio3` int(4) unsigned DEFAULT NULL,
+  `radio4` int(4) unsigned DEFAULT NULL,
   `checkbox11` tinyint(1) NOT NULL,
   `checkbox12` tinyint(1) NOT NULL,
   `checkbox21` tinyint(1) NOT NULL,
@@ -41,5 +41,5 @@ class WasaBootstrap030200FormSample extends \WasaAppModel
   `hidden` varchar(10) NOT NULL,
   `url` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
- */
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+*/

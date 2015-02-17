@@ -106,7 +106,6 @@ class WasaCache
             // Configures the cache.
             // "'duration' => PHP_INT_MAX" does not expire even though current time will be 2048.
             // "'probability' => 0" because garbage collection is not necessary at configuration.
-            //$result = \Cache::config(self::SETTING_NAME, array ('duration' => PHP_INT_MAX, 'engine' => 'File', 'lock' => false, 'prefix' => 'wasa_', 'probability' => 100,));
             $result = \Cache::config(self::SETTING_NAME, array ('duration' => PHP_INT_MAX, 'engine' => 'File', 'lock' => false, 'prefix' => 'wasa_', 'probability' => 0,));
             if (WASA_DEBUG_LEVEL && $result === false) {
                 throw new \CakeException('The cache configuration failed.');
@@ -131,6 +130,7 @@ class WasaCache
         // Sets the configuration.
         self::_setConfiguration();
         // Reads the cache without shared lock because writing has been ended.
+        // (Here may cause hard disk accesses. But, it will be read from OS system file cache almost.)
         $cacheArray = \Cache::read($key, self::SETTING_NAME);
         // If cache does not exist.
         if (WASA_DEBUG_LEVEL && $cacheArray === false) {
@@ -201,6 +201,7 @@ class WasaCache
         // Sets the configuration.
         self::_setConfiguration();
         // Reads the cache without shared lock because writing is skipped or same value is overwritten.
+        // (Here may cause hard disk accesses. But, it will be read from OS system file cache almost.)
         $cacheArray = \Cache::read($key, self::SETTING_NAME);
         // If the cache exists.
         if ($cacheArray !== false) {
@@ -212,17 +213,17 @@ class WasaCache
                 return;
             }
         }
-        // Locks the cache. (Here accesses hard disk.)
+        // Changes the cache setting to locking.
         \Cache::set(array ('lock' => true), self::SETTING_NAME);
         try {
-            // Writes the array buffer to cache only once. (Here accesses hard disk.)
+            // Writes the array buffer to cache only once. (Here causes hard disk accesses in locking, writing and unlocking.)
             $result = \Cache::write($key, self::$__arrayBuffer[$key], self::SETTING_NAME);
         } catch (\Exception $e) {
-            // Unlocks the cache. (Here accesses hard disk.)
+            // Changes the cache setting to unlocking.
             \Cache::set(array ('lock' => false), self::SETTING_NAME);
             throw $e;
         }
-        // Unlocks the cache. (Here accesses hard disk.)
+        // Changes the cache setting to unlocking.
         \Cache::set(array ('lock' => false), self::SETTING_NAME);
         // Checks error.
         if (WASA_DEBUG_LEVEL && $result === false) {
