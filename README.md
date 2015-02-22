@@ -11,6 +11,8 @@ Requirements
 
 * [CakePHP(2.4-)](http://cakephp.jp/)
 * [Bootstrap(3.2-)](http://getbootstrap.com/)
+* ["BreakpointDebugging" PEAR package](option)
+* ["BreakpointDebugging_PHPUnit" PEAR package](option)
 
 Requirements of browser.
 ------------------------
@@ -31,6 +33,7 @@ Please, follow procedure.
 
 ```php
 \CakePlugin::load('WasaBootstrap3', array ('bootstrap' => true));
+\CakePlugin::load('WasaPhpUnit', array ('bootstrap' => true));
 ```
 
 * Procedure 3: Extend your classes of "Controller" and "Model" as below.
@@ -53,4 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I transformed "Lib" to "Plugin".
+* I created "WasaPhpUnit" plugin.
+* I improved option procedure of "CakePHP" in "BreakpointDebugging_PHPUnit.php" file for above change.

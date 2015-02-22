@@ -43,7 +43,6 @@
  */
 \App::uses('AppModel', 'Model');
 \App::uses('WasaBootstrap3AppController', 'WasaBootstrap3.Controller');
-//\App::uses('WasaCache', 'Wasa.Lib');
 \App::uses('WasaCache', 'Wasa.Cache');
 /**
  * Wasa's Application Model.

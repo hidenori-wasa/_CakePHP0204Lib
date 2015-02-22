@@ -43,7 +43,6 @@
  */
 use \WasaCache as WC; // This is this file scope and priority is high.
 
-//\App::uses('WasaCache', 'Wasa.Lib');
 \App::uses('WasaCache', 'Wasa.Cache');
 /**
  * The form helper for bootstrap3.
