@@ -146,6 +146,12 @@ final class WasaBootstrap3FormHelper
      */
     static function generateEmailRegularExpression()
     {
+        // Reads array from cache.
+        $result = WC::readArray('WasaEmailRegEx');
+        if ($result !== null) {
+            return array_pop($result);
+        }
+
         $atext = '[[:alnum:]!#$%&\'*+\-/=?^_\`{|}~]';
         $dotAtomText = "$atext+ (\\. $atext+)*";
         $CRLF = '\r\n';
@@ -177,10 +183,15 @@ final class WasaBootstrap3FormHelper
         $obsDomain = "($atom (\\. $atom)*)";
         $domain = "($dotAtom | $domainLiteral | $obsDomain)";
         $addrSpec = "$localPart @ $domain";
+        $result = '`^ ' . $addrSpec . ' $`xX';
 
-        // $result = preg_replace('`' . $addrSpec . '`xX', 'D', "example@nifty.com"); // For debug.
-
-        return '`^ ' . $addrSpec . ' $`xX';
+        // $result = preg_replace('`' . $addrSpec . '`xX', 'D', ".a@a"); // For debug.
+        //
+        // Adds the array to the array buffer.
+        WC::addArray('WasaEmailRegEx', array ($result));
+        // Writes the array to cache only once.
+        WC::writeArray('WasaEmailRegEx');
+        return $result;
     }
 
     /**

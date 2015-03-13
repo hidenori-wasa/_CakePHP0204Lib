@@ -102,7 +102,7 @@ final class WasaFormHelper extends \FormHelper
     function checkSchema($fieldName, $expectedFieldType, $expectedByteSize = null, $doesNullAllow = null, $expectedDefaultValue = null, $expectedKeyType = null, $expectedExtra = null)
     {
         $modelName = $this->defaultModel;
-        if (WASA_DEBUG_LEVEL === 0 // If production.
+        if (!BREAKPOINTDEBUGGING_IS_DEBUG // If release.
             || $modelName === null // If this form does not use model.
         ) {
             return;

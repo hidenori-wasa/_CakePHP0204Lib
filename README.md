@@ -11,7 +11,7 @@ Requirements
 
 * [CakePHP(2.4-)](http://cakephp.jp/)
 * [Bootstrap(3.2-)](http://getbootstrap.com/)
-* ["BreakpointDebugging" PEAR package](option)
+* ["BreakpointDebugging" PEAR package]
 * ["BreakpointDebugging_PHPUnit" PEAR package](option)
 
 Requirements of browser.
@@ -56,5 +56,9 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I created "WasaPhpUnit" plugin.
-* I improved option procedure of "CakePHP" in "BreakpointDebugging_PHPUnit.php" file for above change.
+* I repaired "\WasaCache" class.
+* I improved to quick "\WasaBootstrap3FormHelper::generateEmailRegularExpression()" class method.
+* I repaired "WasaPhpUnit" plugin.
+* I created "\BreakpointDebugging_InAllCase::isDebug()" class method.
+* I created "\BreakpointDebugging_PHPUnit::setTestDir()" class method.
+* I repaired "\BreakpointDebugging_PHPUnit::_getVerificationTestFilePaths()" class method.

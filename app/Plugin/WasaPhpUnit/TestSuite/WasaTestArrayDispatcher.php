@@ -118,7 +118,7 @@ class WasaTestArrayDispatcher extends \CakeTestSuiteDispatcher
         $commandElements = array_merge($options, $commandElements);
         array_unshift($commandElements, '');
         array_unshift($commandElements, 'dummy');
-        restore_error_handler();
+        // restore_error_handler();
 
         try {
             self::time();

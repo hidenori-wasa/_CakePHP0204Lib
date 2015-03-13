@@ -44,20 +44,26 @@
 /**
  * Simple cache class which doesn't depend on environment.
  *
- * Example:
  * <pre>
+ * Sample code:
  *
  * <code>
- *      // Adds the array to the array buffer.
- *      WC::addArray('CacheKey', $array1);
- *      WC::addArray('CacheKey', $array2);
- *          .
- *          .
- *          .
- *      // Writes the array to cache only once.
- *      \WasaCache::writeArray('CacheKey');
  *      // Reads array from cache.
  *      $readArray = \WasaCache::readArray('CacheKey');
+ *      if ($readArray === null) {
+ *          // Some code.
+ *          $array1 = array('Something value 1.');
+ *          // Adds the array to the array buffer.
+ *          \WasaCache::addArray('CacheKey', $array1);
+ *          // Some code.
+ *          $array2 = array('Something value 2.');
+ *          // Adds the array to the array buffer.
+ *          \WasaCache::addArray('CacheKey', $array2);
+ *          // Writes the array to cache only once.
+ *          \WasaCache::writeArray('CacheKey');
+ *          // Reads array from cache.
+ *          $readArray = \WasaCache::readArray('CacheKey');
+ *      }
  * </code>
  *
  * </pre>
@@ -71,20 +77,27 @@
  */
 class WasaCache
 {
+    /**
+     * The cache configuration setting name.
+     * @const string
+     */
     const SETTING_NAME = 'wasa';
 
     /**
-     * @var array The array buffer.
+     * The array buffer.
+     * @var array
      */
     private static $__arrayBuffer = array ();
 
     /**
-     * @var bool Did setting?
+     * Did setting?
+     * @var bool
      */
     private static $__didSetting = false;
 
     /**
-     * @var bool Was cache cleared?
+     * Was cache cleared?
+     * @var bool
      */
     private static $__wasCacheCleared = false;
 
@@ -100,18 +113,18 @@ class WasaCache
         if (self::$__didSetting === false) {
             self::$__didSetting = true;
             // Checks the cache setting.
-            if (WASA_DEBUG_LEVEL && \Configure::read('Cache.disable') === true) {
+            if (BREAKPOINTDEBUGGING_IS_DEBUG && \Configure::read('Cache.disable') === true) {
                 throw new \CakeException('"Configure::write(\'Cache.disable\', false);" must be set into "app/Config/core.php".');
             }
             // Configures the cache.
             // "'duration' => PHP_INT_MAX" does not expire even though current time will be 2048.
             // "'probability' => 0" because garbage collection is not necessary at configuration.
             $result = \Cache::config(self::SETTING_NAME, array ('duration' => PHP_INT_MAX, 'engine' => 'File', 'lock' => false, 'prefix' => 'wasa_', 'probability' => 0,));
-            if (WASA_DEBUG_LEVEL && $result === false) {
+            if (BREAKPOINTDEBUGGING_IS_DEBUG && $result === false) {
                 throw new \CakeException('The cache configuration failed.');
             }
             // Checks initialization of the cache configuration.
-            if (WASA_DEBUG_LEVEL && !\Cache::isInitialized(self::SETTING_NAME)) {
+            if (BREAKPOINTDEBUGGING_IS_DEBUG && !\Cache::isInitialized(self::SETTING_NAME)) {
                 throw new \CakeException('The cache configuration has not been initialized.');
             }
         }
@@ -123,20 +136,45 @@ class WasaCache
      * @param string $key The cache key.
      *
      * @return array The read array.
-     * @throws \CakeException
      */
     static function readArray($key)
     {
         // Sets the configuration.
         self::_setConfiguration();
-        // Reads the cache without shared lock because writing has been ended.
+        // Reads the cache without shared lock for no disk access.
         // (Here may cause hard disk accesses. But, it will be read from OS system file cache almost.)
-        $cacheArray = \Cache::read($key, self::SETTING_NAME);
-        // If cache does not exist.
-        if (WASA_DEBUG_LEVEL && $cacheArray === false) {
-            throw new \CakeException('"\WasaCache::readArray()" must not be executed before "\WasaCache::writeArray()" execution.');
+        // Ignores error and exception because writing may be executed during reading.
+        set_error_handler('\BreakpointDebugging::handleError', 0);
+        for ($count = 0; $count < 20; $count++) {
+            try {
+                $cacheArray = @\Cache::read($key, self::SETTING_NAME);
+            } catch (\Exception $e) {
+                $exception = $e;
+                // Waits for hard disc writing.
+                sleep(1);
+                continue;
+            }
+            restore_error_handler();
+            // If cache does not exist or read error.
+            if ($cacheArray === false) {
+                return null;
+            }
+            // Pops up the expected array element number.
+            $expectedArrayElementNumber = array_pop($cacheArray);
+            // Checks reading because writing may be executed during reading.
+            if ($expectedArrayElementNumber !== array ('WasaCacheCheck' => count($cacheArray))) {
+                // Waits for hard disc writing.
+                sleep(1);
+                continue;
+            }
+            return $cacheArray;
         }
-        return $cacheArray;
+        // If exception has been occurred.
+        if (isset($exception)) {
+            throw new $exception;
+        }
+        // If the reading data is incorrect.
+        throw new \BreakpointDebugging_ErrorException('The reading data is incorrect.', 101);
     }
 
     /**
@@ -153,7 +191,7 @@ class WasaCache
         // Sets the configuration.
         self::_setConfiguration();
         // If debug.
-        if (WASA_DEBUG_LEVEL) {
+        if (BREAKPOINTDEBUGGING_IS_DEBUG) {
             // Checks the value type to write.
             if (!is_array($array)) {
                 throw new \CakeException('Second parameter must be set array value.');
@@ -166,9 +204,6 @@ class WasaCache
                     \Cache::gc(self::SETTING_NAME);
                 }
             }
-        }
-        // If debug.
-        if (WASA_DEBUG_LEVEL) {
             // If the cache exists.
             if (\Cache::read($key, self::SETTING_NAME) !== false) {
                 throw new \CakeException('"\WasaCache::addArray()" must not be executed after "\WasaCache::writeArray()".');
@@ -182,7 +217,7 @@ class WasaCache
         // Merges the array buffer and the array.
         $array = $arrayBuffer + $array;
         // If this is same value in case of debug.
-        if (WASA_DEBUG_LEVEL && $array === $arrayBuffer) {
+        if (BREAKPOINTDEBUGGING_IS_DEBUG && $array === $arrayBuffer) {
             throw new \CakeException('Same value must not be added.');
         }
         // Adds the array to the array buffer.
@@ -198,14 +233,10 @@ class WasaCache
      */
     static function writeArray($key)
     {
-        // Sets the configuration.
-        self::_setConfiguration();
-        // Reads the cache without shared lock because writing is skipped or same value is overwritten.
-        // (Here may cause hard disk accesses. But, it will be read from OS system file cache almost.)
-        $cacheArray = \Cache::read($key, self::SETTING_NAME);
+        $cacheArray = self::readArray($key);
         // If the cache exists.
-        if ($cacheArray !== false) {
-            if (WASA_DEBUG_LEVEL) { // If debug.
+        if ($cacheArray !== null) {
+            if (BREAKPOINTDEBUGGING_IS_DEBUG) { // If debug.
                 // The cache existing is mistake because the cache has been cleared.
                 throw new \CakeException('"\WasaCache::writeArray()" must be executed only once.');
             } else { // If release.
@@ -216,8 +247,11 @@ class WasaCache
         // Changes the cache setting to locking.
         \Cache::set(array ('lock' => true), self::SETTING_NAME);
         try {
+            // Pushes the expected array element number.
+            array_push(self::$__arrayBuffer[$key], array ('WasaCacheCheck' => count(self::$__arrayBuffer[$key])));
             // Writes the array buffer to cache only once. (Here causes hard disk accesses in locking, writing and unlocking.)
             $result = \Cache::write($key, self::$__arrayBuffer[$key], self::SETTING_NAME);
+            unset(self::$__arrayBuffer[$key]);
         } catch (\Exception $e) {
             // Changes the cache setting to unlocking.
             \Cache::set(array ('lock' => false), self::SETTING_NAME);
@@ -226,7 +260,7 @@ class WasaCache
         // Changes the cache setting to unlocking.
         \Cache::set(array ('lock' => false), self::SETTING_NAME);
         // Checks error.
-        if (WASA_DEBUG_LEVEL && $result === false) {
+        if (BREAKPOINTDEBUGGING_IS_DEBUG && $result === false) {
             throw new \CakeException('Cache writing failed.');
         }
     }
