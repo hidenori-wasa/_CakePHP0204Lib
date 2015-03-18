@@ -22,44 +22,28 @@
  * @since         CakePHP(tm) v 0.10.8.2117
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-if (!class_exists('WasaErrorException', false)) {
-    if (defined('BREAKPOINTDEBUGGING_IS_CAKE')) { // If "BreakpointDebugging" pear package exists.
-        class WasaErrorException extends \BreakpointDebugging_ErrorException
-        {
-            
-        }
+require_once './BreakpointDebugging_Inclusion.php';
 
-        if (!BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of development server mode.
-            // Checks the fact that error handler is not defined because it is defined inside "BreakpointDebugging" pear package.
-            if (\Configure::read('Error') !== null) {
-                throw new \WasaErrorException('You must define error handler by "\Configure::write(array (\'Error\' => null));" inside "app/Config/core.php".');
-            }
-            // Checks the fact that exception handler is not defined because it is defined inside "BreakpointDebugging" pear package.
-            if (\Configure::read('Exception') !== null) {
-                throw new \WasaErrorException('You must define exception handler by "\Configure::write(array (\'Exception\' => null));" inside "app/Config/core.php".');
-            }
-        }
-    } else { // If default.
-        class WasaErrorException extends \CakeException
-        {
-
-        }
-
-        $wasaResult = \Configure::read('debug');
-        // Checks the fact that debug level is defined.
-        if ($wasaResult === null) {
-            throw new \WasaErrorException('You must define debug level by "\Configure::write(\'debug\', ..." inside "app/Config/core.php".');
-        }
-        if ($wasaResult > 0) {
-            // Checks the fact that error handler is defined.
-            if (\Configure::read('Error') === null) {
-                throw new \WasaErrorException('You must define error handler by "\Configure::write(array (\'Error\' => ..." inside "app/Config/core.php".');
-            }
-            // Checks the fact that exception handler is defined.
-            if (\Configure::read('Exception') === null) {
-                throw new \WasaErrorException('You must define exception handler by "\Configure::write(array (\'Exception\' => ..." inside "app/Config/core.php".');
-            }
-        }
+if (BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of production server mode.
+    // Defines debug level automatically.
+    \Configure::write('debug', 0);
+} else { // In case of development server mode.
+    // Checks the debug level setting.
+    if (\Configure::read('debug') !== 0) {
+        throw new \BreakpointDebugging_ErrorException('Debug level must not be set, so "\Configure::write(\'debug\',..." must be commented out in "app/Config/core.php".');
     }
-    unset($wasaResult);
+    // Defines debug level automatically.
+    \Configure::write('debug', 2);
+    // Checks "CakeLog" class setting.
+    if (\CakeLog::configured() !== array ()) {
+        throw new \BreakpointDebugging_ErrorException('"CakeLog" class configuration must not exist, so "CakeLog::config()" must be commented out in "app/Config/bootstrap.php".');
+    }
+    // Checks the fact that error handler is not defined because it is defined inside "BreakpointDebugging" pear package.
+    if (\Configure::read('Error') !== array ('handler' => 'ErrorHandler::handleError', 'level' => -1, 'trace' => true)) {
+        throw new \BreakpointDebugging_ErrorException('Error handler must be defined by "\Configure::write(\'Error\', array (\'handler\' => \'ErrorHandler::handleError\', \'level\' => -1, \'trace\' => true));" in "app/Config/core.php".');
+    }
+    // Checks the fact that exception handler is not defined because it is defined inside "BreakpointDebugging" pear package.
+    if (\Configure::read('Exception') !== array ('handler' => '\BreakpointDebugging_InAllCase::handleException')) {
+        throw new \BreakpointDebugging_ErrorException('Exception handler must be defined by "\Configure::write(\'Exception\', array (\'handler\' => \'\BreakpointDebugging_InAllCase::handleException\'));" in "app/Config/core.php".');
+    }
 }

@@ -29,7 +29,7 @@ Installation
 Please, follow procedure.
 
 * Procedure 1: Copy "app/Plugin/Wasa/" and "app/Plugin/WasaBootstrap3/" directory.
-* Procedure 2: Add following into "app/Config/bootstrap.php" file.
+* Procedure 2: Add following in last of "app/Config/bootstrap.php" file.
 
 ```php
 \CakePlugin::load('WasaBootstrap3', array ('bootstrap' => true));
@@ -56,9 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I repaired "\WasaCache" class.
-* I improved to quick "\WasaBootstrap3FormHelper::generateEmailRegularExpression()" class method.
-* I repaired "WasaPhpUnit" plugin.
-* I created "\BreakpointDebugging_InAllCase::isDebug()" class method.
-* I created "\BreakpointDebugging_PHPUnit::setTestDir()" class method.
-* I repaired "\BreakpointDebugging_PHPUnit::_getVerificationTestFilePaths()" class method.
+* I repaired the code and setting of global error handler and global exception handler for "CakePHP" framework.

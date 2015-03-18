@@ -41,6 +41,8 @@
  * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
+use BreakpointDebugging as B;
+
 /**
  * Simple cache class which doesn't depend on environment.
  *
@@ -113,18 +115,18 @@ class WasaCache
         if (self::$__didSetting === false) {
             self::$__didSetting = true;
             // Checks the cache setting.
-            if (BREAKPOINTDEBUGGING_IS_DEBUG && \Configure::read('Cache.disable') === true) {
+            if (B::isDebug() && \Configure::read('Cache.disable') === true) {
                 throw new \CakeException('"Configure::write(\'Cache.disable\', false);" must be set into "app/Config/core.php".');
             }
             // Configures the cache.
             // "'duration' => PHP_INT_MAX" does not expire even though current time will be 2048.
             // "'probability' => 0" because garbage collection is not necessary at configuration.
             $result = \Cache::config(self::SETTING_NAME, array ('duration' => PHP_INT_MAX, 'engine' => 'File', 'lock' => false, 'prefix' => 'wasa_', 'probability' => 0,));
-            if (BREAKPOINTDEBUGGING_IS_DEBUG && $result === false) {
+            if (B::isDebug() && $result === false) {
                 throw new \CakeException('The cache configuration failed.');
             }
             // Checks initialization of the cache configuration.
-            if (BREAKPOINTDEBUGGING_IS_DEBUG && !\Cache::isInitialized(self::SETTING_NAME)) {
+            if (B::isDebug() && !\Cache::isInitialized(self::SETTING_NAME)) {
                 throw new \CakeException('The cache configuration has not been initialized.');
             }
         }
@@ -191,7 +193,7 @@ class WasaCache
         // Sets the configuration.
         self::_setConfiguration();
         // If debug.
-        if (BREAKPOINTDEBUGGING_IS_DEBUG) {
+        if (B::isDebug()) {
             // Checks the value type to write.
             if (!is_array($array)) {
                 throw new \CakeException('Second parameter must be set array value.');
@@ -217,7 +219,7 @@ class WasaCache
         // Merges the array buffer and the array.
         $array = $arrayBuffer + $array;
         // If this is same value in case of debug.
-        if (BREAKPOINTDEBUGGING_IS_DEBUG && $array === $arrayBuffer) {
+        if (B::isDebug() && $array === $arrayBuffer) {
             throw new \CakeException('Same value must not be added.');
         }
         // Adds the array to the array buffer.
@@ -236,7 +238,7 @@ class WasaCache
         $cacheArray = self::readArray($key);
         // If the cache exists.
         if ($cacheArray !== null) {
-            if (BREAKPOINTDEBUGGING_IS_DEBUG) { // If debug.
+            if (B::isDebug()) { // If debug.
                 // The cache existing is mistake because the cache has been cleared.
                 throw new \CakeException('"\WasaCache::writeArray()" must be executed only once.');
             } else { // If release.
@@ -260,7 +262,7 @@ class WasaCache
         // Changes the cache setting to unlocking.
         \Cache::set(array ('lock' => false), self::SETTING_NAME);
         // Checks error.
-        if (BREAKPOINTDEBUGGING_IS_DEBUG && $result === false) {
+        if (B::isDebug() && $result === false) {
             throw new \CakeException('Cache writing failed.');
         }
     }
