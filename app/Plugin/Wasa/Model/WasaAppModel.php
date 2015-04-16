@@ -75,7 +75,7 @@ class WasaAppModel extends \AppModel
     protected function _getModelValidation()
     {
         // Gets controller instance.
-        $self = \ClassRegistry::getObject(\WasaBootstrap3AppController::WASA_CONTROLLER_KEY);
+        $self = \ClassRegistry::getObject('WasaBootstrap3AppController');
         // If data was posted from form.
         if ($self->request->is('post')) {
             $defaultModel = $self->plugin;

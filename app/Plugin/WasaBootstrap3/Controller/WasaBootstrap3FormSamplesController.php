@@ -5,18 +5,14 @@ class WasaBootstrap3FormSamplesController extends \WasaBootstrap3AppController
 {
     public $uses = array ('WasaBootstrap3.WasaBootstrap3FormSample');
 
-    function sample()
+    function sampleForm()
     {
-        if ($this->request->is('post')) {
-            $this->WasaBootstrap3FormSample->create(false);
-            if ($this->WasaBootstrap3FormSample->save($this->request->data[$this->WasaBootstrap3FormSample->alias])) {
-                \CakeSession::write('savedFormMessage', '保存しました');
-                return;
-            }
-        }
-        if (\CakeSession::read('savedFormMessage') !== null) {
-            \CakeSession::delete('savedFormMessage');
-        }
+        $this->postFromForm($this->WasaBootstrap3FormSample, array ('savedFormMessage' => 'It saved.'));
+    }
+
+    function displaySecurityError()
+    {
+        $this->redirect(array ('controller' => 'WasaBootstrap3App', 'action' => __FUNCTION__));
     }
 
 }

@@ -56,4 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I repaired the code and setting of global error handler and global exception handler for "CakePHP" framework.
+* I added cross site request forgeries check featuer.
