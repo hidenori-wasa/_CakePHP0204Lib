@@ -56,4 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I added cross site request forgeries check featuer.
+* I changed my license from "BSD 2-Clause" into "MIT" because "CakePHP" framework is "MIT", also these licenses have same constraint.
+* I made based on "PEAR" coding standard.

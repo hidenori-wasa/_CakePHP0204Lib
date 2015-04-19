@@ -3,42 +3,16 @@
 /**
  * Statical bootstrap3 form helper class.
  *
- * CakePHP = 2.4.x
- * Bootstrap = 3.2.0
- *
- * LICENSE OVERVIEW:
- * 1. Do not change license text.
- * 2. Copyrighters do not take responsibility for this file code.
- *
  * LICENSE:
- * Copyright (c) 2014, Hidenori Wasa
+ * Copyright (c) 2014-, Hidenori Wasa
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer
- * in the documentation and/or other materials provided with the distribution.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY
- * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
- * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * License content is written in "app/Plugin/Wasa/WASA_LICENSE.txt".
  *
  * @category DUMMY
- * @package  DUMMY
+ * @package  WasaBootstrap3.View/Helper
  * @author   Hidenori Wasa <public@hidenori-wasa.com>
- * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
+ * @license  http://opensource.org/licenses/mit-license.php  MIT License
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 use \WasaCache as WC; // This is this file scope and priority is high.
@@ -46,18 +20,23 @@ use \WasaCache as WC; // This is this file scope and priority is high.
 \App::uses('WasaCache', 'Wasa.Cache');
 /**
  * The form helper for bootstrap3.
+ * 
+ * CakePHP = 2.4.x
+ * Bootstrap = 3.2.0
  *
  * @category DUMMY
- * @package  DUMMY
+ * @package  WasaBootstrap3.View/Helper
  * @author   Hidenori Wasa <public@hidenori-wasa.com>
- * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
+ * @license  http://opensource.org/licenses/mit-license.php  MIT License
  * @version  Draft: 1.0.0
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
 final class WasaBootstrap3FormHelper
 {
     /**
-     * @const string Inline block style. Width is required because "iOS" or "Android" terminal may need it.
+     * Inline block style. Width is required because "iOS" or "Android" terminal may need it.
+     *
+     * @const string
      */
     const INLINE_BLOCK_STYLE = 'position: static !important; display: inline-block !important; width: auto;';
     const EMAIL_ADDR_MAX_LEN = 254;
@@ -200,7 +179,7 @@ final class WasaBootstrap3FormHelper
      * @param array $params Parameter's association array.
      *
      * @return array "Bootstrap's 'has-error' class" of each field name key.
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayErrorWithAlert
+     * @link   http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayErrorWithAlert
      */
     static function displayErrorWithAlert($params)
     {
@@ -227,7 +206,7 @@ final class WasaBootstrap3FormHelper
      * @param array $params パラメータの連想配列
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayTelForJP
+     * @link   http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayTelForJP
      */
     static function displayTelForJP($params)
     {
@@ -313,7 +292,7 @@ final class WasaBootstrap3FormHelper
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayCheckboxes
+     * @link   http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayCheckboxes
      */
     static function displayCheckboxes($params)
     {
@@ -370,7 +349,7 @@ final class WasaBootstrap3FormHelper
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayRadioButtons
+     * @link   http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayRadioButtons
      */
     static function displayRadioButtons($params)
     {
@@ -441,7 +420,7 @@ final class WasaBootstrap3FormHelper
      * @param array $params パラメータの連想配列
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayDateForJP
+     * @link   http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayDateForJP
      */
     static function displayDateForJP($params)
     {
@@ -521,7 +500,7 @@ final class WasaBootstrap3FormHelper
      * @param array $params Parameter's association array.
      *
      * @return void
-     * @link http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayEmail
+     * @link   http://localhost/_WasaManual/CakePHP0204.html#WasaBootstrap3FormHelper-displayEmail
      */
     static function displayEmail($params)
     {

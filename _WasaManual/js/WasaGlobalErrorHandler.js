@@ -1,8 +1,8 @@
 /**
  * LICENSE:
- * Copyright (c) 2014, Hidenori Wasa
+ * Copyright (c) 2014-, Hidenori Wasa
  * All rights reserved.
- * @license  http://www.opensource.org/licenses/bsd-license.php  BSD 2-Clause
+ * @license  http://opensource.org/licenses/mit-license.php  MIT License
  */
 
 /**

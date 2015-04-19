@@ -11,7 +11,7 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @category  DUMMY
- * @package   Cake.TestSuite
+ * @package   WasaPhpUnit.TestSuite
  * @author    CakePHP(tm) <dummy@dummy.com>
  * @copyright 2005-2015 Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
@@ -23,7 +23,7 @@
  * Class to customize loading of test suites from CLI
  *
  * @category  DUMMY
- * @package   Cake.TestSuite
+ * @package   WasaPhpUnit.TestSuite
  * @author    CakePHP(tm) <dummy@dummy.com>
  * @copyright 2005-2015 Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License

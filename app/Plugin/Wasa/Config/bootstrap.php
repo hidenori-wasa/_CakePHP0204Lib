@@ -16,11 +16,13 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Config
- * @since         CakePHP(tm) v 0.10.8.2117
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @category  DUMMY
+ * @package   Wasa.Config
+ * @author    CakePHP(tm) <dummy@dummy.com>
+ * @copyright 2005-2015 Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @link      http://cakephp.org CakePHP(tm) Project
+ * @since     CakePHP(tm) v 0.10.8.2117
  */
 require_once './BreakpointDebugging_Inclusion.php';
 
