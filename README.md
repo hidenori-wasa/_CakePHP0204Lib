@@ -56,5 +56,6 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I changed my license from "BSD 2-Clause" into "MIT" because "CakePHP" framework is "MIT", also these licenses have same constraint.
-* I made based on "PEAR" coding standard.
+* I improved "http://localhost/<project name>/BreakpointDebugging_ProductionSwitcher.php" page.
+* I implemented "\BreakpointDebugging_PHPUnit::callForTest()" class method for unit-test in private class method or protected class method.
+* I did parts unit test of "\BreakpointDebugging_ProductionSwitcher" class.
