@@ -56,6 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I improved "http://localhost/<project name>/BreakpointDebugging_ProductionSwitcher.php" page.
-* I implemented "\BreakpointDebugging_PHPUnit::callForTest()" class method for unit-test in private class method or protected class method.
-* I did parts unit test of "\BreakpointDebugging_ProductionSwitcher" class.
+* I repaired regular expression of "BreakpointDebugging_ProductionSwitcher" class.
+* I displayed procedure which should process after "Switch to production" button was pushed in "ProductionSwitcher".
