@@ -56,5 +56,9 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I repaired regular expression of "BreakpointDebugging_ProductionSwitcher" class.
-* I displayed procedure which should process after "Switch to production" button was pushed in "ProductionSwitcher".
+* I created "BreakpointDebugging_Optimizer" class.
+* I created "BreakpointDebugging_IniSetOptimizer" class which extends "BreakpointDebugging_Optimizer" class.
+* I repaired "BreakpointDebugging_ProductionSwitcher" class to gather up feature into "BreakpointDebugging_Optimizer" class.
+* I repaired "BreakpointDebugging_MySetting.php" and "BreakpointDebugging_MySetting_InDebug.php" file for "IniSetOptimizer".
+* I repaired "BreakpointDebugging.php" and "BreakpointDebugging_InDebug.php" file for "IniSetOptimizer".
+* I repaired "app/Plugin/Wasa/Config/bootstrap.php" file to debug in case of production mode.
