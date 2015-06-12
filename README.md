@@ -56,9 +56,11 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I created "BreakpointDebugging_Optimizer" class.
-* I created "BreakpointDebugging_IniSetOptimizer" class which extends "BreakpointDebugging_Optimizer" class.
-* I repaired "BreakpointDebugging_ProductionSwitcher" class to gather up feature into "BreakpointDebugging_Optimizer" class.
-* I repaired "BreakpointDebugging_MySetting.php" and "BreakpointDebugging_MySetting_InDebug.php" file for "IniSetOptimizer".
-* I repaired "BreakpointDebugging.php" and "BreakpointDebugging_InDebug.php" file for "IniSetOptimizer".
-* I repaired "app/Plugin/Wasa/Config/bootstrap.php" file to debug in case of production mode.
+* I repaired class level document of "BreakpointDebugging_InDebug.php" file.
+* I added handling feature of "php.ini" file change to "\BreakpointDebugging_IniSetOptimizer" class.
+* I fixed "\BreakpointDebugging_Window" class's bug which does not unlink the shared file when server is down in case of shared memory.
+* I created "\BreakpointDebugging_Window::throwErrorException()" class method for error exception display.
+* I changed "\BreakpointDebugging_Optimizer" class's "<BREAKPOINTDEBUGGING_COMMENT>" tag error from "exit()" to error display and error exception throw for unit test.
+* I fixed bug which does not display "\BreakpointDebugging::iniSet()" and "\BreakpointDebugging::iniCheck()" error message.
+* I changed error window's test filename to orange color for plainness.
+* I repaired error window's "To unit test error information" HTML link.

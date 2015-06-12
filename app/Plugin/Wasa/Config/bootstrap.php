@@ -30,10 +30,15 @@ use \BreakpointDebugging as B;
 
 if (BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of production server mode.
     // Defines debug level automatically.
-    if (B::getStatic('$exeMode') & (B::REMOTE | B::RELEASE)) {
-        \Configure::write('debug', 0);
-    } else {
+    //if (B::getStatic('$exeMode') & (B::REMOTE | B::RELEASE)) {
+    //    \Configure::write('debug', 0);
+    //} else {
+    //    \Configure::write('debug', 2);
+    //}
+    if (B::getStatic('$exeMode') & B::UNIT_TEST) {
         \Configure::write('debug', 2);
+    } else {
+        \Configure::write('debug', 0);
     }
 } else { // In case of development server mode.
     // Checks the debug level setting.
