@@ -56,6 +56,7 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I repaired "BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport.php" file for "CakePHP". Also, I added option procedure about it to "BreakpointDebugging_InDebug.php" file.
-* I created the code coverage report of "BreakpointDebugging_Optimizer" ,"BreakpointDebugging_IniSetOptimizer" and "BreakpointDebugging_ProductionSwitcher" classes in "_UnitTestExecution.php" file.
-* I created "PEAR/BreakpointDebugging/BREAKPOINTDEBUGGING_MANUAL.html" instead of "BreakpointDebugging_InDebug.php" file's class level document.
+* I added "@codeCoverageIgnore" feature to "BreakpointDebugging_PHPUnit::displayCodeCoverageReportSimple()" for transplantation.
+* I changed "@codeCoverageSimpleIgnoreStart" to "@codeCoverageIgnoreStart" for transplantation.
+* I changed "@codeCoverageSimpleIgnoreEnd" to "@codeCoverageIgnoreEnd" for transplantation.
+* I added feature which displays plural code coverage report by plural test to "BreakpointDebugging_PHPUnit::displayCodeCoverageReportSimple()".
