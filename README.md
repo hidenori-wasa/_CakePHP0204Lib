@@ -56,7 +56,8 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I added "@codeCoverageIgnore" feature to "BreakpointDebugging_PHPUnit::displayCodeCoverageReportSimple()" for transplantation.
-* I changed "@codeCoverageSimpleIgnoreStart" to "@codeCoverageIgnoreStart" for transplantation.
-* I changed "@codeCoverageSimpleIgnoreEnd" to "@codeCoverageIgnoreEnd" for transplantation.
-* I added feature which displays plural code coverage report by plural test to "BreakpointDebugging_PHPUnit::displayCodeCoverageReportSimple()".
+* I repaired "ProductionSwitcher" not to comment out multiple syntax line.
+* I repaired "ProductionSwitcher" not to change "Heredoc", "Nowdoc", "/* */" and "/** */" line.
+* I changed "\BreakpointDebugging_InAllCase::$_workDir" to "BREAKPOINTDEBUGGING_WORK_DIR_NAME" of "BreakpointDebugging_Inclusion.php" because of interpretability and reliability.
+* I gathered user setting to upper part of "BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php'".
+* I improved for unit test window which is displayed to front at next test file.
