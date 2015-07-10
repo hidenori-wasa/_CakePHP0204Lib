@@ -56,8 +56,10 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I repaired "ProductionSwitcher" not to comment out multiple syntax line.
-* I repaired "ProductionSwitcher" not to change "Heredoc", "Nowdoc", "/* */" and "/** */" line.
-* I changed "\BreakpointDebugging_InAllCase::$_workDir" to "BREAKPOINTDEBUGGING_WORK_DIR_NAME" of "BreakpointDebugging_Inclusion.php" because of interpretability and reliability.
-* I gathered user setting to upper part of "BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php'".
-* I improved for unit test window which is displayed to front at next test file.
+* I displayed relative path instead of absolute path concisely in "ProductionSwitcher".
+* I changed writing timing of production mode change to the last for error ending.
+* I repaired "\BreakpointDebugging_Optimizer", "\BreakpointDebugging_ProductionSwitcher" and "\BreakpointDebugging_IniSetOptimizer" class's exception throw with "\BreakpointDebugging_Window::throwErrorException()".
+* I repaired by "token_get_all()" because complex sentence judgment of "ProductionSwitcher" was improper.
+* I improved "judgment, reading and writing" of "\BreakpointDebugging_InAllCase::$exeMode".
+* I improved release's "\BreakpointDebugging::assert()" and "\BreakpointDebugging::limitAccess()" same as debug mode because those are disabled in production mode.
+* I acquired an exclusive lock of file which "ProductionSwitcher" and "IniSetOptimizer" writes, then I avoided a deadlock by "\BreakpointDebugging_LockByFileExisting::lock()" deletion.

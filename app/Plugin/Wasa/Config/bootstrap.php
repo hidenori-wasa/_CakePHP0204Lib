@@ -28,14 +28,12 @@ require_once './BreakpointDebugging_Inclusion.php';
 
 use \BreakpointDebugging as B;
 
-if (BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of production server mode.
+if (BREAKPOINTDEBUGGING_IS_PRODUCTION // Production mode.
+    && B::getExeMode() === (B::RELEASE | B::REMOTE) // Execution mode as production mode.
+) {
     // Defines debug level automatically.
-    if (B::getStatic('$exeMode') & B::UNIT_TEST) {
-        \Configure::write('debug', 2);
-    } else {
-        \Configure::write('debug', 0);
-    }
-} else { // In case of development server mode.
+    \Configure::write('debug', 0);
+} else { // Development mode. Or, production mode of unit test emulation.
     // Checks the debug level setting.
     if (\Configure::read('debug') !== 0) {
         throw new \BreakpointDebugging_ErrorException('Debug level must not be set, so "\Configure::write(\'debug\',..." must be commented out in "app/Config/core.php".');
