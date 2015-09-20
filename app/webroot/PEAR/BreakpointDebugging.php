@@ -625,6 +625,29 @@ abstract class BreakpointDebugging_InAllCase
     }
 
     /**
+     * Is this page top?
+     *
+     * <pre>
+     * Example:
+     *
+     * <code>
+     * if (\BreakpointDebugging::isTopPage()) { // Skips the following if unit test execution.
+     * </code>
+     *
+     * </pre>
+     *
+     * @return bool Is this page top?
+     */
+    static function isTopPage()
+    {
+        $callStack = debug_backtrace();
+        if (array_key_exists(1, $callStack)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Generates URL-encoded query character string by adding specification to native.
      *
      * @param array $additionalElements Array of specification query-character-strings.

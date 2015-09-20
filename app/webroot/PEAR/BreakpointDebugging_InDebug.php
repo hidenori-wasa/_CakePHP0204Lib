@@ -310,9 +310,6 @@ final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
                         break 2;
                     }
                 }
-                //BW::virtualOpen(parent::ERROR_WINDOW_NAME, parent::getErrorHtmlFileTemplate());
-                //BW::htmlAddition(B::ERROR_WINDOW_NAME, 'pre', 0, 'Path environment variable has not been set for "php.exe" command.' . PHP_EOL . `path`);
-                //exit;
                 echo '<pre>Path environment variable has not been set for "php.exe" command.' . PHP_EOL;
                 foreach ($paths as $path) {
                     echo "\t" . $path . PHP_EOL;

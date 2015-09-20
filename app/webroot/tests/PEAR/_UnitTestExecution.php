@@ -3,18 +3,7 @@
 // Changes current directory to web root.
 chdir('../../');
 
-//xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
-//
 require_once './BreakpointDebugging_Inclusion.php';
-
-//require_once './BreakpointDebugging_ProductionSwitcher.php';
-//try {
-//    \BreakpointDebugging::setXebugExists(false);
-//    require_once './BreakpointDebugging_IniSetOptimizer.php';
-//} catch (\BreakpointDebugging_ErrorException $e) {
-//
-//}
-//\BreakpointDebugging::setXebugExists(true);
 
 use \BreakpointDebugging as B;
 

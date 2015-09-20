@@ -44,7 +44,6 @@ final class BreakpointDebugging_Error extends \BreakpointDebugging_ErrorInAllCas
         B::limitAccess('BreakpointDebugging.php');
         \BreakpointDebugging::assert(func_num_args() === 0);
 
-        //$this->_exeMode = B::refExeMode();
         if (\BreakpointDebugging::isDebug()) { // In case of debug mode.
             $this->maxLogFileByteSize = B::getStatic('$_maxLogFileByteSize');
             $this->isLogging = false;

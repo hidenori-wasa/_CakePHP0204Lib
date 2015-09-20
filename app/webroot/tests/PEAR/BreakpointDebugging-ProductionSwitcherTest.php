@@ -119,12 +119,10 @@ class BreakpointDebugging_ProductionSwitcherTest extends \BreakpointDebugging_PH
             $results[] = BU::callForTest(array (
                     'objectOrClassName' => 'BreakpointDebugging_Optimizer',
                     'methodName' => 'commentOut',
-                    //'params' => array ($lineForTest, BU::getPropertyForTest('BreakpointDebugging_ProductionSwitcher', '$_commentOutAssertionRegEx'))
                     'params' => array ($lineForTest, BU::getPropertyForTest('BreakpointDebugging_ProductionSwitcher', '$_commentOutRegEx'))
             ));
         }
 
-        //parent::assertTrue($expectedLines === $results);
         parent::assertTrue(count($expectedLines) === count($results));
         for ($count = 0; $count < count($expectedLines); $count++) {
             parent::assertTrue($expectedLines[$count] === $results[$count]);
@@ -227,7 +225,6 @@ class BreakpointDebugging_ProductionSwitcherTest extends \BreakpointDebugging_PH
             ));
         }
 
-        //parent::assertTrue($expectedLines === $results);
         parent::assertTrue(count($expectedLines) === count($results));
         for ($count = 0; $count < count($expectedLines); $count++) {
             parent::assertTrue($expectedLines[$count] === $results[$count]);
@@ -253,10 +250,6 @@ class BreakpointDebugging_ProductionSwitcherTest extends \BreakpointDebugging_PH
             'if(\BreakpointDebugging::isDebug()){ echo("abc");' . PHP_EOL,
             'if(\BreakpointDebugging::isDebug()){ //' . PHP_EOL,
             'if(\BreakpointDebugging::isDebug()){ // Something comment.' . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ /' . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ / Something comment.' . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ /*' . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ /* Something comment.' . PHP_EOL,
             'if(\BreakpointDebugging::isDebug()){ /* */' . PHP_EOL,
             'if(\BreakpointDebugging::isDebug()){ /** */' . PHP_EOL,
             'if(\BreakpointDebugging::isDebug()){ /*' . PHP_EOL,
@@ -291,14 +284,9 @@ class BreakpointDebugging_ProductionSwitcherTest extends \BreakpointDebugging_PH
             "\x20\t/* <BREAKPOINTDEBUGGING_COMMENT> */ if( false ){ // <BREAKPOINTDEBUGGING_COMMENT> if(\\BreakpointDebugging::isDebug()){" . PHP_EOL,
             "\t\x20/* <BREAKPOINTDEBUGGING_COMMENT> */ if( false ){ // <BREAKPOINTDEBUGGING_COMMENT> if(\\BreakpointDebugging::isDebug()){" . PHP_EOL,
             "\t\x20/* <BREAKPOINTDEBUGGING_COMMENT> */ if\t\x20(\t\x20!\t\x20 false \t\x20)\t\x20{\t\x20 // <BREAKPOINTDEBUGGING_COMMENT> if\t\x20(\t\x20!\t\x20\\\t\x20BreakpointDebugging\t\x20::\t\x20isDebug\t\x20(\t\x20)\t\x20)\t\x20{\t\x20" . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ echo("abc");' . PHP_EOL,
             '/* <BREAKPOINTDEBUGGING_COMMENT> */ if( false ){ echo("abc"); // <BREAKPOINTDEBUGGING_COMMENT> if(\BreakpointDebugging::isDebug()){ echo("abc");' . PHP_EOL,
             '/* <BREAKPOINTDEBUGGING_COMMENT> */ if( false ){ // // <BREAKPOINTDEBUGGING_COMMENT> if(\BreakpointDebugging::isDebug()){ //' . PHP_EOL,
             '/* <BREAKPOINTDEBUGGING_COMMENT> */ if( false ){ // Something comment. // <BREAKPOINTDEBUGGING_COMMENT> if(\BreakpointDebugging::isDebug()){ // Something comment.' . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ /' . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ / Something comment.' . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ /*' . PHP_EOL,
-            //'if(\BreakpointDebugging::isDebug()){ /* Something comment.' . PHP_EOL,
             'if(\BreakpointDebugging::isDebug()){ /* */' . PHP_EOL,
             'if(\BreakpointDebugging::isDebug()){ /** */' . PHP_EOL,
             'if(\BreakpointDebugging::isDebug()){ /*' . PHP_EOL,
@@ -366,10 +354,6 @@ class BreakpointDebugging_ProductionSwitcherTest extends \BreakpointDebugging_PH
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ echo("abc");' . PHP_EOL,
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ //' . PHP_EOL,
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ // Something comment.' . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /' . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ / Something comment.' . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /*' . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /* Something comment.' . PHP_EOL,
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /* */' . PHP_EOL,
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /** */' . PHP_EOL,
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /*' . PHP_EOL,
@@ -402,14 +386,9 @@ class BreakpointDebugging_ProductionSwitcherTest extends \BreakpointDebugging_PH
             "\x20\t/* <BREAKPOINTDEBUGGING_COMMENT> */ if( true ){ // <BREAKPOINTDEBUGGING_COMMENT> if(BREAKPOINTDEBUGGING_IS_PRODUCTION){" . PHP_EOL,
             "\t\x20/* <BREAKPOINTDEBUGGING_COMMENT> */ if( true ){ // <BREAKPOINTDEBUGGING_COMMENT> if(BREAKPOINTDEBUGGING_IS_PRODUCTION){" . PHP_EOL,
             "\t\x20/* <BREAKPOINTDEBUGGING_COMMENT> */ if\t\x20(\t\x20!\t\x20 true \t\x20)\t\x20{\t\x20 // <BREAKPOINTDEBUGGING_COMMENT> if\t\x20(\t\x20!\t\x20BREAKPOINTDEBUGGING_IS_PRODUCTION\t\x20)\t\x20{\t\x20" . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ echo("abc");' . PHP_EOL,
             '/* <BREAKPOINTDEBUGGING_COMMENT> */ if( true ){ echo("abc"); // <BREAKPOINTDEBUGGING_COMMENT> if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ echo("abc");' . PHP_EOL,
             '/* <BREAKPOINTDEBUGGING_COMMENT> */ if( true ){ // // <BREAKPOINTDEBUGGING_COMMENT> if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ //' . PHP_EOL,
             '/* <BREAKPOINTDEBUGGING_COMMENT> */ if( true ){ // Something comment. // <BREAKPOINTDEBUGGING_COMMENT> if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ // Something comment.' . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /' . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ / Something comment.' . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /*' . PHP_EOL,
-            //'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /* Something comment.' . PHP_EOL,
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /* */' . PHP_EOL,
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /** */' . PHP_EOL,
             'if(BREAKPOINTDEBUGGING_IS_PRODUCTION){ /*' . PHP_EOL,

@@ -1688,11 +1688,6 @@ EOD;
     function displayCodeCoverageReportSimple($testFilePaths, $classFileRelativePaths, $howToTest = 'SIMPLE')
     {
         xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
-//        $codeCoverages = xdebug_get_code_coverage();
-//        if (empty($codeCoverages)) {
-//            //throw new \BreakpointDebugging_ErrorException('You must execute "xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);" when begins start page.');
-//            BW::throwErrorException('You must execute "xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);" when begins start page.');
-//        }
 
         B::assert(func_num_args() <= 3);
         B::assert(is_string($testFilePaths) || is_array($testFilePaths));

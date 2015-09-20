@@ -37,9 +37,6 @@ if (!defined('BREAKPOINTDEBUGGING_MODE')) {
 // ### Please, define variable if you emulate remote mode on local server. ###
 // $_BreakpointDebugging_emulate_remote = true; // For all user.
 //
-// ### Please, define variable if you want unit test on production mode. ###
-// $_BreakpointDebugging_production_unit_test = true; // For this package's production tool debug execution.
-//
 ///////////////////////////////////// <=== Execution setting. /////////////////////////////////////
 
 /**
@@ -114,7 +111,7 @@ if (is_file('./WasaCakeTestStart.php')) {
  */
 function BreakpointDebugging_setExecutionMode()
 {
-    global $_BreakpointDebugging_EXE_MODE, $_BreakpointDebugging_get, $_BreakpointDebugging_argSeparatorOutput, $_BreakpointDebugging_emulate_remote, $_BreakpointDebugging_production_unit_test;
+    global $_BreakpointDebugging_EXE_MODE, $_BreakpointDebugging_get, $_BreakpointDebugging_argSeparatorOutput, $_BreakpointDebugging_emulate_remote;
 
     $_BreakpointDebugging_argSeparatorOutput = '&amp;';
 
@@ -134,12 +131,6 @@ function BreakpointDebugging_setExecutionMode()
 
     if (BREAKPOINTDEBUGGING_IS_PRODUCTION === true) { // In case of production server release.
         $_BreakpointDebugging_EXE_MODE = 3; // For HTTP request query string attack counter-plan.
-        if (isset($_BreakpointDebugging_production_unit_test)) {
-            echo '<p style="color:red">You must comment out "$_BreakpointDebugging_production_unit_test = true;" if you release on production server.</p>';
-            // Does unit test on production mode.
-            $_BreakpointDebugging_EXE_MODE |= 4;
-            unset($_BreakpointDebugging_production_unit_test);
-        }
     } else { // In case of development.
         // Checks PHP version.
         if (version_compare(PHP_VERSION, '5.3.2', '<') || version_compare(PHP_VERSION, '5.5', '>=')) {

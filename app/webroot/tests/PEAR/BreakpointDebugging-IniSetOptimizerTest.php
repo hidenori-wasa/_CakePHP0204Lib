@@ -1,13 +1,6 @@
 <?php
 
-//try {
-//    \BreakpointDebugging::setXebugExists(false);
 require_once './BreakpointDebugging_IniSetOptimizer.php';
-
-//} catch (\BreakpointDebugging_ErrorException $e) {
-//
-//}
-//\BreakpointDebugging::setXebugExists(true);
 
 use \BreakpointDebugging_PHPUnit as BU;
 

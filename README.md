@@ -56,10 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* "\BreakpointDebugging" package manual's running procedure was simplified. And, "How to construct environment which can do step execution." section was improved.
-* I improved "ProductionSwitcher" for unit test of "toke_get_all()".
-* I repaired "ProductionSwitcher" and "IniSetOptimizer" not to execute start-pages in case of unit-test.
-* I added "How to use logger." to "\BreakpointDebugging" package manual.
-* "\BreakpointDebugging_ProductionSwitcher::$_changeModeConstToLiteralRegEx2" was simplified.
-* I checked execution mode's "$_BreakpointDebugging_emulate_remote" and "$_BreakpointDebugging_production_unit_test" when codes is changed to production mode by "ProductionSwitcher".
-* I added feature to comment out "\BreakpointDebugging::limitAccess()" in "ProductionSwitcher".
+* I added "\BreakpointDebugging::isTopPage()" class method for top page unit test. Then, I deleted "$_BreakpointDebugging_production_unit_test" variable.

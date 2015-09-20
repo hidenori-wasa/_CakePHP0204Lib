@@ -16,7 +16,6 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/BreakpointDebugging
  */
-//require_once './BreakpointDebugging_Inclusion.php';
 require_once './BreakpointDebugging_Optimizer.php';
 
 use \BreakpointDebugging as B;
@@ -207,9 +206,6 @@ EOD;
 
 }
 
-if (!(B::getExeMode() & B::UNIT_TEST)) {
+if (B::isTopPage()) { // Skips the following if unit test execution.
     \BreakpointDebugging_IniSetOptimizer::optimize();
-} else {
-    BW::virtualOpen(B::ERROR_WINDOW_NAME, B::getErrorHtmlFileTemplate());
-    BW::htmlAddition(B::ERROR_WINDOW_NAME, 'pre', 0, '<p style="color: orange">Execution mode must not be unit test if you want to execute "IniSetOptimizer".</p>');
 }

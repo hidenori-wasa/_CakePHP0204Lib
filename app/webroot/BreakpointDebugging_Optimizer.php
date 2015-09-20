@@ -172,9 +172,6 @@ EOD;
             $line, //
             1 //
         );
-        //if ($result === null) { // If error.
-        //    BW::throwErrorException('"preg_replace()" failed.');
-        //}
         B::assert($result !== null);
 
         return $result;
