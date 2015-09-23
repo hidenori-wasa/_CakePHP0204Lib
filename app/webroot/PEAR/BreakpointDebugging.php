@@ -361,7 +361,8 @@ abstract class BreakpointDebugging_InAllCase
         \BreakpointDebugging::assert(is_string($message));
         \BreakpointDebugging::assert(is_array($callStackInfo));
 
-        if ((BREAKPOINTDEBUGGING_IS_PRODUCTION && self::$exeMode === (B::REMOTE | B::RELEASE)) // Execution mode as production mode.
+        //if ((BREAKPOINTDEBUGGING_IS_PRODUCTION && self::$exeMode === (B::REMOTE | B::RELEASE)) // Execution mode as production mode.
+        if ((BREAKPOINTDEBUGGING_IS_PRODUCTION) // Execution mode as production mode.
             || (self::$exeMode & B::IGNORING_BREAK_POINT) // Breakpoint has been ignored during unit-test.
         ) {
             return;
@@ -1905,7 +1906,7 @@ EOD;
 global $_BreakpointDebugging_EXE_MODE;
 
 if (BREAKPOINTDEBUGGING_IS_PRODUCTION // Production mode.
-    && $_BreakpointDebugging_EXE_MODE === (BA::REMOTE | BA::RELEASE) // Execution mode as production mode.
+//&& $_BreakpointDebugging_EXE_MODE === (BA::REMOTE | BA::RELEASE) // Execution mode as production mode.
 ) {
     /**
      * The class for production mode.

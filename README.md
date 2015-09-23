@@ -56,4 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I translated plural lines to single line for "\BreakpointDebugging::limitAccess()" class method which "ProductionSwitcher" page optimizes.
+* I simplified "if" judgment because execution mode was fixed by "\BREAKPOINTDEBUGGING_IS_PRODUCTION".
+* I improved the wait time of "\BreakpointDebugging_LockByShmopResponse::acceptRequest()" class method.

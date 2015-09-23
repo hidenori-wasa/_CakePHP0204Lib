@@ -29,7 +29,7 @@ require_once './BreakpointDebugging_Inclusion.php';
 use \BreakpointDebugging as B;
 
 if (BREAKPOINTDEBUGGING_IS_PRODUCTION // Production mode.
-    && B::getExeMode() === (B::RELEASE | B::REMOTE) // Execution mode as production mode.
+//&& B::getExeMode() === (B::RELEASE | B::REMOTE) // Execution mode as production mode.
 ) {
     // Defines debug level automatically.
     \Configure::write('debug', 0);

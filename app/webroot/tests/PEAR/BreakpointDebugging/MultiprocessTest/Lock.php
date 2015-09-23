@@ -12,7 +12,7 @@ class Lock extends \Counter
         // Extend maximum execution time.
         set_time_limit(300);
 
-        $pLock = &$className::singleton(60, 1000);
+        $pLock = &$className::singleton(60, 300, 1000);
         for ($count = 0; $count < 125; $count++) {
             $pLock->lock();
             $this->incrementSheredMemory();

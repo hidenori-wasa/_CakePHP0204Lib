@@ -200,8 +200,8 @@ EOD;
             if (time() - $startTime > self::$_timeoutSeconds) {
                 exit;
             }
-            // 0.1 second sleep.
-            usleep(100000);
+            // 0.001 second sleep.
+            usleep(1000);
 
             // For debug ===>
             // // Waits until unlocking.
