@@ -787,7 +787,7 @@ abstract class BreakpointDebugging_ErrorInAllCase
      */
     static function handleInternalException($pException)
     {
-        B::limitAccess('BreakpointDebugging.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging.php');
 
         for ($pCurrentException = $pException; $pCurrentException; $pCurrentException = $pCurrentException->getPrevious()) {
             $pExceptions[] = $pCurrentException;

@@ -16,8 +16,6 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/BreakpointDebugging
  */
-use \BreakpointDebugging as B;
-
 /**
  * Black list for except property from static backup.
  *
@@ -55,7 +53,7 @@ class BreakpointDebugging_BlackList
      */
     static function &refLockByShmopRequestSharedMemoryID()
     {
-        B::limitAccess('BreakpointDebugging/LockByShmopRequest.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging/LockByShmopRequest.php');
 
         return self::$self->_lockByShmopRequestSharedMemoryID;
     }
@@ -67,7 +65,7 @@ class BreakpointDebugging_BlackList
      */
     static function &refLockByShmopRequestPPipe()
     {
-        B::limitAccess('BreakpointDebugging/LockByShmopRequest.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging/LockByShmopRequest.php');
 
         return self::$self->_lockByShmopRequestPPipe;
     }

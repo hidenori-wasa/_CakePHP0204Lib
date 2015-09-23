@@ -41,7 +41,7 @@ final class BreakpointDebugging_Error extends \BreakpointDebugging_ErrorInAllCas
      */
     function __construct()
     {
-        B::limitAccess('BreakpointDebugging.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging.php');
         \BreakpointDebugging::assert(func_num_args() === 0);
 
         if (\BreakpointDebugging::isDebug()) { // In case of debug mode.

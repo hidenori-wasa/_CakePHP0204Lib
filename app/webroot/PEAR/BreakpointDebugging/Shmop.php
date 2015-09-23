@@ -45,13 +45,8 @@ final class BreakpointDebugging_Shmop
      */
     static function buildSharedMemory($sharedMemoryBlockSize)
     {
-        B::limitAccess(
-            array ('BreakpointDebugging/LockByShmop.php',
-                'BreakpointDebugging_LockByShmopResponse.php',
-                'BreakpointDebugging/Window.php',
-                'index.php', // For debug.
-            )
-        );
+        //\BreakpointDebugging::limitAccess(array ('BreakpointDebugging/LockByShmop.php', 'BreakpointDebugging_LockByShmopResponse.php', 'BreakpointDebugging/Window.php', 'index.php'));
+        \BreakpointDebugging::limitAccess(array ('BreakpointDebugging/LockByShmop.php', 'BreakpointDebugging_LockByShmopResponse.php', 'BreakpointDebugging/Window.php'));
 
         set_error_handler('\BreakpointDebugging::handleError', 0);
         for ($count = 0; $count < 1000; $count++) {

@@ -329,7 +329,7 @@ abstract class BreakpointDebugging_InAllCase
      */
     static function &refExeMode()
     {
-        B::limitAccess(array ('BreakpointDebugging/Error.php', 'BreakpointDebugging/ErrorInAllCase.php', 'BreakpointDebugging.php', 'BreakpointDebugging_PHPUnit.php'));
+        \BreakpointDebugging::limitAccess(array ('BreakpointDebugging/Error.php', 'BreakpointDebugging/ErrorInAllCase.php', 'BreakpointDebugging.php', 'BreakpointDebugging_PHPUnit.php'));
 
         return self::$exeMode;
     }
@@ -670,7 +670,7 @@ abstract class BreakpointDebugging_InAllCase
      */
     static function setPHPUnit($phpUnit)
     {
-        B::limitAccess('BreakpointDebugging_PHPUnit.php', true);
+        \BreakpointDebugging::limitAccess('BreakpointDebugging_PHPUnit.php', true);
 
         self::$_phpUnit = $phpUnit;
     }
@@ -862,7 +862,7 @@ EOD;
      */
     static function &refStatic($propertyName)
     {
-        B::limitAccess('BreakpointDebugging_InDebug.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
 
         return self::$staticProperties[$propertyName];
     }
@@ -1122,7 +1122,7 @@ EOD;
      */
     static function convertMbString($string)
     {
-        B::limitAccess('BreakpointDebugging_InDebug.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
 
         // Analyzes character sets of character string.
         $charSet = mb_detect_encoding($string);
@@ -1170,7 +1170,7 @@ EOD;
      */
     static function mkdir(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
     {
-        B::limitAccess('BreakpointDebugging_InDebug.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
 
         if (!array_key_exists(1, $params)) {
             $params[1] = 0700;
@@ -1269,7 +1269,7 @@ EOD;
      */
     static function fopen(array $params, $permission = 0600, $timeout = 10, $sleepMicroSeconds = 1000000)
     {
-        B::limitAccess('BreakpointDebugging_InDebug.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
 
         $pFile = self::_retryForFilesystemFunction('fopen', $params, $timeout, $sleepMicroSeconds);
         if ($pFile) {
@@ -1332,7 +1332,7 @@ EOD;
      */
     static function compressIntArray($intArray)
     {
-        B::limitAccess('BreakpointDebugging_InDebug.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
 
         $compressBytes = '';
         foreach ($intArray as $int) {
@@ -1375,7 +1375,7 @@ EOD;
      */
     static function decompressIntArray($compressBytes)
     {
-        B::limitAccess('BreakpointDebugging_InDebug.php');
+        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
 
         $compressBytes = trim($compressBytes, PHP_EOL);
         $intArray = array ();
@@ -1654,7 +1654,7 @@ EOD;
     {
         global $_BreakpointDebugging_EXE_MODE, $_BreakpointDebugging_get;
 
-        B::limitAccess(array ('BreakpointDebugging_InDebug.php'));
+        \BreakpointDebugging::limitAccess(array ('BreakpointDebugging_InDebug.php'));
 
         self::$pwd = getcwd();
         self::$_get = $_BreakpointDebugging_get;
@@ -1811,12 +1811,7 @@ EOD;
      */
     static function handleError($errorNumber, $errorMessage)
     {
-        B::limitAccess(
-            array (
-                'BreakpointDebugging.php',
-                'BreakpointDebugging_InDebug.php',
-            )
-        );
+        \BreakpointDebugging::limitAccess(array ('BreakpointDebugging.php', 'BreakpointDebugging_InDebug.php'));
 
         // Sets global internal error handler.( -1 sets all bits on 1. Therefore, this specifies error, warning and note of all kinds.)
         set_error_handler('\BreakpointDebugging_Error::handleInternalError', -1);
@@ -1882,8 +1877,7 @@ EOD;
      */
     final static function internalException($message, $id)
     {
-        B::limitAccess('BreakpointDebugging/ErrorInAllCase.php');
-
+        \BreakpointDebugging::limitAccess('BreakpointDebugging/ErrorInAllCase.php');
         \BreakpointDebugging::assert(func_num_args() === 2);
         \BreakpointDebugging::assert(is_string($message));
         \BreakpointDebugging::assert(is_int($id));

@@ -56,4 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I added "\BreakpointDebugging::isTopPage()" class method for top page unit test. Then, I deleted "$_BreakpointDebugging_production_unit_test" variable.
+* I translated plural lines to single line for "\BreakpointDebugging::limitAccess()" class method which "ProductionSwitcher" page optimizes.

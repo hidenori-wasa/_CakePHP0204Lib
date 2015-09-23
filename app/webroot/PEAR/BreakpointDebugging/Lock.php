@@ -253,12 +253,7 @@ abstract class BreakpointDebugging_Lock
     static function forceUnlocking()
     {
         \BreakpointDebugging::assert(func_num_args() === 0);
-
-        B::limitAccess(
-            array ('BreakpointDebugging.php',
-                'BreakpointDebugging/Error.php'
-            )
-        );
+        \BreakpointDebugging::limitAccess(array ('BreakpointDebugging.php', 'BreakpointDebugging/Error.php'));
 
         if (is_object(self::$_internalInstance)) {
             // This code is executed in case of "\BreakpointDebugging_LockByFileExisting" unit test.
