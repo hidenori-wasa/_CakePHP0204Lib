@@ -82,9 +82,9 @@ final class BreakpointDebugging_Shmop
     }
 
     /**
-     * Get shared memory ID.
+     * Gets shared memory ID.
      *
-     * @param resource $pFile Shared memory key file.
+     * @param resource $pFile Shared memory key file pointer.
      *
      * @return mixed Shared memory ID or false.
      */
@@ -95,7 +95,7 @@ final class BreakpointDebugging_Shmop
         if (strlen($sharedMemoryKey) !== 10) {
             return false;
         }
-        // Open shared memory to read and write.
+        // Opens shared memory to read and write.
         $sharedMemoryID = @shmop_open($sharedMemoryKey, 'w', 0, 0);
         restore_error_handler();
 

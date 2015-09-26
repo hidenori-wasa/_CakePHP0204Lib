@@ -40,7 +40,7 @@ final class BreakpointDebugging_LockByShmopResponse
      *
      * @var int
      */
-    private static $_timeoutSeconds = 86400; // 1 day.
+    private static $_timeoutSeconds = 300; // 5 minutes.
 
     /**
      * Response timeout seconds.

@@ -56,5 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I simplified "if" judgment because execution mode was fixed by "\BREAKPOINTDEBUGGING_IS_PRODUCTION".
-* I improved the wait time of "\BreakpointDebugging_LockByShmopResponse::acceptRequest()" class method.
+* I improved "\BreakpointDebugging_LockByShmopResponse::$_timeoutSeconds" property's initialization value.

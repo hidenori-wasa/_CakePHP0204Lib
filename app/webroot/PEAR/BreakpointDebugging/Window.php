@@ -607,8 +607,7 @@ EOD;
         self::front($errorWindowName);
 
         $exeMode = B::getExeMode();
-        //if ((!BREAKPOINTDEBUGGING_IS_PRODUCTION || $exeMode !== (B::REMOTE | B::RELEASE)) // If this is not production mode.
-        if ((!BREAKPOINTDEBUGGING_IS_PRODUCTION) // If this is not production mode.
+        if (!BREAKPOINTDEBUGGING_IS_PRODUCTION // If this is not production mode.
             && !($exeMode & B::IGNORING_BREAK_POINT) // If breakpoint has not been ignored during unit-test.
         ) {
             if (B::getXebugExists()) {
