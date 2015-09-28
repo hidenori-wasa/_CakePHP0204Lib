@@ -56,4 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I improved "\BreakpointDebugging_LockByShmopResponse::$_timeoutSeconds" property's initialization value.
+* I commented that "\BreakpointDebugging_LockByShmopRequest" class is not recommended.

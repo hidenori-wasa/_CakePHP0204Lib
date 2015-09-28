@@ -3,6 +3,8 @@
 /**
  * Class which locks php-code by shared memory operation.
  *
+ * This class is not recommended because of server's overload.
+ *
  * LICENSE:
  * Copyright (c) 2012-, Hidenori Wasa
  * All rights reserved.
@@ -25,6 +27,7 @@ use \BreakpointDebugging_BlackList as BB;
  *
  * PHP version 5.3.2-5.4.x
  *
+ * This class is not recommended because of server's overload.
  * This class requires "shmop" extension.
  * We can synchronize applications by setting the same directory to "define('BREAKPOINTDEBUGGING_WORK_DIR_NAME', './<work directory>/');" of "./BreakpointDebugging_Inclusion.php".
  *
