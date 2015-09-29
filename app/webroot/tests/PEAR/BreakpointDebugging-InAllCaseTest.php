@@ -24,7 +24,8 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
     {
         $pPrevious = new \Exception('Previous exception.', E_USER_WARNING);
         $pException = new \Exception('Exception.', E_USER_WARNING, $pPrevious);
-        BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        BU::ignoreBreakpoint();
         ob_start();
         BA::handleException($pException);
     }
@@ -419,7 +420,8 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
      */
     public function testErrorHandler()
     {
-        BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        BU::ignoreBreakpoint();
         ob_start();
         BA::handleError(E_USER_WARNING, 'Error test.');
     }
@@ -432,7 +434,8 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
      */
     public function testInternalException()
     {
-        BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        BU::ignoreBreakpoint();
         BA::internalException('Tests "internalException()".', 1);
     }
 

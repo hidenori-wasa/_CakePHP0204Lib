@@ -303,7 +303,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     static function markTestSkippedInDebug()
     {
-        if (!(BU::$exeMode & B::RELEASE)) {
+        //if (!(BU::$exeMode & B::RELEASE)) {
+        if (B::isDebug()) {
             return true;
         }
         return false;
@@ -316,10 +317,14 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     static function markTestSkippedInRelease()
     {
-        if (BU::$exeMode & B::RELEASE) {
-            return true;
+        //if (BU::$exeMode & B::RELEASE) {
+        //    return true;
+        //}
+        //return false;
+        if (B::isDebug()) {
+            return false;
         }
-        return false;
+        return true;
     }
 
 }

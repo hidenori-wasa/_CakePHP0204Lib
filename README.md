@@ -56,4 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I commented that "\BreakpointDebugging_LockByShmopRequest" class is not recommended.
+* I added "\BreakpointDebugging_PHPUnit::setDebug()" "\BreakpointDebugging_PHPUnit::setRelease()" "\BreakpointDebugging_PHPUnit::ignoreBreakpoint()" "\BreakpointDebugging_PHPUnit::notIgnoreBreakpoint()" class method to omit bit handling.

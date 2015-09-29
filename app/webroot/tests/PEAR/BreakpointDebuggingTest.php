@@ -138,7 +138,8 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
     function testExceptionHandler_A()
     {
         ob_start();
-        BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        BU::ignoreBreakpoint();
         B::handleException(new \Exception());
     }
 
@@ -148,7 +149,8 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
     function testErrorHandler_A()
     {
         ob_start();
-        BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        BU::ignoreBreakpoint();
         B::handleError(E_USER_WARNING, 'dummy');
     }
 
@@ -179,7 +181,8 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
     function limitAccess_A5()
     {
         try {
-            BU::$exeMode |= B::IGNORING_BREAK_POINT;
+            //BU::$exeMode |= B::IGNORING_BREAK_POINT;
+            BU::ignoreBreakpoint();
             B::limitAccess(array ('tests/PEAR/Dummy1.php', 'tests/PEAR/Dummy2.php'), true);
         } catch (\Exception $e) {
 

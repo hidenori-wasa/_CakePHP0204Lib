@@ -202,6 +202,10 @@ B::limitAccess('BreakpointDebugging.php', true);
  *          "@codeCoverageIgnoreEnd"
  *      The class methods and property which can be used are limited below.
  *          \BreakpointDebugging_PHPUnit::$exeMode
+ *          \BreakpointDebugging_PHPUnit::setDebug()
+ *          \BreakpointDebugging_PHPUnit::setRelease()
+ *          \BreakpointDebugging_PHPUnit::ignoreBreakpoint()
+ *          \BreakpointDebugging_PHPUnit::notIgnoreBreakpoint()
  *          \BreakpointDebugging_PHPUnit::getPropertyForTest()
  *          \BreakpointDebugging_PHPUnit::setPropertyForTest()
  *          \BreakpointDebugging_PHPUnit::assertExceptionMessage()
@@ -776,6 +780,50 @@ EOD;
 
     //////////////////////////////////////// For package user ////////////////////////////////////////
     /**
+     * Sets the debug execution mode.
+     *
+     * @return void
+     */
+    static function setDebug()
+    {
+        // Excepts the release bit.
+        self::$exeMode &= ~B::RELEASE;
+    }
+
+    /**
+     * Sets the release execution mode.
+     *
+     * @return void
+     */
+    static function setRelease()
+    {
+        // Adds the release bit.
+        self::$exeMode |= B::RELEASE;
+    }
+
+    /**
+     * Ignores breakpoint.
+     *
+     * @return void
+     */
+    static function ignoreBreakpoint()
+    {
+        // Adds ignoring breakpoint bit.
+        self::$exeMode |= B::IGNORING_BREAK_POINT;
+    }
+
+    /**
+     * Stops at breakpoint.
+     *
+     * @return void
+     */
+    static function notIgnoreBreakpoint()
+    {
+        // Excepts ignoring breakpoint bit.
+        self::$exeMode &= ~B::IGNORING_BREAK_POINT;
+    }
+
+    /**
      * Asserts exception message.
      *
      * @param object $exception Exception object.
@@ -800,7 +848,8 @@ EOD;
      */
     static function markTestSkippedInDebug()
     {
-        if (!(self::$exeMode & B::RELEASE)) {
+        //if (!(self::$exeMode & B::RELEASE)) {
+        if (B::isDebug()) {
             \PHPUnit_Framework_Assert::markTestSkipped();
         }
     }
@@ -812,7 +861,8 @@ EOD;
      */
     static function markTestSkippedInRelease()
     {
-        if (self::$exeMode & B::RELEASE) {
+        //if (self::$exeMode & B::RELEASE) {
+        if (!B::isDebug()) {
             \PHPUnit_Framework_Assert::markTestSkipped();
         }
     }
@@ -1325,7 +1375,8 @@ EOD;
         BW::virtualOpen($this->_unitTestWindowName, $this->getHtmlFileContent());
         ob_start();
 
-        if (self::$exeMode & B::RELEASE) {
+        //if (self::$exeMode & B::RELEASE) {
+        if (!B::isDebug()) {
             echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
         } else {
             echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
@@ -1507,10 +1558,15 @@ EOD;
         BW::virtualOpen($this->_unitTestWindowName, $this->getHtmlFileContent());
         ob_start();
 
-        if (self::$exeMode & B::RELEASE) {
-            echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
-        } else {
+        //if (self::$exeMode & B::RELEASE) {
+        //    echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+        //} else {
+        //    echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+        //}
+        if (B::isDebug()) {
             echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+        } else {
+            echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
         }
 
         if (BREAKPOINTDEBUGGING_IS_CAKE) {

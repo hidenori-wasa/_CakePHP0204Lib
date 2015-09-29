@@ -23,6 +23,7 @@ class BreakpointDebuggingTestExample extends \BreakpointDebuggingTestExampleBase
 
 class BreakpointDebugging_PHPUnitTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 {
+
     public function testIsUnitTestExeMode()
     {
         BU::checkExeMode(true);
@@ -49,7 +50,8 @@ class BreakpointDebugging_PHPUnitTestSimple extends \BreakpointDebugging_PHPUnit
         $testFileNames = array (
             'ExampleTest.php',
         );
-        BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        BU::ignoreBreakpoint();
         BU::setPropertyForTest('BreakpointDebugging_PHPUnit', '$unitTestDir', null);
         try {
             $breakpointDebuggingPHPUnit->executeUnitTest($testFileNames, '', 'PHPUNIT_OWN');

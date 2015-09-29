@@ -134,7 +134,8 @@ class ExampleTest extends \CakeTestCase
         // Destructs the instance.
         $this->_pTestObject = null;
 
-        BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
+        BU::ignoreBreakpoint();
         $this->isCalled();
     }
 
