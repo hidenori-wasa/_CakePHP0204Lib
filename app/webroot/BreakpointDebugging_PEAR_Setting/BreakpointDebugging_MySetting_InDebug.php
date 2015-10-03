@@ -52,7 +52,8 @@ if (B::getXebugExists()) {
     }
     //
     // ### [XDebug] setting in "php.ini" file. ###
-    // $_get = B::getStatic('$_get');
+    //// $_get = B::getStatic('$_get');
+    // $_get = B::getGet();
     // $xdebugSessionName = $_get['XDEBUG_SESSION_START'];
     // B::iniCheck('xdebug.idekey', $xdebugSessionName, 'Set \'xdebug.idekey = "$xdebugSessionName"\' of "php.ini" file because this value must be the debug session name.');
     // Manual base url for links from function traces or error messages.
@@ -110,7 +111,11 @@ B::iniSet('log_errors', '');
 B::iniSet('html_errors', '1');
 // // This doesn't make usual error report invalid.
 // B::iniCheck( 'xmlrpc_errors', '', 'Set "xmlrpc_errors = Off" in "php.ini" file because this does not change usual error report invalidly.');
-B::assert(B::getStatic('$_maxLogFileByteSize') % 4096 === 0);
-B::assert(1 <= B::getStatic('$_maxLogParamNestingLevel') && B::getStatic('$_maxLogParamNestingLevel') <= 100);
-B::assert(1 <= B::getStatic('$_maxLogElementNumber') && B::getStatic('$_maxLogElementNumber') <= 100);
-B::assert(1 <= B::getStatic('$_maxLogStringSize'));
+//B::assert(B::getStatic('$_maxLogFileByteSize') % 4096 === 0);
+B::assert(B::getMaxLogFileByteSize() % 4096 === 0);
+//B::assert(1 <= B::getStatic('$_maxLogParamNestingLevel') && B::getStatic('$_maxLogParamNestingLevel') <= 100);
+B::assert(1 <= B::getMaxLogParamNestingLevel() && B::getMaxLogParamNestingLevel() <= 100);
+//B::assert(1 <= B::getStatic('$_maxLogElementNumber') && B::getStatic('$_maxLogElementNumber') <= 100);
+B::assert(1 <= B::getMaxLogElementNumber() && B::getMaxLogElementNumber() <= 100);
+//B::assert(1 <= B::getStatic('$_maxLogStringSize'));
+B::assert(1 <= B::getMaxLogStringSize());

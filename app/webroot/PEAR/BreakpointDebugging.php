@@ -146,19 +146,18 @@ abstract class BreakpointDebugging_InAllCase
      */
     static $tmp;
 
-    /**
-     * Static properties reference.
-     *
-     * @var array
-     */
-    protected static $staticProperties;
-
-    /**
-     * Static property limitings reference.
-     *
-     * @var array
-     */
-    protected static $staticPropertyLimitings;
+//    /**
+//     * Static properties reference.
+//     *
+//     * @var array
+//     */
+//    protected static $staticProperties;
+//    /**
+//     * Static property limitings reference.
+//     *
+//     * @var array
+//     */
+//    protected static $staticPropertyLimitings;
 
     /**
      * "Xdebug" existing-flag.
@@ -312,28 +311,6 @@ abstract class BreakpointDebugging_InAllCase
     private static $_isSplAutoLoadCall = false;
 
     ///////////////////////////// For package user from here. /////////////////////////////
-    /**
-     * Gets "$exeMode" property.
-     *
-     * @return int Execution mode.
-     */
-    static function getExeMode()
-    {
-        return self::$exeMode;
-    }
-
-    /**
-     * It references "$exeMode" property.
-     *
-     * @return int& Execution mode.
-     */
-    static function &refExeMode()
-    {
-        \BreakpointDebugging::limitAccess(array ('BreakpointDebugging/Error.php', 'BreakpointDebugging/ErrorInAllCase.php', 'BreakpointDebugging.php', 'BreakpointDebugging_PHPUnit.php'));
-
-        return self::$exeMode;
-    }
-
     /**
      * Debugs by using breakpoint.
      * We must define this class method outside namespace, and we must not change method name when we call this method.
@@ -522,7 +499,8 @@ abstract class BreakpointDebugging_InAllCase
         self::assert(is_bool($enableUnitTest));
 
         if (!$enableUnitTest //
-            && (self::$exeMode & B::UNIT_TEST) //
+            //&& (self::$exeMode & B::UNIT_TEST) //
+            && (self::$exeMode & self::UNIT_TEST) //
             && (!isset(\BreakpointDebugging_PHPUnit::$unitTestDir) || strpos($fullFilePath, \BreakpointDebugging_PHPUnit::$unitTestDir) === 0) //
         ) {
             return;
@@ -841,30 +819,51 @@ EOD;
         }
     }
 
+//    /**
+//     * Gets a static property value.
+//     *
+//     * @param string $propertyName Static property name.
+//     *
+//     * @return mixed Static property value.
+//     */
+//    static function getStatic($propertyName)
+//    {
+//        return self::$staticProperties[$propertyName];
+//    }
+//    /**
+//     * Gets a static property reference.
+//     *
+//     * @param string $propertyName Static property name.
+//     *
+//     * @return mixed& Static property.
+//     */
+//    static function &refStatic($propertyName)
+//    {
+//        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
+//
+//        return self::$staticProperties[$propertyName];
+//    }
+
     /**
-     * Gets a static property value.
+     * Gets "$exeMode" property.
      *
-     * @param string $propertyName Static property name.
-     *
-     * @return mixed Static property value.
+     * @return int Execution mode.
      */
-    static function getStatic($propertyName)
+    static function getExeMode()
     {
-        return self::$staticProperties[$propertyName];
+        return self::$exeMode;
     }
 
     /**
-     * Gets a static property reference.
+     * It references "$exeMode" property.
      *
-     * @param string $propertyName Static property name.
-     *
-     * @return mixed& Static property.
+     * @return int& Execution mode.
      */
-    static function &refStatic($propertyName)
+    static function &refExeMode()
     {
-        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
+        \BreakpointDebugging::limitAccess(array ('BreakpointDebugging/Error.php', 'BreakpointDebugging/ErrorInAllCase.php', 'BreakpointDebugging.php', 'BreakpointDebugging_PHPUnit.php'));
 
-        return self::$staticProperties[$propertyName];
+        return self::$exeMode;
     }
 
     /**
@@ -874,11 +873,7 @@ EOD;
      */
     static function getXebugExists()
     {
-        B::limitAccess(
-            array ('BreakpointDebugging.php',
-                'BreakpointDebugging_InDebug.php'
-            )
-        );
+        //\BreakpointDebugging::limitAccess(array ('BreakpointDebugging.php', 'BreakpointDebugging_InDebug.php'));
 
         return self::$_xdebugExists;
     }
@@ -892,7 +887,195 @@ EOD;
      */
     static function setXebugExists($value)
     {
+        //self::limitAccess(array ('BreakpointDebugging.php', 'BreakpointDebugging_InDebug.php'));
+
         self::$_xdebugExists = $value;
+    }
+
+    /**
+     * Refers to this class's property.
+     *
+     * @return string This class's property.
+     */
+    static function &refIncludePaths()
+    {
+        \BreakpointDebugging::limitAccess('');
+
+        return self::$_includePaths;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return array This class's property.
+     */
+    static function getGet()
+    {
+        return self::$_get;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return string This class's property.
+     */
+    static function getDeveloperIP()
+    {
+        return self::$_developerIP;
+    }
+
+    /**
+     * Refers to this class's property.
+     *
+     * @return string This class's property.
+     */
+    static function &refDeveloperIP()
+    {
+        \BreakpointDebugging::limitAccess(array (BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php', './BreakpointDebugging.php'));
+
+        return self::$_developerIP;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return int This class's property.
+     */
+    static function getMaxLogFileByteSize()
+    {
+        return self::$_maxLogFileByteSize;
+    }
+
+    /**
+     * Refers to this class's property.
+     *
+     * @return int This class's property.
+     */
+    static function &refMaxLogFileByteSize()
+    {
+        \BreakpointDebugging::limitAccess(BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php');
+
+        return self::$_maxLogFileByteSize;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return int This class's property.
+     */
+    static function getMaxLogParamNestingLevel()
+    {
+        return self::$_maxLogParamNestingLevel;
+    }
+
+    /**
+     * Refers to this class's property.
+     *
+     * @return int This class's property.
+     */
+    static function &refMaxLogParamNestingLevel()
+    {
+        \BreakpointDebugging::limitAccess(BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php');
+
+        return self::$_maxLogParamNestingLevel;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return int This class's property.
+     */
+    static function getMaxLogElementNumber()
+    {
+        return self::$_maxLogElementNumber;
+    }
+
+    /**
+     * Refers to this class's property.
+     *
+     * @return int This class's property.
+     */
+    static function &refMaxLogElementNumber()
+    {
+        \BreakpointDebugging::limitAccess(BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php');
+
+        return self::$_maxLogElementNumber;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return int This class's property.
+     */
+    static function getMaxLogStringSize()
+    {
+        return self::$_maxLogStringSize;
+    }
+
+    /**
+     * Refers to this class's property.
+     *
+     * @return int This class's property.
+     */
+    static function &refMaxLogStringSize()
+    {
+        \BreakpointDebugging::limitAccess(BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php');
+
+        return self::$_maxLogStringSize;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return bool This class's property.
+     */
+    static function getCallingExceptionHandlerDirectly()
+    {
+        return self::$_callingExceptionHandlerDirectly;
+    }
+
+    /**
+     * Refers to this class's property.
+     *
+     * @return bool This class's property.
+     */
+    static function &refCallingExceptionHandlerDirectly()
+    {
+        \BreakpointDebugging::limitAccess('./BreakpointDebugging/ErrorInAllCase.php');
+
+        return self::$_callingExceptionHandlerDirectly;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return array This class's property.
+     */
+    static function getValuesToTrace()
+    {
+        return self::$_valuesToTrace;
+    }
+
+    /**
+     * Refers to this class's property.
+     *
+     * @return array This class's property.
+     */
+    static function &refValuesToTrace()
+    {
+        \BreakpointDebugging::limitAccess('');
+
+        return self::$_valuesToTrace;
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return array This class's property.
+     */
+    static function getNotFixedLocations()
+    {
+        return self::$_notFixedLocations;
     }
 
     /**
@@ -1170,7 +1353,7 @@ EOD;
      */
     static function mkdir(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
     {
-        \BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
+        //\BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
 
         if (!array_key_exists(1, $params)) {
             $params[1] = 0700;
@@ -1413,8 +1596,10 @@ EOD;
      */
     private static function _clearRecursiveArrayElement($parentArray, $parentsArray)
     {
-        if (count($parentArray) > B::getStatic('$_maxLogElementNumber')) {
-            $parentArray = array_slice($parentArray, 0, B::getStatic('$_maxLogElementNumber'), true);
+        //if (count($parentArray) > B::getStatic('$_maxLogElementNumber')) {
+        if (count($parentArray) > self::$_maxLogElementNumber) {
+            //$parentArray = array_slice($parentArray, 0, B::getStatic('$_maxLogElementNumber'), true);
+            $parentArray = array_slice($parentArray, 0, self::$_maxLogElementNumber, true);
             $parentArray[] = ''; // Array element out of area.
         }
 
@@ -1659,20 +1844,20 @@ EOD;
         self::$pwd = getcwd();
         self::$_get = $_BreakpointDebugging_get;
         unset($_BreakpointDebugging_get);
-        self::$staticProperties['$_get'] = &self::$_get;
+        //self::$staticProperties['$_get'] = &self::$_get;
         self::$_nativeExeMode = self::$exeMode = $_BreakpointDebugging_EXE_MODE;
         unset($GLOBALS['_BreakpointDebugging_EXE_MODE']);
-        self::$staticProperties['$_developerIP'] = &self::$_developerIP;
-        self::$staticProperties['$_maxLogFileByteSize'] = &self::$_maxLogFileByteSize;
-        self::$staticProperties['$_maxLogParamNestingLevel'] = &self::$_maxLogParamNestingLevel;
+        //self::$staticProperties['$_developerIP'] = &self::$_developerIP;
+        //self::$staticProperties['$_maxLogFileByteSize'] = &self::$_maxLogFileByteSize;
+        //self::$staticProperties['$_maxLogParamNestingLevel'] = &self::$_maxLogParamNestingLevel;
         self::$_maxLogElementNumber = count($_SERVER); // Default value.
-        self::$staticProperties['$_maxLogElementNumber'] = &self::$_maxLogElementNumber;
-        self::$staticProperties['$_maxLogStringSize'] = &self::$_maxLogStringSize;
-        self::$staticProperties['$_onceErrorDispFlag'] = &self::$_onceErrorDispFlag;
-        self::$staticProperties['$_callingExceptionHandlerDirectly'] = &self::$_callingExceptionHandlerDirectly;
-        self::$staticProperties['$_valuesToTrace'] = &self::$_valuesToTrace;
-        self::$staticProperties['$_notFixedLocations'] = &self::$_notFixedLocations;
-        self::$staticProperties['$_includePaths'] = &self::$_includePaths;
+        //self::$staticProperties['$_maxLogElementNumber'] = &self::$_maxLogElementNumber;
+        //self::$staticProperties['$_maxLogStringSize'] = &self::$_maxLogStringSize;
+        ////self::$staticProperties['$_onceErrorDispFlag'] = &self::$_onceErrorDispFlag;
+        //self::$staticProperties['$_callingExceptionHandlerDirectly'] = &self::$_callingExceptionHandlerDirectly;
+        //self::$staticProperties['$_valuesToTrace'] = &self::$_valuesToTrace;
+        //self::$staticProperties['$_notFixedLocations'] = &self::$_notFixedLocations;
+        ////self::$staticProperties['$_includePaths'] = &self::$_includePaths;
         $dirName = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME;
         self::$iniDisplayString = <<<EOD
 ### "\BreakpointDebugging::iniSet()" or "\BreakpointDebugging::iniCheck()": You must comment out following line of "{$dirName}[package name]_MySetting.php" because set value and value of php.ini is same.
@@ -1700,29 +1885,28 @@ EOD;
         }
     }
 
-    /**
-     * It references "$staticProperties" property for static backup of "PHPUnit".
-     *
-     * @return array& "$staticProperties" property.
-     */
-    static function &refStaticProperties()
-    {
-        B::limitAccess('BreakpointDebugging_PHPUnit.php');
-
-        return self::$staticProperties;
-    }
-
-    /**
-     * It references "$staticPropertyLimitings" property for static backup of "PHPUnit".
-     *
-     * @return array& "$staticPropertyLimitings" property.
-     */
-    static function &refStaticPropertyLimitings()
-    {
-        B::limitAccess('BreakpointDebugging_PHPUnit.php');
-
-        return self::$staticPropertyLimitings;
-    }
+//    /**
+//     * It references "$staticProperties" property for static backup of "PHPUnit".
+//     *
+//     * @return array& "$staticProperties" property.
+//     */
+//    static function &refStaticProperties()
+//    {
+//        B::limitAccess('BreakpointDebugging_PHPUnit.php');
+//
+//        return self::$staticProperties;
+//    }
+//    /**
+//     * It references "$staticPropertyLimitings" property for static backup of "PHPUnit".
+//     *
+//     * @return array& "$staticPropertyLimitings" property.
+//     */
+//    static function &refStaticPropertyLimitings()
+//    {
+//        B::limitAccess('BreakpointDebugging_PHPUnit.php');
+//
+//        return self::$staticPropertyLimitings;
+//    }
 
     /**
      * Does autoload by path which was divided by name space separator and underscore separator as directory.

@@ -29,7 +29,8 @@ class Lock extends \Counter
 
 }
 
-$get = B::getStatic('$_get');
+//$get = B::getStatic('$_get');
+$get = B::getGet();
 // file_put_contents(__DIR__ . '/_getOfCommandLine.txt', 'SHMOP_KEY=' . $get['SHMOP_KEY'] . PHP_EOL . 'CLASS_NAME=' . $get['CLASS_NAME'] . PHP_EOL, LOCK_EX); // For debug.
 // $pLock = new \Lock(1111); // For debug.
 $pLock = new \Lock($get['SHMOP_KEY']);

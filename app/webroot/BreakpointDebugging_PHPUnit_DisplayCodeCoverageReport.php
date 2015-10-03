@@ -19,6 +19,7 @@
 require_once './BreakpointDebugging_Inclusion.php';
 
 use \BreakpointDebugging as B;
+use BreakpointDebugging_PHPUnit as BU;
 use \BreakpointDebugging_Window as BW;
 
 if (!B::checkDevelopmentSecurity()) {
@@ -103,7 +104,8 @@ class BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport
         } else { // In case of first time when this page was called.
             ob_start();
 
-            $classFilePaths = B::getStatic('$_classFilePaths');
+            //$classFilePaths = B::getStatic('$_classFilePaths');
+            $classFilePaths = B::getClassFilePaths();
             $thisFileURI = str_repeat('../', preg_match_all('`/`xX', $_SERVER['PHP_SELF'], $matches) - 1) . substr(str_replace('\\', '/', __FILE__), strlen($_SERVER['DOCUMENT_ROOT']) + 1);
             if (!is_array($classFilePaths)) {
                 $classFilePaths = array ($classFilePaths);
@@ -115,7 +117,8 @@ class BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport
                 if (BREAKPOINTDEBUGGING_IS_CAKE) {
                     $classFileName = 'app_webroot_' . $classFileName;
                 }
-                $codeCoverageReportPath = str_replace('\\', '/', B::getStatic('$_codeCoverageReportPath')) . $classFileName . '.html';
+                //$codeCoverageReportPath = str_replace('\\', '/', B::getStatic('$_codeCoverageReportPath')) . $classFileName . '.html';
+                $codeCoverageReportPath = str_replace('\\', '/', BU::getCodeCoverageReportPath()) . $classFileName . '.html';
                 if (!is_file($codeCoverageReportPath)) {
                     echo <<<EOD
 		<form>

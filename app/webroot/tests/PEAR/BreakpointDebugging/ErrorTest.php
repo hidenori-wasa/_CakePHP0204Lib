@@ -53,7 +53,8 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
     {
         ob_start();
 
-        $maxLogStringSize = &B::refStatic('$_maxLogStringSize');
+        //$maxLogStringSize = &B::refStatic('$_maxLogStringSize');
+        $maxLogStringSize = &B::refMaxLogStringSize();
         $maxLogStringSize = 140000;
 
         $exceptionWithGLOBALS = function ($self) {

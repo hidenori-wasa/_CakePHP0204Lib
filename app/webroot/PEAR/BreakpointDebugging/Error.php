@@ -45,7 +45,8 @@ final class BreakpointDebugging_Error extends \BreakpointDebugging_ErrorInAllCas
         \BreakpointDebugging::assert(func_num_args() === 0);
 
         if (\BreakpointDebugging::isDebug()) { // In case of debug mode.
-            $this->maxLogFileByteSize = B::getStatic('$_maxLogFileByteSize');
+            //$this->maxLogFileByteSize = B::getStatic('$_maxLogFileByteSize');
+            $this->maxLogFileByteSize = B::getMaxLogFileByteSize();
             $this->isLogging = false;
             $this->mark = '&diams;';
             // When "Xdebug" exists.

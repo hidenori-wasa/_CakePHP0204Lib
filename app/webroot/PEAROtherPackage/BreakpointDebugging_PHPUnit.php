@@ -412,12 +412,12 @@ class BreakpointDebugging_PHPUnit
 
         B::assert(func_num_args() === 0);
 
-        $staticProperties = &B::refStaticProperties();
-        $staticProperties['$_classFilePaths'] = &self::$_classFilePaths;
-        $staticProperties['$_codeCoverageReportPath'] = &self::$_codeCoverageReportPath;
-        $staticPropertyLimitings = &B::refStaticPropertyLimitings();
-        $staticPropertyLimitings['$_includePaths'] = '';
-        $staticPropertyLimitings['$_valuesToTrace'] = '';
+        //$staticProperties = &B::refStaticProperties();
+        //$staticProperties['$_classFilePaths'] = &self::$_classFilePaths;
+        //$staticProperties['$_codeCoverageReportPath'] = &self::$_codeCoverageReportPath;
+        //$staticPropertyLimitings = &B::refStaticPropertyLimitings();
+        //$staticPropertyLimitings['$_includePaths'] = '';
+        //$staticPropertyLimitings['$_valuesToTrace'] = '';
         self::$exeMode = &B::refExeMode(); // This is not static backup rule violation because this reference is copied once at initialization.
         self::$_separator = PHP_EOL . '//////////////////////////////////////////////////////////////////////////' . PHP_EOL;
     }
@@ -428,6 +428,16 @@ class BreakpointDebugging_PHPUnit
     function __construct()
     {
         $this->_WasaCakeTestStartPagePath = getcwd() . '/WasaCakeTestStart.php';
+    }
+
+    /**
+     * Gets this class's property.
+     *
+     * @return array This class's property.
+     */
+    static function getCodeCoverageReportPath()
+    {
+        return self::$_codeCoverageReportPath;
     }
 
     /**
@@ -1376,10 +1386,14 @@ EOD;
         ob_start();
 
         //if (self::$exeMode & B::RELEASE) {
-        if (!B::isDebug()) {
-            echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
-        } else {
+        //    echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+        //} else {
+        //    echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+        //}
+        if (B::isDebug()) {
             echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+        } else {
+            echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
         }
 
         $this->_getUnitTestDir();

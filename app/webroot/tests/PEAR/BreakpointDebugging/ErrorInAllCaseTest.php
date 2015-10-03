@@ -41,7 +41,8 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
 
     static function setUpBeforeClass()
     {
-        $maxLogStringSize = &B::refStatic('$_maxLogStringSize');
+        //$maxLogStringSize = &B::refStatic('$_maxLogStringSize');
+        $maxLogStringSize = &B::refMaxLogStringSize();
         $maxLogStringSize = 8;
         self::$_errorLogDir = \BreakpointDebugging_Error::getErrorLogDir();
     }
@@ -120,9 +121,11 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
         $testString = 'Test string.';
         B::addValuesToTrace(array ('$testString' => $testString));
         B::addValuesToTrace(array ('$testString' => $testString));
-        $maxLogParamNestingLevel = &B::refStatic('$_maxLogParamNestingLevel');
+        //$maxLogParamNestingLevel = &B::refStatic('$_maxLogParamNestingLevel');
+        $maxLogParamNestingLevel = &B::refMaxLogParamNestingLevel();
         $maxLogParamNestingLevel = 2;
-        $maxLogElementNumber = &B::refStatic('$_maxLogElementNumber');
+        //$maxLogElementNumber = &B::refStatic('$_maxLogElementNumber');
+        $maxLogElementNumber = &B::refMaxLogElementNumber();
         $maxLogElementNumber = 6;
 
         $parentFilePath = __DIR__ . '/testExceptionHandler2_Parent.php';
@@ -178,7 +181,8 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
 
         B::addValuesToTrace(array ('$parentFileNumber' => $parentFileNumber, '$thisFileNumber' => $thisFileNumber));
         new \BreakpointDebugging_Error();
-        $valuesToTrace = &B::refStatic('$_valuesToTrace');
+        //$valuesToTrace = &B::refStatic('$_valuesToTrace');
+        $valuesToTrace = &B::refValuesToTrace();
         $valuesToTrace = null;
 
         ob_start();
@@ -209,7 +213,8 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
         // Error log file rotation.
         //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
-        $maxLogFileByteSize = &B::refStatic('$_maxLogFileByteSize');
+        //$maxLogFileByteSize = &B::refStatic('$_maxLogFileByteSize');
+        $maxLogFileByteSize = &B::refMaxLogFileByteSize();
         $storeMaxLogFileByteSize = $maxLogFileByteSize;
         $maxLogFileByteSize = 1;
         $error->handleException2(new \Exception(), '');
@@ -245,7 +250,8 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
     {
         BU::markTestSkippedInDebug(); // Because this unit test is the logging check.
 
-        $maxLogStringSize = &B::refStatic('$_maxLogStringSize');
+        //$maxLogStringSize = &B::refStatic('$_maxLogStringSize');
+        $maxLogStringSize = &B::refMaxLogStringSize();
         $maxLogStringSize = 140000;
 
         $logfileMaximumCapacityException = function ($self) {

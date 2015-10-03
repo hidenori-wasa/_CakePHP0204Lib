@@ -56,4 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I added "\BreakpointDebugging_PHPUnit::setDebug()" "\BreakpointDebugging_PHPUnit::setRelease()" "\BreakpointDebugging_PHPUnit::ignoreBreakpoint()" "\BreakpointDebugging_PHPUnit::notIgnoreBreakpoint()" class method to omit bit handling.
+* I transformed "\BreakpointDebugging::getStatic()" and "\BreakpointDebugging::refStatic()" to getting and reference class method for simplification and execution speed.

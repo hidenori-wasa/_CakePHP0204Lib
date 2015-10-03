@@ -56,13 +56,13 @@ final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
         parent::initialize();
 
         $tmp = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php';
-        parent::$staticPropertyLimitings['$_maxLogFileByteSize'] = $tmp;
-        parent::$staticPropertyLimitings['$_maxLogParamNestingLevel'] = $tmp;
-        parent::$staticPropertyLimitings['$_maxLogElementNumber'] = $tmp;
-        parent::$staticPropertyLimitings['$_maxLogStringSize'] = $tmp;
-        parent::$staticPropertyLimitings['$_developerIP'] = $tmp;
-        parent::$staticPropertyLimitings['$_onceErrorDispFlag'] = 'BreakpointDebugging/PHPUnit/FrameworkTestCase.php';
-        parent::$staticPropertyLimitings['$_callingExceptionHandlerDirectly'] = array ('BreakpointDebugging/ErrorInAllCase.php',);
+        //parent::$staticPropertyLimitings['$_maxLogFileByteSize'] = $tmp;
+        //parent::$staticPropertyLimitings['$_maxLogParamNestingLevel'] = $tmp;
+        //parent::$staticPropertyLimitings['$_maxLogElementNumber'] = $tmp;
+        //parent::$staticPropertyLimitings['$_maxLogStringSize'] = $tmp;
+        //parent::$staticPropertyLimitings['$_developerIP'] = $tmp;
+        ////parent::$staticPropertyLimitings['$_onceErrorDispFlag'] = 'BreakpointDebugging/PHPUnit/FrameworkTestCase.php';
+        //parent::$staticPropertyLimitings['$_callingExceptionHandlerDirectly'] = array ('BreakpointDebugging/ErrorInAllCase.php',);
     }
 
     /**
@@ -85,37 +85,36 @@ final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
         }
     }
 
-    /**
-     * For debug.
-     *
-     * @param string $propertyName Same as parent.
-     *
-     * @return Same as parent.
-     */
-    static function getStatic($propertyName)
-    {
-        self::assert(func_num_args() === 1);
-        self::assert(is_string($propertyName));
-
-        return parent::getStatic($propertyName);
-    }
-
-    /**
-     * Gets a static property reference.
-     *
-     * @param string $propertyName Static property name.
-     *
-     * @return mixed& Static property.
-     */
-    static function &refStatic($propertyName)
-    {
-        self::limitAccess(parent::$staticPropertyLimitings[$propertyName]);
-
-        self::assert(func_num_args() === 1);
-        self::assert(is_string($propertyName));
-
-        return parent::refStatic($propertyName);
-    }
+//    /**
+//     * For debug.
+//     *
+//     * @param string $propertyName Same as parent.
+//     *
+//     * @return Same as parent.
+//     */
+//    static function getStatic($propertyName)
+//    {
+//        self::assert(func_num_args() === 1);
+//        self::assert(is_string($propertyName));
+//
+//        return parent::getStatic($propertyName);
+//    }
+//    /**
+//     * Gets a static property reference.
+//     *
+//     * @param string $propertyName Static property name.
+//     *
+//     * @return mixed& Static property.
+//     */
+//    static function &refStatic($propertyName)
+//    {
+//        self::limitAccess(parent::$staticPropertyLimitings[$propertyName]);
+//
+//        self::assert(func_num_args() === 1);
+//        self::assert(is_string($propertyName));
+//
+//        return parent::refStatic($propertyName);
+//    }
 
     /**
      * For debug.
@@ -182,23 +181,23 @@ final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
         return parent::chmod($name, $permission, $timeout, $sleepMicroSeconds);
     }
 
-    /**
-     * For debug.
-     *
-     * @param array $params            Same as parent.
-     * @param int   $timeout           Same as parent.
-     * @param int   $sleepMicroSeconds Same as parent.
-     *
-     * @return Same as parent.
-     */
-    static function mkdir(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
-    {
-        self::assert(func_num_args() <= 3);
-        self::assert(is_int($timeout));
-        self::assert(is_int($sleepMicroSeconds));
-
-        return parent::mkdir($params, $timeout, $sleepMicroSeconds);
-    }
+//    /**
+//     * For debug.
+//     *
+//     * @param array $params            Same as parent.
+//     * @param int   $timeout           Same as parent.
+//     * @param int   $sleepMicroSeconds Same as parent.
+//     *
+//     * @return Same as parent.
+//     */
+//    static function mkdir(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
+//    {
+//        self::assert(func_num_args() <= 3);
+//        self::assert(is_int($timeout));
+//        self::assert(is_int($sleepMicroSeconds));
+//
+//        return parent::mkdir($params, $timeout, $sleepMicroSeconds);
+//    }
 
     /**
      * For debug.
