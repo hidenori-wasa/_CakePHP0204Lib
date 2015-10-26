@@ -329,7 +329,7 @@ abstract class BreakpointDebugging_InAllCase
      *
      * @return void
      *
-     * @codeCoverageIgnore
+     * @//codeCoverageIgnore
      * Because I do not want to stop at breakpoint.
      */
     static function breakpoint($message, $callStackInfo)
@@ -522,9 +522,9 @@ abstract class BreakpointDebugging_InAllCase
                     return;
                 }
             }
-            // @codeCoverageIgnoreStart
+            // @//codeCoverageIgnoreStart
         } else {
-            // @codeCoverageIgnoreEnd
+            // @//codeCoverageIgnoreEnd
             if (self::_checkInvokerFilePath(self::$_includePaths, $invokerFilePaths, $fullFilePath)) {
                 return;
             }
@@ -1354,6 +1354,9 @@ EOD;
     static function mkdir(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
     {
         //\BreakpointDebugging::limitAccess('BreakpointDebugging_InDebug.php');
+        self::assert(func_num_args() <= 3);
+        self::assert(is_int($timeout));
+        self::assert(is_int($sleepMicroSeconds));
 
         if (!array_key_exists(1, $params)) {
             $params[1] = 0700;
@@ -1871,7 +1874,7 @@ EOD;
             }
             // Copies the "BreakpointDebugging_*.php" file into current work directory.
             self::copyResourceToCWD('BreakpointDebugging_ErrorLogFilesManager.php', '');
-            self::copyResourceToCWD('BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport.php', '');
+            //self::copyResourceToCWD('BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport.php', '');
             self::copyResourceToCWD('BreakpointDebugging_ProductionSwitcher.php', '');
         }
 
@@ -2076,7 +2079,7 @@ EOD;
      *
      * @return void
      *
-     * @codeCoverageIgnore
+     * @//codeCoverageIgnore
      */
     static function shutdown()
     {

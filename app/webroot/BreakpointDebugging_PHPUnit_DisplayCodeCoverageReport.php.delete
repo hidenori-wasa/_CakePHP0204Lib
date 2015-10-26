@@ -19,7 +19,7 @@
 require_once './BreakpointDebugging_Inclusion.php';
 
 use \BreakpointDebugging as B;
-use BreakpointDebugging_PHPUnit as BU;
+use \BreakpointDebugging_PHPUnit as BU;
 use \BreakpointDebugging_Window as BW;
 
 if (!B::checkDevelopmentSecurity()) {
@@ -105,7 +105,7 @@ class BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport
             ob_start();
 
             //$classFilePaths = B::getStatic('$_classFilePaths');
-            $classFilePaths = B::getClassFilePaths();
+            $classFilePaths = BU::getClassFilePaths();
             $thisFileURI = str_repeat('../', preg_match_all('`/`xX', $_SERVER['PHP_SELF'], $matches) - 1) . substr(str_replace('\\', '/', __FILE__), strlen($_SERVER['DOCUMENT_ROOT']) + 1);
             if (!is_array($classFilePaths)) {
                 $classFilePaths = array ($classFilePaths);

@@ -50,14 +50,14 @@ abstract class TestClass_InAllCase
      */
     //static $_staticA = 'staticA';
     //// private static $_staticA = 'staticA'; // Actual "php" code.
-    private static $_staticA = 'staticA'; // Actual "php" code.
+    private static $_staticA = 'staticA';
 
     /**
      * @var mixed Dummy.
      */
     //static $_staticB = 'staticB';
     //// private static $_staticB = 'staticB'; // Actual "php" code.
-    private static $_staticB = 'staticB'; // Actual "php" code.
+    private static $_staticB = 'staticB';
 
     /**
      * @var mixed Dummy.
@@ -285,8 +285,10 @@ foreach ($testValues as $testValue) {
     //B::assert(T::getStatic('$_staticB') === $testValue);
     B::assert(T::getStaticB() === $testValue);
     //B::assert(T::$_staticB === $staticB);
-    // $notExist = &T::refStatic('$_notExist');
-    // T::getStatic('$_notExist');
+    //// $notExist = &T::refStatic('$_notExist');
+    // $notExist = &T::refNotExist();
+    //// T::getStatic('$_notExist');
+    // T::getNotExist();
 
     $pTestClass->somthingInAllCase($testValue);
     $pTestClass->somthing($testValue);
@@ -306,5 +308,3 @@ $htmlFileContent = <<<EOD
 EOD;
 BW::virtualOpen('BreakpointDebugging_limitAccess', $htmlFileContent);
 BW::htmlAddition('BreakpointDebugging_limitAccess', 'pre', 0, 'END.');
-
-?>

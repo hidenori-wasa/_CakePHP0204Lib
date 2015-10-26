@@ -104,18 +104,23 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 
         // Checks the autoload functions.
         $autoloadFunctions = spl_autoload_functions();
+//        if (is_array($autoloadFunctions[0]) //
+//            && $autoloadFunctions[0][0] === self::$_phpUnit->getStaticVariableStorageInstance() //
+//            && $autoloadFunctions[0][1] === 'loadClass' //
+//        ) {
+//            return;
+//        }
+        //if (is_object($autoloadFunctions[0][0])) {
         if (is_array($autoloadFunctions[0]) //
-            && $autoloadFunctions[0][0] === self::$_phpUnit->getStaticVariableStorageInstance() //
-            && $autoloadFunctions[0][1] === 'loadClass' //
-        ) {
-            return;
-        }
-        if (is_object($autoloadFunctions[0][0])) {
+            && is_object($autoloadFunctions[0][0])) {
             $className = get_class($autoloadFunctions[0][0]);
         } else {
             $className = $autoloadFunctions[0][0];
         }
         $autoloadFunction = $className . '::' . $autoloadFunctions[0][1];
+        if ($autoloadFunction === 'BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass') {
+            return;
+        }
 
         $message = '<b>You must not register autoload function "' . $autoloadFunction . '" at top of stack by "spl_autoload_register()" in all code.' . PHP_EOL;
         if ($testMethodName) {

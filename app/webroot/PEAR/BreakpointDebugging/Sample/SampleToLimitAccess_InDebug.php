@@ -95,8 +95,10 @@ class TestClass extends \TestClass_InAllCase
         $staticB = $testValue;
         //B::assert(T::getStatic('$_staticB') === $staticB);
         B::assert(T::getStaticB() === $staticB);
-        // $notExist = &T::refStatic('$_notExist');
-        // T::getStatic('$_notExist');
+        //// $notExist = &T::refStatic('$_notExist');
+        // $notExist = &T::refNotExist();
+        //// T::getStatic('$_notExist');
+        // T::getNotExist();
     }
 
 }

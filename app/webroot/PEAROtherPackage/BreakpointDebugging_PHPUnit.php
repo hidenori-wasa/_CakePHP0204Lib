@@ -3,6 +3,11 @@
 /**
  * Classes for unit test.
  *
+ * PHP version 5.3.2-5.4.x
+ *
+ * This file does not use except unit test. Therefore, response time is zero in release.
+ * This file names put "_" to cause error when we do autoload.
+ *
  * LICENSE:
  * Copyright (c) 2013-, Hidenori Wasa
  * All rights reserved.
@@ -27,26 +32,6 @@ use \BreakpointDebugging_PHPUnit_StaticVariableStorage as BSS;
 B::limitAccess('BreakpointDebugging.php', true);
 /**
  * Own package exception. For unit test.
- *
- * PHP version 5.3.2-5.4.x
- *
- * This file does not use except unit test. Therefore, response time is zero in release.
- * This file names put "_" to cause error when we do autoload.
- *
- * ### How to develop by this package. ###
- * Procedure 1: Create or change a class method.
- *      Then, write unfinished meaning code into its class method.
- *      Example: \BreakpointDebugging::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
- * Procedure 2: Create or change its unit test.
- * Procedure 3: Do breakpoint debugging by execution of its unit test because as for code with many bugs, this way is earlier.
- * Procedure 4: Please, execute the following procedure.
- *      We must repair the code which was mistaken by step execution of all line of its class method.
- *      Because "php" language sometimes works in mistaken code.
- *      If correcting, return to procedure 3.
- *          1. Set many breakpoint to do step execution for all codes inside its class method.
- *          2. Then, do the step execution after breakpoint by execution of unit test.
- *          3. Then, erase its breakpoint if it succeeded.
- * Procedure 5: Comment out code meaning that its class method is incompletely.
  *
  * ### Running procedure. ###
  * Please, run the following procedure.
@@ -108,12 +93,11 @@ B::limitAccess('BreakpointDebugging.php', true);
  *      "@see" BreakpointDebugging_PHPUnit::executeUnitTest()
  *      "@see" BreakpointDebugging_PHPUnit::executeUnitTestSimple()
  *      "@see" BreakpointDebugging_PHPUnit::displayCodeCoverageReport()
- *      "@see" BreakpointDebugging_PHPUnit::displayCodeCoverageReportSimple()
  *
  * Example page of unit test file (*Test.php, *TestSimple.php):
  *      For "BreakpointDebugging_PHPUnit::executeUnitTest()" or "BreakpointDebugging_PHPUnit::displayCodeCoverageReport()".
  *          "@see" tests/PEAR/ExampleTest.php
- *      For "BreakpointDebugging_PHPUnit::executeUnitTestSimple()" or "BreakpointDebugging_PHPUnit::displayCodeCoverageReportSimple()".
+ *      For "BreakpointDebugging_PHPUnit::executeUnitTestSimple()" or "BreakpointDebugging_PHPUnit::displayCodeCoverageReport()".
  *          "@see" tests/PEAR/ExampleTestSimple.php
  *
  * ### Coding rule. ###
@@ -149,37 +133,37 @@ B::limitAccess('BreakpointDebugging.php', true);
  *          Reference copy must use "&parent::" in case of parent class above one hierarchy.
  *          Except those, Reference copy must use "&<official class name>::".
  *          Those is same about "$this".
- * The file search detection rule 2: We must not code except "tab and space" behind "@codeCoverageIgnore".
- *      Because of parsing to except '@codeCoverageIgnore' and "@codeCoverageIgnore" of code coverage report.
+ * The file search detection rule 2: We must not code except "tab and space" behind "@ codeCoverageIgnore".
+ *      Because of parsing to except '@ codeCoverageIgnore' and "@ codeCoverageIgnore" of code coverage report.
  *      Example of rule violation:
- *          "@codeCoverageIgnore" A sentence.
+ *          "@ codeCoverageIgnore" A sentence.
  *      Instead:
- *          "@codeCoverageIgnore"
+ *          "@ codeCoverageIgnore"
  *          A sentence.
  *      Please, search the rule violation of file by the following regular expression.
- *          "@codeCoverageIgnore[^SE\r\n][\t\x20]*[^\t\x20].*$"
+ *          "@ codeCoverageIgnore[^SE\r\n][\t\x20]*[^\t\x20].*$"
  * The file search detection rule 3: We must not use "filter_input()" and "filter_input_array()".
  *      Because we cannot execute "unit test" by super global variable change.
  *      Please, search the rule violation of file by the following regular expression.
  *          filter_input[\t\x20\r\n]*\(
  *          filter_input_array[\t\x20\r\n]*\(
  *
- * Autodetecting rule 1: Unit test file name of "PHPUnit" package should be "*Test.php".
+ * Auto detection rule 1: Unit test file name of "PHPUnit" package should be "*Test.php".
  *      And, simple unit test file name must be "*TestSimple.php"
  *      because "PHPUnit" package searches "*Test.php" file.
- * Autodetecting rule 2: We must not delete or change static status by the autoload
+ * Auto detection rule 2: We must not delete or change static status by the autoload
  *      because autoload is executed only once per file.
- * Autodetecting rule 3: We must use private static property instead of use local static variable in static class method
+ * Auto detection rule 3: We must use private static property instead of use local static variable in static class method
  *      because "php" version 5.3.0 cannot restore its value.
- * Autodetecting rule 4: We must use private static property in class method instead of use local static variable in function
+ * Auto detection rule 4: We must use private static property in class method instead of use local static variable in function
  *      because "php" version 5.3.0 cannot restore its value.
- * Autodetecting rule 5: We must operate any variable and any property inside "setUp()", test class methods or "tearDown()" about test code.
+ * Auto detection rule 5: We must operate any variable and any property inside "setUp()", test class methods or "tearDown()" about test code.
  *      Because we must test with same condition.
  *      So, global variables or static properties is restored with initial value before "setUp()".
- * Autodetecting rule 6: We must not register autoload function at top of stack by "spl_autoload_register()" in all code
+ * Auto detection rule 6: We must not register autoload function at top of stack by "spl_autoload_register()" in all code
  *      because server stores static status by autoload function.
  *      Example: spl_autoload_register('\SomethingClassName::autoloadFunctionName', true, true);
- * Autodetecting rule 7: We must not use unit test's "--process-isolation" command line switch because its tests is run in other process.
+ * Auto detection rule 7: We must not use unit test's "--process-isolation" command line switch because its tests is run in other process.
  *      Because we cannot debug unit test code with IDE.
  *
  * Recommendation rule 1: We should destruct a test instance per test in "tearDown()" because it cuts down on production server memory use.
@@ -197,9 +181,9 @@ B::limitAccess('BreakpointDebugging.php', true);
  * The special rule of "\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple":
  *      We must use try-catch statement instead of annotation.
  *      However, we can use following annotation.
- *          "@codeCoverageIgnore"
- *          "@codeCoverageIgnoreStart"
- *          "@codeCoverageIgnoreEnd"
+ *          "@ codeCoverageIgnore"
+ *          "@ codeCoverageIgnoreStart"
+ *          "@ codeCoverageIgnoreEnd"
  *      The class methods and property which can be used are limited below.
  *          \BreakpointDebugging_PHPUnit::$exeMode
  *          \BreakpointDebugging_PHPUnit::setDebug()
@@ -217,9 +201,9 @@ B::limitAccess('BreakpointDebugging.php', true);
  * Caution: Don't test an unit when practical use server has been running with synchronization file because synchronization is destroyed.
  *
  * How to run multiprocess unit test:
- *      Procedure 1: Use "popen()" inside your unit test class method "test...()".
- *      Procedure 2: Judge by using "parent::assertTrue(<conditional expression>)".
- *      "@see" tests_PEAR_BreakpointDebugging_MultiprocessTest_Main::test()
+ *      Procedure 1: Use "\BreakpointDebugging_CommandLine::popen()" class method in your unit test code.
+ *      Procedure 2: Use "\BreakpointDebugging_CommandLine::waitForMultipleProcesses()" class method in your unit test code.
+ *      Please, see "tests_PEAR_BreakpointDebugging_MultiprocessTest_Main::test()" class method as example.
  *
  * @category PHP
  * @package  BreakpointDebugging_PHPUnit
@@ -433,6 +417,16 @@ class BreakpointDebugging_PHPUnit
     /**
      * Gets this class's property.
      *
+     * @return mixed This class's property.
+     */
+    static function getClassFilePaths()
+    {
+        return self::$_classFilePaths;
+    }
+
+    /**
+     * Gets this class's property.
+     *
      * @return array This class's property.
      */
     static function getCodeCoverageReportPath()
@@ -574,7 +568,7 @@ EOD;
             $functionName = $call['function'];
             if ($functionName === 'executeUnitTestSimple' //
                 || $functionName === 'executeUnitTest' //
-                || $functionName === 'displayCodeCoverageReportSimple' //
+                //|| $functionName === 'displayCodeCoverageReportSimple' //
                 || $functionName === 'displayCodeCoverageReport' //
             ) {
                 self::$unitTestDir = dirname($call['file']) . DIRECTORY_SEPARATOR;
@@ -605,7 +599,7 @@ EOD;
      *
      * @return void
      *
-     * @codeCoverageIgnore
+     * @//codeCoverageIgnore
      * Because "phpunit" command cannot run during "phpunit" command running.
      */
     private function _runPHPUnitCommand($command)
@@ -725,7 +719,7 @@ EOD;
      *
      * @return void
      *
-     * @codeCoverageIgnore
+     * @//codeCoverageIgnore
      * Because this is code for unit test.
      */
     function displayProgress($dy = 0)
@@ -757,37 +751,36 @@ EOD;
         }
     }
 
-    /**
-     * Deletes code coverage report.
-     *
-     * @return string Code coverage report path.
-     *
-     * @codeCoverageIgnore
-     * Because this is code for unit test.
-     */
-    static function deleteCodeCoverageReport()
-    {
-        B::limitAccess(
-            array (
-            basename(__FILE__),
-            './BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport.php'
-            ), true
-        );
-
-        $codeCoverageReportPath = BREAKPOINTDEBUGGING_WORK_DIR_NAME . 'CodeCoverageReport/';
-        // Deletes code coverage report directory files.
-        if (is_dir($codeCoverageReportPath)) {
-            foreach (scandir($codeCoverageReportPath) as $codeCoverageReportDirElement) {
-                $errorLogDirElementPath = $codeCoverageReportPath . $codeCoverageReportDirElement;
-                if (is_file($errorLogDirElementPath)) {
-                    // Deletes a file.
-                    B::unlink(array ($errorLogDirElementPath));
-                }
-            }
-        }
-        return $codeCoverageReportPath;
-    }
-
+//    /**
+//     * Deletes code coverage report.
+//     *
+//     * @return string Code coverage report path.
+//     *
+//     * @codeCoverageIgnore
+//     * Because this is code for unit test.
+//     */
+//    static function deleteCodeCoverageReport()
+//    {
+//        B::limitAccess(
+//            array (
+//            basename(__FILE__),
+//            './BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport.php'
+//            ), true
+//        );
+//
+//        $codeCoverageReportPath = BREAKPOINTDEBUGGING_WORK_DIR_NAME . 'CodeCoverageReport/';
+//        // Deletes code coverage report directory files.
+//        if (is_dir($codeCoverageReportPath)) {
+//            foreach (scandir($codeCoverageReportPath) as $codeCoverageReportDirElement) {
+//                $errorLogDirElementPath = $codeCoverageReportPath . $codeCoverageReportDirElement;
+//                if (is_file($errorLogDirElementPath)) {
+//                    // Deletes a file.
+//                    B::unlink(array ($errorLogDirElementPath));
+//                }
+//            }
+//        }
+//        return $codeCoverageReportPath;
+//    }
     //////////////////////////////////////// For package user ////////////////////////////////////////
     /**
      * Sets the debug execution mode.
@@ -1041,7 +1034,7 @@ EOD;
      *
      * @return void
      *
-     * @codeCoverageIgnore
+     * @//codeCoverageIgnore
      * Because this exits.
      */
     static function checkExeMode($isUnitTest = false)
@@ -1058,6 +1051,93 @@ EOD;
             BW::exitForError('<b>' . $errorMessage . '</b>');
         }
     }
+
+    static $exclusionClassNames = array (
+        // Required class names.
+        'App' => true, // "CakePHP" class.
+        'BaseCoverageReport' => true, // "CakePHP" class.
+        'CakeBaseReporter' => true, // "CakePHP" class.
+        'CakeFixtureManager' => true, // "CakePHP" class.
+        'CakeHtmlReporter' => true, // "CakePHP" class.
+        'CakeTestCase' => true, // "CakePHP" class.
+        'CakeTestFixture' => true, // "CakePHP" class.
+        'CakeTestLoader' => true, // "CakePHP" class.
+        'CakeTestModel' => true, // "CakePHP" class.
+        'CakeTestRunner' => true, // "CakePHP" class.
+        'CakeTestSuite' => true, // "CakePHP" class.
+        'CakeTestSuiteCommand' => true, // "CakePHP" class.
+        'CakeTestSuiteDispatcher' => true, // "CakePHP" class.
+        'CakeTextReporter' => true, // "CakePHP" class.
+        'ClassRegistry' => true, // "CakePHP" class.
+        'ControllerTestCase' => true, // "CakePHP" class.
+        'HtmlCoverageReport' => true, // "CakePHP" class.
+        'TextCoverageReport' => true, // "CakePHP" class.
+        'WasaTestArrayCommand' => true, // Wasa's "CakePHP" class.
+        'WasaTestArrayDispatcher' => true, // Wasa's "CakePHP" class.
+        // Optional class names.
+        'AclException' => true, // "CakePHP" class.
+        'BadRequestException' => true, // "CakePHP" class.
+        'BaseLog' => true, // "CakePHP" class.
+        'BreakpointDebugging_Error' => true,
+        'BreakpointDebugging_ErrorInAllCase' => true,
+        'BreakpointDebugging_PHPUnit' => true,
+        'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple' => true,
+        'BreakpointDebugging_Shmop' => true,
+        'BreakpointDebugging\NativeFunctions' => true,
+        'Cache' => true, // "CakePHP" class.
+        'CacheEngine' => true, // "CakePHP" class.
+        'CacheException' => true, // "CakePHP" class.
+        'CakeBaseException' => true, // "CakePHP" class.
+        'CakeException' => true, // "CakePHP" class.
+        'CakeLog' => true, // "CakePHP" class.
+        'CakeLogException' => true, // "CakePHP" class.
+        'CakePlugin' => true, // "CakePHP" class.
+        'CakeSessionException' => true, // "CakePHP" class.
+        'Configure' => true, // "CakePHP" class.
+        'ConfigureException' => true, // "CakePHP" class.
+        'ConsoleException' => true, // "CakePHP" class.
+        'Debugger' => true, // "CakePHP" class.
+        'ErrorHandler' => true, // "CakePHP" class.
+        'FatalErrorException' => true, // "CakePHP" class.
+        'FileEngine' => true, // "CakePHP" class.
+        'FileLog' => true, // "CakePHP" class.
+        'ForbiddenException' => true, // "CakePHP" class.
+        'Hash' => true, // "CakePHP" class.
+        'HttpException' => true, // "CakePHP" class.
+        'Inflector' => true, // "CakePHP" class.
+        'InternalErrorException' => true, // "CakePHP" class.
+        'LogEngineCollection' => true, // "CakePHP" class.
+        'MethodNotAllowedException' => true, // "CakePHP" class.
+        'MissingActionException' => true, // "CakePHP" class.
+        'MissingBehaviorException' => true, // "CakePHP" class.
+        'MissingComponentException' => true, // "CakePHP" class.
+        'MissingConnectionException' => true, // "CakePHP" class.
+        'MissingControllerException' => true, // "CakePHP" class.
+        'MissingDatabaseException' => true, // "CakePHP" class.
+        'MissingDatasourceConfigException' => true, // "CakePHP" class.
+        'MissingDatasourceException' => true, // "CakePHP" class.
+        'MissingDispatcherFilterException' => true, // "CakePHP" class.
+        'MissingHelperException' => true, // "CakePHP" class.
+        'MissingLayoutException' => true, // "CakePHP" class.
+        'MissingModelException' => true, // "CakePHP" class.
+        'MissingPluginException' => true, // "CakePHP" class.
+        'MissingShellException' => true, // "CakePHP" class.
+        'MissingShellMethodException' => true, // "CakePHP" class.
+        'MissingTableException' => true, // "CakePHP" class.
+        'MissingTaskException' => true, // "CakePHP" class.
+        'MissingTestLoaderException' => true, // "CakePHP" class.
+        'MissingViewException' => true, // "CakePHP" class.
+        'NotFoundException' => true, // "CakePHP" class.
+        'NotImplementedException' => true, // "CakePHP" class.
+        'ObjectCollection' => true, // "CakePHP" class.
+        'PEAR_Exception' => true,
+        'PrivateActionException' => true, // "CakePHP" class.
+        'RouterException' => true, // "CakePHP" class.
+        'SocketException' => true, // "CakePHP" class.
+        'String' => true, // "CakePHP" class.
+        'UnauthorizedException' => true, // "CakePHP" class.
+        'XmlException' => true, // "CakePHP" class.
+    );
 
     /**
      * Prepares unit test.
@@ -1090,6 +1170,7 @@ EOD;
                     // Excepts unit test classes.
                     if (preg_match('`^ BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)`xX', $declaredClassName) === 1 //
                         || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
+                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
                     ) {
                         restore_error_handler();
                         return true;
@@ -1102,98 +1183,99 @@ EOD;
                 break;
             case 'PHPUNIT':
                 $isUnitTestClass = function ($declaredClassName) {
-                    static $exclusionClassNames = array (
-                        // Required class names.
-                        'App' => true, // "CakePHP" class.
-                        'BaseCoverageReport' => true, // "CakePHP" class.
-                        'CakeBaseReporter' => true, // "CakePHP" class.
-                        'CakeFixtureManager' => true, // "CakePHP" class.
-                        'CakeHtmlReporter' => true, // "CakePHP" class.
-                        'CakeTestCase' => true, // "CakePHP" class.
-                        'CakeTestFixture' => true, // "CakePHP" class.
-                        'CakeTestLoader' => true, // "CakePHP" class.
-                        'CakeTestModel' => true, // "CakePHP" class.
-                        'CakeTestRunner' => true, // "CakePHP" class.
-                        'CakeTestSuite' => true, // "CakePHP" class.
-                        'CakeTestSuiteCommand' => true, // "CakePHP" class.
-                        'CakeTestSuiteDispatcher' => true, // "CakePHP" class.
-                        'CakeTextReporter' => true, // "CakePHP" class.
-                        'ClassRegistry' => true, // "CakePHP" class.
-                        'ControllerTestCase' => true, // "CakePHP" class.
-                        'HtmlCoverageReport' => true, // "CakePHP" class.
-                        'TextCoverageReport' => true, // "CakePHP" class.
-                        'WasaTestArrayCommand' => true, // Wasa's "CakePHP" class.
-                        'WasaTestArrayDispatcher' => true, // Wasa's "CakePHP" class.
-                        // Optional class names.
-                        'AclException' => true, // "CakePHP" class.
-                        'BadRequestException' => true, // "CakePHP" class.
-                        'BaseLog' => true, // "CakePHP" class.
-                        'BreakpointDebugging_Error' => true,
-                        'BreakpointDebugging_ErrorInAllCase' => true,
-                        'BreakpointDebugging_PHPUnit' => true,
-                        'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple' => true,
-                        'BreakpointDebugging_Shmop' => true,
-                        'BreakpointDebugging\NativeFunctions' => true,
-                        'Cache' => true, // "CakePHP" class.
-                        'CacheEngine' => true, // "CakePHP" class.
-                        'CacheException' => true, // "CakePHP" class.
-                        'CakeBaseException' => true, // "CakePHP" class.
-                        'CakeException' => true, // "CakePHP" class.
-                        'CakeLog' => true, // "CakePHP" class.
-                        'CakeLogException' => true, // "CakePHP" class.
-                        'CakePlugin' => true, // "CakePHP" class.
-                        'CakeSessionException' => true, // "CakePHP" class.
-                        'Configure' => true, // "CakePHP" class.
-                        'ConfigureException' => true, // "CakePHP" class.
-                        'ConsoleException' => true, // "CakePHP" class.
-                        'Debugger' => true, // "CakePHP" class.
-                        'ErrorHandler' => true, // "CakePHP" class.
-                        'FatalErrorException' => true, // "CakePHP" class.
-                        'FileEngine' => true, // "CakePHP" class.
-                        'FileLog' => true, // "CakePHP" class.
-                        'ForbiddenException' => true, // "CakePHP" class.
-                        'Hash' => true, // "CakePHP" class.
-                        'HttpException' => true, // "CakePHP" class.
-                        'Inflector' => true, // "CakePHP" class.
-                        'InternalErrorException' => true, // "CakePHP" class.
-                        'LogEngineCollection' => true, // "CakePHP" class.
-                        'MethodNotAllowedException' => true, // "CakePHP" class.
-                        'MissingActionException' => true, // "CakePHP" class.
-                        'MissingBehaviorException' => true, // "CakePHP" class.
-                        'MissingComponentException' => true, // "CakePHP" class.
-                        'MissingConnectionException' => true, // "CakePHP" class.
-                        'MissingControllerException' => true, // "CakePHP" class.
-                        'MissingDatabaseException' => true, // "CakePHP" class.
-                        'MissingDatasourceConfigException' => true, // "CakePHP" class.
-                        'MissingDatasourceException' => true, // "CakePHP" class.
-                        'MissingDispatcherFilterException' => true, // "CakePHP" class.
-                        'MissingHelperException' => true, // "CakePHP" class.
-                        'MissingLayoutException' => true, // "CakePHP" class.
-                        'MissingModelException' => true, // "CakePHP" class.
-                        'MissingPluginException' => true, // "CakePHP" class.
-                        'MissingShellException' => true, // "CakePHP" class.
-                        'MissingShellMethodException' => true, // "CakePHP" class.
-                        'MissingTableException' => true, // "CakePHP" class.
-                        'MissingTaskException' => true, // "CakePHP" class.
-                        'MissingTestLoaderException' => true, // "CakePHP" class.
-                        'MissingViewException' => true, // "CakePHP" class.
-                        'NotFoundException' => true, // "CakePHP" class.
-                        'NotImplementedException' => true, // "CakePHP" class.
-                        'ObjectCollection' => true, // "CakePHP" class.
-                        'PEAR_Exception' => true,
-                        'PrivateActionException' => true, // "CakePHP" class.
-                        'RouterException' => true, // "CakePHP" class.
-                        'SocketException' => true, // "CakePHP" class.
-                        'String' => true, // "CakePHP" class.
-                        'UnauthorizedException' => true, // "CakePHP" class.
-                        'XmlException' => true, // "CakePHP" class.
-                    );
+//                    static $exclusionClassNames = array (
+//                        // Required class names.
+//                        'App' => true, // "CakePHP" class.
+//                        'BaseCoverageReport' => true, // "CakePHP" class.
+//                        'CakeBaseReporter' => true, // "CakePHP" class.
+//                        'CakeFixtureManager' => true, // "CakePHP" class.
+//                        'CakeHtmlReporter' => true, // "CakePHP" class.
+//                        'CakeTestCase' => true, // "CakePHP" class.
+//                        'CakeTestFixture' => true, // "CakePHP" class.
+//                        'CakeTestLoader' => true, // "CakePHP" class.
+//                        'CakeTestModel' => true, // "CakePHP" class.
+//                        'CakeTestRunner' => true, // "CakePHP" class.
+//                        'CakeTestSuite' => true, // "CakePHP" class.
+//                        'CakeTestSuiteCommand' => true, // "CakePHP" class.
+//                        'CakeTestSuiteDispatcher' => true, // "CakePHP" class.
+//                        'CakeTextReporter' => true, // "CakePHP" class.
+//                        'ClassRegistry' => true, // "CakePHP" class.
+//                        'ControllerTestCase' => true, // "CakePHP" class.
+//                        'HtmlCoverageReport' => true, // "CakePHP" class.
+//                        'TextCoverageReport' => true, // "CakePHP" class.
+//                        'WasaTestArrayCommand' => true, // Wasa's "CakePHP" class.
+//                        'WasaTestArrayDispatcher' => true, // Wasa's "CakePHP" class.
+//                        // Optional class names.
+//                        'AclException' => true, // "CakePHP" class.
+//                        'BadRequestException' => true, // "CakePHP" class.
+//                        'BaseLog' => true, // "CakePHP" class.
+//                        'BreakpointDebugging_Error' => true,
+//                        'BreakpointDebugging_ErrorInAllCase' => true,
+//                        'BreakpointDebugging_PHPUnit' => true,
+//                        'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple' => true,
+//                        'BreakpointDebugging_Shmop' => true,
+//                        'BreakpointDebugging\NativeFunctions' => true,
+//                        'Cache' => true, // "CakePHP" class.
+//                        'CacheEngine' => true, // "CakePHP" class.
+//                        'CacheException' => true, // "CakePHP" class.
+//                        'CakeBaseException' => true, // "CakePHP" class.
+//                        'CakeException' => true, // "CakePHP" class.
+//                        'CakeLog' => true, // "CakePHP" class.
+//                        'CakeLogException' => true, // "CakePHP" class.
+//                        'CakePlugin' => true, // "CakePHP" class.
+//                        'CakeSessionException' => true, // "CakePHP" class.
+//                        'Configure' => true, // "CakePHP" class.
+//                        'ConfigureException' => true, // "CakePHP" class.
+//                        'ConsoleException' => true, // "CakePHP" class.
+//                        'Debugger' => true, // "CakePHP" class.
+//                        'ErrorHandler' => true, // "CakePHP" class.
+//                        'FatalErrorException' => true, // "CakePHP" class.
+//                        'FileEngine' => true, // "CakePHP" class.
+//                        'FileLog' => true, // "CakePHP" class.
+//                        'ForbiddenException' => true, // "CakePHP" class.
+//                        'Hash' => true, // "CakePHP" class.
+//                        'HttpException' => true, // "CakePHP" class.
+//                        'Inflector' => true, // "CakePHP" class.
+//                        'InternalErrorException' => true, // "CakePHP" class.
+//                        'LogEngineCollection' => true, // "CakePHP" class.
+//                        'MethodNotAllowedException' => true, // "CakePHP" class.
+//                        'MissingActionException' => true, // "CakePHP" class.
+//                        'MissingBehaviorException' => true, // "CakePHP" class.
+//                        'MissingComponentException' => true, // "CakePHP" class.
+//                        'MissingConnectionException' => true, // "CakePHP" class.
+//                        'MissingControllerException' => true, // "CakePHP" class.
+//                        'MissingDatabaseException' => true, // "CakePHP" class.
+//                        'MissingDatasourceConfigException' => true, // "CakePHP" class.
+//                        'MissingDatasourceException' => true, // "CakePHP" class.
+//                        'MissingDispatcherFilterException' => true, // "CakePHP" class.
+//                        'MissingHelperException' => true, // "CakePHP" class.
+//                        'MissingLayoutException' => true, // "CakePHP" class.
+//                        'MissingModelException' => true, // "CakePHP" class.
+//                        'MissingPluginException' => true, // "CakePHP" class.
+//                        'MissingShellException' => true, // "CakePHP" class.
+//                        'MissingShellMethodException' => true, // "CakePHP" class.
+//                        'MissingTableException' => true, // "CakePHP" class.
+//                        'MissingTaskException' => true, // "CakePHP" class.
+//                        'MissingTestLoaderException' => true, // "CakePHP" class.
+//                        'MissingViewException' => true, // "CakePHP" class.
+//                        'NotFoundException' => true, // "CakePHP" class.
+//                        'NotImplementedException' => true, // "CakePHP" class.
+//                        'ObjectCollection' => true, // "CakePHP" class.
+//                        'PEAR_Exception' => true,
+//                        'PrivateActionException' => true, // "CakePHP" class.
+//                        'RouterException' => true, // "CakePHP" class.
+//                        'SocketException' => true, // "CakePHP" class.
+//                        'String' => true, // "CakePHP" class.
+//                        'UnauthorizedException' => true, // "CakePHP" class.
+//                        'XmlException' => true, // "CakePHP" class.
+//                    );
 
                     set_error_handler('\BreakpointDebugging::handleError', 0);
                     // Excepts unit test classes.
                     if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
                         || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
-                        || array_key_exists($declaredClassName, $exclusionClassNames)
+                        //|| array_key_exists($declaredClassName, $exclusionClassNames)
+                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
                     ) {
                         restore_error_handler();
                         return true;
@@ -1206,6 +1288,19 @@ EOD;
                 \BreakpointDebugging_PHPUnit_FrameworkTestCase::setPHPUnit($this);
                 break;
             case 'PHPUNIT_OWN':
+                $isUnitTestClass = function ($declaredClassName) {
+                    set_error_handler('\BreakpointDebugging::handleError', 0);
+                    // Excepts unit test classes.
+                    if (preg_match('`^ PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template`xX', $declaredClassName) === 1 //
+                        || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
+                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+                    ) {
+                        restore_error_handler();
+                        return true;
+                    }
+                    restore_error_handler();
+                    return false;
+                };
                 $this->_phpUnitUse = true;
                 $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnit';
                 \BreakpointDebugging_PHPUnit_FrameworkTestCase::setPHPUnit($this);
@@ -1216,6 +1311,7 @@ EOD;
                     if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
                         || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
                         || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
+                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
                     ) {
                         restore_error_handler();
                         return true;
@@ -1345,19 +1441,20 @@ EOD;
      * </pre>
      *
      * @param array  $testFilePaths       The file paths of unit tests.
-     * @param string $commandLineSwitches Command-line-switches except "--stop-on-failure --static-backup".
      * @param string $howToTest           How to test?
      *      'PHPUNIT':     Uses "PHPUnit" package.
      *      'PHPUNIT_OWN': This package's 'PHPUNIT' mode test.
      *      'SIMPLE':      Does not use "PHPUnit" package. This mode can be used instead of "*.phpt" file.
      *      'SIMPLE_OWN':  This package test.
+     * @param string $commandLineSwitches Command-line-switches except "--stop-on-failure --static-backup".
      *
      * @return void
      *
-     * @codeCoverageIgnore
+     * @//codeCoverageIgnore
      * Because "phpunit" command cannot run during "phpunit" command running.
      */
-    function executeUnitTest($testFilePaths, $commandLineSwitches = '', $howToTest = 'PHPUNIT')
+    //function executeUnitTest($testFilePaths, $commandLineSwitches = '', $howToTest = 'PHPUNIT')
+    function executeUnitTest($testFilePaths, $howToTest = 'PHPUNIT', $commandLineSwitches = '')
     {
         B::assert(func_num_args() <= 3);
         B::assert(is_array($testFilePaths));
@@ -1399,11 +1496,25 @@ EOD;
         $this->_getUnitTestDir();
         echo 'The test current directory = <b>"' . str_replace('\\', '/', realpath(self::$unitTestDir . $this->_testDir)) . '/"</b>' . PHP_EOL;
 
-        if (BREAKPOINTDEBUGGING_IS_CAKE) {
+        if (BREAKPOINTDEBUGGING_IS_CAKE //
+            && spl_autoload_functions() === array (array ('BreakpointDebugging', 'loadClass')) //
+        ) {
             // Changes autoload class method order.
-            spl_autoload_unregister('\BreakpointDebugging::loadClass');
-            include $this->_WasaCakeTestStartPagePath;
-            spl_autoload_register('\BreakpointDebugging::loadClass');
+            $result = spl_autoload_unregister('\BreakpointDebugging::loadClass');
+            B::assert($result === true);
+            //include $this->_WasaCakeTestStartPagePath;
+            include_once $this->_WasaCakeTestStartPagePath;
+            $result = spl_autoload_register('\BreakpointDebugging::loadClass');
+            B::assert($result === true);
+            //$result = spl_autoload_unregister(array ('App', 'load'));
+            //B::assert($result === true);
+            //$result = spl_autoload_register(array ('App', 'load'), true, true);
+            //B::assert($result === true);
+            //if (spl_autoload_unregister(array ($this->_staticVariableStorage, 'loadClass')) === true) {
+            //    $result = spl_autoload_register(array ($this->_staticVariableStorage, 'loadClass'), true, true);
+            //    B::assert($result);
+            //}
+
             if (!BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of development server mode.
                 // Checks the fact that "CakeLog" configuration is not defined because "BreakpointDebugging" pear package does logging.
                 $wasaResult = \CakeLog::configured();
@@ -1502,111 +1613,114 @@ EOD;
      *
      * </pre>
      *
-     * @param array  $testFilePaths The file paths of unit tests.
-     * @param string $howToTest     How to test?
+     * @param array  $testFilePaths       The file paths of unit tests.
+     * @param string $howToTest           How to test?
      *      'SIMPLE': Does not use "PHPUnit" package. This mode can be used instead of "*.phpt" file.
      *      'SIMPLE_OWN': This package test.
+     * @param string $commandLineSwitches Command-line-switches except "--stop-on-failure --static-backup".
      *
      * @return void
      */
-    function executeUnitTestSimple($testFilePaths, $howToTest = 'SIMPLE')
+    //function executeUnitTestSimple($testFilePaths, $howToTest = 'SIMPLE')
+    function executeUnitTestSimple($testFilePaths, $howToTest = 'SIMPLE', $commandLineSwitches = '')
     {
-        $this->executeUnitTest($testFilePaths, '', $howToTest);
+        //$this->executeUnitTest($testFilePaths, '', $howToTest);
+        $this->executeUnitTest($testFilePaths, $howToTest, $commandLineSwitches);
     }
 
-    /**
-     * Creates code coverage report, then displays in browser.
-     *
-     * <pre>
-     * Example top page:
-     *
-     * <code>
-     *      <?php
-     * ;
-     *      chdir(str_repeat('../', preg_match_all('`/`xX', $_SERVER['PHP_SELF'], $matches) - 2));
-     *      unset($matches);
-     * ;
-     *      require_once './BreakpointDebugging_Inclusion.php';
-     * ;
-     *      B::checkExeMode(true);
-     *      // Makes up code coverage report, then displays in browser.
-     *      $breakpointDebugging_PHPUnit = new \BreakpointDebugging_PHPUnit();
-     *      $breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging-InAllCaseTest.php', 'PEAR/BreakpointDebugging.php'); exit;
-     *      // Or, "$breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging/LockByFileExistingTest.php', array ('PEAR/BreakpointDebugging/Lock.php', 'PEAR/BreakpointDebugging/LockByFileExisting.php')); exit;"
-     * </code>
-     *
-     * </pre>
-     *
-     * @param string $testFilePath        Relative path of unit test file.
-     * @param mixed  $classFilePaths      It is relative path of class which see the code coverage, and its current directory must be project directory.
-     * @param string $commandLineSwitches Command-line-switches except "--static-backup --coverage-html".
-     *
-     * @return void
-     *
-     * @codeCoverageIgnore
-     * Because "phpunit" command cannot run during "phpunit" command running.
-     */
-    function displayCodeCoverageReport($testFilePath, $classFilePaths, $commandLineSwitches = '')
-    {
-        if (!B::checkDevelopmentSecurity()) {
-            exit;
-        }
-
-        B::assert(func_num_args() <= 4);
-        B::assert(is_string($testFilePath));
-        B::assert(is_string($classFilePaths) || is_array($classFilePaths));
-
-        if (!extension_loaded('xdebug')) {
-            B::exitForError('"\BreakpointDebugging_PHPUnit::displayCodeCoverageReport()" needs "xdebug" extention.');
-        }
-
-        $this->_prepareUnitTest();
-
-        // Deletes code coverage report.
-        $codeCoverageReportPath = self::deleteCodeCoverageReport();
-        $this->_getUnitTestDir();
-        // Creates code coverage report.
-        $displayErrorsStorage = ini_get('display_errors');
-        ini_set('display_errors', '');
-
-        BW::virtualOpen($this->_unitTestWindowName, $this->getHtmlFileContent());
-        ob_start();
-
-        //if (self::$exeMode & B::RELEASE) {
-        //    echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
-        //} else {
-        //    echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
-        //}
-        if (B::isDebug()) {
-            echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
-        } else {
-            echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
-        }
-
-        if (BREAKPOINTDEBUGGING_IS_CAKE) {
-            // Changes autoload class method order.
-            spl_autoload_unregister('\BreakpointDebugging::loadClass');
-            include $this->_WasaCakeTestStartPagePath;
-            spl_autoload_register('\BreakpointDebugging::loadClass');
-        }
-
-        $this->_runPHPUnitCommand($commandLineSwitches . ' --static-backup --coverage-html ' . $codeCoverageReportPath . ' ' . $testFilePath);
-
-        BW::htmlAddition($this->_unitTestWindowName, 'pre', 0, ob_get_clean());
-
-        ini_set('display_errors', $displayErrorsStorage);
-        // Displays the code coverage report in browser.
-        $documentRoot = $_SERVER['DOCUMENT_ROOT'];
-        $dir = str_replace('\\', '/', __DIR__);
-        if (preg_match("`^$documentRoot`xX", $dir) === 0) {
-            foreach ($classFilePaths as &$classFilePath) {
-                $classFilePath = 'php/' . $classFilePath;
-            }
-        }
-        self::$_classFilePaths = $classFilePaths;
-        self::$_codeCoverageReportPath = $codeCoverageReportPath;
-        include_once './BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport.php';
-    }
+//    /**
+//     * Creates code coverage report, then displays in browser.
+//     *
+//     * <pre>
+//     * Example top page:
+//     *
+//     * <code>
+//     *      <?php
+//     * ;
+//     *      chdir(str_repeat('../', preg_match_all('`/`xX', $_SERVER['PHP_SELF'], $matches) - 2));
+//     *      unset($matches);
+//     * ;
+//     *      require_once './BreakpointDebugging_Inclusion.php';
+//     * ;
+//     *      B::checkExeMode(true);
+//     *      // Makes up code coverage report, then displays in browser.
+//     *      $breakpointDebugging_PHPUnit = new \BreakpointDebugging_PHPUnit();
+//     *      $breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging-InAllCaseTest.php', 'PEAR/BreakpointDebugging.php'); exit;
+//     *      // Or, "$breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging/LockByFileExistingTest.php', array ('PEAR/BreakpointDebugging/Lock.php', 'PEAR/BreakpointDebugging/LockByFileExisting.php')); exit;"
+//     * </code>
+//     *
+//     * </pre>
+//     *
+//     * @param string $testFilePath        Relative path of unit test file.
+//     * @param mixed  $classFilePaths      It is relative path of class which see the code coverage, and its current directory must be project directory.
+//     * @param string $commandLineSwitches Command-line-switches except "--static-backup --coverage-html".
+//     *
+//     * @return void
+//     *
+//     * @codeCoverageIgnore
+//     * Because "phpunit" command cannot run during "phpunit" command running.
+//     */
+//    function displayCodeCoverageReport($testFilePath, $classFilePaths, $commandLineSwitches = '')
+//    {
+//        if (!B::checkDevelopmentSecurity()) {
+//            exit;
+//        }
+//
+//        B::assert(func_num_args() <= 4);
+//        B::assert(is_string($testFilePath));
+//        B::assert(is_string($classFilePaths) || is_array($classFilePaths));
+//
+//        if (!extension_loaded('xdebug')) {
+//            B::exitForError('"\BreakpointDebugging_PHPUnit::displayCodeCoverageReport()" needs "xdebug" extention.');
+//        }
+//
+//        $this->_prepareUnitTest();
+//
+//        // Deletes code coverage report.
+//        $codeCoverageReportPath = self::deleteCodeCoverageReport();
+//        $this->_getUnitTestDir();
+//        // Creates code coverage report.
+//        $displayErrorsStorage = ini_get('display_errors');
+//        ini_set('display_errors', '');
+//
+//        BW::virtualOpen($this->_unitTestWindowName, $this->getHtmlFileContent());
+//        ob_start();
+//
+//        //if (self::$exeMode & B::RELEASE) {
+//        //    echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+//        //} else {
+//        //    echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+//        //}
+//        if (B::isDebug()) {
+//            echo '<b>\'DEBUG_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+//        } else {
+//            echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
+//        }
+//
+//        if (BREAKPOINTDEBUGGING_IS_CAKE) {
+//            // Changes autoload class method order.
+//            spl_autoload_unregister('\BreakpointDebugging::loadClass');
+//            include $this->_WasaCakeTestStartPagePath;
+//            spl_autoload_register('\BreakpointDebugging::loadClass');
+//        }
+//
+//        $this->_runPHPUnitCommand($commandLineSwitches . ' --static-backup --coverage-html ' . $codeCoverageReportPath . ' ' . $testFilePath);
+//
+//        BW::htmlAddition($this->_unitTestWindowName, 'pre', 0, ob_get_clean());
+//
+//        ini_set('display_errors', $displayErrorsStorage);
+//        // Displays the code coverage report in browser.
+//        $documentRoot = $_SERVER['DOCUMENT_ROOT'];
+//        $dir = str_replace('\\', '/', __DIR__);
+//        if (preg_match("`^$documentRoot`xX", $dir) === 0) {
+//            foreach ($classFilePaths as &$classFilePath) {
+//                $classFilePath = 'php/' . $classFilePath;
+//            }
+//        }
+//        self::$_classFilePaths = $classFilePaths;
+//        self::$_codeCoverageReportPath = $codeCoverageReportPath;
+//        include_once './BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport.php';
+//    }
 
     /**
      * Checks the lines to ignore in code coverage report.
@@ -1739,9 +1853,10 @@ EOD;
      *      B::checkExeMode(true);
      *      // Makes up code coverage report, then displays in browser.
      *      $breakpointDebugging_PHPUnit = new \BreakpointDebugging_PHPUnit();
-     *      $breakpointDebugging_PHPUnit->displayCodeCoverageReportSimple('SomethingTest.php', 'Something.php'); exit;
-     *      // Or, "$breakpointDebugging_PHPUnit->displayCodeCoverageReportSimple(array ('Something1Test.php', 'Something2Test.php'), array ('Something1.php', 'Something2.php')); exit;"
-     *      // Or, "$breakpointDebugging_PHPUnit->displayCodeCoverageReportSimple(array ('Something1Test.php', 'Something2Test.php'), array ('Something1.php', 'Something2.php'), 'PHPUNIT'); exit;"
+     *      $breakpointDebugging_PHPUnit->displayCodeCoverageReport('SomethingTest.php', 'Something.php'); exit;
+     *      $breakpointDebugging_PHPUnit->displayCodeCoverageReport('SomethingTestSimple.php', 'Something.php', 'SIMPLE'); exit;
+     *      $breakpointDebugging_PHPUnit->displayCodeCoverageReport(array ('Something1Test.php', 'Something2Test.php'), array ('Something1.php', 'Something2.php')); exit;
+     *      $breakpointDebugging_PHPUnit->displayCodeCoverageReport(array ('Something1TestSimple.php', 'Something2TestSimple.php'), array ('Something1.php', 'Something2.php'), 'SIMPLE'); exit;
      * </code>
      *
      * </pre>
@@ -1752,17 +1867,24 @@ EOD;
      *      'SIMPLE': Does not use "PHPUnit" package. This mode can be used instead of "*.phpt" file.
      *      'SIMPLE_OWN': This package test.
      *      'PHPUNIT': The default test.
+     * @param string $commandLineSwitches Command-line-switches except "--static-backup --coverage-html" in case of 'PHPUNIT'.
      *
      * @return void
      */
-    function displayCodeCoverageReportSimple($testFilePaths, $classFileRelativePaths, $howToTest = 'SIMPLE')
+    //function displayCodeCoverageReportSimple($testFilePaths, $classFileRelativePaths, $howToTest = 'SIMPLE')
+    function displayCodeCoverageReport($testFilePaths, $classFileRelativePaths, $howToTest = 'PHPUNIT', $commandLineSwitches = '')
     {
         xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
 
-        B::assert(func_num_args() <= 3);
+        //B::assert(func_num_args() <= 3);
+        B::assert(func_num_args() <= 4);
         B::assert(is_string($testFilePaths) || is_array($testFilePaths));
         B::assert(is_string($classFileRelativePaths) || is_array($classFileRelativePaths));
-        B::assert(is_string($howToTest));
+        //B::assert(is_string($howToTest));
+        B::assert(is_string($commandLineSwitches));
+        B::assert($howToTest === 'PHPUNIT' //
+            || (($howToTest === 'SIMPLE' || $howToTest === 'SIMPLE_OWN' ) && $commandLineSwitches === '') //
+        );
 
         if (!extension_loaded('xdebug')) {
             //B::exitForError('"\BreakpointDebugging_PHPUnit::displayCodeCoverageReportSimple()" needs "xdebug" extention.');
@@ -1778,7 +1900,8 @@ EOD;
         }
 
         self::$_codeCoverageKind = $howToTest;
-        $this->executeUnitTestSimple($testFilePaths, $howToTest);
+        //$this->executeUnitTestSimple($testFilePaths, $howToTest);
+        $this->executeUnitTestSimple($testFilePaths, $howToTest, $commandLineSwitches);
         $codeCoverages = xdebug_get_code_coverage();
         xdebug_stop_code_coverage();
 
@@ -1856,7 +1979,7 @@ EOD;
 <html>
 	<head>
 		<meta charset="UTF-8" />
-		<title>DisplayCodeCoverageReportSimple</title>
+		<title>DisplayCodeCoverageReport</title>
         <style type="text/css">
             <!--
             body
@@ -1940,7 +2063,7 @@ $buffer
 	</body>
 </html>
 EOD;
-            BW::virtualOpen('BreakpointDebugging_displayCodeCoverageReportSimple' . $windowNumber++, $html);
+            BW::virtualOpen('BreakpointDebugging_displayCodeCoverageReport' . $windowNumber++, $html);
         }
     }
 

@@ -2,7 +2,8 @@
 
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_Window as BW;
-use \BreakpointDebugging_LockByShmopRequest as BLS;
+//use \BreakpointDebugging_LockByShmopRequest as BLS;
+use \BreakpointDebugging_CommandLine as BCL;
 
 class tests_PEAR_BreakpointDebugging_MultiprocessTest_Main
 {
@@ -34,10 +35,10 @@ class tests_PEAR_BreakpointDebugging_MultiprocessTest_Main
         $pPipes = array ();
         $queryString = '"' . B::httpBuildQuery(array ('SHMOP_KEY' => $shmopKey, 'CLASS_NAME' => $className)) . '"';
         for ($count = 0; $count < 2; $count++) {
-            $pPipes[] = BLS::popen($fullFilePath, $queryString);
+            $pPipes[] = BCL::popen($fullFilePath, $queryString);
         }
 
-        $results = BLS::waitForMultipleProcesses($pPipes);
+        $results = BCL::waitForMultipleProcesses($pPipes);
 
         foreach ($pPipes as $pPipe) {
             // Deletes a test process.

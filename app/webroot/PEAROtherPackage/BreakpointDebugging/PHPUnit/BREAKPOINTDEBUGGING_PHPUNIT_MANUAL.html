@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>BreakpointDebugging_PHPUnit-manual</title>
+        <style type="text/css">
+            <!--
+            a:link, a:visited, a:active
+            {
+                color: aqua;
+                text-decoration: underline;
+            }
+
+            .title
+            {
+                color: lime;
+                font-size: 150%;
+                font-weight: bold;
+            }
+
+            .subtitle
+            {
+                color: olivedrab;
+                font-weight: bold;
+            }
+
+            code
+            {
+                display: block;
+                background-color: dimgray;
+            }
+
+            .command
+            {
+                background-color: navy;
+            }
+
+            .attention
+            {
+                color: gold;
+            }
+            -->
+        </style>
+    </head>
+    <body style="background-color: black; color: white; font-size: 25px">
+        <span style="font-size: 200%; font-style: italic">BREAKPOINTDEBUGGING_PHPUNIT MANUAL</span>
+        <hr />
+        The contents links.<br />
+        <a href="#0">Requirements.</a><br />
+        <a href="#1">The basic concept.</a><br />
+        <a href="#2">Procedure which tests.</a><br />
+        <a href="#3">Unit test sample codes.</a><br />
+        <a href="#4">Coding rule.</a><br />
+        <a href="#5">LICENSE:</a><br />
+        <hr />
+        <pre>
+<span class="title"><a name="0">Requirements.</a></span>
+
+"BreakpointDebugging" PEAR-package.
+
+<span class="title"><a name="1">The basic concept.</a></span>
+
+We can debug with IDE by stopping at breakpoint when an error occurred during unit test
+because we can test each test class method on same process by perfect static backup.
+Also, we can test both a debug and a release code.
+Moreover, we can display code coverage report of plural test files speedily by simple independence code
+because tests is executed on same process.
+
+<span class="title"><a name="2">Procedure which tests.</a></span>
+
+    Please, keep the following procedure.
+    Preparation procedure: Please, see "Running procedure." section of "BREAKPOINTDEBUGGING_MANUAL.html" file.
+    Procedure 1: <a href="#3-1">Code a php file</a> with <a href="#4">coding rule.</a>
+    Procedure 2: <a href="#3-2">Code a unit test php file.</a>
+                 <a href="#3-3">Or, code simple unit test php file.</a>
+    Procedure 3: <a href="#3-4">Code a unit test execution and a code coverage report execution php file.</a>
+    Procedure 4: Choose "define('BREAKPOINTDEBUGGING_MODE', 'DEBUG_UNIT_TEST');"
+                 inside "./BreakpointDebugging_PEAR_Setting/BreakpointDebugging_MySetting.php" file.
+    Procedure 5: Execute the unit test by file of "Procedure 3" with IDE.
+    Option Procedure: Copy from "PEAR/BreakpointDebugging/" directory and "PEAR/BreakpointDebugging_*.php" files
+                      to the project directory of remote server if you want remote unit test.
+    Option Procedure: "CakePHP" framework requires the following files.
+        Customize "app/webroot/WasaCakeTestStart.php" which copied "app/webroot/test.php" as below.
+            <code>            // Hidenori Wasa added. ===&gt;
+            // require_once CAKE . 'TestSuite' . DS . 'CakeTestSuiteDispatcher.php';
+            require_once \CakePlugin::path('WasaPhpUnit') . 'TestSuite/WasaTestArrayDispatcher.php';
+            // CakeTestSuiteDispatcher::run();
+            \WasaTestArrayDispatcher::run();
+            // &lt;=== Hidenori Wasa added.
+            </code>
+        Load "WasaPhpUnit" plugin inside "app/Config/bootstrap.php" as below.
+            <code>            \CakePlugin::load('WasaPhpUnit', array ('bootstrap' =&gt; true));
+            </code>
+            If this plugin cannot execute by difference of version, consult the following.
+                Customize "app/Plugin/WasaPhpUnit/TestSuite/WasaTestArrayDispatcher.php"
+                which extends "lib/Cake/TestSuite/CakeTestSuiteDispatcher.php".
+                    Procedure: "dispatch()" override class method must keep instance to static property instead of dispatching.
+                        And, "_checkPHPUnit()" inside of "dispatch()" must not be called because "BreakpointDebugging_PHPUnit" loads "PHPUnit".
+                    Procedure: "run()" override class method must change class for "new".
+                    Procedure: "static function runPHPUnitCommand($commandElements)" must exist
+                            because it is called from "\BreakpointDebugging_PHPUnit::_runPHPUnitCommand()".
+                        And, "--output" command line switch must be deleted because "BreakpointDebugging_PHPUnit" displays.
+                        And, "PHPUnit_Runner_StandardTestSuiteLoader" must be used instead of "CakeTestLoader"
+                            because test file path array must be loaded instead of suite.
+                Customize "app/Plugin/WasaPhpUnit/TestSuite/WasaTestArrayCommand.php" which extends "lib/Cake/TestSuite/CakeTestSuiteCommand.php".
+                    Procedure: "run()" override class method must be able to execute when second parameter is false
+                        because this is called inside test path array loop.
+        Customize "lib/Cake/TestSuite/CakeTestCase.php" as below.
+            <code>            // abstract class CakeTestCase extends PHPUnit_Framework_TestCase {
+            //
+            // Hidenori Wasa added. ===&gt;
+            $wasaStartPage = debug_backtrace();
+            $wasaStartPage = array_pop($wasaStartPage);
+            if (array_key_exists('class', $wasaStartPage)) {
+                $wasaStartPage = $wasaStartPage['class'];
+            } else {
+                $wasaStartPage = '';
+            }
+            if ($wasaStartPage === 'CakeTestSuiteDispatcher') {
+                // If unit tests start with "app/webroot/test.php".
+                abstract class WasaCakeTestCase extends \PHPUnit_Framework_TestCase {}
+            } else if ($wasaStartPage === 'BreakpointDebugging_PHPUnit') {
+                // If unit tests start with "\BreakpointDebugging_PHPUnit::executeUnitTest()".
+                // (These tests use "app/webroot/WasaCakeTestStart.php" instead of "app/webroot/test.php".)
+                abstract class WasaCakeTestCase extends \BreakpointDebugging_PHPUnit_FrameworkTestCase {}
+            } else {
+                throw new \BreakpointDebugging_ErrorException('Mistaken start page.');
+            }
+            unset($wasaStartPage);
+   ;
+            abstract class CakeTestCase extends \WasaCakeTestCase {
+            // &lt;=== Hidenori Wasa added.
+            </code>
+<span class="title"><a name="3">Unit test sample codes.</a></span>
+
+    <span class="subtitle"><a name="3-1">Code a php file with coding rule.</a></span>
+    About auto detection rules examples, please see "./tests/PEAR/ExampleTest.php" and "./tests/PEAR/ExampleTestSimple.php" file.
+
+    "./Sub/Example.php" file. (Except auto detection rule.)
+
+<code>    &lt;?php
+
+    require_once './BreakpointDebugging_Inclusion.php';
+
+    use \BreakpointDebugging as B;
+
+    class Sub_Example
+    {
+        private static $_something;
+
+        static function expampleMethodA()
+        {
+            return false;
+        }
+
+        function expampleMethodB($param1)
+        {
+            // We should use "\BreakpointDebugging" in "assert()" class method because this is commented out in production mode.
+            \BreakpointDebugging::assert(is_string($param1), 1);
+
+            // A code both debug and release...
+            // If debug execution mode.
+            // We should use "\BreakpointDebugging" in "isDebug()" class method because this is replaced to literal on production mode.
+            if (\BreakpointDebugging::isDebug()) {
+                // A debug code...
+                B::breakpoint('Error message.', debug_backtrace());
+                throw new \BreakpointDebugging_ErrorException('An error exception.', 101);
+            } else { // If release execution mode.
+                // A release code...
+                throw new \BreakpointDebugging_ErrorException('An error exception.', 102);
+            }
+        }
+
+        private static function _expampleMethodC()
+        {
+            throw new \BreakpointDebugging_ErrorException('An error exception.', 101);
+        }
+
+        private function _expampleMethodD(&amp;$param)
+        {
+            // <a href="#4-S-1">The file search detection rule 1.</a>
+            self::$_something[0] = &amp;$param;
+
+            return true;
+        }
+
+        /**
+         * <a href="#4-S-2">The file search detection rule 2.</a>
+         * @codeCoverageIgnore
+         */
+        function notTestMethod()
+        {
+            null;
+        }
+
+        static function initialize($param)
+        {
+            // This is <a href="#4-S-1">not rule violation</a> because this line is executed at autoload.
+            self::$_something = &amp;$param;
+        }
+
+    }
+
+    if (B::isTopPage()) { // Skips the following if unit test execution.
+        // @codeCoverageIgnoreStart
+        Example::initialize(1);
+    }
+    // @codeCoverageIgnoreEnd
+</code>
+    <span class="subtitle"><a name="3-2">Code a unit test php file.</a></span>
+    "./tests/Sub/ExampleTest.php" file. (Except auto detection rule.)
+
+<code>    &lt;?php
+
+    use \BreakpointDebugging_PHPUnit as BU;
+
+    // class Sub_ExampleTest extends \CakeTestCase // If "CakePHP".
+    class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
+    {
+        private $_pTestObject;
+
+        protected function setUp()
+        {
+            // This is required at top.
+            parent::setUp();
+
+            // We must construct the test instance here. Also, this is <a href="#4-2">the rule 2</a>.
+            $this-&gt;_pTestObject = new \Sub_Example();
+        }
+
+        protected function tearDown()
+        {
+        // Destructs the test instance to reduce memory use. Also, this is <a href="#4-1">the rule 1</a>.
+            $this-&gt;_pTestObject = null;
+
+            // This is required at bottom.
+            parent::tearDown();
+        }
+
+        /**
+         * @covers \Sub_ExampleTest&lt;extended&gt
+         */
+        function testExpampleMethodA()
+        {
+            $result = \Sub_Example::expampleMethodA();
+
+            parent::assertTrue($result === false);
+        }
+
+        /**
+         * @covers \Sub_ExampleTest&lt;extended&gt
+         *
+         * @expectedException        \BreakpointDebugging_ErrorException
+         * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.
+         */
+        function testExpampleMethodB_1()
+        {
+            BU::ignoreBreakpoint();
+            $this-&gt;_pTestObject-&gt;expampleMethodB('STRING');
+        }
+
+        /**
+         * @covers \Sub_ExampleTest&lt;extended&gt
+         *
+         * @expectedException        \BreakpointDebugging_ErrorException
+         * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.
+         */
+        function testExpampleMethodB_2()
+        {
+            BU::setRelease();
+            $this-&gt;_pTestObject-&gt;expampleMethodB('STRING');
+        }
+
+        /**
+         * @covers \Sub_ExampleTest&lt;extended&gt
+         *
+         * @expectedException        \BreakpointDebugging_ErrorException
+         * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.
+         */
+        function testExpampleMethodB_3()
+        {
+            $this-&gt;_pTestObject-&gt;expampleMethodB(1);
+        }
+
+        /**
+         * @covers \Sub_ExampleTest&lt;extended&gt
+         *
+         * @expectedException        \BreakpointDebugging_ErrorException
+         * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.
+         */
+        function test_expampleMethodC()
+        {
+            BU::callForTest(array (
+                'objectOrClassName' =&gt; 'Sub_Example',
+                'methodName' =&gt; '_expampleMethodC',
+                'params' =&gt; array ()
+            ));
+        }
+
+        /**
+         * @covers \Sub_ExampleTest&lt;extended&gt
+         */
+        function test_expampleMethodD()
+        {
+            $tmp = 'DUMMY';
+            $result = BU::callForTest(array (
+                    'objectOrClassName' =&gt; $this-&gt;_pTestObject,
+                    'methodName' =&gt; '_expampleMethodD',
+                    'params' =&gt; array (&amp;$tmp)
+            ));
+
+            parent::assertTrue($result === true);
+        }
+
+        /**
+         * @covers \Sub_ExampleTest&lt;extended&gt
+         */
+        function testInitialize()
+        {
+            \Sub_Example::initialize(1);
+        }
+
+    }
+</code>
+    <span class="subtitle"><a name="3-3">Or, code simple unit test php file.</a></span>
+    "./tests/Sub/ExampleTestSimple.php" file. (Except auto detection rule.)
+
+<code>    &lt;?php
+
+    use \BreakpointDebugging as B;
+    use \BreakpointDebugging_PHPUnit as BU;
+
+    B::assert(B::isDebug());
+    class Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
+    {
+        private $_pTestObject;
+
+        protected function setUp()
+        {
+            // This is required at top.
+            parent::setUp();
+
+            // We must construct the test instance here. Also, this is <a href="#4-2">the rule 2</a>.
+            $this-&gt;_pTestObject = new \Sub_Example();
+        }
+
+        protected function tearDown()
+        {
+        // Destructs the test instance to reduce memory use. Also, this is <a href="#4-1">the rule 1</a>.
+            $this-&gt;_pTestObject = null;
+
+            // This is required at bottom.
+            parent::tearDown();
+        }
+
+        function testExpampleMethodA()
+        {
+            $result = \Sub_Example::expampleMethodA();
+
+            parent::assertTrue($result === false);
+        }
+
+        function testExpampleMethodB_1()
+        {
+            BU::ignoreBreakpoint();
+            try {
+                $this-&gt;_pTestObject-&gt;expampleMethodB('STRING');
+            } catch (\BreakpointDebugging_ErrorException $e) {
+                BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.');
+                return;
+            }
+            parent::fail();
+        }
+
+        function testExpampleMethodB_2()
+        {
+            BU::setRelease();
+            try {
+                $this-&gt;_pTestObject-&gt;expampleMethodB('STRING');
+            } catch (\BreakpointDebugging_ErrorException $e) {
+                BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.');
+                return;
+            }
+            parent::fail();
+        }
+
+        function testExpampleMethodB_3()
+        {
+            try {
+                $this-&gt;_pTestObject-&gt;expampleMethodB(1);
+            } catch (\BreakpointDebugging_ErrorException $e) {
+                BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.');
+                return;
+            }
+            parent::fail();
+        }
+
+        function test_expampleMethodC()
+        {
+            try {
+                BU::callForTest(array (
+                    'objectOrClassName' =&gt; 'Sub_Example',
+                    'methodName' =&gt; '_expampleMethodC',
+                    'params' =&gt; array ()
+                ));
+            } catch (\BreakpointDebugging_ErrorException $e) {
+                BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.');
+                return;
+            }
+            parent::fail();
+        }
+
+        function test_expampleMethodD()
+        {
+            $tmp = 'DUMMY';
+            $result = BU::callForTest(array (
+                    'objectOrClassName' =&gt; $this-&gt;_pTestObject,
+                    'methodName' =&gt; '_expampleMethodD',
+                    'params' =&gt; array (&amp;$tmp)
+            ));
+
+            parent::assertTrue($result === true);
+        }
+
+        function testInitialize()
+        {
+            \Sub_Example::initialize(1);
+        }
+
+    }
+</code>
+    <span class="subtitle"><a name="3-4">Code a unit test execution and a code coverage report execution php file.</a></span>
+    "./tests/UnitTestExecutionExample.php" file. (Except auto detection rule.)
+
+<code>    &lt;?php
+
+    // Changes current directory to web root.
+    chdir('../');
+
+    require_once './BreakpointDebugging_Inclusion.php';
+
+    use \BreakpointDebugging as B;
+
+    B::checkExeMode(true);
+    $breakpointDebugging_PHPUnit = new \BreakpointDebugging_PHPUnit();
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Please, choose unit tests files by customizing.
+    $breakpointDebugging_UnitTestFiles = array (
+        /*
+         */
+        'Sub/ExampleTest.php',
+        /*
+         */
+    );
+
+    // Executes unit tests.
+    $breakpointDebugging_PHPUnit-&gt;executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
+    //
+    // Makes up code coverage report, then displays in browser.
+    $breakpointDebugging_PHPUnit-&gt;displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Please, choose simple unit tests files by customizing.
+    $breakpointDebugging_UnitTestFiles = array (
+        /*
+         */
+        'Sub/ExampleTestSimple.php',
+        /*
+         */
+    );
+
+    // Executes simple unit tests.
+    $breakpointDebugging_PHPUnit-&gt;executeUnitTestSimple($breakpointDebugging_UnitTestFiles); exit;
+    //
+    // Makes up code coverage report, then displays in browser.
+    $breakpointDebugging_PHPUnit-&gt;displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;
+</code>
+<span class="title"><a name="4">Coding rule.</a></span>
+
+<a name="4-1">The rule 1</a>: We must overwrite "null" to variable if we call "__destruct()" on the way in all code.
+    Because server calls "__destruct()" even though reference storage exists.
+    Example: $this-&gt;_pTestObject = null;
+<a name="4-2">The rule 2</a>: We must construct test instance inside "setUp()".
+    Because we must initialize value and reference of auto properties (auto class method's local static variable and auto property).
+<a name="4-S-1">The file search detection rule 1</a>: We must use property array element reference instead of property reference in all code.
+    Because server cannot get property reference by reflection in "PHP version 5.3.0".
+    Example of rule violation:
+        ::$something = &amp;
+        or recursive array ::$something = array (&amp;
+    Instead:
+        ::$something[0] = &amp;
+        or recursive array ::$something[0] = array (&amp;
+    Please, search the rule violation of file by the following regular expression.
+        ::\$[_a-zA-Z][_a-zA-Z0-9]*[\x20\t\r\n]*=[^=;][^;]*&amp;
+    About reference copy.
+        Reference copy must use "&amp;self::" in case of self class.
+        Reference copy must use "&amp;parent::" in case of parent class above one hierarchy.
+        Except those, Reference copy must use "&amp;&lt;official class name&gt;::".
+        Those is same about "$this".
+<a name="4-S-2">The file search detection rule 2</a>: We must not code except "tab and space" behind "@codeCoverageIgnore".
+    Because of parsing to except '@codeCoverageIgnore' and "@codeCoverageIgnore" of code coverage report.
+    Example of rule violation:
+        "@codeCoverageIgnore" A sentence.
+    Instead:
+        "@codeCoverageIgnore"
+        A sentence.
+    Please, search the rule violation of file by the following regular expression.
+        "@codeCoverageIgnore[^SE\r\n][\t\x20]*[^\t\x20].*$"
+The file search detection rule 3: We must not use "filter_input()" and "filter_input_array()".
+    Because we cannot execute "unit test" by super global variable change.
+    Please, search the rule violation of file by the following regular expression.
+        filter_input[\t\x20\r\n]*\(
+        filter_input_array[\t\x20\r\n]*\(
+
+Auto detection rule 1: Unit test file name of "PHPUnit" package should be "*Test.php".
+    And, simple unit test file name must be "*TestSimple.php"
+    because "PHPUnit" package searches "*Test.php" file.
+Auto detection rule 2: We must not delete or change static status by the autoload
+    because autoload is executed only once per file.
+Auto detection rule 3: We must use private static property instead of use local static variable in static class method
+    because "php" version 5.3.0 cannot restore its value.
+Auto detection rule 4: We must use private static property in class method instead of use local static variable in function
+    because "php" version 5.3.0 cannot restore its value.
+Auto detection rule 5: We must operate any variable and any property inside "setUp()", test class methods or "tearDown()" about test code.
+    Because we must test with same condition.
+    So, global variables or static properties is restored with initial value before "setUp()".
+Auto detection rule 6: We must not register autoload function at top of stack by "spl_autoload_register()" in all code
+    because server stores static status by autoload function.
+    Example: spl_autoload_register('\SomethingClassName::autoloadFunctionName', true, true);
+Auto detection rule 7: We must not use unit test's "--process-isolation" command line switch because its tests is run in other process.
+    Because we cannot debug unit test code with IDE.
+
+Recommendation rule 1: We should destruct a test instance per test in "tearDown()" because it cuts down on production server memory use.
+    Example:
+        protected function tearDown()
+        {
+            // Destructs the test instance.
+            $this-&gt;_pTestObject = null;
+
+            // This is required at bottom.
+            parent::tearDown();
+        }
+Recommendation rule 2: We should not use global variable to avoid variable crash.
+
+The special rule of "\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple":
+    We must use try-catch statement instead of annotation.
+    However, we can use following annotation.
+        "@codeCoverageIgnore"
+        "@codeCoverageIgnoreStart"
+        "@codeCoverageIgnoreEnd"
+    The class methods and property which can be used are limited below.
+        \BreakpointDebugging_PHPUnit::$exeMode
+        \BreakpointDebugging_PHPUnit::setDebug()
+        \BreakpointDebugging_PHPUnit::setRelease()
+        \BreakpointDebugging_PHPUnit::ignoreBreakpoint()
+        \BreakpointDebugging_PHPUnit::notIgnoreBreakpoint()
+        \BreakpointDebugging_PHPUnit::getPropertyForTest()
+        \BreakpointDebugging_PHPUnit::setPropertyForTest()
+        \BreakpointDebugging_PHPUnit::assertExceptionMessage()
+        parent::markTestSkippedInDebug()
+        parent::markTestSkippedInRelease()
+        parent::assertTrue()
+        parent::fail()
+
+Caution: Don't test an unit when practical use server has been running with synchronization file because synchronization is destroyed.
+
+How to run multiprocess unit test:
+    Procedure 1: Use "\BreakpointDebugging_CommandLine::popen()" class method in your unit test code.
+    Procedure 2: Use "\BreakpointDebugging_CommandLine::waitForMultipleProcesses()" class method in your unit test code.
+    Please, see "tests_PEAR_BreakpointDebugging_MultiprocessTest_Main::test()" class method as example.
+
+<span class="title"><a name="5">LICENSE:</a></span>
+
+Copyright (c) 2015-, Hidenori Wasa
+All rights reserved.
+
+License content is written in "<a href="../../../PEAR/BreakpointDebugging/BREAKPOINTDEBUGGING_LICENSE.txt">PEAR/BreakpointDebugging/BREAKPOINTDEBUGGING_LICENSE.txt</a>".
+
+@category PHP
+@package  BreakpointDebugging
+@author   Hidenori Wasa &lt;public@hidenori-wasa.com&gt;
+@license  http://opensource.org/licenses/mit-license.php  MIT License
+@link     <a href="https://github.com/hidenori-wasa/">https://github.com/hidenori-wasa/</a>
+        </pre>
+    </body>
+</html>

@@ -28,8 +28,8 @@ use \BreakpointDebugging as B;
 
 if (!defined('BREAKPOINTDEBUGGING_MODE')) {
     // ### Please, choose execution mode below. ###
-    // define('BREAKPOINTDEBUGGING_MODE', 'DEBUG_UNIT_TEST'); // For all user.
-    define('BREAKPOINTDEBUGGING_MODE', 'RELEASE_UNIT_TEST'); // For this package's unit test.
+    define('BREAKPOINTDEBUGGING_MODE', 'DEBUG_UNIT_TEST'); // For all user.
+    // define('BREAKPOINTDEBUGGING_MODE', 'RELEASE_UNIT_TEST'); // For this package's unit test.
     // define('BREAKPOINTDEBUGGING_MODE', 'DEBUG'); // Does not use too much.
     // define('BREAKPOINTDEBUGGING_MODE', 'RELEASE'); // Does not use too much.
 }

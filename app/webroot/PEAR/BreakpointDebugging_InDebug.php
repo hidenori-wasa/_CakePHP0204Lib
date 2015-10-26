@@ -21,7 +21,7 @@
 // and moreover "use" keyword alias has priority over class definition,
 // therefore "use" keyword alias does not be affected by other files.
 use \BreakpointDebugging as B;
-use \BreakpointDebugging_InAllCase as BA;
+//use \BreakpointDebugging_InAllCase as BA;
 use \BreakpointDebugging_Window as BW;
 
 /**
@@ -41,29 +41,28 @@ use \BreakpointDebugging_Window as BW;
  */
 final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
 {
-
-    /**
-     * Limits static properties accessing.
-     *
-     * @return void
-     */
-    static function initialize()
-    {
-        B::limitAccess('BreakpointDebugging.php');
-
-        B::assert(func_num_args() === 0);
-
-        parent::initialize();
-
-        $tmp = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php';
-        //parent::$staticPropertyLimitings['$_maxLogFileByteSize'] = $tmp;
-        //parent::$staticPropertyLimitings['$_maxLogParamNestingLevel'] = $tmp;
-        //parent::$staticPropertyLimitings['$_maxLogElementNumber'] = $tmp;
-        //parent::$staticPropertyLimitings['$_maxLogStringSize'] = $tmp;
-        //parent::$staticPropertyLimitings['$_developerIP'] = $tmp;
-        ////parent::$staticPropertyLimitings['$_onceErrorDispFlag'] = 'BreakpointDebugging/PHPUnit/FrameworkTestCase.php';
-        //parent::$staticPropertyLimitings['$_callingExceptionHandlerDirectly'] = array ('BreakpointDebugging/ErrorInAllCase.php',);
-    }
+//    /**
+//     * Limits static properties accessing.
+//     *
+//     * @return void
+//     */
+//    static function initialize()
+//    {
+//        B::limitAccess('BreakpointDebugging.php');
+//
+//        B::assert(func_num_args() === 0);
+//
+//        parent::initialize();
+//
+//        $tmp = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php';
+//        //parent::$staticPropertyLimitings['$_maxLogFileByteSize'] = $tmp;
+//        //parent::$staticPropertyLimitings['$_maxLogParamNestingLevel'] = $tmp;
+//        //parent::$staticPropertyLimitings['$_maxLogElementNumber'] = $tmp;
+//        //parent::$staticPropertyLimitings['$_maxLogStringSize'] = $tmp;
+//        //parent::$staticPropertyLimitings['$_developerIP'] = $tmp;
+//        ////parent::$staticPropertyLimitings['$_onceErrorDispFlag'] = 'BreakpointDebugging/PHPUnit/FrameworkTestCase.php';
+//        //parent::$staticPropertyLimitings['$_callingExceptionHandlerDirectly'] = array ('BreakpointDebugging/ErrorInAllCase.php',);
+//    }
 
     /**
      * If "Apache HTTP Server" does not support "suEXEC", this method displays security warning.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Please, see "BreakpointDebugging_PHPUnit.php" file-level document for detail.
+ * Please, see "Coding rule." section of "PEAR/BreakpointDebugging/PHPUnit/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html" for detail.
  */
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;

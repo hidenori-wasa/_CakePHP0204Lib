@@ -104,13 +104,14 @@ class BreakpointDebugging_OverrideClassTest extends \BreakpointDebugging_PHPUnit
      */
     public function testStaicProperty()
     {
-        global $object;
+        //global $object;
+        global $_BreakpointDebugging_testObject;
 
         // Gets static property.
-        parent::assertTrue(NativeClassOverriding::$object === $object);
+        parent::assertTrue(NativeClassOverriding::$object === $_BreakpointDebugging_testObject);
         // Sets static property.
         NativeClassOverriding::$object = 'dummy';
-        parent::assertTrue(NativeClassOverriding::$object !== $object);
+        parent::assertTrue(NativeClassOverriding::$object !== $_BreakpointDebugging_testObject);
     }
 
 }

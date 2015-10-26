@@ -56,4 +56,6 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I transformed "\BreakpointDebugging::getStatic()" and "\BreakpointDebugging::refStatic()" to getting and reference class method for simplification and execution speed.
+* I improved code coverage report about speed and redundant autoload by limiting from default to my code.
+* ".delete" suffix was added to unnecessary "PHP" and "css" file.
+* I created "BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html" file which describes "BREAKPOINTDEBUGGING_PHPUNIT" pear package.

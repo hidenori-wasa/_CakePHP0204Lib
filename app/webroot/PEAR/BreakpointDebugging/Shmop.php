@@ -16,8 +16,7 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/BreakpointDebugging
  */
-use \BreakpointDebugging as B;
-
+//use \BreakpointDebugging as B;
 /**
  * Class which locks php-code by shared memory operation.
  *
