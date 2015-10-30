@@ -63,7 +63,6 @@ class BreakpointDebugging_ProductionSwitcher extends \BreakpointDebugging_Optimi
         'BreakpointDebugging_NativeFunctions_InDebug.php',
         'BreakpointDebugging_Optimizer.php',
         'BreakpointDebugging_PHPUnit.php',
-        //'BreakpointDebugging_PHPUnit_DisplayCodeCoverageReport.php',
         'BreakpointDebugging_ProductionSwitcher.php',
         'BreakpointDebugging/Window.php',
     );

@@ -26,11 +26,9 @@
  */
 require_once './BreakpointDebugging_Inclusion.php';
 
-use \BreakpointDebugging as B;
+//use \BreakpointDebugging as B;
 
-if (BREAKPOINTDEBUGGING_IS_PRODUCTION // Production mode.
-//&& B::getExeMode() === (B::RELEASE | B::REMOTE) // Execution mode as production mode.
-) {
+if (BREAKPOINTDEBUGGING_IS_PRODUCTION) { // Production mode.
     // Defines debug level automatically.
     \Configure::write('debug', 0);
 } else { // Development mode. Or, production mode of unit test emulation.

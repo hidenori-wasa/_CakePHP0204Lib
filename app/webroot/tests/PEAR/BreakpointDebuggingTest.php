@@ -48,12 +48,10 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
      */
     function testRefAndGetStatic()
     {
-        //$developerIP = &B::refStatic('$_developerIP');
         $developerIP = &B::refDeveloperIP();
         parent::assertTrue($developerIP !== 'hidenori_hidenori');
         $developerIP = 'hidenori_hidenori';
         parent::assertTrue($developerIP === 'hidenori_hidenori');
-        //parent::assertTrue(B::getStatic('$_developerIP') === 'hidenori_hidenori');
         parent::assertTrue(B::getDeveloperIP() === 'hidenori_hidenori');
     }
 
@@ -140,7 +138,6 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
     function testExceptionHandler_A()
     {
         ob_start();
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         B::handleException(new \Exception());
     }
@@ -151,7 +148,6 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
     function testErrorHandler_A()
     {
         ob_start();
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         B::handleError(E_USER_WARNING, 'dummy');
     }
@@ -168,7 +164,6 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
 
     function limitAccess_A3()
     {
-        //$includePaths = &B::refStatic('$_includePaths');
         $includePaths = &B::refIncludePaths();
         $includePaths = null;
         B::limitAccess('tests/PEAR/BreakpointDebuggingTest.php');
@@ -176,7 +171,6 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
 
     function limitAccess_A4()
     {
-        //$includePaths = &B::refStatic('$_includePaths');
         $includePaths = &B::refIncludePaths();
         $includePaths = null;
         B::limitAccess('tests/PEAR/BreakpointDebuggingTest.php', true);
@@ -185,7 +179,6 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
     function limitAccess_A5()
     {
         try {
-            //BU::$exeMode |= B::IGNORING_BREAK_POINT;
             BU::ignoreBreakpoint();
             B::limitAccess(array ('tests/PEAR/Dummy1.php', 'tests/PEAR/Dummy2.php'), true);
         } catch (\Exception $e) {

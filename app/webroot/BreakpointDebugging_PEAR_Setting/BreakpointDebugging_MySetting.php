@@ -51,7 +51,6 @@ if (!defined('BREAKPOINTDEBUGGING_MODE')) {
  */
 function BreakpointDebugging_userSetting($exeMode, &$language, &$timezone, &$SMTP, &$sendmailFrom, &$openBasedir)
 {
-    //$developerIP = &B::refStatic('$_developerIP');
     $developerIP = &B::refDeveloperIP();
     // Enter developer IP address for security.
     $developerIP = '127.0.0.1';
@@ -77,19 +76,15 @@ function BreakpointDebugging_userSetting($exeMode, &$language, &$timezone, &$SMT
     // Log file rotation is from "php_error_1.log" file to "php_error_8.log" file.
     // $maxLogMBSize = 1;
     // This code has been fixed.
-    //// $maxLogFileByteSize = &B::refStatic('$_maxLogFileByteSize');
     // $maxLogFileByteSize = &B::refMaxLogFileByteSize();
     // $maxLogFileByteSize = $maxLogMBSize << 17;
     // Maximum log parameter nesting level. Default is 20. (1-100)
-    //// $maxLogParamNestingLevel = &B::refStatic('$_maxLogParamNestingLevel');
     // $maxLogParamNestingLevel = &B::refMaxLogParamNestingLevel();
     // $maxLogParamNestingLevel = 20;
     // Maximum count of elements in log. (Maximum number of parameter, array elements and call-stack) Default is count($_SERVER). (1-100)
-    //// $maxLogElementNumber = &B::refStatic('$_maxLogElementNumber');
     // $maxLogElementNumber = &B::refMaxLogElementNumber();
     // $maxLogElementNumber = count($_SERVER);
     // Maximum string type byte-count of log. Default is 3000. (1-)
-    //// $maxLogStringSize = &B::refStatic('$_maxLogStringSize');
     // $maxLogStringSize = &B::refMaxLogStringSize();
     // $maxLogStringSize = 3000;
     // Inner form of the browser of the default: HTML text, character sets = UTF8.

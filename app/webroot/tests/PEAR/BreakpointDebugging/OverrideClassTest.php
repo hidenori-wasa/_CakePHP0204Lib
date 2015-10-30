@@ -104,7 +104,6 @@ class BreakpointDebugging_OverrideClassTest extends \BreakpointDebugging_PHPUnit
      */
     public function testStaicProperty()
     {
-        //global $object;
         global $_BreakpointDebugging_testObject;
 
         // Gets static property.

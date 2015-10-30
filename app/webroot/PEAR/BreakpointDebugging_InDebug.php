@@ -16,12 +16,7 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/BreakpointDebugging
  */
-// File to have "use" keyword does not inherit scope into a file including itself,
-// also it does not inherit scope into a file including,
-// and moreover "use" keyword alias has priority over class definition,
-// therefore "use" keyword alias does not be affected by other files.
 use \BreakpointDebugging as B;
-//use \BreakpointDebugging_InAllCase as BA;
 use \BreakpointDebugging_Window as BW;
 
 /**
@@ -41,28 +36,6 @@ use \BreakpointDebugging_Window as BW;
  */
 final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
 {
-//    /**
-//     * Limits static properties accessing.
-//     *
-//     * @return void
-//     */
-//    static function initialize()
-//    {
-//        B::limitAccess('BreakpointDebugging.php');
-//
-//        B::assert(func_num_args() === 0);
-//
-//        parent::initialize();
-//
-//        $tmp = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php';
-//        //parent::$staticPropertyLimitings['$_maxLogFileByteSize'] = $tmp;
-//        //parent::$staticPropertyLimitings['$_maxLogParamNestingLevel'] = $tmp;
-//        //parent::$staticPropertyLimitings['$_maxLogElementNumber'] = $tmp;
-//        //parent::$staticPropertyLimitings['$_maxLogStringSize'] = $tmp;
-//        //parent::$staticPropertyLimitings['$_developerIP'] = $tmp;
-//        ////parent::$staticPropertyLimitings['$_onceErrorDispFlag'] = 'BreakpointDebugging/PHPUnit/FrameworkTestCase.php';
-//        //parent::$staticPropertyLimitings['$_callingExceptionHandlerDirectly'] = array ('BreakpointDebugging/ErrorInAllCase.php',);
-//    }
 
     /**
      * If "Apache HTTP Server" does not support "suEXEC", this method displays security warning.
@@ -83,37 +56,6 @@ final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
             BW::htmlAddition(B::ERROR_WINDOW_NAME, 'pre', 0, 'Security warning: Recommends to change to "Apache HTTP Server" which Supported "suEXEC" because this "Apache HTTP Server" is executed by "root" user.');
         }
     }
-
-//    /**
-//     * For debug.
-//     *
-//     * @param string $propertyName Same as parent.
-//     *
-//     * @return Same as parent.
-//     */
-//    static function getStatic($propertyName)
-//    {
-//        self::assert(func_num_args() === 1);
-//        self::assert(is_string($propertyName));
-//
-//        return parent::getStatic($propertyName);
-//    }
-//    /**
-//     * Gets a static property reference.
-//     *
-//     * @param string $propertyName Static property name.
-//     *
-//     * @return mixed& Static property.
-//     */
-//    static function &refStatic($propertyName)
-//    {
-//        self::limitAccess(parent::$staticPropertyLimitings[$propertyName]);
-//
-//        self::assert(func_num_args() === 1);
-//        self::assert(is_string($propertyName));
-//
-//        return parent::refStatic($propertyName);
-//    }
 
     /**
      * For debug.
@@ -179,24 +121,6 @@ final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
 
         return parent::chmod($name, $permission, $timeout, $sleepMicroSeconds);
     }
-
-//    /**
-//     * For debug.
-//     *
-//     * @param array $params            Same as parent.
-//     * @param int   $timeout           Same as parent.
-//     * @param int   $sleepMicroSeconds Same as parent.
-//     *
-//     * @return Same as parent.
-//     */
-//    static function mkdir(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
-//    {
-//        self::assert(func_num_args() <= 3);
-//        self::assert(is_int($timeout));
-//        self::assert(is_int($sleepMicroSeconds));
-//
-//        return parent::mkdir($params, $timeout, $sleepMicroSeconds);
-//    }
 
     /**
      * For debug.

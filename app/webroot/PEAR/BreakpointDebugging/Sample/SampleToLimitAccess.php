@@ -29,34 +29,14 @@ B::checkExeMode(); // Checks the execution mode.
  */
 abstract class TestClass_InAllCase
 {
-//    /**
-//     * @var array Static properties reference.
-//     */
-//    protected static $staticProperties;
-//    /**
-//     * @var array Static property limitings reference.
-//     */
-//    protected static $staticPropertyLimitings;
-//    /**
-//     * @var array Auto properties reference.
-//     */
-//    protected $autoProperties;
-//    /**
-//     * @var array Auto properties limitings reference.
-//     */
-//    protected $autoPropertyLimitings;
     /**
      * @var mixed Dummy.
      */
-    //static $_staticA = 'staticA';
-    //// private static $_staticA = 'staticA'; // Actual "php" code.
     private static $_staticA = 'staticA';
 
     /**
      * @var mixed Dummy.
      */
-    //static $_staticB = 'staticB';
-    //// private static $_staticB = 'staticB'; // Actual "php" code.
     private static $_staticB = 'staticB';
 
     /**
@@ -68,24 +48,6 @@ abstract class TestClass_InAllCase
      * @var mixed Dummy.
      */
     private $_autoB = 'autoB';
-
-//    /**
-//     * Dummy.
-//     *
-//     * @return void
-//     */
-//    function __construct()
-//    {
-//        B::limitAccess(
-//            array (
-//                'BreakpointDebugging/Sample/SampleToLimitAccess.php',
-//                'BreakpointDebugging/Sample/SampleToLimitAccess_InDebug.php'
-//            )
-//        );
-//
-//        self::$staticProperties['$_staticA'] = &self::$_staticA;
-//        self::$staticProperties['$_staticB'] = &self::$_staticB;
-//    }
 
     /**
      * Gets a auto property value.
@@ -118,37 +80,6 @@ abstract class TestClass_InAllCase
 
         $this->$propertyName = $value;
     }
-
-//    /**
-//     * Gets a static property value.
-//     *
-//     * @param string $propertyName Static property name.
-//     *
-//     * @return mixed Static property value.
-//     */
-//    static function getStatic($propertyName)
-//    {
-//        return self::$staticProperties[$propertyName];
-//    }
-//
-//    /**
-//     * Gets a static property reference.
-//     *
-//     * @param string $propertyName Static property name.
-//     *
-//     * @return mixed& Static property.
-//     */
-//    static function &refStatic($propertyName)
-//    {
-//        B::limitAccess(
-//            array (
-//                'BreakpointDebugging/Sample/SampleToLimitAccess.php',
-//                'BreakpointDebugging/Sample/SampleToLimitAccess_InDebug.php'
-//            )
-//        );
-//
-//        return self::$staticProperties[$propertyName];
-//    }
 
     /**
      * Gets this class's property.
@@ -273,21 +204,13 @@ foreach ($testValues as $testValue) {
     B::assert($pTestClass->_autoB === $testValue);
     // $pTestClass->_notExist = $testValue;
     // $pTestClass->_notExist;
-    //$staticA = &T::refStatic('$_staticA');
     $staticA = &T::refStaticA();
     $staticA = $testValue;
-    //B::assert(T::getStatic('$_staticA') === $testValue);
     B::assert(T::getStaticA() === $testValue);
-    //B::assert(T::$_staticA === $staticA);
-    //$staticB = &T::refStatic('$_staticB');
     $staticB = &T::refStaticB();
     $staticB = $testValue;
-    //B::assert(T::getStatic('$_staticB') === $testValue);
     B::assert(T::getStaticB() === $testValue);
-    //B::assert(T::$_staticB === $staticB);
-    //// $notExist = &T::refStatic('$_notExist');
     // $notExist = &T::refNotExist();
-    //// T::getStatic('$_notExist');
     // T::getNotExist();
 
     $pTestClass->somthingInAllCase($testValue);

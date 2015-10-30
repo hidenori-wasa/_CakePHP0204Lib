@@ -26,7 +26,6 @@ $breakpointDebugging_UnitTestFiles = array (
     'BreakpointDebugging/ErrorTest.php',
     'BreakpointDebugging/LockByFileExistingTest.php',
     'BreakpointDebugging/LockByFlockTest.php',
-    //'BreakpointDebugging/LockByShmopRequestTest.php',
     'BreakpointDebugging/OverrideClassTest.php',
     /*
      */
@@ -50,7 +49,6 @@ if (B::isDebug()) { // In case of debug.
 // $breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging-InAllCaseTest.php', 'PEAR/BreakpointDebugging.php'); exit;
 // $breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging/LockByFileExistingTest.php', array ('PEAR/BreakpointDebugging/Lock.php', 'PEAR/BreakpointDebugging/LockByFileExisting.php')); exit; // OK.
 // $breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging/LockByFlockTest.php', array ('PEAR/BreakpointDebugging/Lock.php', 'PEAR/BreakpointDebugging/LockByFlock.php')); exit; // OK.
-//$breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging/LockByShmopRequestTest.php', array ('PEAR/BreakpointDebugging/Lock.php', 'PEAR/BreakpointDebugging/LockByShmopRequest.php')); exit;
 // $breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging/OverrideClassTest.php', 'PEAR/BreakpointDebugging/OverrideClass.php'); exit;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Please, choose unit tests files by customizing.

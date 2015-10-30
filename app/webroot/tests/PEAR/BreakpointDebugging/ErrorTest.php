@@ -53,7 +53,6 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
     {
         ob_start();
 
-        //$maxLogStringSize = &B::refStatic('$_maxLogStringSize');
         $maxLogStringSize = &B::refMaxLogStringSize();
         $maxLogStringSize = 140000;
 
@@ -74,7 +73,6 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
             }
         };
 
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         BU::$exeMode ^= B::REMOTE;
         $exceptionWithGLOBALS($this);
@@ -91,7 +89,6 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
     function testHandleException2_B()
     {
         ob_start();
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         try {
             // SJIS + UTF-8
@@ -118,7 +115,6 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
         try {
             $this->exceptionHandler2_D($GLOBALS);
         } catch (\Exception $e) {
-            //BU::$exeMode |= B::IGNORING_BREAK_POINT;
             BU::ignoreBreakpoint();
             // Skips the global variable array.
             $this->_error->handleException2($e, '');
@@ -131,7 +127,6 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
     public function testHandleError2()
     {
         ob_start();
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         B::handleError(E_USER_WARNING, '');
     }
@@ -145,7 +140,6 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
     function testHandleError2_B()
     {
         ob_start();
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         $this->_error->handleError2(-1, '', B::$prependErrorLog, debug_backtrace());
     }

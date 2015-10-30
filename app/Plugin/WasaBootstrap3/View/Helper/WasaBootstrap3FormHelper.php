@@ -15,12 +15,12 @@
  * @license  http://opensource.org/licenses/mit-license.php  MIT License
  * @link     https://github.com/hidenori-wasa/_CakePHP0204Lib/
  */
-use \WasaCache as WC; // This is this file scope and priority is high.
+use \WasaCache as WC;
 
 \App::uses('WasaCache', 'Wasa.Cache');
 /**
  * The form helper for bootstrap3.
- * 
+ *
  * CakePHP = 2.4.x
  * Bootstrap = 3.2.0
  *

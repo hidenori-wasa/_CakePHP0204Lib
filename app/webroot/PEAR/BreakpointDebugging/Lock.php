@@ -16,7 +16,6 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/BreakpointDebugging
  */
-//use \BreakpointDebugging as B;
 /**
  * The abstract base class which lock php-code.
  *

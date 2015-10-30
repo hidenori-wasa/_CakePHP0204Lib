@@ -16,13 +16,8 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/BreakpointDebugging_PHPUnit
  */
-// File to have "use" keyword does not inherit scope into a file including itself,
-// also it does not inherit scope into a file including,
-// and moreover "use" keyword alias has priority over class definition,
-// therefore "use" keyword alias does not be affected by other files.
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_Window as BW;
-use \BreakpointDebugging_PHPUnit as BU;
 use \BreakpointDebugging_PHPUnit_StaticVariableStorage as BSS;
 
 /**
@@ -104,15 +99,9 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 
         // Checks the autoload functions.
         $autoloadFunctions = spl_autoload_functions();
-//        if (is_array($autoloadFunctions[0]) //
-//            && $autoloadFunctions[0][0] === self::$_phpUnit->getStaticVariableStorageInstance() //
-//            && $autoloadFunctions[0][1] === 'loadClass' //
-//        ) {
-//            return;
-//        }
-        //if (is_object($autoloadFunctions[0][0])) {
         if (is_array($autoloadFunctions[0]) //
-            && is_object($autoloadFunctions[0][0])) {
+            && is_object($autoloadFunctions[0][0]) //
+        ) {
             $className = get_class($autoloadFunctions[0][0]);
         } else {
             $className = $autoloadFunctions[0][0];
@@ -308,7 +297,6 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     static function markTestSkippedInDebug()
     {
-        //if (!(BU::$exeMode & B::RELEASE)) {
         if (B::isDebug()) {
             return true;
         }
@@ -322,10 +310,6 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     static function markTestSkippedInRelease()
     {
-        //if (BU::$exeMode & B::RELEASE) {
-        //    return true;
-        //}
-        //return false;
         if (B::isDebug()) {
             return false;
         }

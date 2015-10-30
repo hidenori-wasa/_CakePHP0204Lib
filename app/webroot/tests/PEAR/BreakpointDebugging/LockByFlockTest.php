@@ -181,24 +181,4 @@ class BreakpointDebugging_LockByFlockTest extends \BreakpointDebugging_PHPUnit_F
         $lockByFileExisting = &\BreakpointDebugging_LockByFileExisting::singleton(5, 10);
     }
 
-//    /**
-//     * @covers \BreakpointDebugging_LockByFlock<extended>
-//     *
-//     * @expectedException        \BreakpointDebugging_ErrorException
-//     * @expectedExceptionMessage CLASS=BreakpointDebugging_Lock FUNCTION=singletonBase ID=101.
-//     */
-//    function testSingleton_C()
-//    {
-//        BU::markTestSkippedInRelease(); // Because this unit test is assertion.
-//
-//        if ((BU::$exeMode & B::REMOTE) //
-//            && !extension_loaded('shmop') //
-//        ) {
-//            $this->markTestSkipped('"shmop" extention has been not loaded.');
-//        }
-//        // Constructs instance of other class.
-//        $LockByShmop = &\BreakpointDebugging_LockByShmop::singleton(5, 10);
-//    }
 }
-
-?>

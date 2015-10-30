@@ -202,10 +202,6 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
                 $tokenClass = self::$customTokens[$token];
             }
 
-            if ($tokenClass === 'PHP_Token_OPEN_TAG') {
-                \xdebug_break();
-            }
-
             $this->tokens[] = new $tokenClass($text, $line, $this, $i);
             $lines          = substr_count($text, "\n");
             $line          += $lines;

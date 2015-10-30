@@ -41,7 +41,6 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
 
     static function setUpBeforeClass()
     {
-        //$maxLogStringSize = &B::refStatic('$_maxLogStringSize');
         $maxLogStringSize = &B::refMaxLogStringSize();
         $maxLogStringSize = 8;
         self::$_errorLogDir = \BreakpointDebugging_Error::getErrorLogDir();
@@ -121,10 +120,8 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
         $testString = 'Test string.';
         B::addValuesToTrace(array ('$testString' => $testString));
         B::addValuesToTrace(array ('$testString' => $testString));
-        //$maxLogParamNestingLevel = &B::refStatic('$_maxLogParamNestingLevel');
         $maxLogParamNestingLevel = &B::refMaxLogParamNestingLevel();
         $maxLogParamNestingLevel = 2;
-        //$maxLogElementNumber = &B::refStatic('$_maxLogElementNumber');
         $maxLogElementNumber = &B::refMaxLogElementNumber();
         $maxLogElementNumber = 6;
 
@@ -137,13 +134,11 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
 
         function test2_($error)
         {
-            //BU::$exeMode |= B::IGNORING_BREAK_POINT;
             BU::ignoreBreakpoint();
             for ($count = 0; $count < 2; $count++) {
                 $error->handleException2(new \Exception(), B::$prependExceptionLog);
                 T::$line1_ = __LINE__ - 1;
             }
-            //BU::$exeMode &= ~B::IGNORING_BREAK_POINT;
             BU::notIgnoreBreakpoint();
         }
 
@@ -153,11 +148,9 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
             T::$line2_ = __LINE__ - 1;
         }
 
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         $error->handleException2(new \Exception(), B::$prependExceptionLog);
         $line = __LINE__ - 1;
-        //BU::$exeMode &= ~B::IGNORING_BREAK_POINT;
         BU::notIgnoreBreakpoint();
 
         test1_($error);
@@ -181,7 +174,6 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
 
         B::addValuesToTrace(array ('$parentFileNumber' => $parentFileNumber, '$thisFileNumber' => $thisFileNumber));
         new \BreakpointDebugging_Error();
-        //$valuesToTrace = &B::refStatic('$_valuesToTrace');
         $valuesToTrace = &B::refValuesToTrace();
         $valuesToTrace = null;
 
@@ -197,23 +189,17 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
             try {
                 call_user_func_array('testParentException', array ($nestingArray, $nestingObject, $e, tmpfile(), $GLOBALS, '123456789', 'Out of parameter number.'));
             } catch (\Exception $e) {
-                //BU::$exeMode |= B::IGNORING_BREAK_POINT;
                 BU::ignoreBreakpoint();
                 $error->handleException2($e, 'Test.');
-                //BU::$exeMode &= ~B::IGNORING_BREAK_POINT;
                 BU::notIgnoreBreakpoint();
             }
         }
         // "SJIS" message.
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         $error->handleException2(new \Exception(), "\x95\xB6\x8E\x9A");
-        //BU::$exeMode &= ~B::IGNORING_BREAK_POINT;
         BU::notIgnoreBreakpoint();
         // Error log file rotation.
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
-        //$maxLogFileByteSize = &B::refStatic('$_maxLogFileByteSize');
         $maxLogFileByteSize = &B::refMaxLogFileByteSize();
         $storeMaxLogFileByteSize = $maxLogFileByteSize;
         $maxLogFileByteSize = 1;
@@ -226,11 +212,9 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
         $error->handleException2(new \Exception(), '');
         $error->handleException2(new \Exception(), '');
         $maxLogFileByteSize = $storeMaxLogFileByteSize;
-        //BU::$exeMode &= ~B::IGNORING_BREAK_POINT;
         BU::notIgnoreBreakpoint();
         // Called from "BreakpointDebugging_InAllCase::callExceptionHandlerDirectly()" method.
         try {
-            //BU::$exeMode |= B::IGNORING_BREAK_POINT;
             BU::ignoreBreakpoint();
             B::assert(false);
         } catch (\Exception $e) {
@@ -250,27 +234,22 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
     {
         BU::markTestSkippedInDebug(); // Because this unit test is the logging check.
 
-        //$maxLogStringSize = &B::refStatic('$_maxLogStringSize');
         $maxLogStringSize = &B::refMaxLogStringSize();
         $maxLogStringSize = 140000;
 
         $logfileMaximumCapacityException = function ($self) {
             try {
-                //BU::$exeMode |= B::IGNORING_BREAK_POINT;
                 BU::ignoreBreakpoint();
                 $self->exceptionHandler2(str_repeat('1234567890', 14000), array ('Test1.'), 1.1);
             } catch (\Exception $e) {
                 B::handleException($e);
-                //BU::$exeMode &= ~B::IGNORING_BREAK_POINT;
                 BU::notIgnoreBreakpoint();
             }
         };
 
         $logStartException = function () {
-            //BU::$exeMode |= B::IGNORING_BREAK_POINT;
             BU::ignoreBreakpoint();
             B::handleException(new \Exception('The log start exception.'));
-            //BU::$exeMode &= ~B::IGNORING_BREAK_POINT;
             BU::notIgnoreBreakpoint();
         };
 
@@ -311,10 +290,8 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
 
         function handleError($error)
         {
-            //BU::$exeMode |= B::IGNORING_BREAK_POINT;
             BU::ignoreBreakpoint();
             $error->handleError2(E_USER_WARNING, '', B::$prependErrorLog, debug_backtrace());
-            //BU::$exeMode &= ~B::IGNORING_BREAK_POINT;
             BU::notIgnoreBreakpoint();
         }
 
@@ -364,7 +341,6 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
         parent::assertTrue(strpos($binData2, $cmpBinData2) !== false);
 
         ob_start();
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
 
         $error->handleError2(E_USER_DEPRECATED, '', B::$prependErrorLog, debug_backtrace());
@@ -407,7 +383,6 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
     function testHandleError2_A()
     {
         BU::markTestSkippedInDebug(); // Because this unit test is the logging check.
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         $this->_error->handleError2(255, '', B::$prependErrorLog, debug_backtrace());
     }
@@ -423,7 +398,6 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
         BU::markTestSkippedInDebug(); // Because this unit test is the logging check.
         // SJIS + UTF-8
         B::$prependExceptionLog = "\x95\xB6\x8E\x9A \xE6\x96\x87\xE5\xAD\x97 ";
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         try {
             B::handleException(new \Exception());

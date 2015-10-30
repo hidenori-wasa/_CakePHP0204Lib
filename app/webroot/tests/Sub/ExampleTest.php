@@ -1,8 +1,10 @@
 <?php
 
+use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
 
-// class Sub_ExampleTest extends \CakeTestCase // If "CakePHP".
+B::assert(B::isDebug());
+// class Sub_ExampleTest extends \CakeTestCase // If "CakePHP". Or, "extends \ControllerTestCase".
 class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     private $_pTestObject;

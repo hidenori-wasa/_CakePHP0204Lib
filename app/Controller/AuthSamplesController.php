@@ -1,8 +1,5 @@
 <?php
 
-// "WA" scope is this file only.
-// Also, this name priority is higher than a class name.
-// Therefore, this name is not affected by other name.
 use \WasaAuthControllerParts as WA;
 
 \App::uses('WasaAuthControllerParts', 'WasaAuth.Lib');

@@ -284,7 +284,6 @@ abstract class BreakpointDebugging_ErrorInAllCase
      */
     function __construct()
     {
-        //$this->maxLogFileByteSize = B::getStatic('$_maxLogFileByteSize');
         $this->maxLogFileByteSize = B::getMaxLogFileByteSize();
         $this->isLogging = true;
         $this->mark = '#';
@@ -358,7 +357,6 @@ abstract class BreakpointDebugging_ErrorInAllCase
             $class = '';
         }
 
-        //$valuesToTraceFiles = B::getStatic('$_valuesToTrace');
         $valuesToTraceFiles = B::getValuesToTrace();
         $onceFlag = false;
         if (!is_array($valuesToTraceFiles)) {
@@ -443,10 +441,8 @@ abstract class BreakpointDebugging_ErrorInAllCase
     {
         $this->checkLogByteSize($pTmpLog);
         $isOverMaxLogElementNumber = false;
-        //if (count($array) > B::getStatic('$_maxLogElementNumber')) {
         if (count($array) > B::getMaxLogElementNumber()) {
             $isOverMaxLogElementNumber = true;
-            //$array = array_slice($array, 0, B::getStatic('$_maxLogElementNumber'), true);
             $array = array_slice($array, 0, B::getMaxLogElementNumber(), true);
         }
         $tabs = str_repeat("\t", $tabNumber);
@@ -468,7 +464,6 @@ abstract class BreakpointDebugging_ErrorInAllCase
         $this->_loggedArrays[] = $array;
         $this->logBufferWriting($pTmpLog, PHP_EOL . $tabs . $paramName . $this->tags['font']['=>'] . ' => ' . $this->tags['/font'] . $this->tags['b'] . $this->_setHypertextReference('array #' . count($this->_loggedArrays)) . $this->tags['/b'] . ' (');
         // Beyond max log param nesting level.
-        //if ($tabNumber >= B::getStatic('$_maxLogParamNestingLevel')) {
         if ($tabNumber >= B::getMaxLogParamNestingLevel()) {
             $this->logBufferWriting($pTmpLog, PHP_EOL . $tabs . "\t...");
         } else {
@@ -528,7 +523,6 @@ abstract class BreakpointDebugging_ErrorInAllCase
         $this->logBufferWriting($pTmpLog, PHP_EOL . $tabs . $paramName . $this->tags['font']['=>'] . ' => ' . $this->tags['/font'] . $this->tags['b'] . $this->_setHypertextReference('class object #' . count($this->_loggedObjects)) . ' ' . $this->tags['/b'] . $this->tags['i'] . $className . $this->tags['/i'] . PHP_EOL . $tabs . '{');
 
         // Beyond max log param nesting level.
-        //if ($tabNumber >= B::getStatic('$_maxLogParamNestingLevel')) {
         if ($tabNumber >= B::getMaxLogParamNestingLevel()) {
             $this->logBufferWriting($pTmpLog, PHP_EOL . $tabs . "\t...");
         } else {
@@ -588,10 +582,8 @@ abstract class BreakpointDebugging_ErrorInAllCase
         for ($count = 0; $count < $elementNumber; $count++) {
             $pCurrentException = $pExceptions[$count];
             $callStackInfo = $pCurrentException->getTrace();
-            //if (B::getStatic('$_callingExceptionHandlerDirectly')) { // Has been called from "BreakpointDebugging_InAllCase::callExceptionHandlerDirectly()" method.
             if (B::getCallingExceptionHandlerDirectly()) { // Has been called from "BreakpointDebugging_InAllCase::callExceptionHandlerDirectly()" method.
                 // @codeCoverageIgnoreStart
-                //$callingExceptionHandlerDirectly = &B::refStatic('$_callingExceptionHandlerDirectly');
                 $callingExceptionHandlerDirectly = &B::refCallingExceptionHandlerDirectly();
                 $callingExceptionHandlerDirectly = false;
                 // Array top is set to location which "self::internalException()" is called  because this location is registered to logging.
@@ -902,9 +894,7 @@ abstract class BreakpointDebugging_ErrorInAllCase
 
         array_key_exists('function', $callStack) ? $func = $callStack['function'] : $func = '';
         array_key_exists('class', $callStack) ? $class = $callStack['class'] : $class = '';
-        //if (is_array(B::getStatic('$_notFixedLocations'))) {
         if (is_array(B::getNotFixedLocations())) {
-            //foreach (B::getStatic('$_notFixedLocations') as $notFixedLocation) {
             foreach (B::getNotFixedLocations() as $notFixedLocation) {
                 array_key_exists('function', $notFixedLocation) ? $noFixFunc = $notFixedLocation['function'] : $noFixFunc = '';
                 array_key_exists('class', $notFixedLocation) ? $noFixClass = $notFixedLocation['class'] : $noFixClass = '';
@@ -1515,10 +1505,8 @@ EOD;
             $paramValue = $this->convertMbString($paramValue);
             $strlen = strlen($paramValue);
             $isOverMaxLogStringSize = false;
-            //if ($strlen > B::getStatic('$_maxLogStringSize')) {
             if ($strlen > B::getMaxLogStringSize()) {
                 $isOverMaxLogStringSize = true;
-                //$paramValue = substr($paramValue, 0, B::getStatic('$_maxLogStringSize'));
                 $paramValue = substr($paramValue, 0, B::getMaxLogStringSize());
             }
             $paramValue = '"' . $paramValue . '"';
@@ -1570,7 +1558,6 @@ EOD;
         $paramCount = 0;
         foreach ($backtraceParams as $paramName => $paramValue) {
             $paramCount++;
-            //if ($paramCount > B::getStatic('$_maxLogElementNumber')) {
             if ($paramCount > B::getMaxLogElementNumber()) {
                 $tmp = PHP_EOL . str_repeat("\t", $tabNumber);
                 $this->logBufferWriting($pTmpLog, $tmp . ',');

@@ -16,7 +16,6 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/BreakpointDebugging
  */
-//use \BreakpointDebugging as B;
 /**
  * Class which locks php-code by shared memory operation.
  *
@@ -44,7 +43,6 @@ final class BreakpointDebugging_Shmop
      */
     static function buildSharedMemory($sharedMemoryBlockSize)
     {
-        //\BreakpointDebugging::limitAccess(array ('BreakpointDebugging/LockByShmop.php', 'BreakpointDebugging_LockByShmopResponse.php', 'BreakpointDebugging/Window.php', 'index.php'));
         \BreakpointDebugging::limitAccess(array ('BreakpointDebugging/LockByShmop.php', 'BreakpointDebugging_LockByShmopResponse.php', 'BreakpointDebugging/Window.php'));
 
         set_error_handler('\BreakpointDebugging::handleError', 0);

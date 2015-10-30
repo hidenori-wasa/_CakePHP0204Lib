@@ -178,25 +178,6 @@ class BreakpointDebugging_LockByFileExistingTest extends \BreakpointDebugging_PH
         parent::assertTrue($lockByFileExisting1 === $lockByFileExisting2);
     }
 
-//    /**
-//     * @covers \BreakpointDebugging_LockByFileExisting<extended>
-//     *
-//     * @expectedException        \BreakpointDebugging_ErrorException
-//     * @expectedExceptionMessage CLASS=BreakpointDebugging_Lock FUNCTION=singletonBase ID=101.
-//     */
-//    function testSingleton_B()
-//    {
-//        BU::markTestSkippedInRelease(); // Because this unit test is assertion.
-//
-//        if ((BU::$exeMode & B::REMOTE) //
-//            && !extension_loaded('shmop') //
-//        ) {
-//            $this->markTestSkipped('"shmop" extention has been not loaded.');
-//        }
-//        // Constructs instance of other class.
-//        $LockByShmop = &\BreakpointDebugging_LockByShmop::singleton(5, 10);
-//    }
-
     /**
      * @covers \BreakpointDebugging_LockByFileExisting<extended>
      *

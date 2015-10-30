@@ -44,10 +44,6 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-// File to have "use" keyword does not inherit scope into a file including itself,
-// also it does not inherit scope into a file including,
-// and moreover "use" keyword alias has priority over class definition,
-// therefore "use" keyword alias does not be affected by other files.
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_Window as BW;
 use \BreakpointDebugging_PHPUnit as BU;

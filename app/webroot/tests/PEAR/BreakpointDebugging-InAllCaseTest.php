@@ -24,7 +24,6 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
     {
         $pPrevious = new \Exception('Previous exception.', E_USER_WARNING);
         $pException = new \Exception('Exception.', E_USER_WARNING, $pPrevious);
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         ob_start();
         BA::handleException($pException);
@@ -36,7 +35,6 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
     public function testClearRecursiveArrayElement()
     {
         // It sets "count($_SERVER)" to "B::$_maxLogElementNumber" because it is purpose to execute without array slicing.
-        //$maxLogElementNumber = &B::refStatic('$_maxLogElementNumber');
         $maxLogElementNumber = &B::refMaxLogElementNumber();
         $tmpMaxLogElementNumber = $maxLogElementNumber;
         $maxLogElementNumber = count($_SERVER);
@@ -132,7 +130,6 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
         parent::assertTrue(!BA::checkDevelopmentSecurity());
         $_SERVER['REMOTE_ADDR'] = 'DUMMY';
         parent::assertTrue(!BA::checkDevelopmentSecurity());
-        //$_SERVER['REMOTE_ADDR'] = B::getStatic('$_developerIP');
         $_SERVER['REMOTE_ADDR'] = B::getDeveloperIP();
         $_SERVER['HTTPS'] = 'on';
         parent::assertTrue(BA::checkDevelopmentSecurity());
@@ -181,12 +178,10 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
      */
     function testRefAndGetStatic()
     {
-        //$developerIP = &BA::refStatic('$_developerIP');
         $developerIP = &BA::refDeveloperIP();
         parent::assertTrue($developerIP !== '111.222.333.444');
         $developerIP = '111.222.333.444';
         parent::assertTrue($developerIP === '111.222.333.444');
-        //parent::assertTrue(BA::getStatic('$_developerIP') === '111.222.333.444');
         parent::assertTrue(BA::getDeveloperIP() === '111.222.333.444');
     }
 
@@ -257,7 +252,6 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
     {
         BA::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
         BA::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
-        //$notFixedLocations = BA::getStatic('$_notFixedLocations');
         $notFixedLocations = BA::getNotFixedLocations();
         $notFixedLocation = $notFixedLocations[count($notFixedLocations) - 1];
         parent::assertTrue($notFixedLocation['function'] === 'testRegisterNotFixedLocation');
@@ -274,7 +268,6 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
         $values = array ('TEST_CONST' => BreakpointDebugging_InAllCaseTest::TEST_CONST, '$testString' => $testString);
         BA::addValuesToTrace($values);
         $line = __LINE__ - 1;
-        //$valuesToTraces = BA::getStatic('$_valuesToTrace');
         $valuesToTraces = BA::getValuesToTrace();
         $valuesToTrace = $valuesToTraces[__FILE__][$line];
         parent::assertTrue($valuesToTrace['function'] === 'testAddValuesToTrace');
@@ -426,7 +419,6 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
      */
     public function testErrorHandler()
     {
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         ob_start();
         BA::handleError(E_USER_WARNING, 'Error test.');
@@ -440,7 +432,6 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
      */
     public function testInternalException()
     {
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         BA::internalException('Tests "internalException()".', 1);
     }

@@ -463,7 +463,6 @@ class BreakpointDebugging_ProductionSwitcherTest extends \BreakpointDebugging_PH
      */
     function testStripCommentForRestoration($lineForTest)
     {
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         $this->_stripCommentForRestoration(array ($lineForTest), 'DUMMY');
     }

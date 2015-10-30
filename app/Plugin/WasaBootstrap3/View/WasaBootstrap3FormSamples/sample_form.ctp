@@ -2,7 +2,7 @@
 $this->layout = 'WasaBootstrap3.default';
 $this->set('title_for_layout', 'The Bootstrap form samples.');
 
-use \WasaBootstrap3FormHelper as WF; // This is this file scope and priority is high.
+use \WasaBootstrap3FormHelper as WF;
 
 // Loads form's CSS.
 echo $this->Html->css('WasaBootstrap3.WasaBootstrap3FormHelperA');

@@ -19,6 +19,8 @@ $breakpointDebugging_UnitTestFiles = array (
      */
 );
 
+// Specifies the test directory if "CakePHP".
+// $breakpointDebugging_PHPUnit->setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
 // Executes unit tests.
 $breakpointDebugging_PHPUnit->executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
 //

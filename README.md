@@ -56,6 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I improved code coverage report about speed and redundant autoload by limiting from default to my code.
-* ".delete" suffix was added to unnecessary "PHP" and "css" file.
-* I created "BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html" file which describes "BREAKPOINTDEBUGGING_PHPUNIT" pear package.
+* Definition of unit test classes was limited to requirement classes for other "CakePHP" version.

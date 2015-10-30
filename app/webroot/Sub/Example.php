@@ -2,6 +2,9 @@
 
 require_once './BreakpointDebugging_Inclusion.php';
 
+// "use" syntax's alias has file scope except file which is including and is included.
+// And, it has highest priority.
+// Therefore, it is not affected by other class name.
 use \BreakpointDebugging as B;
 
 class Sub_Example

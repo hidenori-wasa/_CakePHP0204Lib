@@ -134,7 +134,6 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         // Destructs the instance.
         $this->_pTestObject = null;
 
-        //BU::$exeMode |= B::IGNORING_BREAK_POINT;
         BU::ignoreBreakpoint();
         $this->isCalled();
     }

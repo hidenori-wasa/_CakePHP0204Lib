@@ -51,14 +51,15 @@
         <a href="#2">Procedure which tests.</a><br />
         <a href="#3">Unit test sample codes.</a><br />
         <a href="#4">Coding rule.</a><br />
-        <a href="#5">LICENSE:</a><br />
+        <a href="#5">How to run multiprocess unit test.</a><br />
+        <a href="#6">LICENSE:</a><br />
         <hr />
         <pre>
-<span class="title"><a name="0">Requirements.</a></span>
+<span class="title"><a id="0">Requirements.</a></span>
 
 "BreakpointDebugging" PEAR-package.
 
-<span class="title"><a name="1">The basic concept.</a></span>
+<span class="title"><a id="1">The basic concept.</a></span>
 
 We can debug with IDE by stopping at breakpoint when an error occurred during unit test
 because we can test each test class method on same process by perfect static backup.
@@ -66,7 +67,7 @@ Also, we can test both a debug and a release code.
 Moreover, we can display code coverage report of plural test files speedily by simple independence code
 because tests is executed on same process.
 
-<span class="title"><a name="2">Procedure which tests.</a></span>
+<span class="title"><a id="2">Procedure which tests.</a></span>
 
     Please, keep the following procedure.
     Preparation procedure: Please, see "Running procedure." section of "BREAKPOINTDEBUGGING_MANUAL.html" file.
@@ -131,9 +132,9 @@ because tests is executed on same process.
             abstract class CakeTestCase extends \WasaCakeTestCase {
             // &lt;=== Hidenori Wasa added.
             </code>
-<span class="title"><a name="3">Unit test sample codes.</a></span>
+<span class="title"><a id="3">Unit test sample codes.</a></span>
 
-    <span class="subtitle"><a name="3-1">Code a php file with coding rule.</a></span>
+    <span class="subtitle"><a id="3-1">Code a php file with coding rule.</a></span>
     About auto detection rules examples, please see "./tests/PEAR/ExampleTest.php" and "./tests/PEAR/ExampleTestSimple.php" file.
 
     "./Sub/Example.php" file. (Except auto detection rule.)
@@ -142,6 +143,9 @@ because tests is executed on same process.
 
     require_once './BreakpointDebugging_Inclusion.php';
 
+    // "use" syntax's alias has file scope except file which is including and is included.
+    // And, it has highest priority.
+    // Therefore, it is not affected by other class name.
     use \BreakpointDebugging as B;
 
     class Sub_Example
@@ -207,14 +211,16 @@ because tests is executed on same process.
     }
     // @codeCoverageIgnoreEnd
 </code>
-    <span class="subtitle"><a name="3-2">Code a unit test php file.</a></span>
+    <span class="subtitle"><a id="3-2">Code a unit test php file.</a></span>
     "./tests/Sub/ExampleTest.php" file. (Except auto detection rule.)
 
 <code>    &lt;?php
 
+    use \BreakpointDebugging as B;
     use \BreakpointDebugging_PHPUnit as BU;
 
-    // class Sub_ExampleTest extends \CakeTestCase // If "CakePHP".
+    B::assert(B::isDebug());
+    // class Sub_ExampleTest extends \CakeTestCase // If "CakePHP". Or, "extends \ControllerTestCase".
     class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     {
         private $_pTestObject;
@@ -238,7 +244,7 @@ because tests is executed on same process.
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt
+         * @covers \Sub_ExampleTest&lt;extended&gt;
          */
         function testExpampleMethodA()
         {
@@ -248,7 +254,7 @@ because tests is executed on same process.
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt
+         * @covers \Sub_ExampleTest&lt;extended&gt;
          *
          * @expectedException        \BreakpointDebugging_ErrorException
          * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.
@@ -260,7 +266,7 @@ because tests is executed on same process.
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt
+         * @covers \Sub_ExampleTest&lt;extended&gt;
          *
          * @expectedException        \BreakpointDebugging_ErrorException
          * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.
@@ -272,7 +278,7 @@ because tests is executed on same process.
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt
+         * @covers \Sub_ExampleTest&lt;extended&gt;
          *
          * @expectedException        \BreakpointDebugging_ErrorException
          * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.
@@ -283,7 +289,7 @@ because tests is executed on same process.
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt
+         * @covers \Sub_ExampleTest&lt;extended&gt;
          *
          * @expectedException        \BreakpointDebugging_ErrorException
          * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.
@@ -298,7 +304,7 @@ because tests is executed on same process.
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt
+         * @covers \Sub_ExampleTest&lt;extended&gt;
          */
         function test_expampleMethodD()
         {
@@ -313,7 +319,7 @@ because tests is executed on same process.
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt
+         * @covers \Sub_ExampleTest&lt;extended&gt;
          */
         function testInitialize()
         {
@@ -322,7 +328,7 @@ because tests is executed on same process.
 
     }
 </code>
-    <span class="subtitle"><a name="3-3">Or, code simple unit test php file.</a></span>
+    <span class="subtitle"><a id="3-3">Or, code simple unit test php file.</a></span>
     "./tests/Sub/ExampleTestSimple.php" file. (Except auto detection rule.)
 
 <code>    &lt;?php
@@ -429,7 +435,7 @@ because tests is executed on same process.
 
     }
 </code>
-    <span class="subtitle"><a name="3-4">Code a unit test execution and a code coverage report execution php file.</a></span>
+    <span class="subtitle"><a id="3-4">Code a unit test execution and a code coverage report execution php file.</a></span>
     "./tests/UnitTestExecutionExample.php" file. (Except auto detection rule.)
 
 <code>    &lt;?php
@@ -453,6 +459,8 @@ because tests is executed on same process.
          */
     );
 
+    // Specifies the test directory if "CakePHP".
+    // $breakpointDebugging_PHPUnit-&gt;setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
     // Executes unit tests.
     $breakpointDebugging_PHPUnit-&gt;executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
     //
@@ -474,14 +482,14 @@ because tests is executed on same process.
     // Makes up code coverage report, then displays in browser.
     $breakpointDebugging_PHPUnit-&gt;displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;
 </code>
-<span class="title"><a name="4">Coding rule.</a></span>
+<span class="title"><a id="4">Coding rule.</a></span>
 
-<a name="4-1">The rule 1</a>: We must overwrite "null" to variable if we call "__destruct()" on the way in all code.
+<a id="4-1">The rule 1</a>: We must overwrite "null" to variable if we call "__destruct()" on the way in all code.
     Because server calls "__destruct()" even though reference storage exists.
     Example: $this-&gt;_pTestObject = null;
-<a name="4-2">The rule 2</a>: We must construct test instance inside "setUp()".
+<a id="4-2">The rule 2</a>: We must construct test instance inside "setUp()".
     Because we must initialize value and reference of auto properties (auto class method's local static variable and auto property).
-<a name="4-S-1">The file search detection rule 1</a>: We must use property array element reference instead of property reference in all code.
+<a id="4-S-1">The file search detection rule 1</a>: We must use property array element reference instead of property reference in all code.
     Because server cannot get property reference by reflection in "PHP version 5.3.0".
     Example of rule violation:
         ::$something = &amp;
@@ -496,7 +504,7 @@ because tests is executed on same process.
         Reference copy must use "&amp;parent::" in case of parent class above one hierarchy.
         Except those, Reference copy must use "&amp;&lt;official class name&gt;::".
         Those is same about "$this".
-<a name="4-S-2">The file search detection rule 2</a>: We must not code except "tab and space" behind "@codeCoverageIgnore".
+<a id="4-S-2">The file search detection rule 2</a>: We must not code except "tab and space" behind "@codeCoverageIgnore".
     Because of parsing to except '@codeCoverageIgnore' and "@codeCoverageIgnore" of code coverage report.
     Example of rule violation:
         "@codeCoverageIgnore" A sentence.
@@ -563,12 +571,13 @@ The special rule of "\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple":
 
 Caution: Don't test an unit when practical use server has been running with synchronization file because synchronization is destroyed.
 
-How to run multiprocess unit test:
+<span class="title"><a id="5">How to run multiprocess unit test.</a></span>
+
     Procedure 1: Use "\BreakpointDebugging_CommandLine::popen()" class method in your unit test code.
     Procedure 2: Use "\BreakpointDebugging_CommandLine::waitForMultipleProcesses()" class method in your unit test code.
     Please, see "tests_PEAR_BreakpointDebugging_MultiprocessTest_Main::test()" class method as example.
 
-<span class="title"><a name="5">LICENSE:</a></span>
+<span class="title"><a id="6">LICENSE:</a></span>
 
 Copyright (c) 2015-, Hidenori Wasa
 All rights reserved.
