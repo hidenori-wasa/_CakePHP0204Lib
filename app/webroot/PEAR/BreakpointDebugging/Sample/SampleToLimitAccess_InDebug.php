@@ -24,21 +24,20 @@ use \TestClass as T;
  */
 class TestClass extends \TestClass_InAllCase
 {
-
-    /**
-     * Sets a auto property value.
-     *
-     * @param string $propertyName Auto property name.
-     * @param mixed  $value        Auto property value.
-     *
-     * @return void
-     */
-    function __set($propertyName, $value)
-    {
-        B::limitAccess($this->autoPropertyLimitings[$propertyName]);
-
-        parent::__set($propertyName, $value);
-    }
+//    /**
+//     * Sets a auto property value.
+//     *
+//     * @param string $propertyName Auto property name.
+//     * @param mixed  $value        Auto property value.
+//     *
+//     * @return void
+//     */
+//    function __set($propertyName, $value)
+//    {
+//        B::limitAccess($this->autoPropertyLimitings[$propertyName]);
+//
+//        parent::__set($propertyName, $value);
+//    }
 
     /**
      * Something.

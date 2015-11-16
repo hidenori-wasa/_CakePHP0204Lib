@@ -728,7 +728,8 @@ abstract class BreakpointDebugging_ErrorInAllCase
             $log = B::convertMbString($log);
 
             if (\BreakpointDebugging::isDebug()) { // If this displays.
-                BW::htmlAddition(B::ERROR_WINDOW_NAME, 'pre', 0, $log);
+                //BW::htmlAddition(B::ERROR_WINDOW_NAME, 'pre', 0, $log);
+                BW::exitForError($log);
             } else { // If this does a log.
                 $errorLogDirectory = BREAKPOINTDEBUGGING_WORK_DIR_NAME . self::ERROR_LOG_DIR;
                 $logFileName = 'InternalError.log';

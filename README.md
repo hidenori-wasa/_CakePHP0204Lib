@@ -56,4 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* Definition of unit test classes was limited to requirement classes for other "CakePHP" version.
+* I fixed bug of "shmop_open()" key.
+* I have been fixing the bug because "static backup" does not store object properties.

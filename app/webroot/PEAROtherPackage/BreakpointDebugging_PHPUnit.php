@@ -380,7 +380,9 @@ EOD;
         $callStack = debug_backtrace();
         $callStack = array_reverse($callStack);
         foreach ($callStack as $call) {
-            if ($call['class'] !== 'BreakpointDebugging_PHPUnit') {
+            if (!array_key_exists('class', $call) //
+                || $call['class'] !== 'BreakpointDebugging_PHPUnit' //
+            ) {
                 continue;
             }
             $functionName = $call['function'];

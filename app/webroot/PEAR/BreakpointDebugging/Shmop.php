@@ -47,7 +47,7 @@ final class BreakpointDebugging_Shmop
 
         set_error_handler('\BreakpointDebugging::handleError', 0);
         for ($count = 0; $count < 1000; $count++) {
-            $sharedMemoryKey = (microtime(true) * 10000) & 0xFFFFFFFF;
+            $sharedMemoryKey = (microtime(true) * 10000) & 0x7FFFFFFF;
             if ($sharedMemoryKey === -1) {
                 // @codeCoverageIgnoreStart
                 // Because this is a few probability.

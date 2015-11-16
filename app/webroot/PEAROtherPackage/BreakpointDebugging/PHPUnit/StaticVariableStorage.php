@@ -285,6 +285,163 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
     }
 
     /**
+     * Checks recursive data error.
+     *
+     * @param mixed $objOrArray An object or an array.
+     *
+     * @return void
+     */
+    private static function _checkRecursiveDataError($objOrArray)
+    {
+        ob_start();
+        var_dump($objOrArray);
+        $varDumpResult = ob_get_clean();
+        $varDumpResult = strip_tags($varDumpResult);
+        $lines = explode("\n", $varDumpResult);
+        foreach ($lines as $line) {
+            $result = preg_match('`^ [[:blank:]]* &`xX', $line);
+            B::assert($result !== false);
+            if ($result === 1) {
+                throw new \BreakpointDebugging_ErrorException('Recursive data must not be used because of error cause.');
+            }
+        }
+        return;
+    }
+
+    /**
+     * Copies properties.
+     *
+     * @param string $direction               Direction to store or restore.
+     * @param array  $propertiesStorage       Properties storage.
+     * @param array  $srcPropertyReflections  Source property reflections.
+     * @param array  $destPropertyReflections Destination property reflections.
+     */
+    private static function _copyProperties($direction, &$propertiesStorage, $srcPropertyReflections, $destPropertyReflections)
+    {
+        foreach ($destPropertyReflections as $destPropertyReflection) {
+            B::assert($destPropertyReflection->isStatic() === false);
+            $srcpropertyReflection = each($srcPropertyReflections);
+            B::assert($srcpropertyReflection->isStatic() === false);
+            $value = $srcpropertyReflection->getValue();
+            $destPropertyReflection->setAccessible(true);
+            $destPropertyReflection->setValue($value);
+            if (is_array($value)) {
+                self::_iterateArrayRecursively($direction, $propertiesStorage, $value);
+            } else if (is_object($value)) {
+                self::_storeOrRestoreObject($direction, $propertiesStorage, $value);
+            }
+        }
+    }
+
+    /**
+     * Stores an object.
+     *
+     * @param array $propertiesStorage Properties storage.
+     * @param array $object            An object to store.
+     *
+     * @return void
+     */
+    private static function _storeObject(&$propertiesStorage, $object)
+    {
+        $objectReflection = new ReflectionObject($object);
+        if (!$objectReflection->isInstantiable()) {
+            return;
+        }
+        $propertyReflections = $objectReflection->getProperties();
+        $newObject = $objectReflection->newInstanceWithoutConstructor();
+        $propertiesStorage[] = $newObject;
+        $newObjectReflection = new ReflectionObject($newObject);
+        $newPropertyReflections = $newObjectReflection->getProperties();
+        self::_copyProperties('STORE', $propertiesStorage, $propertyReflections, $newPropertyReflections);
+    }
+
+    /**
+     * Restores an object.
+     *
+     * @param array $propertiesStorage Properties storage.
+     * @param array $object            An object to restore.
+     *
+     * @return void
+     */
+    private static function _restoreObject($propertiesStorage, $object)
+    {
+        $objectReflection = new ReflectionObject($object);
+        if (!$objectReflection->isInstantiable()) {
+            return;
+        }
+        $propertyReflections = $objectReflection->getProperties();
+        $storedObject = next($propertiesStorage);
+        B::assert($storedObject !== false);
+        $storedObjectReflection = new ReflectionObject($storedObject);
+        $storedPropertyReflections = $storedObjectReflection->getProperties();
+        self::_copyProperties('RESTORE', $propertiesStorage, $storedPropertyReflections, $propertyReflections);
+    }
+
+    /**
+     * Restores an object.
+     *
+     * @param string $direction         Direction to store or restore.
+     * @param array  $propertiesStorage Properties storage.
+     * @param array  $object            An object to restore.
+     *
+     * @return void
+     */
+    private static function _storeOrRestoreObject($direction, $propertiesStorage, $object)
+    {
+        switch ($direction) {
+            case 'RESTORE':
+                self::_restoreObject($propertiesStorage, $object);
+                break;
+            case 'STORE':
+                self::_storeObject($propertiesStorage, $object);
+                break;
+            default:
+                B::assert(false);
+        }
+    }
+
+    /**
+     * Iterates an array recursively.
+     *
+     * @param string $direction       Direction to store or restore.
+     * @param array  $variableStorage Variable storage.
+     * @param array  $value           A value to store.
+     *
+     * @return void
+     */
+    private static function _iterateArrayRecursively($direction, &$variableStorage, &$values)
+    {
+        foreach ($values as &$value) {
+            if (is_array($value)) {
+                self::_iterateArrayRecursively($direction, $variableStorage, $value);
+            } else if (is_object($value)) {
+                self::_storeOrRestoreObject($direction, $variableStorage, $value);
+            }
+        }
+    }
+
+    /**
+     * Copies a value.
+     *
+     * @param string $direction       Direction to store or restore.
+     * @param mixed  $variableStorage Variable storage.
+     * @param mixed  $value           A value to store.
+     *
+     * @return void
+     */
+    private static function _copyValue($direction, &$variableStorage, &$value)
+    {
+        $variableStorage[] = $value;
+        if (is_array($value)) {
+            self::_checkRecursiveDataError($value);
+            self::_iterateArrayRecursively($direction, $variableStorage, $value);
+        } else if (is_object($value)) {
+            self::_checkRecursiveDataError($value);
+            self::_storeOrRestoreObject($direction, $variableStorage, $value);
+        }
+    }
+
+    /**
      * Stores variables.
      *
      * NOTICE: Reference setting inside "__construct()" is not broken by "unset()" because it is reset.
@@ -323,7 +480,8 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                 continue;
             }
             $variableRefsStorage[$key] = &$value;
-            $variablesStorage[$key] = $value;
+            //$variablesStorage[$key] = $value;
+            self::_copyValue('STORE', $variablesStorage[$key], $value);
         }
     }
 
@@ -348,7 +506,12 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                 $variables[$key] = &$variableRefsStorage[$key];
             }
             // Copies value of storage to variable.
-            $variables[$key] = $value;
+            //$variables[$key] = $value;
+            $variableStorage = $variables[$key];
+            reset($variableStorage);
+            self::_copyValue('RESTORE', $variableStorage, $value);
+            $storedObject = next($variableStorage);
+            B::assert($storedObject === false);
         }
     }
 
