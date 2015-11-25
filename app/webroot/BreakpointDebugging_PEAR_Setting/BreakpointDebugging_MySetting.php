@@ -333,9 +333,8 @@ function BreakpointDebugging_mySetting()
         }
     }
 
-    if (\BreakpointDebugging::isDebug()) { // In case of debug.
-        include_once './' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . '/BreakpointDebugging_MySetting_InDebug.php';
-    } else { // In case of release.
+    //if (\BreakpointDebugging::isDebug()) { // In case of debug.
+    if (BREAKPOINTDEBUGGING_IS_PRODUCTION) { // If production mode.
         ////////////////////////////////////////////////////////////////////////////////
         // ### This setting has been Fixed. ###
         if (!($exeMode & B::UNIT_TEST)) {
@@ -360,6 +359,9 @@ function BreakpointDebugging_mySetting()
             \BreakpointDebugging::iniSet('html_errors', '');
             return;
         }
+        //} else { // In case of release.
+    } else { // If development mode.
+        include_once './' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . '/BreakpointDebugging_MySetting_InProduction.php';
     }
 }
 

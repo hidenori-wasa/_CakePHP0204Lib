@@ -26,9 +26,9 @@ use \BreakpointDebugging as B;
 
 B::limitAccess(BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php');
 
-// ### Item-setting for debugging. ===>
+// ### Item-setting for "\BreakpointDebugging_InAllCase::checkRecursiveDataError()". ===>
 // $xdebugManualUrl = 'http://www.php.net/manual/ja/';
-$xdebugVarDisplayMaxChildren = '100';
+$xdebugVarDisplayMaxChildren = '128';
 $xdebugVarDisplayMaxData = '3000';
 $xdebugVarDisplayMaxDepth = '6';
 // B::setBrowserPass('C:\Program Files\Internet Explorer\iexplore.exe');

@@ -1095,7 +1095,7 @@ EOD;
     {
         B::limitAccess(array (
             BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php',
-            BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InDebug.php',
+            BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InProduction.php',
         ));
 
         if (func_num_args() !== 3) {
@@ -1701,6 +1701,35 @@ EOD;
 
         AFTER_TREATMENT:
         return '//' . $_SERVER['SERVER_NAME'] . '/' . $relativeCWD . '/' . $resourceFileName;
+    }
+
+    /**
+     * Checks recursive data error.
+     *
+     * Please, see "BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InProduction.php'" for below.
+     *      xdebug.var_display_max_children
+     *      xdebug.var_display_max_data
+     *      xdebug.var_display_max_depth
+     *
+     * @param mixed $value A value for check.
+     * @throws \BreakpointDebugging_ErrorException
+     *
+     * @return void
+     */
+    static function checkRecursiveDataError($value)
+    {
+        ob_start();
+        var_dump($value);
+        $varDumpResult = ob_get_clean();
+        $varDumpResult = strip_tags($varDumpResult);
+        $lines = explode("\n", $varDumpResult);
+        foreach ($lines as $line) {
+            $result = preg_match('`^ [[:blank:]]* &`xX', $line);
+            B::assert($result !== false);
+            if ($result === 1) {
+                throw new \BreakpointDebugging_ErrorException('Recursive data must not be used because of error cause. Also, "\Closure" object must not be used as auto property because it may be included to static variable.');
+            }
+        }
     }
 
     ///////////////////////////// For package user until here. /////////////////////////////

@@ -943,72 +943,72 @@ EOD;
 
         switch ($howToTest) {
             case 'SIMPLE':
-                $isUnitTestClass = function ($declaredClassName) {
-                    set_error_handler('\BreakpointDebugging::handleError', 0);
-                    // Excepts unit test classes.
-                    if (preg_match('`^ BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)`xX', $declaredClassName) === 1 //
-                        || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
-                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
-                    ) {
-                        restore_error_handler();
-                        return true;
-                    }
-                    restore_error_handler();
-                    return false;
-                };
+//                $isUnitTestClass = function ($declaredClassName) {
+//                    set_error_handler('\BreakpointDebugging::handleError', 0);
+//                    // Excepts unit test classes.
+//                    if (preg_match('`^ BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)`xX', $declaredClassName) === 1 //
+//                        || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
+//                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+//                    ) {
+//                        restore_error_handler();
+//                        return true;
+//                    }
+//                    restore_error_handler();
+//                    return false;
+//                };
                 $this->_phpUnitUse = false;
                 $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnitSimple';
                 break;
             case 'PHPUNIT':
-                $isUnitTestClass = function ($declaredClassName) {
-                    set_error_handler('\BreakpointDebugging::handleError', 0);
-                    // Excepts unit test classes.
-                    if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
-                        || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
-                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
-                    ) {
-                        restore_error_handler();
-                        return true;
-                    }
-                    restore_error_handler();
-                    return false;
-                };
+//                $isUnitTestClass = function ($declaredClassName) {
+//                    set_error_handler('\BreakpointDebugging::handleError', 0);
+//                    // Excepts unit test classes.
+//                    if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
+//                        || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
+//                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+//                    ) {
+//                        restore_error_handler();
+//                        return true;
+//                    }
+//                    restore_error_handler();
+//                    return false;
+//                };
                 $this->_phpUnitUse = true;
                 $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnit';
                 \BreakpointDebugging_PHPUnit_FrameworkTestCase::setPHPUnit($this);
                 break;
             case 'PHPUNIT_OWN':
-                $isUnitTestClass = function ($declaredClassName) {
-                    set_error_handler('\BreakpointDebugging::handleError', 0);
-                    // Excepts unit test classes.
-                    if (preg_match('`^ PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template`xX', $declaredClassName) === 1 //
-                        || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
-                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
-                    ) {
-                        restore_error_handler();
-                        return true;
-                    }
-                    restore_error_handler();
-                    return false;
-                };
+//                $isUnitTestClass = function ($declaredClassName) {
+//                    set_error_handler('\BreakpointDebugging::handleError', 0);
+//                    // Excepts unit test classes.
+//                    if (preg_match('`^ PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template`xX', $declaredClassName) === 1 //
+//                        || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
+//                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+//                    ) {
+//                        restore_error_handler();
+//                        return true;
+//                    }
+//                    restore_error_handler();
+//                    return false;
+//                };
                 $this->_phpUnitUse = true;
                 $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnit';
                 \BreakpointDebugging_PHPUnit_FrameworkTestCase::setPHPUnit($this);
             case 'SIMPLE_OWN':
-                $isUnitTestClass = function ($declaredClassName) {
-                    set_error_handler('\BreakpointDebugging::handleError', 0);
-                    // Excepts unit test classes.
-                    if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
-                        || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
-                        || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
-                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
-                    ) {
-                        restore_error_handler();
-                        return true;
-                    }
-                    restore_error_handler();
-                    return false;
-                };
+//                $isUnitTestClass = function ($declaredClassName) {
+//                    set_error_handler('\BreakpointDebugging::handleError', 0);
+//                    // Excepts unit test classes.
+//                    if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
+//                        || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
+//                        || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
+//                        || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+//                    ) {
+//                        restore_error_handler();
+//                        return true;
+//                    }
+//                    restore_error_handler();
+//                    return false;
+//                };
                 if (!isset($this->_phpUnitUse)) {
                     $this->_phpUnitUse = false;
                     $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnitSimple';
@@ -1017,7 +1017,8 @@ EOD;
             default:
                 throw new \BreakpointDebugging_ErrorException('Class method parameter is incorrect.');
         }
-        $this->_staticVariableStorage = new \BreakpointDebugging_PHPUnit_StaticVariableStorage($isUnitTestClass);
+        //$this->_staticVariableStorage = new \BreakpointDebugging_PHPUnit_StaticVariableStorage($isUnitTestClass);
+        $this->_staticVariableStorage = new \BreakpointDebugging_PHPUnit_StaticVariableStorage($howToTest);
         // Sets this instance to unit test class.
         \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple::setPHPUnit($this);
         B::setPHPUnit($this);

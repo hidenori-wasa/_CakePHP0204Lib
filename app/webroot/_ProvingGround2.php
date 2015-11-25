@@ -4,6 +4,16 @@ include_once './BreakpointDebugging_Inclusion.php';
 
 use \BreakpointDebugging as B;
 
+$base = array('berries' => array('blackberry', 'raspberry'), 'others' => 'banana');
+$replacements = array('berries' => array('blueberry'), 'others' => array('litchis'));
+$replacements2 = array('berries' => array('blueberry2'), 'others' => 'litchis');
+// 同じキーの値が順番に上書きされる
+// 同じキーの値が配列同士の場合、再帰的に処理される
+// 別のキーの要素は結合される
+$basket = array_replace_recursive($base, $replacements, $replacements2);
+var_dump($basket);
+exit;
+
 /**
  * Checks recursive data error.
  *

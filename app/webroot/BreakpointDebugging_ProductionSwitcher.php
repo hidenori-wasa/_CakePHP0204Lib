@@ -341,7 +341,7 @@ EOD;
         set_time_limit(0);
 
         // Adds path.
-        self::$_blackListPaths[] = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InDebug.php';
+        self::$_blackListPaths[] = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InProduction.php';
         BW::virtualOpen(__CLASS__, $getHtmlFileContent('ProductionSwitcher'));
         if (isset($_GET['Switch_to_production']) // 'Switch to production' button was pushed.
             || isset($_GET['Switch_to_development']) // Or, 'Switch to development' button was pushed.

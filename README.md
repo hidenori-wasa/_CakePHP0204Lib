@@ -11,8 +11,8 @@ Requirements
 
 * [CakePHP(2.4-)](http://cakephp.jp/)
 * [Bootstrap(3.2-)](http://getbootstrap.com/)
-* ["BreakpointDebugging" PEAR package]
-* ["BreakpointDebugging_PHPUnit" PEAR package](option)
+* "BreakpointDebugging" PEAR package
+* "BreakpointDebugging_PHPUnit" PEAR package (option)
 
 Requirements of browser.
 ------------------------
@@ -56,5 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I fixed bug of "shmop_open()" key.
-* I have been fixing the bug because "static backup" does not store object properties.
+* I have been fixing its bug because "static backup" does not store object properties.
