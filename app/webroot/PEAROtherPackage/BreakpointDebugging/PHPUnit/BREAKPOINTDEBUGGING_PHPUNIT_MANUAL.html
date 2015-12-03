@@ -82,7 +82,7 @@ because tests is executed on same process.
                       to the project directory of remote server if you want remote unit test.
     Option Procedure: "CakePHP" framework requires the following files.
         Customize "app/webroot/WasaCakeTestStart.php" which copied "app/webroot/test.php" as below.
-            <code>            // Hidenori Wasa added. ===&gt;
+            <code>            // Hidenori Wasa added. ===>
             // require_once CAKE . 'TestSuite' . DS . 'CakeTestSuiteDispatcher.php';
             require_once \CakePlugin::path('WasaPhpUnit') . 'TestSuite/WasaTestArrayDispatcher.php';
             // CakeTestSuiteDispatcher::run();
@@ -90,7 +90,7 @@ because tests is executed on same process.
             // &lt;=== Hidenori Wasa added.
             </code>
         Load "WasaPhpUnit" plugin inside "app/Config/bootstrap.php" as below.
-            <code>            \CakePlugin::load('WasaPhpUnit', array ('bootstrap' =&gt; true));
+            <code>            \CakePlugin::load('WasaPhpUnit', array ('bootstrap' => true));
             </code>
             If this plugin cannot execute by difference of version, consult the following.
                 Customize "app/Plugin/WasaPhpUnit/TestSuite/WasaTestArrayDispatcher.php"
@@ -109,7 +109,7 @@ because tests is executed on same process.
         Customize "lib/Cake/TestSuite/CakeTestCase.php" as below.
             <code>            // abstract class CakeTestCase extends PHPUnit_Framework_TestCase {
             //
-            // Hidenori Wasa added. ===&gt;
+            // Hidenori Wasa added. ===>
             $wasaStartPage = debug_backtrace();
             $wasaStartPage = array_pop($wasaStartPage);
             if (array_key_exists('class', $wasaStartPage)) {
@@ -131,6 +131,39 @@ because tests is executed on same process.
    ;
             abstract class CakeTestCase extends \WasaCakeTestCase {
             // &lt;=== Hidenori Wasa added.
+            </code>
+        Customize "lib/Cake/TestSuite/CakeTestRunner.php" as below.
+            <code>            class CakeTestRunner extends PHPUnit_TextUI_TestRunner {
+                .
+                .
+                .
+            public function doRun(PHPUnit_Framework_Test $suite, array $arguments = array()) {
+                // Hidenori Wasa added. ===>
+                $result = spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass');
+                \BreakpointDebugging::assert($result);
+                // &lt;=== Hidenori Wasa added.
+
+                if (isset($arguments['printer'])) {
+                    self::$versionStringPrinted = true;
+                }
+
+                $fixture = $this->_getFixtureManager($arguments);
+                foreach ($suite->getIterator() as $test) {
+                    if ($test instanceof CakeTestCase) {
+                        $fixture->fixturize($test);
+                        $test->fixtureManager = $fixture;
+                    }
+                }
+
+                // Hidenori Wasa added. ===>
+                $result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass', true, true);
+                \BreakpointDebugging::assert($result);
+                // &lt;=== Hidenori Wasa added.
+
+                $return = parent::doRun($suite, $arguments);
+                $fixture->shutdown();
+                return $return;
+            }
             </code>
 <span class="title"><a id="3">Unit test sample codes.</a></span>
 
@@ -231,20 +264,20 @@ because tests is executed on same process.
             parent::setUp();
 
             // We must construct the test instance here. Also, this is <a href="#4-2">the rule 2</a>.
-            $this-&gt;_pTestObject = new \Sub_Example();
+            $this->_pTestObject = new \Sub_Example();
         }
 
         protected function tearDown()
         {
         // Destructs the test instance to reduce memory use. Also, this is <a href="#4-1">the rule 1</a>.
-            $this-&gt;_pTestObject = null;
+            $this->_pTestObject = null;
 
             // This is required at bottom.
             parent::tearDown();
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt;
+         * @covers \Sub_ExampleTest&lt;extended>
          */
         function testExpampleMethodA()
         {
@@ -254,7 +287,7 @@ because tests is executed on same process.
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt;
+         * @covers \Sub_ExampleTest&lt;extended>
          *
          * @expectedException        \BreakpointDebugging_ErrorException
          * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.
@@ -262,11 +295,11 @@ because tests is executed on same process.
         function testExpampleMethodB_1()
         {
             BU::ignoreBreakpoint();
-            $this-&gt;_pTestObject-&gt;expampleMethodB('STRING');
+            $this->_pTestObject->expampleMethodB('STRING');
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt;
+         * @covers \Sub_ExampleTest&lt;extended>
          *
          * @expectedException        \BreakpointDebugging_ErrorException
          * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.
@@ -274,22 +307,22 @@ because tests is executed on same process.
         function testExpampleMethodB_2()
         {
             BU::setRelease();
-            $this-&gt;_pTestObject-&gt;expampleMethodB('STRING');
+            $this->_pTestObject->expampleMethodB('STRING');
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt;
+         * @covers \Sub_ExampleTest&lt;extended>
          *
          * @expectedException        \BreakpointDebugging_ErrorException
          * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.
          */
         function testExpampleMethodB_3()
         {
-            $this-&gt;_pTestObject-&gt;expampleMethodB(1);
+            $this->_pTestObject->expampleMethodB(1);
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt;
+         * @covers \Sub_ExampleTest&lt;extended>
          *
          * @expectedException        \BreakpointDebugging_ErrorException
          * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.
@@ -297,29 +330,29 @@ because tests is executed on same process.
         function test_expampleMethodC()
         {
             BU::callForTest(array (
-                'objectOrClassName' =&gt; 'Sub_Example',
-                'methodName' =&gt; '_expampleMethodC',
-                'params' =&gt; array ()
+                'objectOrClassName' => 'Sub_Example',
+                'methodName' => '_expampleMethodC',
+                'params' => array ()
             ));
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt;
+         * @covers \Sub_ExampleTest&lt;extended>
          */
         function test_expampleMethodD()
         {
             $tmp = 'DUMMY';
             $result = BU::callForTest(array (
-                    'objectOrClassName' =&gt; $this-&gt;_pTestObject,
-                    'methodName' =&gt; '_expampleMethodD',
-                    'params' =&gt; array (&amp;$tmp)
+                    'objectOrClassName' => $this->_pTestObject,
+                    'methodName' => '_expampleMethodD',
+                    'params' => array (&amp;$tmp)
             ));
 
             parent::assertTrue($result === true);
         }
 
         /**
-         * @covers \Sub_ExampleTest&lt;extended&gt;
+         * @covers \Sub_ExampleTest&lt;extended>
          */
         function testInitialize()
         {
@@ -347,13 +380,13 @@ because tests is executed on same process.
             parent::setUp();
 
             // We must construct the test instance here. Also, this is <a href="#4-2">the rule 2</a>.
-            $this-&gt;_pTestObject = new \Sub_Example();
+            $this->_pTestObject = new \Sub_Example();
         }
 
         protected function tearDown()
         {
         // Destructs the test instance to reduce memory use. Also, this is <a href="#4-1">the rule 1</a>.
-            $this-&gt;_pTestObject = null;
+            $this->_pTestObject = null;
 
             // This is required at bottom.
             parent::tearDown();
@@ -370,7 +403,7 @@ because tests is executed on same process.
         {
             BU::ignoreBreakpoint();
             try {
-                $this-&gt;_pTestObject-&gt;expampleMethodB('STRING');
+                $this->_pTestObject->expampleMethodB('STRING');
             } catch (\BreakpointDebugging_ErrorException $e) {
                 BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.');
                 return;
@@ -382,7 +415,7 @@ because tests is executed on same process.
         {
             BU::setRelease();
             try {
-                $this-&gt;_pTestObject-&gt;expampleMethodB('STRING');
+                $this->_pTestObject->expampleMethodB('STRING');
             } catch (\BreakpointDebugging_ErrorException $e) {
                 BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.');
                 return;
@@ -393,7 +426,7 @@ because tests is executed on same process.
         function testExpampleMethodB_3()
         {
             try {
-                $this-&gt;_pTestObject-&gt;expampleMethodB(1);
+                $this->_pTestObject->expampleMethodB(1);
             } catch (\BreakpointDebugging_ErrorException $e) {
                 BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.');
                 return;
@@ -405,9 +438,9 @@ because tests is executed on same process.
         {
             try {
                 BU::callForTest(array (
-                    'objectOrClassName' =&gt; 'Sub_Example',
-                    'methodName' =&gt; '_expampleMethodC',
-                    'params' =&gt; array ()
+                    'objectOrClassName' => 'Sub_Example',
+                    'methodName' => '_expampleMethodC',
+                    'params' => array ()
                 ));
             } catch (\BreakpointDebugging_ErrorException $e) {
                 BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.');
@@ -420,9 +453,9 @@ because tests is executed on same process.
         {
             $tmp = 'DUMMY';
             $result = BU::callForTest(array (
-                    'objectOrClassName' =&gt; $this-&gt;_pTestObject,
-                    'methodName' =&gt; '_expampleMethodD',
-                    'params' =&gt; array (&amp;$tmp)
+                    'objectOrClassName' => $this->_pTestObject,
+                    'methodName' => '_expampleMethodD',
+                    'params' => array (&amp;$tmp)
             ));
 
             parent::assertTrue($result === true);
@@ -460,12 +493,12 @@ because tests is executed on same process.
     );
 
     // Specifies the test directory if "CakePHP".
-    // $breakpointDebugging_PHPUnit-&gt;setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
+    // $breakpointDebugging_PHPUnit->setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
     // Executes unit tests.
-    $breakpointDebugging_PHPUnit-&gt;executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
+    $breakpointDebugging_PHPUnit->executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
     //
     // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit-&gt;displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
+    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Please, choose simple unit tests files by customizing.
     $breakpointDebugging_UnitTestFiles = array (
@@ -477,16 +510,16 @@ because tests is executed on same process.
     );
 
     // Executes simple unit tests.
-    $breakpointDebugging_PHPUnit-&gt;executeUnitTestSimple($breakpointDebugging_UnitTestFiles); exit;
+    $breakpointDebugging_PHPUnit->executeUnitTestSimple($breakpointDebugging_UnitTestFiles); exit;
     //
     // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit-&gt;displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;
+    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;
 </code>
 <span class="title"><a id="4">Coding rule.</a></span>
 
 <a id="4-1">The rule 1</a>: We must overwrite "null" to variable if we call "__destruct()" on the way in all code.
     Because server calls "__destruct()" even though reference storage exists.
-    Example: $this-&gt;_pTestObject = null;
+    Example: $this->_pTestObject = null;
 <a id="4-2">The rule 2</a>: We must construct test instance inside "setUp()".
     Because we must initialize value and reference of auto properties (auto class method's local static variable and auto property).
 <a id="4-S-1">The file search detection rule 1</a>: We must use property array element reference instead of property reference in all code.
@@ -502,7 +535,7 @@ because tests is executed on same process.
     About reference copy.
         Reference copy must use "&amp;self::" in case of self class.
         Reference copy must use "&amp;parent::" in case of parent class above one hierarchy.
-        Except those, Reference copy must use "&amp;&lt;official class name&gt;::".
+        Except those, Reference copy must use "&amp;&lt;official class name>::".
         Those is same about "$this".
 <a id="4-S-2">The file search detection rule 2</a>: We must not code except "tab and space" behind "@codeCoverageIgnore".
     Because of parsing to except '@codeCoverageIgnore' and "@codeCoverageIgnore" of code coverage report.
@@ -542,7 +575,7 @@ Recommendation rule 1: We should destruct a test instance per test in "tearDown(
         protected function tearDown()
         {
             // Destructs the test instance.
-            $this-&gt;_pTestObject = null;
+            $this->_pTestObject = null;
 
             // This is required at bottom.
             parent::tearDown();
@@ -586,7 +619,7 @@ License content is written in "<a href="../../../PEAR/BreakpointDebugging/BREAKP
 
 @category PHP
 @package  BreakpointDebugging
-@author   Hidenori Wasa &lt;public@hidenori-wasa.com&gt;
+@author   Hidenori Wasa &lt;public@hidenori-wasa.com>
 @license  http://opensource.org/licenses/mit-license.php  MIT License
 @link     <a href="https://github.com/hidenori-wasa/">https://github.com/hidenori-wasa/</a>
         </pre>

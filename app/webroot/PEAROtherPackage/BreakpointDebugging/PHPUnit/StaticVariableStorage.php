@@ -101,30 +101,43 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      *
      * @var array
      */
-    private static $_backupStaticPropertiesBlacklist = array ();
+    private static $_backupStaticPropertiesBlacklist = array (
+        'BreakpointDebugging_InAllCase' => array ('_callLocations'),
+    );
+
+    /**
+     * Is it unit test class?
+     *
+     * @var Closure
+     */
+//    private $_isUnitTestClass;
+    private static $_isUnitTestClass;
 
 //    /**
-//     * Is it unit test class?
-//     *
-//     * @var Closure
+//     * @var string How to test.
 //     */
-//    private $_isUnitTestClass;
+//    //private $_howToTest;
+//    private static $_howToTest;
 
     /**
-     * @var string How to test.
-     */
-    private $_howToTest;
-
-    /**
-     * Sets whether or not unit test class is.
+     * //Sets whether or not unit test class is.
+     * Initializes this static class.
      *
-     * @//param Closure $isUnitTestClass Is it unit test class?
-     * @param string $howToTest How to test.
+     * @param Closure $isUnitTestClass Is it unit test class?
+     * @//param string $howToTest How to test.
      */
-    public function __construct($howToTest)
+    //public function __construct($howToTest)
+    //public function __construct($isUnitTestClass)
+    static function initialize($isUnitTestClass)
+    //static function initialize($howToTest)
     {
+        B::limitAccess('BreakpointDebugging_PHPUnit.php');
+
         //$this->_isUnitTestClass = $isUnitTestClass;
-        $this->_howToTest = $howToTest;
+        // "\Closure" object should be static because of function.
+        self::$_isUnitTestClass = $isUnitTestClass;
+        //$this->_howToTest = $howToTest;
+        //self::$_howToTest = $howToTest;
     }
 
     /**
@@ -214,79 +227,83 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      */
     static function &refBackupStaticPropertiesBlacklist()
     {
-        B::limitAccess('BreakpointDebugging/PHPUnit/FrameworkTestCase.php', true);
+        B::limitAccess(array (
+            'BreakpointDebugging_PHPUnit.php',
+            'BreakpointDebugging/PHPUnit/FrameworkTestCase.php'
+            ), true);
 
         return self::$_backupStaticPropertiesBlacklist;
     }
 
-    private function _isUnitTestClass($declaredClassName)
-    {
-        switch ($this->_howToTest) {
-            case 'SIMPLE':
-                //$isUnitTestClass = function ($declaredClassName) {
-                set_error_handler('\BreakpointDebugging::handleError', 0);
-                // Excepts unit test classes.
-                if (preg_match('`^ BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)`xX', $declaredClassName) === 1 //
-                    || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
-                    || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
-                ) {
-                    restore_error_handler();
-                    return true;
-                }
-                restore_error_handler();
-                return false;
-            //};
-            //break;
-            case 'PHPUNIT':
-                //$isUnitTestClass = function ($declaredClassName) {
-                set_error_handler('\BreakpointDebugging::handleError', 0);
-                // Excepts unit test classes.
-                if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
-                    || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
-                    || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
-                ) {
-                    restore_error_handler();
-                    return true;
-                }
-                restore_error_handler();
-                return false;
-            //};
-            //break;
-            case 'PHPUNIT_OWN':
-                //$isUnitTestClass = function ($declaredClassName) {
-                set_error_handler('\BreakpointDebugging::handleError', 0);
-                // Excepts unit test classes.
-                if (preg_match('`^ PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template`xX', $declaredClassName) === 1 //
-                    || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
-                    || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
-                ) {
-                    restore_error_handler();
-                    return true;
-                }
-                restore_error_handler();
-                return false;
-            //};
-            //break;
-            case 'SIMPLE_OWN':
-                //$isUnitTestClass = function ($declaredClassName) {
-                set_error_handler('\BreakpointDebugging::handleError', 0);
-                // Excepts unit test classes.
-                if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
-                    || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
-                    || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
-                    || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
-                ) {
-                    restore_error_handler();
-                    return true;
-                }
-                restore_error_handler();
-                return false;
-            //};
-            //break;
-            default:
-                throw new \BreakpointDebugging_ErrorException('Class method parameter is incorrect.');
-        }
-    }
+//    private static function _isUnitTestClass($declaredClassName)
+//    {
+//        //switch ($this->_howToTest) {
+//        switch (self::$_howToTest) {
+//            case 'SIMPLE':
+//                //$isUnitTestClass = function ($declaredClassName) {
+//                set_error_handler('\BreakpointDebugging::handleError', 0);
+//                // Excepts unit test classes.
+//                if (preg_match('`^ BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)`xX', $declaredClassName) === 1 //
+//                    || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
+//                    || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+//                ) {
+//                    restore_error_handler();
+//                    return true;
+//                }
+//                restore_error_handler();
+//                return false;
+//            //};
+//            //break;
+//            case 'PHPUNIT':
+//                //$isUnitTestClass = function ($declaredClassName) {
+//                set_error_handler('\BreakpointDebugging::handleError', 0);
+//                // Excepts unit test classes.
+//                if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
+//                    || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
+//                    || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+//                ) {
+//                    restore_error_handler();
+//                    return true;
+//                }
+//                restore_error_handler();
+//                return false;
+//            //};
+//            //break;
+//            case 'PHPUNIT_OWN':
+//                //$isUnitTestClass = function ($declaredClassName) {
+//                set_error_handler('\BreakpointDebugging::handleError', 0);
+//                // Excepts unit test classes.
+//                if (preg_match('`^ PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template`xX', $declaredClassName) === 1 //
+//                    || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
+//                    || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+//                ) {
+//                    restore_error_handler();
+//                    return true;
+//                }
+//                restore_error_handler();
+//                return false;
+//            //};
+//            //break;
+//            case 'SIMPLE_OWN':
+//                //$isUnitTestClass = function ($declaredClassName) {
+//                set_error_handler('\BreakpointDebugging::handleError', 0);
+//                // Excepts unit test classes.
+//                if (preg_match('`^ (BreakpointDebugging_ (PHPUnit_StaticVariableStorage | Window)) | (PHP (Unit | (_ (CodeCoverage | Invoker | (T (imer | oken_Stream))))) | File_Iterator | sfYaml | Text_Template )`xX', $declaredClassName) === 1 //
+//                    || @is_subclass_of($declaredClassName, 'PHPUnit_Framework_Test') //
+//                    || @is_subclass_of($declaredClassName, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple') //
+//                    || array_key_exists($declaredClassName, \BreakpointDebugging_PHPUnit::$exclusionClassNames) //
+//                ) {
+//                    restore_error_handler();
+//                    return true;
+//                }
+//                restore_error_handler();
+//                return false;
+//            //};
+//            //break;
+//            default:
+//                throw new \BreakpointDebugging_ErrorException('Class method parameter is incorrect.');
+//        }
+//    }
 
     /**
      * Stores static status inside autoload handler because static status may be changed.
@@ -297,14 +314,23 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      *
      * @return void
      */
-    function loadClass($className)
+    //function loadClass($className)
+    static function loadClass($className)
     {
         static $nestLevel = 0;
 
+        if ($className === 'BreakpointDebugging_PHPUnit') {
+            xdebug_break();
+        }
+
         // Excepts unit test classes.
         //$isUnitTestClass = $this->_isUnitTestClass;
-        //if ($isUnitTestClass($className)) {
-        if ($this->_isUnitTestClass($className)) {
+        // Copies property to local variable for closure function call.
+        $isUnitTestClass = self::$_isUnitTestClass;
+        if ($isUnitTestClass($className)) {
+            //if ($this->_isUnitTestClass($className)) {
+            //if (self::$_isUnitTestClass($className)) {
+            //if (self::_isUnitTestClass($className)) {
             $exception = B::loadClass($className);
             if ($exception) {
                 throw $exception;
@@ -318,37 +344,45 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                 // Checks definition, deletion and change violation of global variables and global variable references in "setUp()".
                 self::checkGlobals(self::$_globalRefs, self::$_globals, true);
                 // Checks the change violation of static properties and static property child element references.
-                $this->checkProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
+                //$this->checkProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
+                self::checkProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
             } else {
-                // Snapshots global variables.
+                // Snapshots global variables. (Stores current statical state which was changed by unit test code.)
                 self::storeGlobals(self::$_globalRefsSnapshot, self::$_globalsSnapshot, self::$_backupGlobalsBlacklist, true);
-                // Snapshots static properties.
-                $this->storeProperties(self::$_staticPropertiesSnapshot, self::$_backupStaticPropertiesBlacklist, true);
+                // if ($className === 'tests_PEAR_AClass') { // For debug.
+                //    xdebug_break();
+                // }
+                // Snapshots static properties. (Stores current statical state which was changed by unit test code.)
+                //$this->storeProperties(self::$_staticPropertiesSnapshot, self::$_backupStaticPropertiesBlacklist, true);
+                self::storeProperties(self::$_staticPropertiesSnapshot, self::$_backupStaticPropertiesBlacklist, true);
 
-                // Restores global variables.
+                // Restores global variables. (Restores the initial statical state.)
                 self::restoreGlobals(self::$_globalRefs, self::$_globals);
-                // Restores static properties.
+                // Restores static properties. (Restores the initial statical state.)
                 self::restoreProperties(self::$_staticProperties);
             }
             $nestLevel = 1;
+            // (Loads classes files.)
             $exception = B::loadClass($className);
             // If class file has been loaded completely including dependency files.
             $nestLevel = 0;
             if ($exception) {
                 throw $exception;
             }
-            // Checks deletion and change violation of global variables and global variable references during autoload.
+            // Checks deletion and change violation of global variables and global variable references during autoload. (For correct initial statical state store.)
             self::checkGlobals(self::$_globalRefs, self::$_globals);
-            // Checks the change violation of static properties and static property child element references.
-            $this->checkProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
-            // Stores global variables before variable value is changed in bootstrap file and "setUpBeforeClass()".
+            // Checks the change violation of static properties and static property child element references. (For correct initial statical state store.)
+            //$this->checkProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
+            self::checkProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
+            // Stores global variables before variable value is changed in bootstrap file and "setUpBeforeClass()". (Stores the initial statical state.)
             self::storeGlobals(self::$_globalRefs, self::$_globals, self::$_backupGlobalsBlacklist);
-            // Stores static properties before variable value is changed.
-            $this->storeProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
+            // Stores static properties before variable value is changed. (Stores the initial statical state.)
+            //$this->storeProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
+            self::storeProperties(self::$_staticProperties, self::$_backupStaticPropertiesBlacklist);
             if (!self::$_onceFlagPerTestFile) {
-                // Restores global variables snapshot.
+                // Restores global variables snapshot. (Restores current statical state which was changed by unit test code.)
                 self::restoreGlobals(self::$_globalRefsSnapshot, self::$_globalsSnapshot);
-                // Restores static properties snapshot.
+                // Restores static properties snapshot. (Restores current statical state which was changed by unit test code.)
                 self::restoreProperties(self::$_staticPropertiesSnapshot);
             }
         } else { // In case of auto load inside auto load.
@@ -361,144 +395,329 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         }
     }
 
+//    /**
+//     * Stores or restores an object.
+//     *
+//     * @param string $direction Direction to store or restore.
+//     * @param mixed  $dest      Destination variable.
+//     * @param mixed  $src       Source value.
+//     *
+//     * @return void
+//     */
+//    private static function _storeOrRestoreObject($direction, &$dest, &$src)
+//    {
+//        if ($direction === 'RESTORE') {
+//            B::assert(is_array($src));
+//            B::assert(is_object($dest));
+//            $objectReflection = new ReflectionObject($dest);
+//            // Skips an object of "\stdClass" which judges type.
+//            list(, $className) = each($src);
+//            $className = $className->scalar;
+//            if ($className !== $objectReflection->name) {
+//                throw new \BreakpointDebugging_ErrorException('"\\' . $className . '" class object was changed the type.');
+//            }
+//            foreach ($objectReflection->getProperties() as $propertyReflection) {
+//                $propertyReflection->setAccessible(true);
+//                list(, $value) = each($src);
+//                //list(, $value) = current($src);
+//                // Copies an array elements recursively.
+//                // Or, copies an object ID.
+//                // Or, copies a value of other type.
+//                $propertyReflection->setValue($dest, $value);
+//                if (is_array($value)) {
+//                    //self::_iterateArrayRecursively($direction, $dummy, $value, $src);
+//                    self::_iterateRestorationArrayRecursively($value, $src);
+//                } else if (is_object($value)) {
+//                    self::_storeOrRestoreObject($direction, $value, $src, $value);
+//                }
+//            }
+//        } else {
+//            $objectReflection = new ReflectionObject($src);
+//            // Registers a class name as object type.
+//            $dest[] = (object) $objectReflection->name;
+//            foreach ($objectReflection->getProperties() as $propertyReflection) {
+//                $propertyReflection->setAccessible(true);
+//                if ($propertyReflection->isStatic()) {
+//                    continue;
+//                }
+//                $value = $propertyReflection->getValue($src);
+//                // Copies an array elements recursively.
+//                // Or, copies an object ID.
+//                // Or, copies a value of other type.
+//                $dest[] = $value;
+//                if (is_array($value)) {
+//                    $dummy = array ();
+//                    //self::_iterateArrayRecursively('STORE', $dest, $value, $dummy);
+//                    self::_iterateStoreArrayRecursively($dest, $value);
+//                } else if (is_object($value)) {
+//                    self::_storeOrRestoreObject('STORE', $dest, $value);
+//                }
+//            }
+//        }
+//    }
+
     /**
-     * Stores or restores an object.
+     * Restores an object.
      *
-     * @param string $direction Direction to store or restore.
-     * @param mixed  $dest      Destination variable.
-     * @param mixed  $src       Source value.
+     * @param object $dest Destination variable.
+     * @param array  $src  Source value.
      *
      * @return void
      */
-    private static function _storeOrRestoreObject($direction, &$dest, $src)
+    //private static function _restoreObject(&$dest, &$src)
+    private static function _restoreObject($dest, &$src)
     {
-        if ($direction === 'RESTORE') {
-            B::assert(is_array($src));
-            $objectReflection = new ReflectionObject($dest);
-            // Skips an object of "\stdClass" which judges type.
-            list($dummyKey, $className) = each($src);
-            // Asserts that an object reference is restored.
-            B::assert($className === $objectReflection->name);
-            while ((list($propertyName, $value) = each($src)) !== false) {
-                $propertyReflection = $objectReflection->getProperty($propertyName);
-                $propertyReflection->setAccessible(true);
-                // Copies an array elements recursively.
-                // Or, copies an object ID.
-                // Or, copies a value of other type.
-                $propertyReflection->setValue($dest, $value);
-                if (is_array($value)) {
-                    self::_iterateArrayRecursively($direction, $value, $src);
-                } else if (is_object($value)) {
-                    self::_storeOrRestoreObject($direction, $value, $src);
-                }
-            }
-        } else {
-            $objectReflection = new ReflectionObject($src);
-            $propertyReflections = $objectReflection->getProperties();
-            // Registers a class name as object type.
-            $dest[] = new \stdClass($objectReflection->name);
-            foreach ($propertyReflections as $propertyReflection) {
-                $propertyReflection->setAccessible(true);
-                if ($propertyReflection->isStatic()) {
-                    continue;
-                }
-                $value = $propertyReflection->getValue($src);
-                // Copies an array elements recursively.
-                // Or, copies an object ID.
-                // Or, copies a value of other type.
-                $dest[$propertyReflection->getName()] = $value;
-                if (is_array($value)) {
-                    self::_iterateArrayRecursively('STORE', $dest, $value);
-                } else if (is_object($value)) {
-                    self::_storeOrRestoreObject('STORE', $dest, $value);
-                }
-            }
+        B::assert(is_object($dest));
+        B::assert(is_array($src));
+
+        $objectReflection = new ReflectionObject($dest);
+        if (!$objectReflection->isUserDefined()) {
+            return;
         }
-    }
-
-    /**
-     * Iterates an array recursively.
-     *
-     * @param string $direction Direction to store or restore.
-     * @param mixed  $dest      Destination variable.
-     * @param array  $srcArray  Source array.
-     *
-     * @return void
-     */
-    private static function _iterateArrayRecursively($direction, &$dest, $srcArray)
-    {
-        B::assert(is_array($srcArray));
-
-        if ($direction === 'RESTORE') {
-            list($dummyKey, $elements) = each($srcArray);
-            foreach ($elements as $element) {
-                if (is_array($element)) {
-                    self::_iterateArrayRecursively($direction, $dest, $srcArray);
-                } else if (is_object($element)) {
-                    self::_storeOrRestoreObject($direction, $dest, $srcArray);
-                }
-            }
-        } else {
-            foreach ($srcArray as $src) {
-                if (is_array($src)) {
-                    self::_iterateArrayRecursively($direction, $dest, $src);
-                } else if (is_object($src)) {
-                    self::_storeOrRestoreObject($direction, $dest, $src);
-                }
-            }
+        // Skips an object of "\stdClass" which judges type.
+        list(, $className) = each($src);
+        $className = $className->scalar;
+        if ($className !== $objectReflection->name) {
+            throw new \BreakpointDebugging_ErrorException('"\\' . $className . '" class object was changed the type.');
         }
-    }
-
-    /**
-     * Copies a value.
-     *
-     * @param string $direction Direction to store or restore.
-     * @param mixed  $dest      Destination variable.
-     * @param mixed  $src       Source value.
-     *
-     * @return void
-     */
-    private static function _copyValue($direction, &$dest, $src)
-    {
-        B::assert($direction === 'STORE' || $direction === 'RESTORE');
-
-        if ($direction === 'RESTORE') {
-            B::assert(is_array($src));
-            reset($src);
-            $element = current($src);
-            if (is_array($element)) {
-                if (array_key_exists('GLOBALS', $element)) {
-                    unset($element['GLOBALS']);
-                    // Source array element must be replaced because destination element which is not copied must not delete.
-                    $dest = array_replace_recursive($dest, $element);
-                } else {
-                    // Copies an array elements recursively.
-                    $dest = $element;
-                }
-                self::_iterateArrayRecursively($direction, $dest, $src);
-            } else if (is_object($element)) {
-                // Copies an object ID.
-                $dest = $element;
-                self::_storeOrRestoreObject($direction, $dest, $src);
-            } else {
-                // Copies a value of other type.
-                $dest = $element;
+        foreach ($objectReflection->getProperties() as $propertyReflection) {
+            // Excepts static property.
+            if ($propertyReflection->isStatic()) {
+                continue;
             }
-        } else {
-            if (array_key_exists('GLOBALS', $src)) {
-                // Changes the 'GLOBALS' array key element because of recursive data.
-                $src['GLOBALS'] = null;
-            }
-            B::checkRecursiveDataError($src);
+            $propertyReflection->setAccessible(true);
+            list(, $value) = each($src);
             // Copies an array elements recursively.
             // Or, copies an object ID.
             // Or, copies a value of other type.
-            $dest[] = $src;
-            if (is_array($src)) {
-                self::_iterateArrayRecursively($direction, $dest, $src);
-            } else if (is_object($src)) {
-                self::_storeOrRestoreObject($direction, $dest, $src);
+            $propertyReflection->setValue($dest, $value);
+            if (is_array($value)) {
+                // Delivers "$value" as array copy recursively.
+                self::_iterateRestorationArrayRecursively($value, $src);
+            } else if (is_object($value)) {
+                // Delivers "$value" as object ID copy.
+                self::_restoreObject($value, $src);
             }
+        }
+    }
+
+    /**
+     * Stores an object.
+     *
+     * @param array  $dest Destination variable.
+     * @param object $src  Source value.
+     *
+     * @return void
+     */
+    //private static function _storeObject(&$dest, &$src)
+    private static function _storeObject(&$dest, $src)
+    {
+        B::assert(is_array($dest));
+        B::assert(is_object($src));
+
+        $objectReflection = new ReflectionObject($src);
+        if (!$objectReflection->isUserDefined()) {
+            return;
+        }
+        // Registers a class name as object type.
+        $dest[] = (object) $objectReflection->name;
+        foreach ($objectReflection->getProperties() as $propertyReflection) {
+            // Excepts static property.
+            if ($propertyReflection->isStatic()) {
+                continue;
+            }
+            $propertyReflection->setAccessible(true);
+            $value = $propertyReflection->getValue($src);
+            // Copies an array elements recursively.
+            // Or, copies an object ID.
+            // Or, copies a value of other type.
+            $dest[] = $value;
+            if (is_array($value)) {
+                self::_iterateStoreArrayRecursively($dest, $value);
+            } else if (is_object($value)) {
+                self::_storeObject($dest, $value);
+            }
+        }
+    }
+
+//    /**
+//     * Iterates an array recursively.
+//     *
+//     * @param string $direction    Direction to store or restore.
+//     * @param mixed  $dest         Destination variable.
+//     * @param array  $iterateArray Iteration array.
+//     * @param array  $src          Source array to restore.
+//     *
+//     * @return void
+//     */
+//    private static function _iterateArrayRecursively($direction, &$dest, $iterateArray, &$src)
+//    {
+//        B::assert(is_array($iterateArray));
+//        B::assert(is_array($src));
+//
+//        foreach ($iterateArray as $key => $value) {
+//            if (is_array($value)) {
+//                if ($key === 'GLOBALS') {
+//                    continue;
+//                }
+//                if ($direction === 'RESTORE') {
+//                    self::_iterateArrayRecursively($direction, $value, $value, $src);
+//                } else {
+//                    self::_iterateArrayRecursively($direction, $dest, $value, $src);
+//                }
+//            } else if (is_object($value)) {
+//                if ($direction === 'RESTORE') {
+//                    self::_storeOrRestoreObject($direction, $value, $src);
+//                } else {
+//                    self::_storeOrRestoreObject($direction, $dest, $value);
+//                }
+//            }
+//        }
+//    }
+
+    /**
+     * Iterates restoration array recursively.
+     *
+     * @param array $iterateArray Iteration array.
+     * @param array $src          Source array to restore.
+     *
+     * @return void
+     */
+    private static function _iterateRestorationArrayRecursively($iterateArray, &$src)
+    {
+        B::assert(is_array($iterateArray));
+        B::assert(is_array($src));
+
+        foreach ($iterateArray as $key => $value) {
+            if (is_array($value)) {
+                if ($key === 'GLOBALS') {
+                    continue;
+                }
+                // Delivers "$value" as array copy recursively.
+                self::_iterateRestorationArrayRecursively($value, $src);
+            } else if (is_object($value)) {
+                // Delivers "$value" as object ID copy.
+                self::_restoreObject($value, $src);
+            }
+        }
+    }
+
+    /**
+     * Iterates a store array recursively.
+     *
+     * @param array $dest         Destination variable.
+     * @param array $iterateArray Iteration array.
+     *
+     * @return void
+     */
+    private static function _iterateStoreArrayRecursively(&$dest, $iterateArray)
+    {
+        B::assert(is_array($dest));
+        B::assert(is_array($iterateArray));
+
+        foreach ($iterateArray as $key => $value) {
+            if (is_array($value)) {
+                if ($key === 'GLOBALS') {
+                    continue;
+                }
+                self::_iterateStoreArrayRecursively($dest, $value);
+            } else if (is_object($value)) {
+                self::_storeObject($dest, $value);
+            }
+        }
+    }
+
+//    /**
+//     * Copies a value.
+//     *
+//     * @param string $direction Direction to store or restore.
+//     * @param mixed  $dest      Destination variable.
+//     * @param mixed  $src       Source value.
+//     *
+//     * @return void
+//     */
+//    private static function _copyValue($direction, &$dest, $src)
+//    {
+//        B::assert($direction === 'STORE' || $direction === 'RESTORE');
+//
+//        if ($direction === 'RESTORE') {
+//            B::assert(is_array($src));
+//            reset($src);
+//            list(, $value) = each($src);
+//            // Copies an array elements recursively.
+//            // Or, Copies an object ID.
+//            // Or, Copies a value of other type.
+//            $dest = $value;
+//            if (is_array($value)) {
+//                self::_iterateArrayRecursively($direction, $dest, $value, $src);
+//            } else if (is_object($value)) {
+//                self::_storeOrRestoreObject($direction, $value, $src);
+//            }
+//            $result = each($src);
+//            B::assert($result === false);
+//        } else {
+//            B::checkRecursiveDataError($src);
+//            // Copies an array elements recursively.
+//            // Or, copies an object ID.
+//            // Or, copies a value of other type.
+//            $dest[] = $src;
+//            if (is_array($src)) {
+//                $dummy = array ();
+//                self::_iterateArrayRecursively($direction, $dest, $src, $dummy);
+//            } else if (is_object($src)) {
+//                self::_storeOrRestoreObject($direction, $dest, $src);
+//            }
+//        }
+//    }
+
+    /**
+     * Restores a value.
+     *
+     * @param mixed $dest Destination variable.
+     * @param array $src  Source value.
+     *
+     * @return void
+     */
+    private static function _restoreValue(&$dest, $src)
+    {
+        B::assert(is_array($src));
+
+        reset($src);
+        list(, $value) = each($src);
+        // Copies an array elements recursively.
+        // Or, Copies an object ID.
+        // Or, Copies a value of other type.
+        $dest = $value;
+        if (is_array($value)) {
+            // Delivers "$value" as array copy recursively.
+            self::_iterateRestorationArrayRecursively($value, $src);
+        } else if (is_object($value)) {
+            // Delivers "$value" as object ID copy.
+            self::_restoreObject($value, $src);
+        }
+        $result = each($src);
+        B::assert($result === false);
+    }
+
+    /**
+     * Stores a value.
+     *
+     * @param mixed $dest Destination variable.
+     * @param mixed $src  Source value.
+     *
+     * @return void
+     */
+    private static function _storeValue(&$dest, $src)
+    {
+        B::checkRecursiveDataError($src);
+        // Copies an array elements recursively.
+        // Or, copies an object ID.
+        // Or, copies a value of other type.
+        $dest[] = $src;
+        if (is_array($src)) {
+            self::_iterateStoreArrayRecursively($dest, $src);
+        } else if (is_object($src)) {
+            self::_storeObject($dest, $src);
         }
     }
 
@@ -542,7 +761,10 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             }
             $variableRefsStorage[$key] = &$value;
             //$variablesStorage[$key] = $value;
-            self::_copyValue('STORE', $variablesStorage[$key], $value);
+            // if ($key === 'exclusionClassNames') { // For debug.
+            //    xdebug_break();
+            // }
+            self::_storeValue($variablesStorage[$key], $value);
         }
     }
 
@@ -565,14 +787,16 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             if (array_key_exists($key, $variableRefsStorage)) {
                 // Copies reference of storage to reference of variable itself.
                 $variables[$key] = &$variableRefsStorage[$key];
+            } else {
+                // Generates the key.
+                $variables[$key] = '';
             }
             // Copies value of storage to variable.
             //$variables[$key] = $value;
-            $variable = $variables[$key];
-            reset($variable);
-            self::_copyValue('RESTORE', $variable, $value);
-            $storedObject = next($variable);
-            B::assert($storedObject === false);
+            // if ($key === '_phpUnit') { // For debug.
+            //    xdebug_break();
+            // }
+            self::_restoreValue($variables[$key], $value);
         }
     }
 
@@ -632,7 +856,8 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         // Checks global variables values and global variables child element references.
         unset($globals['GLOBALS']);
         foreach ($globals as $key => $value) {
-            if ($value !== $GLOBALS[$key]) {
+            //if ($value !== $GLOBALS[$key]) {
+            if ($value[0] !== $GLOBALS[$key]) {
                 $isError = true;
                 $message3 = 'value';
                 break;
@@ -731,7 +956,7 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      *
      * @return void
      */
-    function checkProperties($staticProperties, $blacklist, $forAutoload = true)
+    static function checkProperties($staticProperties, $blacklist, $forAutoload = true)
     {
         B::limitAccess(
             array ('BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
@@ -754,11 +979,14 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         $declaredClasses = get_declared_classes();
         $currentDeclaredClassesNumber = count($declaredClasses);
         //$isUnitTestClass = $this->_isUnitTestClass;
+        // Copies property to local variable for closure function call.
+        $isUnitTestClass = self::$_isUnitTestClass;
         for ($key = $currentDeclaredClassesNumber - 1; $key >= 0; $key--) {
             $declaredClassName = $declaredClasses[$key];
             // Excepts unit test classes.
-            //if ($isUnitTestClass($declaredClassName) //
-            if ($this->_isUnitTestClass($declaredClassName) //
+            if ($isUnitTestClass($declaredClassName) //
+                //if (self::_isUnitTestClass($declaredClassName) //
+                //if ($this->_isUnitTestClass($declaredClassName) //
                 || $declaredClassName === 'BreakpointDebugging' //
                 || $declaredClassName === 'BreakpointDebugging_BlackList' //
                 || $declaredClassName === 'BreakpointDebugging_InAllCase' //
@@ -796,7 +1024,8 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                         $propertyValue = $property->getValue();
                         if (!$propertyValue instanceof Closure) {
                             // Checks static property and static property child element references.
-                            if (B::clearRecursiveArrayElement($staticPropertiesOfClass[$propertyName]) === B::clearRecursiveArrayElement($propertyValue)) {
+                            //if (B::clearRecursiveArrayElement($staticPropertiesOfClass[$propertyName]) === B::clearRecursiveArrayElement($propertyValue)) {
+                            if ($staticPropertiesOfClass[$propertyName][0] === $propertyValue) {
                                 continue;
                             }
                             $message = '<b>';
@@ -822,7 +1051,8 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      *
      * @return void
      */
-    function storeProperties(array &$staticProperties, array $blacklist, $isSnapshot = false)
+    //function storeProperties(array &$staticProperties, array $blacklist, $isSnapshot = false)
+    static function storeProperties(array &$staticProperties, array $blacklist, $isSnapshot = false)
     {
         B::limitAccess(
             array ('BreakpointDebugging/PHPUnit/StaticVariableStorage.php',
@@ -840,11 +1070,17 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         $declaredClasses = get_declared_classes();
         $currentDeclaredClassesNumber = count($declaredClasses);
         //$isUnitTestClass = $this->_isUnitTestClass;
+        // Copies property to local variable for closure function call.
+        $isUnitTestClass = self::$_isUnitTestClass;
         for ($key = $currentDeclaredClassesNumber - 1; $key >= $prevDeclaredClassesNumber; $key--) {
             $declaredClassName = $declaredClasses[$key];
+            // if ($declaredClassName === 'tests_PEAR_AClass') { // For debug.
+            //     xdebug_break();
+            // }
             // Excepts unit test classes.
-            //if ($isUnitTestClass($declaredClassName)) {
-            if ($this->_isUnitTestClass($declaredClassName)) {
+            if ($isUnitTestClass($declaredClassName)) {
+                //if (self::_isUnitTestClass($declaredClassName)) {
+                //if ($this->_isUnitTestClass($declaredClassName)) {
                 continue;
             }
             // Class reflection.
@@ -904,6 +1140,11 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         foreach ($staticPropertiesStorage as $className => $staticProperties) {
             $properties = array ();
             self::_restoreVariables($properties, array (), $staticProperties);
+            // For debug. ===>
+            // $reflector = new ReflectionProperty('BreakpointDebugging_InAllCase', 'exeMode');
+            // $reflector->setAccessible(true);
+            // B::assert($reflector->getValue() === 4);
+            // <=== For debug.
             foreach ($staticProperties as $name => $value) {
                 $reflector = new ReflectionProperty($className, $name);
                 $reflector->setAccessible(true);
@@ -917,13 +1158,15 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      *
      * @return void
      */
-    function checkFunctionLocalStaticVariable()
+    static function checkFunctionLocalStaticVariable()
     {
         B::limitAccess('BreakpointDebugging_PHPUnit.php', true);
 
         $componentFullPath = stream_resolve_include_path('BreakpointDebugging/Component/') . DIRECTORY_SEPARATOR;
         $definedFunctionsName = get_defined_functions();
         //$isUnitTestClass = $this->_isUnitTestClass;
+        // Copies property to local variable for closure function call.
+        $isUnitTestClass = self::$_isUnitTestClass;
         foreach ($definedFunctionsName['user'] as $definedFunctionName) {
             $functionReflection = new ReflectionFunction($definedFunctionName);
             $staticVariables = $functionReflection->getStaticVariables();
@@ -933,8 +1176,9 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                 if (strpos($fileName, $componentFullPath) === 0) {
                     $className = str_replace(array ('\\', '/'), '_', substr($fileName, strlen($componentFullPath)));
                     // Excepts unit test classes.
-                    //if ($isUnitTestClass($className)) {
-                    if ($this->_isUnitTestClass($className)) {
+                    if ($isUnitTestClass($className)) {
+                        //if (self::_isUnitTestClass($className)) {
+                        //if ($this->_isUnitTestClass($className)) {
                         continue;
                     }
                 }
@@ -953,7 +1197,7 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      *
      * @return void
      */
-    function checkMethodLocalStaticVariable()
+    static function checkMethodLocalStaticVariable()
     {
         B::limitAccess('BreakpointDebugging_PHPUnit.php', true);
 
@@ -961,11 +1205,14 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         $declaredClasses = get_declared_classes();
         $currentDeclaredClassesNumber = count($declaredClasses);
         //$isUnitTestClass = $this->_isUnitTestClass;
+        // Copies property to local variable for closure function call.
+        $isUnitTestClass = self::$_isUnitTestClass;
         for ($key = $currentDeclaredClassesNumber - 1; $key >= 0; $key--) {
             $declaredClassName = $declaredClasses[$key];
             // Excepts unit test classes.
-            //if ($isUnitTestClass($declaredClassName)) {
-            if ($this->_isUnitTestClass($declaredClassName)) {
+            if ($isUnitTestClass($declaredClassName)) {
+                //if (self::_isUnitTestClass($declaredClassName)) {
+                //if ($this->_isUnitTestClass($declaredClassName)) {
                 continue;
             }
             // Class reflection.

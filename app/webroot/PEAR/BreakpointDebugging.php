@@ -649,7 +649,8 @@ abstract class BreakpointDebugging_InAllCase
         self::$exeMode &= ~B::IGNORING_BREAK_POINT;
         if (self::$_nativeExeMode & self::UNIT_TEST) {
             // Uses "BreakpointDebugging" package autoloader.
-            spl_autoload_unregister(array (self::$_phpUnit->getStaticVariableStorageInstance(), 'loadClass'));
+            //spl_autoload_unregister(array (self::$_phpUnit->getStaticVariableStorageInstance(), 'loadClass'));
+            spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass');
         }
         if (!BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of development.
             // Displays error call stack instead of log.
@@ -1095,7 +1096,7 @@ EOD;
     {
         B::limitAccess(array (
             BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php',
-            BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InProduction.php',
+            BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InDevelopment.php',
         ));
 
         if (func_num_args() !== 3) {
@@ -1706,7 +1707,7 @@ EOD;
     /**
      * Checks recursive data error.
      *
-     * Please, see "BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InProduction.php'" for below.
+     * Please, see "BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InDevelopment.php'" for below.
      *      xdebug.var_display_max_children
      *      xdebug.var_display_max_data
      *      xdebug.var_display_max_depth
@@ -1723,7 +1724,19 @@ EOD;
         $varDumpResult = ob_get_clean();
         $varDumpResult = strip_tags($varDumpResult);
         $lines = explode("\n", $varDumpResult);
-        foreach ($lines as $line) {
+        //foreach ($lines as $line) {
+        while ((list(, $line) = each($lines)) !== false) {
+//            if ($globalsFlag) {
+//                $globalsFlag = false;
+//                continue;
+//            }
+            B::assert(is_string($line));
+            $result = preg_match('`^ [[:blank:]]* \'GLOBALS\'`xX', $line);
+            if ($result === 1) {
+                //$globalsFlag = true;
+                next($lines);
+                continue;
+            }
             $result = preg_match('`^ [[:blank:]]* &`xX', $line);
             B::assert($result !== false);
             if ($result === 1) {

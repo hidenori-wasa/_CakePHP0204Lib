@@ -361,7 +361,7 @@ function BreakpointDebugging_mySetting()
         }
         //} else { // In case of release.
     } else { // If development mode.
-        include_once './' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . '/BreakpointDebugging_MySetting_InProduction.php';
+        include_once './' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting_InDevelopment.php';
     }
 }
 

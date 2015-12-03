@@ -46,13 +46,28 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
     private static $_phpUnit;
 
     /**
+     * The flag to register autoload class method only once.
+     *
+     * @var type
+     */
+    private static $_onceFlag = true;
+
+    /**
      * This class method is called first per "*TestSimple.php" file.
+     *
+     * Registers autoload class method to check definition, deletion and change violation of global variables in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
+     * And, to check the change violation of static properties in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
+     * And, to store initial value of global variables and static properties.
      *
      * @return void
      */
-    public static function setUpBeforeClass()
+    static function setUpBeforeClass()
     {
-
+        if (self::$_onceFlag) {
+            self::$_onceFlag = false;
+            $result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass', true, true);
+            B::assert($result);
+        }
     }
 
     /**
@@ -210,7 +225,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
             // Checks definition, deletion and change violation of global variables and global variable references in "setUp()".
             BSS::checkGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), true);
             // Checks the change violation of static properties and static property child element references.
-            self::$_phpUnit->getStaticVariableStorageInstance()->checkProperties(BSS::refStaticProperties2(), BSS::refBackupStaticPropertiesBlacklist(), false);
+            //self::$_phpUnit->getStaticVariableStorageInstance()->checkProperties(BSS::refStaticProperties2(), BSS::refBackupStaticPropertiesBlacklist(), false);
+            BSS::checkProperties(BSS::refStaticProperties2(), BSS::refBackupStaticPropertiesBlacklist(), false);
             foreach ($methodReflections as $methodReflection) {
                 if (strpos($methodReflection->name, 'test') !== 0) {
                     continue;
