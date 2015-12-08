@@ -649,8 +649,8 @@ abstract class BreakpointDebugging_InAllCase
         self::$exeMode &= ~B::IGNORING_BREAK_POINT;
         if (self::$_nativeExeMode & self::UNIT_TEST) {
             // Uses "BreakpointDebugging" package autoloader.
-            //spl_autoload_unregister(array (self::$_phpUnit->getStaticVariableStorageInstance(), 'loadClass'));
-            spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass');
+            //spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass');
+            spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::checkStaticStatusChangeError');
         }
         if (!BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of development.
             // Displays error call stack instead of log.

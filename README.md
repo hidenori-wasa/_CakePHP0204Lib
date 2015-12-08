@@ -56,4 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I have been fixing its bug because "static backup" cannot store object properties at autoload.
+* I fixed its bug because "static backup" cannot store object properties at autoload.

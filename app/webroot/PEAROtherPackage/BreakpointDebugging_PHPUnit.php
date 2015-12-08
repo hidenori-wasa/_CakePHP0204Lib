@@ -437,25 +437,19 @@ EOD;
         if (self::$_onceFlag) {
             self::$_onceFlag = false;
             // Stores global variables.
-            $globalRefs = &BSS::refGlobalRefs();
-            $globals = &BSS::refGlobals();
-            BSS::storeGlobals($globalRefs, $globals, array ());
+            //$globalRefs = &BSS::refGlobalRefs();
+            //$globals = &BSS::refGlobals();
+            //BSS::storeGlobals($globalRefs, $globals, array ());
+            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
             // Stores static properties.
-            $staticProperties = &BSS::refStaticProperties2();
-            //$this->_staticVariableStorage->storeProperties($staticProperties, array ());
-            //BSS::storeProperties($staticProperties, array ());
-            BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
-            //// Registers autoload class method to check definition, deletion and change violation of global variables in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
-            //// And, to check the change violation of static properties in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
-            //// And, to store initial value of global variables and static properties.
-            //$result = spl_autoload_register(array ($this->_staticVariableStorage, 'loadClass'), true, true);
-            //$result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass', true, true);
-            //B::assert($result);
+            //$staticProperties = &BSS::refStaticProperties();
+            //BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
+            BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
         } else {
             // Restores global variables.
             BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
             // Restores static properties.
-            BSS::restoreProperties(BSS::refStaticProperties2());
+            BSS::restoreProperties(BSS::refStaticProperties());
         }
         // Uses "PHPUnit" package error handler.
         set_error_handler('\PHPUnit_Util_ErrorHandler::handleError', E_ALL | E_STRICT);
@@ -498,14 +492,14 @@ EOD;
         if (self::$_onceFlag) {
             self::$_onceFlag = false;
             // Stores global variables.
-            $globalRefs = &BSS::refGlobalRefs();
-            $globals = &BSS::refGlobals();
-            BSS::storeGlobals($globalRefs, $globals, array ());
+            //$globalRefs = &BSS::refGlobalRefs();
+            //$globals = &BSS::refGlobals();
+            //BSS::storeGlobals($globalRefs, $globals, array ());
+            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
             // Stores static properties.
-            $staticProperties = &BSS::refStaticProperties2();
-            //$this->_staticVariableStorage->storeProperties($staticProperties, array ());
-            //BSS::storeProperties($staticProperties, array ());
-            BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
+            //$staticProperties = &BSS::refStaticProperties();
+            //BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
+            BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
             // Registers autoload class method to check definition, deletion and change violation of global variables in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
             // And, to check the change violation of static properties in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
             // And, to store initial value of global variables and static properties.
@@ -515,10 +509,11 @@ EOD;
         } else {
             // Restores global variables.
             $globalRefs = BSS::refGlobalRefs();
-            $globals = BSS::refGlobals();
-            BSS::restoreGlobals($globalRefs, $globals);
+            //$globals = BSS::refGlobals();
+            //BSS::restoreGlobals($globalRefs, $globals);
+            BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
             // Restores static properties.
-            BSS::restoreProperties(BSS::refStaticProperties2());
+            BSS::restoreProperties(BSS::refStaticProperties());
         }
         // Uses this package error handler.
         set_error_handler('\BreakpointDebugging_PHPUnit::handleError', -1);

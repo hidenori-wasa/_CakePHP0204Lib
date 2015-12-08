@@ -132,39 +132,6 @@ because tests is executed on same process.
             abstract class CakeTestCase extends \WasaCakeTestCase {
             // &lt;=== Hidenori Wasa added.
             </code>
-        Customize "lib/Cake/TestSuite/CakeTestRunner.php" as below.
-            <code>            class CakeTestRunner extends PHPUnit_TextUI_TestRunner {
-                .
-                .
-                .
-            public function doRun(PHPUnit_Framework_Test $suite, array $arguments = array()) {
-                // Hidenori Wasa added. ===>
-                $result = spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass');
-                \BreakpointDebugging::assert($result);
-                // &lt;=== Hidenori Wasa added.
-
-                if (isset($arguments['printer'])) {
-                    self::$versionStringPrinted = true;
-                }
-
-                $fixture = $this->_getFixtureManager($arguments);
-                foreach ($suite->getIterator() as $test) {
-                    if ($test instanceof CakeTestCase) {
-                        $fixture->fixturize($test);
-                        $test->fixtureManager = $fixture;
-                    }
-                }
-
-                // Hidenori Wasa added. ===>
-                $result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass', true, true);
-                \BreakpointDebugging::assert($result);
-                // &lt;=== Hidenori Wasa added.
-
-                $return = parent::doRun($suite, $arguments);
-                $fixture->shutdown();
-                return $return;
-            }
-            </code>
 <span class="title"><a id="3">Unit test sample codes.</a></span>
 
     <span class="subtitle"><a id="3-1">Code a php file with coding rule.</a></span>
@@ -257,6 +224,16 @@ because tests is executed on same process.
     class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     {
         private $_pTestObject;
+
+        static function setUpBeforeClass()
+        {
+            // Executes autoload by "new" here instead of autoload or "include" during "setUp()", "test*()" and "tearDown()".
+            new \PHP_Timer();
+            new ...;
+            new \PHPUnit_Framework_Constraint_IsTrue();
+            // This is required at bottom.
+            parent::setUpBeforeClass();
+        }
 
         protected function setUp()
         {

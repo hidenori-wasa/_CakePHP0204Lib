@@ -13,6 +13,9 @@ class PHPUnit1Test extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 
     static function setUpBeforeClass()
     {
+        new \PHP_Timer();
+        new \tests_PEAR_AClass();
+        new \PHPUnit_Framework_Constraint_IsTrue();
         parent::setUpBeforeClass();
 
         //self::$testObject = new \tests_PEAR_AClass();
