@@ -96,13 +96,6 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
      */
     private static $_phpUnit;
 
-//    /**
-//     * The flag to register autoload class method only once.
-//     *
-//     * @var type
-//     */
-//    private static $_onceFlag = true;
-
     /**
      * Sets the "\BreakpointDebugging_PHPUnit" object.
      *
@@ -129,11 +122,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
      */
     static function setUpBeforeClass()
     {
-        //if (self::$_onceFlag) {
-        //    self::$_onceFlag = false;
-        //    $result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass', true, true);
-        //    B::assert($result);
-        //}
+        \PHP_Timer::start();
+        new \PHPUnit_Framework_Constraint_IsTrue();
         BTCS::setUpBeforeClass();
     }
 
@@ -223,29 +213,21 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
         $this->numAssertions = 0;
         // Gets test-class-name.
         $classReflection = new \ReflectionClass($this);
-        $testClassName = $classReflection->name;
+        $currentTestClassName = &BSS::refCurrentTestClassName();
+        $currentTestClassName = $testClassName = $classReflection->name;
 
         $refOnceFlagPerTestFile = &BSS::refOnceFlagPerTestFile();
         // If this is the first of test file.
         if ($refOnceFlagPerTestFile) {
             self::$_phpUnit->displayProgress(300);
-            //// For autoload.
             $refOnceFlagPerTestFile = false;
-            //// For autoload.
             // Adds static backup black list of command line switch.
             $refBackupGlobalsBlacklist = &BSS::refBackupGlobalsBlacklist();
             $refBackupGlobalsBlacklist += $this->backupGlobalsBlacklist;
             $refBackupStaticPropertiesBlacklist = &BSS::refBackupStaticPropertiesBlacklist();
             $refBackupStaticPropertiesBlacklist += $this->backupStaticAttributesBlacklist;
             // Checks the autoload functions.
-            //BTCS::checkAutoloadFunctions($testClassName);
             BTCS::checkAutoloadFunctions($testClassName);
-            //// Checks definition, deletion and change violation of global variables and global variable references in "setUp()".
-            //BSS::checkGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), true);
-            //// Checks the change violation of static properties and static property child element references.
-            //self::$_phpUnit->getStaticVariableStorageInstance()->checkProperties(BSS::refStaticProperties(), $refBackupStaticPropertiesBlacklist, false);
-            //BSS::checkProperties(BSS::refStaticProperties(), $refBackupStaticPropertiesBlacklist, false);
-            //BSS::checkProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist(), false);
         }
 
         // Start output buffering.
@@ -260,10 +242,6 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
 
             // Checks an annotation.
             $this->_checkAnnotation();
-            //// Restores global variables.
-            //BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
-            //// Restores static properties.
-            //BSS::restoreProperties(BSS::refStaticProperties());
 
             $this->setUp();
 

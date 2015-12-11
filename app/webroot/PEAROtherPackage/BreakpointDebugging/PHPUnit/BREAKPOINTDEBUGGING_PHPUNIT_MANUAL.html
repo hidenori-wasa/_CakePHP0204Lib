@@ -227,7 +227,7 @@ because tests is executed on same process.
 
         static function setUpBeforeClass()
         {
-            // Executes autoload by "new" here instead of autoload or "include" during "setUp()", "test*()" and "tearDown()".
+            // Declares the classes with "new" instead of autoload or "include" during "setUp()", "test*()" and "tearDown()". (This is autodetected.)
             new \PHP_Timer();
             new ...;
             new \PHPUnit_Framework_Constraint_IsTrue();
@@ -350,6 +350,14 @@ because tests is executed on same process.
     class Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
     {
         private $_pTestObject;
+
+        static function setUpBeforeClass()
+        {
+            // Declares the classes with "new" instead of autoload or "include" during "setUp()", "test*()" and "tearDown()". (This is autodetected.)
+            new ...;
+            // This is required at bottom.
+            parent::setUpBeforeClass();
+        }
 
         protected function setUp()
         {

@@ -290,13 +290,12 @@ abstract class BreakpointDebugging_InAllCase
      */
     protected static $onceFlagPerPackage = array ();
 
-    /**
-     * Is it spl autoload call?
-     *
-     * @var bool
-     */
-    private static $_isSplAutoLoadCall = false;
-
+//    /**
+//     * Is it spl autoload call?
+//     *
+//     * @var bool
+//     */
+//    private static $_isSplAutoLoadCall = false;
     ///////////////////////////// For package user from here. /////////////////////////////
     /**
      * Debugs by using breakpoint.
@@ -650,7 +649,7 @@ abstract class BreakpointDebugging_InAllCase
         if (self::$_nativeExeMode & self::UNIT_TEST) {
             // Uses "BreakpointDebugging" package autoloader.
             //spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass');
-            spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::checkStaticStatusChangeError');
+            spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError');
         }
         if (!BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of development.
             // Displays error call stack instead of log.
@@ -1878,20 +1877,19 @@ EOD;
      */
     final static function loadClass($className)
     {
-        if (self::$_nativeExeMode & self::UNIT_TEST) {
-            if (!self::$_isSplAutoLoadCall) {
-                self::$_isSplAutoLoadCall = true;
-                $exception = false;
-                try {
-                    spl_autoload_call($className);
-                } catch (\Exception $e) {
-                    $exception = $e;
-                }
-                self::$_isSplAutoLoadCall = false;
-                return $exception;
-            }
-        }
-
+//        if (self::$_nativeExeMode & self::UNIT_TEST) {
+//            if (!self::$_isSplAutoLoadCall) {
+//                self::$_isSplAutoLoadCall = true;
+//                $exception = false;
+//                try {
+//                    spl_autoload_call($className);
+//                } catch (\Exception $e) {
+//                    $exception = $e;
+//                }
+//                self::$_isSplAutoLoadCall = false;
+//                return $exception;
+//            }
+//        }
         // Trims the left name space root.
         $className = ltrim($className, '\\');
         // Changes underscore and name space separator to directory separator.
@@ -1900,6 +1898,8 @@ EOD;
         if ($absoluteFilePath !== false) {
             include_once $absoluteFilePath;
         }
+        //include_once $filePath;
+
         return false;
     }
 

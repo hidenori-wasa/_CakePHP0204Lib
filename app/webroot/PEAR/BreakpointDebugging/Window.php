@@ -544,7 +544,7 @@ EOD;
     }
 
     /**
-     * Displays an error into error window, and exits.
+     * Displays an error into error window, then stops as breakpoint.
      *
      * This is used inside unit test package code.
      *
@@ -552,7 +552,7 @@ EOD;
      *
      * @return void
      */
-    static function exitForError($message)
+    static function stopForError($message)
     {
         if (!isset($_SERVER['SERVER_ADDR'])) { // In case of command line.
             return;
@@ -564,6 +564,30 @@ EOD;
         if (function_exists('xdebug_break')) {
             xdebug_break();
         }
+    }
+
+    /**
+     * Displays an error into error window, and exits.
+     *
+     * This is used inside unit test package code.
+     *
+     * @param string $message Error message by "PHP_EOL".
+     *
+     * @return void
+     */
+    static function exitForError($message)
+    {
+//        if (!isset($_SERVER['SERVER_ADDR'])) { // In case of command line.
+//            return;
+//        }
+//
+//        self::virtualOpen(B::ERROR_WINDOW_NAME, B::getErrorHtmlFileTemplate());
+//        self::htmlAddition(B::ERROR_WINDOW_NAME, 'pre', 0, $message);
+//        self::front(B::ERROR_WINDOW_NAME);
+//        if (function_exists('xdebug_break')) {
+//            xdebug_break();
+//        }
+        self::stopForError($message);
         exit;
     }
 

@@ -70,7 +70,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
         //    B::assert($result);
         //}
         // Registers the check class method for purpose which stores correctly.
-        $result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::checkStaticStatusChangeError', true, true);
+        $result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError', true, true);
         B::assert($result);
         // Stores global variables.
         BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
@@ -85,7 +85,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     public static function tearDownAfterClass()
     {
-        $result = spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::checkStaticStatusChangeError');
+        $result = spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError');
         B::assert($result);
     }
 
@@ -132,7 +132,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
         }
         $autoloadFunction = $className . '::' . $autoloadFunctions[0][1];
         //if ($autoloadFunction === 'BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass') {
-        if ($autoloadFunction === 'BreakpointDebugging_PHPUnit_StaticVariableStorage::checkStaticStatusChangeError') {
+        if ($autoloadFunction === 'BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError') {
             return;
         }
 
@@ -227,6 +227,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
         B::limitAccess('BreakpointDebugging_PHPUnit.php', true);
 
         try {
+            $currentTestClassName = &BSS::refCurrentTestClassName();
+            $currentTestClassName = $testClassName;
             $classReflection = new \ReflectionClass($testClassName);
             $methodReflections = $classReflection->getMethods(ReflectionMethod::IS_PUBLIC);
             // Invokes "setUpBeforeClass()" class method.

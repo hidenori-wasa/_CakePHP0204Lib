@@ -437,10 +437,8 @@ EOD;
         if (self::$_onceFlag) {
             self::$_onceFlag = false;
             // Stores global variables.
-            //$globalRefs = &BSS::refGlobalRefs();
-            //$globals = &BSS::refGlobals();
-            //BSS::storeGlobals($globalRefs, $globals, array ());
-            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
+            //BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
+            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
             // Stores static properties.
             //$staticProperties = &BSS::refStaticProperties();
             //BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
@@ -492,10 +490,8 @@ EOD;
         if (self::$_onceFlag) {
             self::$_onceFlag = false;
             // Stores global variables.
-            //$globalRefs = &BSS::refGlobalRefs();
-            //$globals = &BSS::refGlobals();
-            //BSS::storeGlobals($globalRefs, $globals, array ());
-            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
+            //BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
+            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
             // Stores static properties.
             //$staticProperties = &BSS::refStaticProperties();
             //BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
