@@ -18,11 +18,11 @@ function BreakpointDebugging_unitTest()
         /*
           'BreakpointDebugging-IniSetOptimizerTest.php',
           'BreakpointDebugging-ProductionSwitcherTest.php',
-          'ExampleTest.php',
          */
-        'PHPUnit1Test.php',
-        'PHPUnit2Test.php',
+        'ExampleTest.php',
         /*
+          'PHPUnit1Test.php',
+          'PHPUnit2Test.php',
           'BreakpointDebugging-ExceptionTest.php',
           'BreakpointDebugging-InAllCaseTest.php',
           'BreakpointDebuggingTest.php',

@@ -282,6 +282,8 @@ EOD;
         // Gets full shared file path.
         self::$_sharedFilePath = BREAKPOINTDEBUGGING_WORK_DIR_NAME . 'SharedFileForOtherProcessDisplay.txt';
         $sharedFilePath = self::$_sharedFilePath;
+        //// Deletes shared file because it may not delete by interrupted execution.
+        //B::unlink(array (self::$_sharedFilePath));
         // Copies the "BreakpointDebugging_DisplayToOtherProcess.php" file into current work directory, and gets its URI.
         $uri = 'https:' . B::copyResourceToCWD('BreakpointDebugging_DisplayToOtherProcess.php', '');
         // Creates this class instance for shared memory close or shared file deletion.
@@ -303,14 +305,26 @@ EOD;
                     restore_error_handler();
                     // If valid shared memory.
                     if (!empty(self::$_resourceID)) {
-                        return;
+                        // Sends health check request.
+                        $result = shmop_write(self::$_resourceID, '1', 2);
+                        B::assert($result !== false);
+                        for ($count = 0; $count < 5; $count++) {
+                            // 1 second sleep.
+                            usleep(1000000);
+                            // Health check.
+                            if (shmop_read(self::$_resourceID, 2, 1) === '0') {
+                                return;
+                            }
+                        }
+                        //return;
                     }
                     echo '<strong style="color:red">Server was down.</strong>';
                     // Unlinks shared file.
-                    if (unlink($sharedFilePath) === false) {
-                        sleep(1);
-                        continue;
-                    }
+                    //if (unlink($sharedFilePath) === false) {
+                    //    sleep(1);
+                    //    continue;
+                    //}
+                    B::unlink(array ($sharedFilePath));
                 }
                 // Allocates shared memory area.
                 list($shmopKey, self::$_resourceID) = BS::buildSharedMemory(self::SHARED_MEMORY_SIZE);

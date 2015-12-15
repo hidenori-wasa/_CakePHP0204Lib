@@ -11,6 +11,13 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
 {
     private $_error;
 
+    static function setUpBeforeClass()
+    {
+        \BreakpointDebugging_Lock::forceUnlocking();
+        \BreakpointDebugging_LockByFileExisting::internalSingleton();
+        parent::setUpBeforeClass();
+    }
+
     function setUp()
     {
         parent::setUp();

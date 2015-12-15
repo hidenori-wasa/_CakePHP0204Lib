@@ -7,11 +7,22 @@ class BreakpointDebugging_LockByFileExistingTest extends \BreakpointDebugging_PH
 {
     protected $lockByFileExisting, $lockByFileExistingInternal;
 
+    static function setUpBeforeClass()
+    {
+        new \tests_PEAR_BreakpointDebugging_MultiprocessTest_Main();
+        //\BreakpointDebugging_LockByFileExisting::internalSingleton();
+        class_exists('\BreakpointDebugging_LockByFileExisting');
+        class_exists('\BreakpointDebugging_CommandLine');
+        class_exists('\BreakpointDebugging_LockByFlock');
+        parent::setUpBeforeClass();
+    }
+
     function setUp()
     {
         parent::setUp();
         // Constructs instance.
-        $this->lockByFileExistingInternal = &\BreakpointDebugging_LockByFileExisting::internalSingleton(5, 10);
+        //$this->lockByFileExistingInternal = &\BreakpointDebugging_LockByFileExisting::internalSingleton(5, 10);
+        $this->lockByFileExistingInternal = &\BreakpointDebugging_LockByFileExisting::internalSingleton();
         $this->lockByFileExisting = &\BreakpointDebugging_LockByFileExisting::singleton(5, 10);
     }
 

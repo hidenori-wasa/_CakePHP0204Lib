@@ -22,7 +22,7 @@ class LocalStaticVariableOfStaticMethod
 
     function localStaticVariableOfInstance()
     {
-        static $localStatic = 'Local static value.'; // We can define local static variable of auto class method.
+        // static $localStatic = 'Local static value.'; // We must not define local static variable of auto class method. (Autodetects)
     }
 
 }
@@ -63,11 +63,14 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register "loadClass" function at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // include_once __DIR__ . '/AFile.php'; // We must not include a file because "loadClass" is only once per file. (Autodetects)
+        class_exists('BreakpointDebugging_LockByFlock');
+        // include_once 'tests/PEAR/AFile.php';
+        parent::setUpBeforeClass();
     }
 
     static function tearDownAfterClass()
     {
-
+        parent::tearDownAfterClass();
     }
 
     protected function setUp()
@@ -89,7 +92,7 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         //
         // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register "loadClass" function at top of stack by "spl_autoload_register()". (Autodetects)
         //
-        // include_once __DIR__ . '/AFile.php'; // We must not include a file because "loadClass" is only once per file. (Cannot detect!)
+        // include_once __DIR__ . '/AFile.php'; // We must not include a file because "loadClass" is only once per file. (Autodetects)
     }
 
     protected function tearDown()
@@ -166,5 +169,3 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     }
 
 }
-
-?>

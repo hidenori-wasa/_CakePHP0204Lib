@@ -123,7 +123,10 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
     static function setUpBeforeClass()
     {
         \PHP_Timer::start();
-        new \PHPUnit_Framework_Constraint_IsTrue();
+        //new \PHPUnit_Framework_Constraint_IsTrue();
+        //new \PHPUnit_Framework_Constraint_Exception('DUMMY');
+        //new \PHPUnit_Framework_Constraint_ExceptionMessage('DUMMY');
+        //new \PHPUnit_Framework_AssertionFailedError('DUMMY');
         BTCS::setUpBeforeClass();
     }
 
@@ -215,6 +218,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
         $classReflection = new \ReflectionClass($this);
         $currentTestClassName = &BSS::refCurrentTestClassName();
         $currentTestClassName = $testClassName = $classReflection->name;
+        $currentTestMethodName = &BSS::refCurrentTestMethodName();
+        $currentTestMethodName = $this->getName();
 
         $refOnceFlagPerTestFile = &BSS::refOnceFlagPerTestFile();
         // If this is the first of test file.

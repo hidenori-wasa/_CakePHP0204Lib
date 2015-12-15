@@ -44,6 +44,7 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
         $maxLogStringSize = &B::refMaxLogStringSize();
         $maxLogStringSize = 8;
         self::$_errorLogDir = \BreakpointDebugging_Error::getErrorLogDir();
+        parent::setUpBeforeClass();
     }
 
     function setUp()

@@ -17,6 +17,12 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
 
     const TEST_CONST = 'The test constant.';
 
+    static function setUpBeforeClass()
+    {
+        \BreakpointDebugging_LockByFileExisting::internalSingleton();
+        parent::setUpBeforeClass();
+    }
+
     /**
      * @covers \BreakpointDebugging_InAllCase<extended>
      */

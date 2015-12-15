@@ -55,5 +55,3 @@ class tests_PEAR_BreakpointDebugging_MultiprocessTest_Main
     }
 
 }
-
-?>

@@ -134,6 +134,9 @@ final class BreakpointDebugging_DisplayToOtherProcess
                     continue;
                 }
                 while (true) {
+                    // Sends health check response.
+                    $result = shmop_write($shmopId, '0', 2);
+                    self::_assert($result !== false);
                     // Locks the shared memory.
                     $result = BW::lockOn2Processes(1, 0, $shmopId);
                     self::_assert($result !== false);

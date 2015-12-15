@@ -41,6 +41,13 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
     private static $_currentTestClassName;
 
     /**
+     * Current test class method name.
+     *
+     * @var string
+     */
+    private static $_currentTestMethodName;
+
+    /**
      * Memorizes the defined classes.
      *
      * @var array
@@ -125,9 +132,27 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      */
     static function &refCurrentTestClassName()
     {
-        B::limitAccess('BreakpointDebugging/PHPUnit/FrameworkTestCase.php', true);
+        B::limitAccess(array (
+            'BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
+            'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php',
+            ), true);
 
         return self::$_currentTestClassName;
+    }
+
+    /**
+     * It references "self::$_currentTestMethodName".
+     *
+     * @return string& Reference value.
+     */
+    static function &refCurrentTestMethodName()
+    {
+        B::limitAccess(array (
+            'BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
+            'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php',
+            ), true);
+
+        return self::$_currentTestMethodName;
     }
 
     /**
@@ -243,7 +268,19 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             $messageB = 'code';
         }
         $message = $messageA . ' must not be executed during "setUp()", "test*()" or "tearDown()".' . PHP_EOL;
-        $message .= 'Please, code the following into "';
+        $message .= PHP_EOL;
+        $message .= 'ERROR TEST CLASS: "class ' . self::$_currentTestClassName . '".' . PHP_EOL;
+        $message .= 'ERROR TEST CLASS METHOD: "setUp()", "' . self::$_currentTestMethodName . '()" or "tearDown()".' . PHP_EOL;
+        $message .= PHP_EOL;
+        if ($isInclude) {
+            $message .= '<span style="color:aqua">';
+            foreach ($classNames as $className) {
+                $message .= 'Please, search project files by "<span style="color:orange">class ' . $className . '</span>" for "&lt;include path of "' . $className . '" class>".' . PHP_EOL;
+            }
+            $message .= '</span>';
+        }
+        $message .= PHP_EOL;
+        $message .= 'Code the following into "';
         $message .= '<span style="color:aqua">';
         $message .= self::$_currentTestClassName . '::setUpBeforeClass()';
         $message .= '</span>';
@@ -254,34 +291,15 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         $message .= '<span style="color:aqua">';
         if ($isInclude) {
             foreach ($classNames as $className) {
-                $message .= '    include_once \'&lt;the file path which loads "' . $className . '" class>\';' . PHP_EOL;
+                $message .= '    include_once \'&lt;include path of "' . $className . '" class>\';' . PHP_EOL;
             }
         } else {
             $className = $classNames;
-            $message .= '    &lt;the code which loads "' . $className . '" class>;' . PHP_EOL;
+            $message .= '    class_exists(\'' . $className . '\');' . PHP_EOL;
         }
         $message .= '</span>';
         $message .= '    parent::setUpBeforeClass();' . PHP_EOL;
-        if ($isInclude) {
-            $message .= 'Please, search "include*" or "require*" in "';
-            $message .= '<span style="color:aqua">';
-            $message .= 'class ' . self::$_currentTestClassName . ' { }';
-            $message .= '</span>';
-            $message .= '" definition.' . PHP_EOL;
-            BW::exitForError($message);
-        } else {
-            $message .= 'Please, continue with step execution for &lt;the ' . $messageB . ' which loads "';
-            $message .= '<span style="color:aqua">';
-            $message .= $className;
-            $message .= '</span>';
-            $message .= '" class>.' . PHP_EOL;
-            $message .= 'Then, double click call stack window when step execution exists on "';
-            $message .= '<span style="color:aqua">';
-            $message .= $className;
-            $message .= '</span>';
-            $message .= '" class file.' . PHP_EOL;
-            BW::stopForError($message);
-        }
+        BW::exitForError($message);
     }
 
     /**
@@ -297,6 +315,10 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
 
         // If this is not autoload during autoload.
         if (!$isAutoloadDuringAutoload) {
+            // Skips "PHPUnit" pear package classes.
+            if (stripos($className, 'PHPUnit_Framework_') === 0) {
+                return;
+            }
             if ($onceFlag) {
                 B::exitForError('Autoload error must be fixed per a bug. Double click call stack window about "' . $serchClassName . '".');
             }
@@ -527,11 +549,12 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             }
         }
 
-        // Stores new variable by autoload or initialization.
+        //// Stores new variable by autoload or initialization.
+        // Stores the created variables by autoload and "include".
         foreach ($variables as $key => &$value) {
             if (in_array($key, $blacklist) //
                 || array_key_exists($key, $variablesStorage) //
-                || $value instanceof Closure //
+            //|| $value instanceof Closure //
             ) {
                 continue;
             }
@@ -677,10 +700,11 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                         || !in_array($propertyName, $blacklist[$declaredClassName]) //
                     ) {
                         $property->setAccessible(true);
-                        $propertyValue = $property->getValue();
-                        if (!$propertyValue instanceof Closure) {
-                            $storage[$propertyName] = $propertyValue;
-                        }
+                        //$propertyValue = $property->getValue();
+                        //if (!$propertyValue instanceof Closure) {
+                        //    $storage[$propertyName] = $propertyValue;
+                        //}
+                        $storage[$propertyName] = $property->getValue();
                     }
                 }
             }
@@ -786,15 +810,26 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             if (!$classReflection->isUserDefined()) {
                 continue;
             }
-            // Checks existence of local static variable of static class method.
-            foreach ($classReflection->getMethods(ReflectionMethod::IS_STATIC) as $methodReflection) {
+            //// Checks existence of local static variable of static class method.
+            //foreach ($classReflection->getMethods(ReflectionMethod::IS_STATIC) as $methodReflection) {
+            // Checks existence of local static variable per class method.
+            foreach ($classReflection->getMethods() as $methodReflection) {
+                // If this class method is not parent class method.
                 if ($methodReflection->class === $declaredClassName) {
                     $result = $methodReflection->getStaticVariables();
-                    // If static variable has been existing.
+                    // If local static variable has been existing.
                     if (!empty($result)) {
+                        if ($methodReflection->isStatic()) {
+                            // Warns that static class method has local static variable.
+                            $messageA = 'static';
+                        } else {
+                            // Warns that auto class method has local static variable.
+                            $messageA = 'auto';
+                        }
                         echo PHP_EOL
-                        . 'Code which is tested must use private static property instead of use local static variable in static class method' . PHP_EOL
+                        . 'Code which is tested must use private ' . $messageA . ' property instead of use local static variable in ' . $messageA . ' class method' . PHP_EOL
                         . 'because "php" version 5.3.0 cannot restore its value.' . PHP_EOL
+                        . 'Also, those variable life time is same.' . PHP_EOL
                         . "\t" . '<b>FILE: ' . $methodReflection->getFileName() . PHP_EOL
                         . "\t" . 'LINE: ' . $methodReflection->getStartLine() . PHP_EOL
                         . "\t" . 'CLASS: ' . $methodReflection->class . PHP_EOL
@@ -817,7 +852,18 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'
         ));
 
+        foreach (self::$_declaredClasses as $key => $currentDeclaredClasse) {
+            if (stripos($currentDeclaredClasse, 'PHPUnit_Framework_') === 0) {
+                unset(self::$_declaredClasses[$key]);
+            }
+        }
+
         $currentDeclaredClasses = get_declared_classes();
+        foreach ($currentDeclaredClasses as $key => $currentDeclaredClasse) {
+            if (stripos($currentDeclaredClasse, 'PHPUnit_Framework_') === 0) {
+                unset($currentDeclaredClasses[$key]);
+            }
+        }
         // If a class has not been declared.
         if (count($currentDeclaredClasses) === count(self::$_declaredClasses)) {
             return;

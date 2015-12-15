@@ -1446,8 +1446,11 @@ EOD;
      *
      * @return bool Success or failure.
      */
-    static function unlink(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
+    //static function unlink(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
+    static function unlink($params, $timeout = 10, $sleepMicroSeconds = 1000000)
     {
+        \BreakpointDebugging::assert(is_array($params));
+
         return self::_retryForFilesystemFunction('unlink', $params, $timeout, $sleepMicroSeconds);
     }
 
