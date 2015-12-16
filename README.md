@@ -56,8 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I added health check feature to "BreakpointDebugging_DisplayToOtherProcess.php" file.
-* I improved "\BreakpointDebugging_PHPUnit_StaticVariableStorage::checkMethodLocalStaticVariable()" class method to autodetect error that local static variable exists inside auto class method.
-* I improved "\BreakpointDebugging_PHPUnit_StaticVariableStorage::checkIncludeError()" class method.
-* I skipped the "PHPUnit" pear package classes autoload during "setUp()", "test*()" or "tearDown()" about "\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError()" class method.
-* I simplified "\BreakpointDebugging_PHPUnit_StaticVariableStorage::_displayError()" class method error display.
+* I changed "./tests/PEAR/ExampleTest.php" because of rule change.
+* I did regression unit test.

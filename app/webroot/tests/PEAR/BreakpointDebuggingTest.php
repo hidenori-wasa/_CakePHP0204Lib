@@ -11,6 +11,13 @@ use \BreakpointDebugging_Window as BW;
 class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
 
+    static function setUpBeforeClass()
+    {
+        class_exists('BreakpointDebugging_Lock');
+        class_exists('BreakpointDebugging_LockByFileExisting');
+        parent::setUpBeforeClass();
+    }
+
     /**
      * @covers \BreakpointDebugging<extended>
      */

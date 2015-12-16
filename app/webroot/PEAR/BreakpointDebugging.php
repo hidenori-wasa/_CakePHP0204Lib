@@ -290,12 +290,6 @@ abstract class BreakpointDebugging_InAllCase
      */
     protected static $onceFlagPerPackage = array ();
 
-//    /**
-//     * Is it spl autoload call?
-//     *
-//     * @var bool
-//     */
-//    private static $_isSplAutoLoadCall = false;
     ///////////////////////////// For package user from here. /////////////////////////////
     /**
      * Debugs by using breakpoint.
@@ -648,8 +642,7 @@ abstract class BreakpointDebugging_InAllCase
         self::$exeMode &= ~B::IGNORING_BREAK_POINT;
         if (self::$_nativeExeMode & self::UNIT_TEST) {
             // Uses "BreakpointDebugging" package autoloader.
-            //spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass');
-            spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError');
+            spl_autoload_unregister('\\' . \BreakpointDebugging_PHPUnit_StaticVariableStorage::AUTOLOAD_NAME);
         }
         if (!BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of development.
             // Displays error call stack instead of log.
@@ -1446,7 +1439,6 @@ EOD;
      *
      * @return bool Success or failure.
      */
-    //static function unlink(array $params, $timeout = 10, $sleepMicroSeconds = 1000000)
     static function unlink($params, $timeout = 10, $sleepMicroSeconds = 1000000)
     {
         \BreakpointDebugging::assert(is_array($params));
@@ -1726,16 +1718,10 @@ EOD;
         $varDumpResult = ob_get_clean();
         $varDumpResult = strip_tags($varDumpResult);
         $lines = explode("\n", $varDumpResult);
-        //foreach ($lines as $line) {
         while ((list(, $line) = each($lines)) !== false) {
-//            if ($globalsFlag) {
-//                $globalsFlag = false;
-//                continue;
-//            }
             B::assert(is_string($line));
             $result = preg_match('`^ [[:blank:]]* \'GLOBALS\'`xX', $line);
             if ($result === 1) {
-                //$globalsFlag = true;
                 next($lines);
                 continue;
             }
@@ -1880,19 +1866,6 @@ EOD;
      */
     final static function loadClass($className)
     {
-//        if (self::$_nativeExeMode & self::UNIT_TEST) {
-//            if (!self::$_isSplAutoLoadCall) {
-//                self::$_isSplAutoLoadCall = true;
-//                $exception = false;
-//                try {
-//                    spl_autoload_call($className);
-//                } catch (\Exception $e) {
-//                    $exception = $e;
-//                }
-//                self::$_isSplAutoLoadCall = false;
-//                return $exception;
-//            }
-//        }
         // Trims the left name space root.
         $className = ltrim($className, '\\');
         // Changes underscore and name space separator to directory separator.
@@ -1901,7 +1874,6 @@ EOD;
         if ($absoluteFilePath !== false) {
             include_once $absoluteFilePath;
         }
-        //include_once $filePath;
 
         return false;
     }

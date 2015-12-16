@@ -45,13 +45,6 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     private static $_phpUnit;
 
-//    /**
-//     * The flag to register autoload class method only once.
-//     *
-//     * @var type
-//     */
-//    private static $_onceFlag = true;
-
     /**
      * This class method is called first per "*TestSimple.php" file.
      *
@@ -64,13 +57,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
     static function setUpBeforeClass()
     {
         self::$_phpUnit->displayProgress(300);
-        //if (self::$_onceFlag) {
-        //    self::$_onceFlag = false;
-        //    $result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass', true, true);
-        //    B::assert($result);
-        //}
         // Registers the check class method for purpose which stores correctly.
-        $result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError', true, true);
+        $result = spl_autoload_register('\\' . BSS::AUTOLOAD_NAME, true, true);
         B::assert($result);
         // Stores global variables.
         BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
@@ -85,7 +73,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     public static function tearDownAfterClass()
     {
-        $result = spl_autoload_unregister('\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError');
+        $result = spl_autoload_unregister('\\' . BSS::AUTOLOAD_NAME);
         B::assert($result);
     }
 
@@ -131,21 +119,19 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
             $className = $autoloadFunctions[0][0];
         }
         $autoloadFunction = $className . '::' . $autoloadFunctions[0][1];
-        //if ($autoloadFunction === 'BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass') {
-        if ($autoloadFunction === 'BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError') {
+        if ($autoloadFunction === BSS::AUTOLOAD_NAME) {
             return;
         }
 
-        //$message = '<b>You must not register autoload function "' . $autoloadFunction . '" at top of stack by "spl_autoload_register()" in all code.' . PHP_EOL;
-        $message = 'You must not register autoload function "' . $autoloadFunction . '" at top of stack by "spl_autoload_register()" in all code.' . PHP_EOL;
+        $message = 'You must not register autoload function "<span style="color:orange">' . $autoloadFunction . '()</span>" at top of stack by "spl_autoload_register()"' . PHP_EOL;
+        $message .= 'during "setUp()", "test*()" or "tearDown()".' . PHP_EOL;
+        $message .= PHP_EOL;
         if ($testMethodName) {
-            $message .= 'Inside of "' . $testClassName . '::' . $testMethodName . '()".' . PHP_EOL;
+            $message .= 'Inside of "<span style="color:orange">' . $testClassName . '::' . $testMethodName . '()</span>".' . PHP_EOL;
         } else {
-            //$message .= 'In "bootstrap file", "file of (class ' . $testClassName . ') which is executed at autoload" or "' . $testClassName . '::setUpBeforeClass()"' . '.' . PHP_EOL;
-            $message .= '"parent::setUpBeforeClass();" must be bottom of "' . $testClassName . '::setUpBeforeClass()".' . PHP_EOL;
+            $message .= '"parent::setUpBeforeClass();" must be bottom of "<span style="color:orange">' . $testClassName . '::setUpBeforeClass()</span>".' . PHP_EOL;
         }
-        //$message .= '</b>Because it cannot store static status.';
-        $message .= 'Because it must check status change error.';
+        $message .= 'Because "\\' . BSS::AUTOLOAD_NAME . '()" must check status change error at top of stack.';
         BW::exitForError($message);
     }
 
@@ -237,12 +223,9 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
             self::$_phpUnit->displayProgress(300);
             // Checks the autoload functions.
             self::checkAutoloadFunctions($testClassName);
-            //// Checks definition, deletion and change violation of global variables and global variable references in "setUp()".
-            //BSS::checkGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), true);
-            //// Checks the change violation of static properties and static property child element references.
-            //self::$_phpUnit->getStaticVariableStorageInstance()->checkProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist(), false);
-            //BSS::checkProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist(), false);
             foreach ($methodReflections as $methodReflection) {
+                $currentTestMethodName = &BSS::refCurrentTestMethodName();
+                $currentTestMethodName = $methodReflection->name;
                 if (strpos($methodReflection->name, 'test') !== 0) {
                     continue;
                 }
@@ -253,10 +236,6 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
                 $pTestInstance = new $testClassName();
                 // Clean up stat cache.
                 clearstatcache();
-                //// Restores global variables.
-                //BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
-                //// Restores static properties.
-                //BSS::restoreProperties(BSS::refStaticProperties());
                 // Invokes "setUp()" class method.
                 $pTestInstance->setUp();
 

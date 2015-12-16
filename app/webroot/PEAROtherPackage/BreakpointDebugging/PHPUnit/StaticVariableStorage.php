@@ -34,6 +34,13 @@ use \BreakpointDebugging_Window as BW;
 class BreakpointDebugging_PHPUnit_StaticVariableStorage
 {
     /**
+     * Autoload name to display autoload error at top of stack.
+     *
+     * @const string
+     */
+    const AUTOLOAD_NAME = 'BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError';
+
+    /**
      * Current test class name.
      *
      * @var string
@@ -267,7 +274,7 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             $messageA = 'Autoload';
             $messageB = 'code';
         }
-        $message = $messageA . ' must not be executed during "setUp()", "test*()" or "tearDown()".' . PHP_EOL;
+        $message = $messageA . ' must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly.' . PHP_EOL;
         $message .= PHP_EOL;
         $message .= 'ERROR TEST CLASS: "class ' . self::$_currentTestClassName . '".' . PHP_EOL;
         $message .= 'ERROR TEST CLASS METHOD: "setUp()", "' . self::$_currentTestMethodName . '()" or "tearDown()".' . PHP_EOL;
@@ -549,12 +556,10 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             }
         }
 
-        //// Stores new variable by autoload or initialization.
-        // Stores the created variables by autoload and "include".
+        // Stores the created variables by autoload or "include".
         foreach ($variables as $key => &$value) {
             if (in_array($key, $blacklist) //
                 || array_key_exists($key, $variablesStorage) //
-            //|| $value instanceof Closure //
             ) {
                 continue;
             }
@@ -700,10 +705,6 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                         || !in_array($propertyName, $blacklist[$declaredClassName]) //
                     ) {
                         $property->setAccessible(true);
-                        //$propertyValue = $property->getValue();
-                        //if (!$propertyValue instanceof Closure) {
-                        //    $storage[$propertyName] = $propertyValue;
-                        //}
                         $storage[$propertyName] = $property->getValue();
                     }
                 }
@@ -810,8 +811,6 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             if (!$classReflection->isUserDefined()) {
                 continue;
             }
-            //// Checks existence of local static variable of static class method.
-            //foreach ($classReflection->getMethods(ReflectionMethod::IS_STATIC) as $methodReflection) {
             // Checks existence of local static variable per class method.
             foreach ($classReflection->getMethods() as $methodReflection) {
                 // If this class method is not parent class method.
@@ -852,15 +851,15 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'
         ));
 
-        foreach (self::$_declaredClasses as $key => $currentDeclaredClasse) {
-            if (stripos($currentDeclaredClasse, 'PHPUnit_Framework_') === 0) {
+        foreach (self::$_declaredClasses as $key => $currentDeclaredClass) {
+            if (stripos($currentDeclaredClass, 'PHPUnit_Framework_') === 0) {
                 unset(self::$_declaredClasses[$key]);
             }
         }
 
         $currentDeclaredClasses = get_declared_classes();
-        foreach ($currentDeclaredClasses as $key => $currentDeclaredClasse) {
-            if (stripos($currentDeclaredClasse, 'PHPUnit_Framework_') === 0) {
+        foreach ($currentDeclaredClasses as $key => $currentDeclaredClass) {
+            if (stripos($currentDeclaredClass, 'PHPUnit_Framework_') === 0) {
                 unset($currentDeclaredClasses[$key]);
             }
         }

@@ -20,10 +20,10 @@ class BreakpointDebugging_IniSetOptimizerTest extends \BreakpointDebugging_PHPUn
         parent::assertTrue($isChanged === true);
     }
 
-    static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-    }
+//    static function setUpBeforeClass()
+//    {
+//        parent::setUpBeforeClass();
+//    }
 
     /**
      * @covers \BreakpointDebugging_IniSetOptimizer<extended>

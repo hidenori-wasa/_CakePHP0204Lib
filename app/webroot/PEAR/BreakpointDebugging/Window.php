@@ -282,8 +282,6 @@ EOD;
         // Gets full shared file path.
         self::$_sharedFilePath = BREAKPOINTDEBUGGING_WORK_DIR_NAME . 'SharedFileForOtherProcessDisplay.txt';
         $sharedFilePath = self::$_sharedFilePath;
-        //// Deletes shared file because it may not delete by interrupted execution.
-        //B::unlink(array (self::$_sharedFilePath));
         // Copies the "BreakpointDebugging_DisplayToOtherProcess.php" file into current work directory, and gets its URI.
         $uri = 'https:' . B::copyResourceToCWD('BreakpointDebugging_DisplayToOtherProcess.php', '');
         // Creates this class instance for shared memory close or shared file deletion.
@@ -316,14 +314,9 @@ EOD;
                                 return;
                             }
                         }
-                        //return;
                     }
                     echo '<strong style="color:red">Server was down.</strong>';
                     // Unlinks shared file.
-                    //if (unlink($sharedFilePath) === false) {
-                    //    sleep(1);
-                    //    continue;
-                    //}
                     B::unlink(array ($sharedFilePath));
                 }
                 // Allocates shared memory area.
@@ -531,8 +524,6 @@ EOD;
      */
     static function scriptClearance($start = 0)
     {
-        // return; // For debug.
-
         if (!isset($_SERVER['SERVER_ADDR'])) { // In case of command line.
             return;
         }
@@ -591,16 +582,6 @@ EOD;
      */
     static function exitForError($message)
     {
-//        if (!isset($_SERVER['SERVER_ADDR'])) { // In case of command line.
-//            return;
-//        }
-//
-//        self::virtualOpen(B::ERROR_WINDOW_NAME, B::getErrorHtmlFileTemplate());
-//        self::htmlAddition(B::ERROR_WINDOW_NAME, 'pre', 0, $message);
-//        self::front(B::ERROR_WINDOW_NAME);
-//        if (function_exists('xdebug_break')) {
-//            xdebug_break();
-//        }
         self::stopForError($message);
         exit;
     }

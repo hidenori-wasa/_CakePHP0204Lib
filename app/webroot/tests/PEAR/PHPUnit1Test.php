@@ -9,7 +9,7 @@ class PHPUnit1Test extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 
     static function setUpBeforeClass()
     {
-        new \tests_PEAR_AClass();
+        new \tests_PEAR_AClass(); // For static property registration with object to static backup.
         include_once './tests/PEAR/AClass3.php';
         parent::setUpBeforeClass();
     }
