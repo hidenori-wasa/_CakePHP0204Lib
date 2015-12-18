@@ -88,6 +88,7 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         $_FILES = &$aReference2; // We can overwrite global variable except static property with reference here.
 
         unset($_FILES); // We can delete global variable here.
+        //
         // spl_autoload_unregister('\ExampleTest::loadClass');
         // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
         //

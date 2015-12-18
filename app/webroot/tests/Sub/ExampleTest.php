@@ -9,6 +9,12 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     private $_pTestObject;
 
+    static function setUpBeforeClass()
+    {
+        class_exists('Sub_Example');
+        parent::setUpBeforeClass();
+    }
+
     protected function setUp()
     {
         // This is required at top.

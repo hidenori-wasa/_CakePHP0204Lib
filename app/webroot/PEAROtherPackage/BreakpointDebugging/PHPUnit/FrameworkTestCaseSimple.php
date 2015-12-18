@@ -131,7 +131,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
         } else {
             $message .= '"parent::setUpBeforeClass();" must be bottom of "<span style="color:orange">' . $testClassName . '::setUpBeforeClass()</span>".' . PHP_EOL;
         }
-        $message .= 'Because "\\' . BSS::AUTOLOAD_NAME . '()" must check status change error at top of stack.';
+        $message .= 'Because "\\' . BSS::AUTOLOAD_NAME . '()" must check static status change error at top of stack.';
         BW::exitForError($message);
     }
 

@@ -19,7 +19,6 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
 
     static function setUpBeforeClass()
     {
-        //\BreakpointDebugging_LockByFileExisting::internalSingleton();
         class_exists('\BreakpointDebugging_LockByFileExisting');
         parent::setUpBeforeClass();
     }

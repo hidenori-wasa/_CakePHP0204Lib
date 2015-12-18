@@ -349,10 +349,10 @@ EOD;
             // Opens my setting file.
             $mySettingFilePath = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php';
             $phpFilePaths = self::_searchPHPFiles();
-            $phpFilePaths = array (
-                './_ProvingGround.php' => true,
-                './BreakpointDebugging_PEAR_Setting/BreakpointDebugging_MySetting.php' => true,
-            ); // For debug.
+            // $phpFilePaths = array ( // For debug.
+            //    './_ProvingGround.php' => true,
+            //    './BreakpointDebugging_PEAR_Setting/BreakpointDebugging_MySetting.php' => true,
+            // );
         } else { // In case of first time when this page was called.
             $html = '<h1>ProductionSwitcher</h1>';
             $whiteListPaths = self::_getWhiteListPaths();
