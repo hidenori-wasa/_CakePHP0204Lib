@@ -56,6 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I changed "./tests/PEAR/ExampleTestSimple.php" because I changed static backup algorithm.
-* I changed "Coding rule" section of "BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.php" file because I changed static backup algorithm.
-* I released management files limit of "./BreakpointDebugging_ProductionSwitcher.php" tool page.
+* I improved display color of "BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.php" file for ease-to-understand.
