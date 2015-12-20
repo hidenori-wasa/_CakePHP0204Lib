@@ -543,7 +543,7 @@ The rule to keep static status: We must not change "static status of other php f
         Reference copy must use "<span class="inline-code">&amp;parent::</span>" in case of parent class above one hierarchy.
         Except those, Reference copy must use "<span class="inline-code">&amp;&lt;official class name>::</span>".
         Those is same about "<span class="inline-code">$this</span>".
-<a id="4-S-2">The file search detection rule 2</a>: We must not code except "tab and space" behind "@codeCoverageIgnore</span>".
+<a id="4-S-2">The file search detection rule 2</a>: We must not code except "tab and space" behind "<span class="inline-code">@codeCoverageIgnore</span>".
     Because code coverage report can parse except <span class="inline-code">'@codeCoverageIgnore'</span> and <span class="inline-code">"@codeCoverageIgnore"</span> character string.
     Example of rule violation:
 <code>        @codeCoverageIgnore A sentence.
@@ -581,7 +581,7 @@ Auto detection rule 7: We must not declare classes by "<span class="inline-code"
     Because static status may be changed, also static status of declared classes is not stored.
     Therefore, we must declare classes by "<span class="inline-code">include</span>" or autoload at "<span class="inline-code">setUpBeforeClass()</span>" to avoid it. (This code is displayed automatically.)
 
-            Recommendation rule 1: We should destruct a test instance per test in "<span class="inline-code">tearDown()</span>" because it cuts down on production server memory use.
+Recommendation rule 1: We should destruct a test instance per test in "<span class="inline-code">tearDown()</span>" because it cuts down on production server memory use.
     Example:
 <code>        protected function tearDown()
         {
@@ -635,6 +635,6 @@ License content is written in "<a href="../../../PEAR/BreakpointDebugging/BREAKP
 @author   Hidenori Wasa &lt;public@hidenori-wasa.com>
 @license  http://opensource.org/licenses/mit-license.php  MIT License
 @link     <a href="https://github.com/hidenori-wasa/">https://github.com/hidenori-wasa/</a>
-    </pre>
-</body>
+        </pre>
+    </body>
 </html>

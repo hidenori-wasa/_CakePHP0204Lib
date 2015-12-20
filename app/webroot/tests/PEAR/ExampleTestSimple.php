@@ -27,17 +27,17 @@ class LocalStaticVariableOfStaticMethod2
 
 }
 
-global $something;
-$something = 'Defines global variable.'; // We can define global variable before static backup.
-
-$_FILES = 'Changes the value.'; // We can change global variable and static property before static backup.
-
-$_FILES = &$bugReference; // We can overwrite global variable and static property with reference before static backup.
-unset($bugReference);
-
-unset($_FILES); // We can delete global variable before static backup.
-// We can register autoload function at top of stack by "spl_autoload_register()" before "\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError()" registration.
-spl_autoload_register('\ExampleTestSimple::loadClass', true, true);
+// global $something;
+// $something = 'Defines global variable.'; // The rule to keep static status: We must not define global variable in global scope. (Does not autodetect)
+//
+// $_FILES = 'Changes the value.'; // The rule to keep static status: We must not change global variable and static property in global scope. (Does not autodetect)
+//
+// $_FILES = &$bugReference; // The rule to keep static status: We must not overwrite global variable and static property with reference in global scope. (Does not autodetect)
+// unset($bugReference);
+//
+// unset($_FILES); // The rule to keep static status: We must not delete global variable in global scope. (Does not autodetect)
+//
+// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed in global scope because a class may be declared newly. (Does not autodetect)
 class ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 {
     private $_pTestObject;
@@ -49,32 +49,31 @@ class ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSi
 
     static function setUpBeforeClass()
     {
-        global $something;
-        $something = 'Defines global variable.'; // We must not define global variable here. (Autodetects)
-
-        $_FILES = 'Changes the value.'; // We must not change global variable and static property here. (Autodetects)
-
-        $_FILES = &$bugReference; // We must not overwrite global variable and static property with reference here. (Autodetects)
-
-        unset($_FILES); // We must not delete global variable here. (Autodetects)
-
-        spl_autoload_unregister('\ExampleTestSimple::loadClass');
-        // We can register autoload function at top of stack by "spl_autoload_register()" before "\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError()" registration.
-        spl_autoload_register('\ExampleTestSimple::loadClass', true, true);
-
+        // global $something;
+        // $something = 'Defines global variable.'; // The rule to keep static status: We must not define global variable before static backup. (Does not autodetect)
+        //
+        // $_FILES = 'Changes the value.'; // The rule to keep static status: We must not change global variable and static property before static backup. (Does not autodetect)
+        //
+        // $_FILES = &$bugReference; // The rule to keep static status: We must not overwrite global variable and static property with reference before static backup. (Does not autodetect)
+        //
+        // unset($_FILES); // The rule to keep static status: We must not delete global variable before static backup. (Does not autodetect)
+        //
+        // Please, preload classes by copying error display.
         class_exists('BreakpointDebugging_LockByFlock');
         // include_once 'tests/PEAR/AFile.php';
+        //
+        // Stores static backup here. This line is required at bottom.
         parent::setUpBeforeClass();
     }
 
     static function tearDownAfterClass()
     {
-        parent::tearDownAfterClass();
+        parent::tearDownAfterClass(); // Requires parent.
     }
 
     protected function setUp()
     {
-        // This is required at top.
+        // This line is required at top.
         parent::setUp();
 
         // We must construct the test instance here.
@@ -103,7 +102,7 @@ class ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSi
         // Destructs the test instance to reduce memory use.
         $this->_pTestObject = null;
 
-        // This is required at bottom.
+        // This line is required at bottom.
         parent::tearDown();
     }
 

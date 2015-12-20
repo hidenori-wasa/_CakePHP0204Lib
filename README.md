@@ -56,4 +56,4 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I improved display color of "BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.php" file for ease-to-understand.
+* I repaired "./tests/PEAR/ExampleTest.php" and "./tests/PEAR/ExampleTestSimple.php" file.
