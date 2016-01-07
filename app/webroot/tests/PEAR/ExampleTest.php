@@ -28,16 +28,16 @@ class LocalStaticVariableOfStaticMethod
 }
 
 // global $something;
-// $something = 'Defines global variable.'; // The rule to keep static status: We must not define global variable in global scope. (Does not autodetect)
+// $something = 'Defines global variable.'; // The rule to keep static status: Static status must not be changed at file load. (Does not autodetect)
 //
-// $_FILES = 'Changes the value.'; // The rule to keep static status: We must not change global variable and static property in global scope. (Does not autodetect)
+// $_FILES = 'Changes the value.'; // The same to above. (Does not autodetect)
 //
-// $_FILES = &$bugReference; // The rule to keep static status: We must not overwrite global variable and static property with reference in global scope. (Does not autodetect)
+// $_FILES = &$bugReference; // The rule to keep static status: Static status must not be overwritten with reference at file load. (Does not autodetect)
 // unset($bugReference);
 //
-// unset($_FILES); // The rule to keep static status: We must not delete global variable in global scope. (Does not autodetect)
+// unset($_FILES); // The rule to keep static status: Static status must not be deleted at file load. (Does not autodetect)
 //
-// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed in global scope because a class may be declared newly. (Does not autodetect)
+// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
 class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     private $_pTestObject;
@@ -50,18 +50,19 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     static function setUpBeforeClass()
     {
         // global $something;
-        // $something = 'Defines global variable.'; // The rule to keep static status: We must not define global variable before static backup. (Does not autodetect)
+        // $something = 'Defines global variable.'; // The rule to keep static status: Static status must not be changed before static backup. (Does not autodetect)
         //
-        // $_FILES = 'Changes the value.'; // The rule to keep static status: We must not change global variable and static property before static backup. (Does not autodetect)
+        // $_FILES = 'Changes the value.'; // The same to above. (Does not autodetect)
         //
-        // $_FILES = &$bugReference; // The rule to keep static status: We must not overwrite global variable and static property with reference before static backup. (Does not autodetect)
+        // $_FILES = &$bugReference; // The rule to keep static status: Static status must not be overwritten with reference before static backup. (Does not autodetect)
         //
-        // unset($_FILES); // The rule to keep static status: We must not delete global variable before static backup. (Does not autodetect)
+        // unset($_FILES); // The rule to keep static status: Static status must not be deleted before static backup. (Does not autodetect)
         //
-        // Please, preload classes by copying error display.
-        class_exists('BreakpointDebugging_LockByFlock');
-        // include_once 'tests/PEAR/AFile.php';
+        // Please, preload classes by copying error display. Also, preloaded class files must apply to "Coding rule". (Autodetects)
+        BU::loadClass('BreakpointDebugging_LockByFlock');
+        // BU::includeClass('tests/PEAR/AFile.php');
         //
+        //BU::loadClass('BreakpointDebugging_LockByFileExisting');
         // Stores static backup here. This line is required at bottom.
         parent::setUpBeforeClass();
     }
@@ -84,9 +85,9 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 
         $_FILES = 'Changes the value 2.'; // We can change global variable and static property here.
 
-        $_FILES = &$aReference2; // We can overwrite global variable except static property with reference here.
+        ///// $_FILES = &$aReference2; // We can overwrite global variable except static property with reference here.
 
-        unset($_FILES); // We can delete global variable here.
+        ///// unset($_FILES); // We can delete global variable here.
         //
         // spl_autoload_unregister('\ExampleTest::loadClass');
         // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
@@ -124,9 +125,9 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 
         $_FILES = 'Changes the value 3.'; // We can change global variable and static property here.
 
-        $_FILES = &$aReference3; // We can overwrite global variable except static property with reference here.
+        ///// $_FILES = &$aReference3; // We can overwrite global variable except static property with reference here.
 
-        unset($_FILES); // We can delete global variable here.
+        ///// unset($_FILES); // We can delete global variable here.
         //
         // spl_autoload_unregister('\ExampleTest::loadClass');
         // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)

@@ -46,11 +46,11 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
     private static $_phpUnit;
 
     /**
-     * This class method is called first per "*TestSimple.php" file.
+     * This class method is called first per "*Test.php" or "*TestSimple.php" file.
      *
-     * Registers autoload class method to check definition, deletion and change violation of global variables in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
-     * And, to check the change violation of static properties in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
-     * And, to store initial value of global variables and static properties.
+     * Registers autoload class method to prohibit autoload not to change static status by autoload during "setUp()", "test*()" or "tearDown()".
+     * Also, stores initial value of global variables and static properties.
+     * Please, inherit this class method and preload class files by following to error display.
      *
      * @return void
      */

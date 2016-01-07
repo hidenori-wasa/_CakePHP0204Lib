@@ -10,7 +10,7 @@ class Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCa
 
     static function setUpBeforeClass()
     {
-        class_exists('Sub_Example');
+        BU::loadClass('Sub_Example');
         parent::setUpBeforeClass();
     }
 

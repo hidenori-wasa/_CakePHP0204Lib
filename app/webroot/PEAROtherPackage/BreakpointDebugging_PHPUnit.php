@@ -178,12 +178,12 @@ class BreakpointDebugging_PHPUnit
      */
     private static $_separator;
 
-    /**
-     * Flag of once.
-     *
-     * @var bool
-     */
-    private static $_onceFlag = true;
+//    /**
+//     * Flag of once.
+//     *
+//     * @var bool
+//     */
+//    private static $_onceFlag = true;
 
     /**
      * Unit test result.
@@ -434,21 +434,21 @@ EOD;
         // Initializes once's flag per test file.
         $onceFlagPerTestFile = &BSS::refOnceFlagPerTestFile(); // This is not rule violation because this property is not stored.
         $onceFlagPerTestFile = true;
-        if (self::$_onceFlag) {
-            self::$_onceFlag = false;
-            // Stores global variables.
-            //BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
-            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
-            // Stores static properties.
-            //$staticProperties = &BSS::refStaticProperties();
-            //BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
-            BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
-        } else {
-            // Restores global variables.
-            BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
-            // Restores static properties.
-            BSS::restoreProperties(BSS::refStaticProperties());
-        }
+//        if (self::$_onceFlag) {
+//            self::$_onceFlag = false;
+//            // Stores global variables.
+//            //BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
+//            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
+//            // Stores static properties.
+//            //$staticProperties = &BSS::refStaticProperties();
+//            //BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
+//            BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
+//        } else {
+//            // Restores global variables.
+//            BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
+//            // Restores static properties.
+//            BSS::restoreProperties(BSS::refStaticProperties());
+//        }
         // Uses "PHPUnit" package error handler.
         set_error_handler('\PHPUnit_Util_ErrorHandler::handleError', E_ALL | E_STRICT);
         // Runs unit test continuously.
@@ -487,30 +487,19 @@ EOD;
         // Initializes once's flag per test file.
         $onceFlagPerTestFile = &BSS::refOnceFlagPerTestFile(); // This is not rule violation because this property is not stored.
         $onceFlagPerTestFile = true;
-        if (self::$_onceFlag) {
-            self::$_onceFlag = false;
-            // Stores global variables.
-            //BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
-            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
-            // Stores static properties.
-            //$staticProperties = &BSS::refStaticProperties();
-            //BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
-            BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
-            // Registers autoload class method to check definition, deletion and change violation of global variables in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
-            // And, to check the change violation of static properties in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
-            // And, to store initial value of global variables and static properties.
-            //$result = spl_autoload_register(array ($this->_staticVariableStorage, 'loadClass'), true, true);
-            //$result = spl_autoload_register('\BreakpointDebugging_PHPUnit_StaticVariableStorage::loadClass', true, true);
-            //B::assert($result);
-        } else {
-            // Restores global variables.
-            $globalRefs = BSS::refGlobalRefs();
-            //$globals = BSS::refGlobals();
-            //BSS::restoreGlobals($globalRefs, $globals);
-            BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
-            // Restores static properties.
-            BSS::restoreProperties(BSS::refStaticProperties());
-        }
+//        if (self::$_onceFlag) {
+//            self::$_onceFlag = false;
+//            // Stores global variables.
+//            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
+//            // Stores static properties.
+//            BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
+//        } else {
+//            // Restores global variables.
+//            //$globalRefs = BSS::refGlobalRefs();
+//            BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
+//            // Restores static properties.
+//            BSS::restoreProperties(BSS::refStaticProperties());
+//        }
         // Uses this package error handler.
         set_error_handler('\BreakpointDebugging_PHPUnit::handleError', -1);
         // Includes unit test file.
@@ -1571,6 +1560,44 @@ EOD;
     static function getCodeCoverageKind()
     {
         return self::$_codeCoverageKind;
+    }
+
+    /**
+     * Loads a class file and checks static status change error during it.
+     *
+     * @param type $className
+     *
+     * @return void
+     */
+    static function loadClass($className)
+    {
+        // Stores global variables.
+        BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
+        // Stores static properties.
+        BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
+        // Loads a class file.
+        class_exists($className);
+        // Checks static status change error.
+        BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), true);
+        BSS::restoreProperties(BSS::refStaticProperties(), true);
+    }
+
+    /**
+     * Includes a class file and checks static status change error during it.
+     *
+     * @param type $filePath
+     */
+    static function includeClass($filePath)
+    {
+        // Stores global variables.
+        BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
+        // Stores static properties.
+        BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
+        // Includes a class file.
+        include_once $filePath;
+        // Checks static status change error.
+        BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), true);
+        BSS::restoreProperties(BSS::refStaticProperties(), true);
     }
 
 }

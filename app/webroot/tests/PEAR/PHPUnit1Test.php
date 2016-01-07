@@ -1,5 +1,7 @@
 <?php
 
+use \BreakpointDebugging_PHPUnit as BU;
+
 class PHPUnit1Test extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     static $initialValueOfGlobal;
@@ -9,9 +11,19 @@ class PHPUnit1Test extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 
     static function setUpBeforeClass()
     {
-        new \tests_PEAR_AClass(); // For static property registration with object to static backup.
-        include_once './tests/PEAR/AClass3.php';
+        //new \tests_PEAR_AClass(); // For static property registration with object to static backup.
+        //include_once './tests/PEAR/AClass3.php';
+        BU::includeClass('./tests/PEAR/AClass3.php');
+        BU::loadClass('tests_PEAR_AClass');
+        BU::loadClass('tests_PEAR_AClass2');
         parent::setUpBeforeClass();
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        new \tests_PEAR_AClass(); // For static property registration with object to static backup.
     }
 
     /**
@@ -19,8 +31,8 @@ class PHPUnit1Test extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
      */
     public function testStoring_A()
     {
-        include_once './tests/PEAR/AClass3.php';
-
+        //include_once './tests/PEAR/AClass3.php';
+        //
         // Stores the initial value and the initial reference.
         self::$initialReferenceOfGlobal = &$_FILES;
         self::$initialValueOfGlobal = $_FILES;

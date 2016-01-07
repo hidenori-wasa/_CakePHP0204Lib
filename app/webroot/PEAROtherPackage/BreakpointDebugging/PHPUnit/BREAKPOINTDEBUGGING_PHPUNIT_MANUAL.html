@@ -235,7 +235,11 @@ because tests is executed on same process.
             // Executes autoload or "include" here instead of execution at "setUp()", "test*()" and "tearDown()". (This is autodetected.)
             // Because autoload or "include" is executed before object creation.
             // Therefore, static backup can be stored correctly.
-            ...;
+            BU::loadClass('AClassName');
+            BU::includeClass('ADir/AFilename.php');
+                .
+                .
+                .
             // This is required at bottom because static backup is stored here.
             parent::setUpBeforeClass();
         }
@@ -361,7 +365,11 @@ because tests is executed on same process.
             // Executes autoload or "include" here instead of execution at "setUp()", "test*()" and "tearDown()". (This is autodetected.)
             // Because autoload or "include" is executed before object creation.
             // Therefore, static backup can be stored correctly.
-            ...;
+            BU::loadClass('AClassName');
+            BU::includeClass('ADir/AFilename.php');
+                .
+                .
+                .
             // This is required at bottom because static backup is stored here.
             parent::setUpBeforeClass();
         }
@@ -518,7 +526,7 @@ The rule to keep static status: We must not change "static status of other php f
     Because static status may be changed by autoload order.
 
     Also, "<span class="inline-code">new</span> autoload" and "static class method call autoload" on local scope is out of question.
-    Because those can avoid by autoload of "<span class="inline-code">class_exists()</span>" in "<span class="inline-code">setUpBeforeClass()</span>".
+    Because those can avoid by autoload of "<span class="inline-code">\BreakpointDebugging_PHPUnit::loadClass()</span>" in "<span class="inline-code">setUpBeforeClass()</span>".
 
     Moreover, function call of top page on global scope can avoid as below.
 <code>        if (\BreakpointDebugging::isTopPage()) { // Skips the following if unit test execution.

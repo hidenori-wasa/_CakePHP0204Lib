@@ -56,4 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I repaired "./tests/PEAR/ExampleTest.php" and "./tests/PEAR/ExampleTestSimple.php" file.
+* I added "Maintenance procedure" to "PEAR/BreakpointDebugging/BREAKPOINTDEBUGGING_MANUAL.html" file.
+* I added "\BreakpointDebugging_PHPUnit::loadClass()" and "\BreakpointDebugging_PHPUnit::includeClass()" class method for "setUpBeforeClass()" of unit test class method.

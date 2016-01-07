@@ -13,8 +13,8 @@ class BreakpointDebugging_ErrorTest extends \BreakpointDebugging_PHPUnit_Framewo
 
     static function setUpBeforeClass()
     {
-        class_exists('\BreakpointDebugging_Lock');
-        class_exists('\BreakpointDebugging_LockByFileExisting');
+        BU::loadClass('\BreakpointDebugging_Lock');
+        BU::loadClass('\BreakpointDebugging_LockByFileExisting');
         parent::setUpBeforeClass();
     }
 

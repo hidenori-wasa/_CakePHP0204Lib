@@ -1,6 +1,7 @@
 <?php
 
 use \BreakpointDebugging as B;
+use \BreakpointDebugging_PHPUnit as BU;
 
 // Copies the "BreakpointDebugging_*.php" file into current work directory.
 B::copyResourceToCWD('NativeClass.php', 'BreakpointDebugging/Sample/');
@@ -33,7 +34,7 @@ class BreakpointDebugging_OverrideClassTest extends \BreakpointDebugging_PHPUnit
 
     static function setUpBeforeClass()
     {
-        class_exists('\NativeClass');
+        BU::loadClass('\NativeClass');
         parent::setUpBeforeClass();
     }
 

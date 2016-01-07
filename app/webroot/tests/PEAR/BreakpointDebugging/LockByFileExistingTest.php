@@ -9,10 +9,10 @@ class BreakpointDebugging_LockByFileExistingTest extends \BreakpointDebugging_PH
 
     static function setUpBeforeClass()
     {
-        class_exists('\tests_PEAR_BreakpointDebugging_MultiprocessTest_Main');
-        class_exists('\BreakpointDebugging_LockByFileExisting');
-        class_exists('\BreakpointDebugging_CommandLine');
-        class_exists('\BreakpointDebugging_LockByFlock');
+        BU::loadClass('\tests_PEAR_BreakpointDebugging_MultiprocessTest_Main');
+        BU::loadClass('\BreakpointDebugging_LockByFileExisting');
+        BU::loadClass('\BreakpointDebugging_CommandLine');
+        BU::loadClass('\BreakpointDebugging_LockByFlock');
         parent::setUpBeforeClass();
     }
 

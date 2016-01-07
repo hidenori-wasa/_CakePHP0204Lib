@@ -69,3 +69,15 @@ if (B::isTopPage()) { // Skips the following if unit test execution.
     Example::initialize(1);
 }
 // @codeCoverageIgnoreEnd
+
+global $newStaticStatus;
+$newStaticStatus = 'Defines static status.'; // Static status can define at file load.
+//
+// $_FILES = 'Changes the value.'; // The rule to keep static status: Static status must not be changed at file load. (Autodetects)
+//
+// $_FILES = &$bugReference; // The rule to keep static status: Static status must not be overwritten with reference at file load. (Cannot detect)
+// unset($bugReference);
+//
+// unset($_FILES); // The rule to keep static status: Static status must not be deleted at file load. (Cannot detect)
+//
+// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Cannot detect)

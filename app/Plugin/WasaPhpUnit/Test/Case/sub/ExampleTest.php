@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Please, see "BreakpointDebugging_PHPUnit.php" file-level document for detail.
+ * Please, see "Coding rule." section of "PEAR/BreakpointDebugging/PHPUnit/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html" for detail.
  */
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
@@ -22,25 +22,23 @@ class LocalStaticVariableOfStaticMethod
 
     function localStaticVariableOfInstance()
     {
-        static $localStatic = 'Local static value.'; // We can define local static variable of auto class method.
+        // static $localStatic = 'Local static value.'; // We must not define local static variable of auto class method. (Autodetects)
     }
 
 }
 
 // global $something;
-// $something = 'Defines global variable.'; // We must not define global variable here. (Autodetects)
+// $something = 'Defines global variable.'; // The rule to keep static status: Static status must not be changed at file load. (Does not autodetect)
 //
-// $_FILES = 'Changes the value.'; // We must not change global variable and static property here. (Autodetects)
+// $_FILES = 'Changes the value.'; // The same to above. (Does not autodetect)
 //
-// $_FILES = &$bugReference; // We must not overwrite global variable and static property with reference here. (Autodetects)
+// $_FILES = &$bugReference; // The rule to keep static status: Static status must not be overwritten with reference at file load. (Does not autodetect)
 // unset($bugReference);
 //
-// unset($_FILES); // We must not delete global variable here. (Autodetects)
+// unset($_FILES); // The rule to keep static status: Static status must not be deleted at file load. (Does not autodetect)
 //
-// spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register "loadClass" function at top of stack by "spl_autoload_register()". (Autodetects)
-//
-// include_once __DIR__ . '/AFile.php'; // We must not include a file because "loadClass" is only once per file. (Autodetects)
-class ExampleTest extends \CakeTestCase
+// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
+class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     private $_pTestObject;
 
@@ -52,27 +50,30 @@ class ExampleTest extends \CakeTestCase
     static function setUpBeforeClass()
     {
         // global $something;
-        // $something = 'Defines global variable.'; // We must not define global variable here. (Autodetects)
+        // $something = 'Defines global variable.'; // The rule to keep static status: Static status must not be changed before static backup. (Does not autodetect)
         //
-        // $_FILES = 'Changes the value.'; // We must not change global variable and static property here. (Autodetects)
+        // $_FILES = 'Changes the value.'; // The same to above. (Does not autodetect)
         //
-        // $_FILES = &$bugReference; // We must not overwrite global variable and static property with reference here. (Autodetects)
+        // $_FILES = &$bugReference; // The rule to keep static status: Static status must not be overwritten with reference before static backup. (Does not autodetect)
         //
-        // unset($_FILES); // We must not delete global variable here. (Autodetects)
+        // unset($_FILES); // The rule to keep static status: Static status must not be deleted before static backup. (Does not autodetect)
         //
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register "loadClass" function at top of stack by "spl_autoload_register()". (Autodetects)
+        // Please, preload classes by copying error display. Also, preloaded class files must apply to "Coding rule". (Autodetects)
+        BU::loadClass('BreakpointDebugging_LockByFlock');
+        // BU::includeClass('tests/PEAR/AFile.php');
         //
-        // include_once __DIR__ . '/AFile.php'; // We must not include a file because "loadClass" is only once per file. (Autodetects)
+        // Stores static backup here. This line is required at bottom.
+        parent::setUpBeforeClass();
     }
 
     static function tearDownAfterClass()
     {
-
+        parent::tearDownAfterClass(); // Requires parent.
     }
 
-    function setUp()
+    protected function setUp()
     {
-        // This is required at top.
+        // This line is required at top.
         parent::setUp();
 
         // We must construct the test instance here.
@@ -87,19 +88,21 @@ class ExampleTest extends \CakeTestCase
 
         unset($_FILES); // We can delete global variable here.
         //
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register "loadClass" function at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\ExampleTest::loadClass');
+        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
         //
-        // include_once __DIR__ . '/AFile.php'; // We must not include a file because "loadClass" is only once per file. (Cannot detect!)
+        // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
     }
 
-    function tearDown()
+    protected function tearDown()
     {
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register "loadClass" function at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\ExampleTest::loadClass');
+        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // Destructs the test instance to reduce memory use.
         $this->_pTestObject = null;
 
-        // This is required at bottom.
+        // This line is required at bottom.
         parent::tearDown();
     }
 
@@ -125,9 +128,10 @@ class ExampleTest extends \CakeTestCase
 
         unset($_FILES); // We can delete global variable here.
         //
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register "loadClass" function at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\ExampleTest::loadClass');
+        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
         //
-        // include_once __DIR__ . '/AFile.php'; // We must not include a file because "loadClass" is only once per file. (Cannot detect!)
+        // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
 
         BU::markTestSkippedInDebug();
 

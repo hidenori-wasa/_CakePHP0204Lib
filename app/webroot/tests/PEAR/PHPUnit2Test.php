@@ -3,6 +3,13 @@
 class PHPUnit2Test extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        new \tests_PEAR_AClass(); // For static property registration with object to static backup.
+    }
+
     /**
      * @covers \Example<extended>
      */

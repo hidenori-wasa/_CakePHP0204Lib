@@ -114,14 +114,12 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
     /**
      * This class method is called first per "*TestSimple.php" file.
      *
-     * Registers autoload class method to check definition, deletion and change violation of global variables in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
-     * And, to check the change violation of static properties in bootstrap file, unit test file (*Test.php, *TestSimple.php), "setUpBeforeClass()" and "setUp()".
-     * And, to store initial value of global variables and static properties.
-     *
      * @return void
      */
     static function setUpBeforeClass()
     {
+        //BU::loadClass('\PHP_Timer');
+        // Loads a class file.
         class_exists('\PHP_Timer');
         BTCS::setUpBeforeClass();
     }
