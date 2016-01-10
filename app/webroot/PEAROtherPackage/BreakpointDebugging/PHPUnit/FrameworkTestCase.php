@@ -300,7 +300,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
         BSS::checkIncludeError();
 
         // Restores global variables.
-        BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
+        $refGlobalRefs = &BSS::refGlobalRefs();
+        BSS::restoreGlobals($refGlobalRefs, BSS::refGlobals());
         // Restores static properties.
         BSS::restoreProperties(BSS::refStaticProperties());
 

@@ -1578,7 +1578,8 @@ EOD;
         // Loads a class file.
         class_exists($className);
         // Checks static status change error.
-        BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), true);
+        $refGlobalRefs = &BSS::refGlobalRefs();
+        BSS::restoreGlobals($refGlobalRefs, BSS::refGlobals(), true);
         BSS::restoreProperties(BSS::refStaticProperties(), true);
     }
 
@@ -1596,7 +1597,8 @@ EOD;
         // Includes a class file.
         include_once $filePath;
         // Checks static status change error.
-        BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), true);
+        $refGlobalRefs = &BSS::refGlobalRefs();
+        BSS::restoreGlobals($refGlobalRefs, BSS::refGlobals(), true);
         BSS::restoreProperties(BSS::refStaticProperties(), true);
     }
 

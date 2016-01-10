@@ -82,12 +82,37 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 
         global $something;
         $something = 'Defines global variable 2.'; // We can define global variable here.
+        // For debug. ===>
+        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) !== array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        // <=== For debug.
 
         $_FILES = 'Changes the value 2.'; // We can change global variable and static property here.
+        // For debug. ===>
+        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) !== array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        // <=== For debug.
 
-        ///// $_FILES = &$aReference2; // We can overwrite global variable except static property with reference here.
+        $_FILES = &$aReference2; // We can overwrite global variable except static property with reference here.
+        // For debug. ===>
+        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        // <=== For debug.
 
-        ///// unset($_FILES); // We can delete global variable here.
+        unset($_FILES); // We can delete global variable here.
+        //
+        // For debug. ===>
+        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        // <=== For debug.
         //
         // spl_autoload_unregister('\ExampleTest::loadClass');
         // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
@@ -122,12 +147,36 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     {
         global $something;
         $something = 'Defines global variable 3.'; // We can define global variable here.
+        // For debug. ===>
+        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        // <=== For debug.
 
         $_FILES = 'Changes the value 3.'; // We can change global variable and static property here.
+        // For debug. ===>
+        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        // <=== For debug.
 
-        ///// $_FILES = &$aReference3; // We can overwrite global variable except static property with reference here.
+        $_FILES = &$aReference3; // We can overwrite global variable except static property with reference here.
+        // For debug. ===>
+        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        // <=== For debug.
 
-        ///// unset($_FILES); // We can delete global variable here.
+        unset($_FILES); // We can delete global variable here.
+        // For debug. ===>
+        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        // <=== For debug.
         //
         // spl_autoload_unregister('\ExampleTest::loadClass');
         // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)

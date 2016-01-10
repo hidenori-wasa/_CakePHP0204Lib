@@ -203,12 +203,14 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      */
     static function &refGlobalRefs()
     {
-        B::limitAccess(
-            array ('BreakpointDebugging_PHPUnit.php',
-            'BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
-            'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php',
-            ), true
-        );
+        /* For debug. ===>
+          B::limitAccess(
+          array ('BreakpointDebugging_PHPUnit.php',
+          'BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
+          'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php',
+          ), true
+          );
+          <=== For debug. */
 
         return self::$_globalRefs;
     }
@@ -526,10 +528,12 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             B::assert(self::$_restorationClassName === '');
             B::exitForError('"' . self::$_restorationElementName . '" must not be changed before storing.');
         }
+
         // Copies an array elements recursively.
         // Or, Copies an object ID.
         // Or, Copies a value of other type.
         $dest = $value;
+
         if (is_array($value)) {
             // Delivers "$value" as array copy recursively.
             self::_iterateRestorationArrayRecursively($value, $src, $forCheck);
@@ -615,23 +619,23 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      *
      * @return void
      */
-    private static function _restoreVariables(array &$variables, array $variableRefsStorage, array $variablesStorage, $forCheck)
+    private static function _restoreVariables(array &$variables, array &$variableRefsStorage, array $variablesStorage, $forCheck)
     {
         if (empty($variablesStorage)) {
             return;
         }
         //$variables = array ();
-//        if (!$forCheck // If restoring.
-//            && $variables !== array () // If global variables.
-//        ) {
-//            // Deletes added global variables.
-//            foreach (array_diff_key($variables, $variablesStorage) as $key => $value) {
-//                if ($key === 'GLOBALS') {
-//                    continue;
-//                }
-//                unset($variables[$key]);
-//            }
-//        }
+        if (!$forCheck // If restoring.
+            && $variables !== array () // If global variables.
+        ) {
+            // Deletes added global variables.
+            foreach (array_diff_key($variables, $variablesStorage) as $key => $value) {
+                if ($key === 'GLOBALS') {
+                    continue;
+                }
+                unset($variables[$key]);
+            }
+        }
         foreach ($variablesStorage as $key => $value) {
             if ($key === 'GLOBALS') {
                 continue;
@@ -643,15 +647,26 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             $isGlobal = false;
             // If stored global variable.
             if (array_key_exists($key, $variableRefsStorage)) {
-//                // Checks a reference change error.
-//                if ($forCheck //
-//                    && array (&$variables[$key]) !== array (&$variableRefsStorage[$key]) //
-//                ) {
-//                    B::assert(self::$_restorationClassName === '');
-//                    B::exitForError('"' . self::$_restorationElementName . '" must not be changed before storing.');
-//                }
-                // Copies reference of storage to reference of variable itself.
-                $variables[$key] = &$variableRefsStorage[$key];
+                // Checks a reference change error.
+                if ($forCheck) {
+                    if (array (&$variables[$key]) !== array (&$variableRefsStorage[$key])) {
+                        B::assert(self::$_restorationClassName === '');
+                        B::exitForError('"&' . self::$_restorationElementName . '" must not be changed before storing.');
+                    }
+                } else {
+                    // Copies reference of storage to reference of variable itself.
+                    $variables[$key] = &$variableRefsStorage[$key];
+                    //// Copies a value because reference must specify same memory.
+                    //$variableRefsStorage[$key] = $value;
+                    // For debug. ===>
+                    if ($key === '_FILES') {
+                        //xdebug_break();
+                        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) !== array (&$variableRefsStorage['_FILES'])) {
+                            xdebug_break();
+                        }
+                    }
+                    // <=== For debug.
+                }
                 $isGlobal = true;
             }
             //else {
@@ -662,7 +677,24 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             //}
             // Copies value of storage to variable.
             self::_restoreValue($variables[$key], $value, $forCheck, $isGlobal);
+            // For debug. ===>
+            if (!$forCheck && $key === '_FILES') {
+                //xdebug_break();
+                if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) !== array (&$variableRefsStorage['_FILES'])) {
+                    xdebug_break();
+                }
+            }
+            // <=== For debug.
         }
+
+        // For debug. ===>
+        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) !== array (&$variableRefsStorage['_FILES'])) {
+            xdebug_break();
+        }
+        if (array_key_exists('_FILES', $variableRefsStorage) && $variableRefsStorage['_FILES'] !== array ()) {
+            xdebug_break();
+        }
+        // <=== For debug.
     }
 
 //    /**
@@ -900,7 +932,8 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      *
      * @return void
      */
-    static function restoreGlobals($globalRefs, $globals, $forCheck = false)
+    //static function restoreGlobals($globalRefs, $globals, $forCheck = false)
+    static function restoreGlobals(&$globalRefs, $globals, $forCheck = false)
     {
         B::limitAccess(
             array ('BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
@@ -1042,7 +1075,9 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         foreach ($staticPropertiesStorage as $className => $staticProperties) {
             $properties = array ();
             self::$_restorationClassName = $className . '::';
-            self::_restoreVariables($properties, array (), $staticProperties, $forCheck);
+            //self::_restoreVariables($properties, array (), $staticProperties, $forCheck);
+            $dummy = array ();
+            self::_restoreVariables($properties, $dummy, $staticProperties, $forCheck);
             foreach ($staticProperties as $name => $value) {
                 $reflector = new ReflectionProperty($className, $name);
                 $reflector->setAccessible(true);
