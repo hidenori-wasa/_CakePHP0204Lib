@@ -6,7 +6,7 @@
  * PHP version 5.3.2-5.4.x
  *
  * This file does not use except unit test. Therefore, response time is zero in release.
- * This file names put "_" to cause error when we do autoload.
+ * This file names put "_" to cause error at autoload.
  *
  * LICENSE:
  * Copyright (c) 2013-, Hidenori Wasa
@@ -46,7 +46,7 @@ class BreakpointDebugging_Exception extends \BreakpointDebugging_Exception_InAll
      * @param int    $id                     Exception identification number.
      * @param object $previous               Previous exception.
      * @param int    $omissionCallStackLevel Omission call stack level.
-     *                                       Uses for assertion or error exception throwing because invokes plural inside a class method when we execute error unit test.
+     *                                       Uses for assertion or error exception throwing because invokes plural inside a class method at unit test error.
      *
      * @return void
      */
@@ -426,7 +426,7 @@ EOD;
         array_unshift($commandElements, 'dummy');
         // Checks command line switches.
         if (in_array('--process-isolation', $commandElements)) {
-            throw new \BreakpointDebugging_ErrorException('You must not use "--process-isolation" command line switch because this unit test is run in other process.' . PHP_EOL . 'So, you cannot debug unit test code with IDE.', 101);
+            throw new \BreakpointDebugging_ErrorException('"--process-isolation" command line switch must not be used because IDE cannot see other process.' . PHP_EOL . 'So, unit test cannot be debugged with IDE.', 101);
         }
         $command = ltrim($command);
         echo self::$_separator;
@@ -807,10 +807,9 @@ EOD;
 
         if (!$isUnitTest) {
             $errorMessage = <<<EOD
-You must set
-    "define('BREAKPOINTDEBUGGING_MODE', 'DEBUG');" or
-    "define('BREAKPOINTDEBUGGING_MODE', 'RELEASE');"
-into "BreakpointDebugging_MySetting.php".
+"define('BREAKPOINTDEBUGGING_MODE', 'DEBUG');" or
+"define('BREAKPOINTDEBUGGING_MODE', 'RELEASE');"
+    must be set into "BreakpointDebugging_MySetting.php".
 EOD;
             BW::exitForError('<b>' . $errorMessage . '</b>');
         }
@@ -1151,7 +1150,7 @@ EOD;
                 // Checks the fact that "CakeLog" configuration is not defined because "BreakpointDebugging" pear package does logging.
                 $wasaResult = \CakeLog::configured();
                 if (!empty($wasaResult)) {
-                    throw new \BreakpointDebugging_ErrorException('You must not configure the "CakeLog" by "\CakeLog::config(..." inside "app/Config/bootstrap.php".');
+                    throw new \BreakpointDebugging_ErrorException('The "CakeLog" must not be configured by "\CakeLog::config(..." inside "app/Config/bootstrap.php".');
                 }
             }
         }
@@ -1166,7 +1165,7 @@ EOD;
             $executedTestFilePaths[] = $testFilePath;
             // If test file path contains '_'.
             if (strpos($testFullFilePath, '_') !== false) {
-                echo "You have to change from '_' of '$testFullFilePath' to '-' because you cannot run unit tests." . PHP_EOL;
+                echo "'_' of '$testFullFilePath' must be changed to '-' because it is translated to directory separator." . PHP_EOL;
                 if (function_exists('xdebug_break') //
                     && !(self::$exeMode & B::IGNORING_BREAK_POINT) //
                 ) {
@@ -1417,11 +1416,11 @@ EOD;
                         if (preg_match("`@codeCoverageIgnoreEnd [^_[:alnum:]]`xX", $line)) {
                             $isDuringIgnore = false;
                         } else if (preg_match("`@codeCoverageIgnoreStart [^_[:alnum:]]`xX", $line)) {
-                            throw new \BreakpointDebugging_ErrorException('We must not start to ignore during ignoring.' . $errorMessage . $lineNumber);
+                            throw new \BreakpointDebugging_ErrorException('"@codeCoverageIgnoreStart" area has been existing on covering line.' . $errorMessage . $lineNumber);
                         }
                     } else { // Is not during ignoring.
                         if (preg_match("`@codeCoverageIgnoreEnd [^_[:alnum:]]`xX", $line)) {
-                            throw new \BreakpointDebugging_ErrorException('We must not end to ignore during not ignoring.' . $errorMessage . $lineNumber);
+                            throw new \BreakpointDebugging_ErrorException('"@codeCoverageIgnoreEnd" has been called before "@codeCoverageIgnoreStart" is called.' . $errorMessage . $lineNumber);
                         } else if (preg_match("`@codeCoverageIgnoreStart [^_[:alnum:]]`xX", $line)) {
                             $isDuringIgnore = true;
                         }
@@ -1433,7 +1432,7 @@ EOD;
                 switch ($codeCoverageReport[$lineNumber]) {
                     case 1: // If a covering line.
                         if ($isDuringIgnore) { // Is during ignoring.
-                            throw new \BreakpointDebugging_ErrorException('We must not ignore covering line.' . $errorMessage . $lineNumber);
+                            throw new \BreakpointDebugging_ErrorException('Covering line must not be ignored.' . $errorMessage . $lineNumber);
                         } else { // Is not during ignoring.
                             $coveringLineNumber++;
                             $buffer .= '<span class="lineCov">' . $line . '</span>';
@@ -1578,8 +1577,8 @@ EOD;
         // Loads a class file.
         class_exists($className);
         // Checks static status change error.
-        $refGlobalRefs = &BSS::refGlobalRefs();
-        BSS::restoreGlobals($refGlobalRefs, BSS::refGlobals(), true);
+        $globalRefs = &BSS::refGlobalRefs();
+        BSS::restoreGlobals($globalRefs, BSS::refGlobals(), true);
         BSS::restoreProperties(BSS::refStaticProperties(), true);
     }
 
@@ -1597,8 +1596,8 @@ EOD;
         // Includes a class file.
         include_once $filePath;
         // Checks static status change error.
-        $refGlobalRefs = &BSS::refGlobalRefs();
-        BSS::restoreGlobals($refGlobalRefs, BSS::refGlobals(), true);
+        $globalRefs = &BSS::refGlobalRefs();
+        BSS::restoreGlobals($globalRefs, BSS::refGlobals(), true);
         BSS::restoreProperties(BSS::refStaticProperties(), true);
     }
 

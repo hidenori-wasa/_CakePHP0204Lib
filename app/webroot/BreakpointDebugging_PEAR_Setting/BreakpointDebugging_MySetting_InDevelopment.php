@@ -5,7 +5,7 @@
  *
  * As for procedure, please, refer to "PEAR/BreakpointDebugging/BREAKPOINTDEBUGGING_MANUAL.html".
  * "*_InDebug.php" file does not use on release. Therefore, response time is zero on release.
- * These file names put "_" to become error when we do autoload.
+ * These file names put "_" to become error when autoload is done.
  *
  * PHP version 5.3.2-5.4.x
  *
@@ -86,7 +86,7 @@ if (B::getXebugExists()) {
     B::iniCheck('xdebug.remote_handler', 'dbgp', 'Set \'xdebug.remote_handler = "dbgp"\' of "php.ini" file because this is needed to do remote debugging.');
     // Connects when remote debug begins.
     B::iniSet('xdebug.remote_mode', 'req');
-    B::iniCheck('xdebug.remote_port', '9000', 'Set "xdebug.remote_port = 9000" of "php.ini" file. This is "NetBeans IDE" port number of own terminal. Also, we use default value because it is the default of "NetBeans IDE".');
+    B::iniCheck('xdebug.remote_port', '9000', 'Set "xdebug.remote_port = 9000" of "php.ini" file. This is "NetBeans IDE" port number of own terminal. Also, default value should be used because it is the default of "NetBeans IDE".');
     // Enables '@' operator.
     B::iniSet('xdebug.scream', '0');
     // Shows local variables.

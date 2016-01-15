@@ -517,31 +517,35 @@ because tests is executed on same process.
 </code>
 <span class="title"><a id="4">Coding rule.</a></span>
 
-<a id="4-1">The rule to delete object</a>: We must overwrite "<span class="inline-code">null</span>" to variable if we call "<span class="inline-code">__destruct()</span>" on the way in all code.
-    Because server calls "<span class="inline-code">__destruct()</span>" even though other variables reference.
+<a id="4-1">The rule to delete object</a>: "<span class="inline-code">__destruct()</span>" call must execute by overwritten variable by "<span class="inline-code">null</span>".
+    Because it deletes all reference of its variable.
     Example:
 <code>        $this->_pTestObject = null;
 </code>
-The rule to keep static status: We must not change "static status of other php file" or "global variable" on global scope.
-    Because static status may be changed by autoload order.
+The rule to keep static status of test code: Static status must not be changed or deleted before "parent::setUpBeforeClass()" class method call.
+    Because its change affects other unit test file.
 
-    Also, "<span class="inline-code">new</span> autoload" and "static class method call autoload" on local scope is out of question.
-    Because those can avoid by autoload of "<span class="inline-code">\BreakpointDebugging_PHPUnit::loadClass()</span>" in "<span class="inline-code">setUpBeforeClass()</span>".
-
-    Moreover, function call of top page on global scope can avoid as below.
-<code>        if (\BreakpointDebugging::isTopPage()) { // Skips the following if unit test execution.
+    Also, top page function call at autoload can avoid as below.
+<code>        if (\BreakpointDebugging::isTopPage()) { // Skips the following if unit test.
             \AClass::initialize();
         }
 </code>
-<a id="4-S-1">The file search detection rule 1</a>: We must use property array element reference instead of property reference in all code.
-    Because server cannot get property reference by reflection in "PHP version 5.3.0".
-    Example of rule violation:
-<code>        ::$something = &amp;
-        or ::$something = array (&amp;
+The rule to keep static status of code which is tested:
+    Static status can define at file load.
+    Static status must not be changed at file load. (Autodetects)
+    Static status must not be overwritten with reference at file load. (Autodetects)
+    Static status must not be deleted at file load. (Autodetects)
+        Because static status may differ by file load order.
+
+<a id="4-S-1">The file search detection rule 1</a>: Property array element reference instead of property reference must be used in all code.
+    Because "Reflection-" class cannot get property reference.
+    The rule violation example:
+<code>        ::$something = &amp;...
+        or ::$something = array (&amp;...
 </code>
     Instead:
-<code>        ::$something[0] = &amp;
-        or ::$something[0] = array (&amp;
+<code>        ::$something[0] = &amp;...
+        or ::$something[0] = array (&amp;...
 </code>
     Please, search the rule violation of file by the following regular expression.
 <code>        ::\$[_a-zA-Z][_a-zA-Z0-9]*[\x20\t\r\n]*=[^=;][^;]*&amp;
@@ -551,9 +555,10 @@ The rule to keep static status: We must not change "static status of other php f
         Reference copy must use "<span class="inline-code">&amp;parent::</span>" in case of parent class above one hierarchy.
         Except those, Reference copy must use "<span class="inline-code">&amp;&lt;official class name>::</span>".
         Those is same about "<span class="inline-code">$this</span>".
-<a id="4-S-2">The file search detection rule 2</a>: We must not code except "tab and space" behind "<span class="inline-code">@codeCoverageIgnore</span>".
-    Because code coverage report can parse except <span class="inline-code">'@codeCoverageIgnore'</span> and <span class="inline-code">"@codeCoverageIgnore"</span> character string.
-    Example of rule violation:
+
+<a id="4-S-2">The file search detection rule 2</a>: Behind of "<span class="inline-code">@codeCoverageIgnore</span>" must not be coded except "tab and space".
+    Because code coverage report parses except <span class="inline-code">'@codeCoverageIgnore'</span> and <span class="inline-code">"@codeCoverageIgnore"</span> character string.
+    A rule violation example:
 <code>        @codeCoverageIgnore A sentence.
 </code>
     Instead:
@@ -563,31 +568,33 @@ The rule to keep static status: We must not change "static status of other php f
     Please, search the rule violation of file by the following regular expression.
 <code>        "@codeCoverageIgnore[^SE\r\n][\t\x20]*[^\t\x20].*$"
 </code>
-The file search detection rule 3: We must not use "<span class="inline-code">filter_input()</span>" and "<span class="inline-code">filter_input_array()</span>".
-    Because we cannot execute "unit test" by super global variable change.
+The file search detection rule 3: "<span class="inline-code">filter_input()</span>" and "<span class="inline-code">filter_input_array()</span>" must not be used.
+    Because unit test must not be executed with super global variable change.
     Please, search the rule violation of file by the following regular expression.
 <code>        filter_input[\t\x20\r\n]*\(
         filter_input_array[\t\x20\r\n]*\(
 </code>
-Auto detection rule 1: Unit test file name of "PHPUnit" package should be "<span class="command">*Test.php</span>".
+The rule 1 to autodetect: Unit test file name of "PHPUnit" package should be "<span class="command">*Test.php</span>".
     And, simple unit test file name must be "<span class="command">*TestSimple.php</span>"
     because "PHPUnit" package searches "<span class="command">*Test.php</span>" file.
-Auto detection rule 2: We must use private auto property instead of use local static variable in auto class method
-    because "php" version 5.3.0 cannot restore its value.
-Auto detection rule 3: We must use private static property instead of use local static variable in static class method
-    because "php" version 5.3.0 cannot restore its value.
-Auto detection rule 4: We must use private static property in class method instead of use local static variable in function
-    because "php" version 5.3.0 cannot restore its value.
-Auto detection rule 5: We must not register autoload function at top of stack by "<span class="inline-code">spl_autoload_register()</span>" during "<span class="inline-code">setUp()</span>", "<span class="inline-code">test*()</span>" or "<span class="inline-code">tearDown()</span>"
-    because "<span class="inline-code">\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError()</span>" must check static status change error at top of stack.
-    Example:
+The rule 2 to autodetect: Private auto property instead of local static variable in auto class method must be used
+    because "Reflection-" class cannot restore its value.
+The rule 3 to autodetect: Private static property instead of local static variable in static class method must be used
+    because "Reflection-" class cannot restore its value.
+The rule 4 to autodetect: Private static property instead of local static variable in function must be used
+    because "Reflection-" class cannot restore its value.
+The rule 5 to autodetect: Autoload function at top of stack by "<span class="inline-code">spl_autoload_register()</span>" must not be registered during
+    "<span class="inline-code">setUp()</span>", "<span class="inline-code">test*()</span>" or "<span class="inline-code">tearDown()</span>"
+    because "<span class="inline-code">\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError()</span>" must be at top of stack for autoload ban.
+    A rule violation example:
 <code>        spl_autoload_register('\SomethingClassName::autoloadFunctionName', true, true);
 </code>
-Auto detection rule 6: We must not use unit test's "<span class="command">--process-isolation</span>" command line switch because its tests is run in other process.
-    Because we cannot debug unit test code with IDE.
-Auto detection rule 7: We must not declare classes by "<span class="inline-code">include</span>" or autoload at "<span class="inline-code">setUp()</span>", "<span class="inline-code">test*()</span>" or "<span class="inline-code">tearDown()</span>".
+The rule 6 to autodetect: "<span class="command">--process-isolation</span>" command line switch of unit test must not be used.
+    Because IDE cannot detect test process.
+The rule 7 to autodetect: A class must not be declared by "<span class="inline-code">include</span>" or autoload at "<span class="inline-code">setUp()</span>", "<span class="inline-code">test*()</span>" or "<span class="inline-code">tearDown()</span>".
     Because static status may be changed, also static status of declared classes is not stored.
-    Therefore, we must declare classes by "<span class="inline-code">include</span>" or autoload at "<span class="inline-code">setUpBeforeClass()</span>" to avoid it. (This code is displayed automatically.)
+    Therefore, a class must be declared by "<span class="inline-code">include</span>" or autoload at "<span class="inline-code">setUpBeforeClass()</span>" unit test class method to avoid it.
+    (This code is displayed automatically.)
 
 Recommendation rule 1: We should destruct a test instance per test in "<span class="inline-code">tearDown()</span>" because it cuts down on production server memory use.
     Example:
@@ -603,7 +610,7 @@ Recommendation rule 1: We should destruct a test instance per test in "<span cla
 Recommendation rule 2: We should not use global variable to avoid variable crash.
 
 The special rule of "<span class="inline-code">\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple</span>":
-    We must use try-catch statement instead of annotation.
+    "try-catch" statement instead of annotation must be used.
     However, we can use following annotation.
 <code>        @codeCoverageIgnore
         @codeCoverageIgnoreStart

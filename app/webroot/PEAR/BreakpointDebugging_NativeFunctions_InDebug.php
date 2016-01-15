@@ -26,7 +26,8 @@ use \BreakpointDebugging_Window as BW;
  * Class for native-functions debugging in case of debug mode.
  *
  * "*_InDebug.php" file does not use on release. Therefore, response time is zero in release.
- * These file names put "_" to cause error when we do autoload.
+
+ * These file names put "_" to cause error when autoload is done.
  *
  * PHP version 5.3.2-5.4.x
  *

@@ -174,7 +174,7 @@ abstract class BreakpointDebugging_Lock
     function __destruct()
     {
         $lockCount = $this->lockCount;
-        // Unlocks all. We must unlock before "\BreakpointDebugging::assert" because if we execute unit test, it throws exception.
+        // Unlocks all. Unit test must be unlocked before "\BreakpointDebugging::assert" to throw exception.
         while ($this->lockCount > 0) {
             // This code is executed in case of debug unit test because assertion test is executed in case of debug mode.
             $this->unlock();

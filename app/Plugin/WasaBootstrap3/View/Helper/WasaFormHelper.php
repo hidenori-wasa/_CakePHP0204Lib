@@ -57,7 +57,7 @@ final class WasaFormHelper extends \FormHelper
         $modelName = $this->defaultModel;
         // If this form does not use model.
         if ($modelName === null) {
-            throw new \CakeException('You must use model.');
+            throw new \CakeException('"Model" must be used.');
         }
         return $modelName;
     }

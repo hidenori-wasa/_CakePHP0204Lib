@@ -416,7 +416,7 @@ EOD;
 <h4><span style="color: yellow">Therefore, production code must not be formatted.</span></h4>
 <hr />
 <span style="color:aqua">
-    <h3>You must write same pattern code like following if you want change to literal for optimization of parsed code cache.</h3>
+    <h3>Same pattern code like following must be written, then parsed code cache is optimized by changed literal.</h3>
     <h3>Also, does not change the line which is "comment of plural line (/* - */,  /** - */)", "Heredoc", "Nowdoc" and "plural syntax (A; B;)".</h3>
 </span>
 <ul>
@@ -501,7 +501,7 @@ EOD;
                     }
                 }
                 // Uses "\BreakpointDebugging_Window" class method for display on production mode if error.
-                BW::throwErrorException('You must define "const BREAKPOINTDEBUGGING_IS_PRODUCTION = false;" in "' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php".');
+                BW::throwErrorException('"const BREAKPOINTDEBUGGING_IS_PRODUCTION = false;" must be defined into "' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php".');
             } else { // 'Switch to development' button was pushed.
                 foreach ($lines as &$line) {
                     // Sets "const BREAKPOINTDEBUGGING_IS_PRODUCTION = false;" to "BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php'" file.
@@ -519,7 +519,7 @@ EOD;
                     }
                 }
                 // Uses "\BreakpointDebugging_Window" class method for display on production mode if error.
-                BW::throwErrorException('You must define "const BREAKPOINTDEBUGGING_IS_PRODUCTION = true;" in "' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php".');
+                BW::throwErrorException('"const BREAKPOINTDEBUGGING_IS_PRODUCTION = true;" must be defined into "' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php".');
             }
         }
 

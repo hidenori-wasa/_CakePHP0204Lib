@@ -102,7 +102,7 @@ EOD;
         };
 
         if (!BREAKPOINTDEBUGGING_IS_PRODUCTION) {
-            BW::throwErrorException('<strong>You must change the code to production mode by "./BreakpointDebugging_ProductionSwitcher.php".</strong>');
+            BW::throwErrorException('<strong>The code must be changed to production mode by "./BreakpointDebugging_ProductionSwitcher.php".</strong>');
         }
 
         parent::checkExecutionDir($getHtmlFileContent('IniSetOptimizerError'));
@@ -153,7 +153,7 @@ EOD;
 </ol>
 <h4><span style="color: yellow">CAUTION: "/* &lt;BREAKPOINTDEBUGGING_COMMENT&gt; */" line of production code must have "// &lt;BREAKPOINTDEBUGGING_COMMENT&gt;" in same line.</span></h4>
 <hr />
-<h3><span style="color:aqua">You must write same pattern code like following if you want optimization of parsed code cache.</span></h3>
+<h3><span style="color:aqua">Same pattern code like following must be written, then parsed code cache is optimized.</span></h3>
 <ul>
     <li>$commentOutRegEx</li>
 </ul>

@@ -8,21 +8,21 @@ use \BreakpointDebugging_PHPUnit as BU;
 
 function localStaticVariable()
 {
-    // static $localStatic = 'Local static value.'; // We must not define local static variable of function. (Autodetects)
+    // static $localStatic = 'Local static value.'; // Local static variable must not be defined in function. (Autodetects)
 }
 
 class LocalStaticVariableOfStaticMethod
 {
-    static $staticProperty = 'Initial value.'; // We can define static property here.
+    static $staticProperty = 'Initial value.'; // Static property can be defined here.
 
     static function localStaticVariable()
     {
-        // static $localStatic = 'Local static value.'; // We must not define local static variable of static class method. (Autodetects)
+        // static $localStatic = 'Local static value.'; // Local static variable must not be defined in static class method. (Autodetects)
     }
 
     function localStaticVariableOfInstance()
     {
-        // static $localStatic = 'Local static value.'; // We must not define local static variable of auto class method. (Autodetects)
+        // static $localStatic = 'Local static value.'; // Local static variable must not be defined in auto class method. (Autodetects)
     }
 
 }
@@ -62,7 +62,6 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         BU::loadClass('BreakpointDebugging_LockByFlock');
         // BU::includeClass('tests/PEAR/AFile.php');
         //
-        //BU::loadClass('BreakpointDebugging_LockByFileExisting');
         // Stores static backup here. This line is required at bottom.
         parent::setUpBeforeClass();
     }
@@ -77,45 +76,20 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         // This line is required at top.
         parent::setUp();
 
-        // We must construct the test instance here.
+        // A test instance must be constructed here.
         $this->_pTestObject = &BreakpointDebugging_LockByFlock::singleton();
 
         global $something;
-        $something = 'Defines global variable 2.'; // We can define global variable here.
-        // For debug. ===>
-        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
-        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) !== array (&$variableRefsStorage['_FILES'])) {
-            xdebug_break();
-        }
-        // <=== For debug.
+        $something = 'Defines global variable 2.'; // Global variable can be defined here.
 
-        $_FILES = 'Changes the value 2.'; // We can change global variable and static property here.
-        // For debug. ===>
-        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
-        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) !== array (&$variableRefsStorage['_FILES'])) {
-            xdebug_break();
-        }
-        // <=== For debug.
+        $_FILES = 'Changes the value 2.'; // Global variable and static property can be changed here.
 
-        $_FILES = &$aReference2; // We can overwrite global variable except static property with reference here.
-        // For debug. ===>
-        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
-        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
-            xdebug_break();
-        }
-        // <=== For debug.
+        $_FILES = &$aReference2; // Global variable can be overwritten with reference here.
 
-        unset($_FILES); // We can delete global variable here.
-        //
-        // For debug. ===>
-        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
-        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
-            xdebug_break();
-        }
-        // <=== For debug.
+        unset($_FILES); // Global variable can be deleted here.
         //
         // spl_autoload_unregister('\ExampleTest::loadClass');
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_register('\ExampleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
     }
@@ -123,7 +97,7 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     protected function tearDown()
     {
         // spl_autoload_unregister('\ExampleTest::loadClass');
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_register('\ExampleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // Destructs the test instance to reduce memory use.
         $this->_pTestObject = null;
@@ -146,40 +120,16 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     public function testSomething_A()
     {
         global $something;
-        $something = 'Defines global variable 3.'; // We can define global variable here.
-        // For debug. ===>
-        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
-        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
-            xdebug_break();
-        }
-        // <=== For debug.
+        $something = 'Defines global variable 3.'; // Global variable can be defined here.
 
-        $_FILES = 'Changes the value 3.'; // We can change global variable and static property here.
-        // For debug. ===>
-        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
-        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
-            xdebug_break();
-        }
-        // <=== For debug.
+        $_FILES = 'Changes the value 3.'; // Global variable and static property can be changed here.
 
-        $_FILES = &$aReference3; // We can overwrite global variable except static property with reference here.
-        // For debug. ===>
-        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
-        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
-            xdebug_break();
-        }
-        // <=== For debug.
+        $_FILES = &$aReference3; // Global variable can be overwritten with reference here.
 
-        unset($_FILES); // We can delete global variable here.
-        // For debug. ===>
-        $variableRefsStorage = &\BreakpointDebugging_PHPUnit_StaticVariableStorage::refGlobalRefs();
-        if (array_key_exists('_FILES', $variableRefsStorage) && array (&$_FILES) === array (&$variableRefsStorage['_FILES'])) {
-            xdebug_break();
-        }
-        // <=== For debug.
+        unset($_FILES); // Global variable can be deleted here.
         //
         // spl_autoload_unregister('\ExampleTest::loadClass');
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // We must not register autoload function at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_register('\ExampleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
 

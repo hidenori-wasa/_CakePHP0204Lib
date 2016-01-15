@@ -18,12 +18,12 @@ class Sub_Example
 
     function expampleMethodB($param1)
     {
-        // We should use "\BreakpointDebugging" in "assert()" class method because this is commented out in production mode.
+        // "\BreakpointDebugging" character string should be used for "assert()" class method because this is commented out in production mode.
         \BreakpointDebugging::assert(is_string($param1), 1);
 
         // A code both debug and release...
         // If debug execution mode.
-        // We should use "\BreakpointDebugging" in "isDebug()" class method because this is replaced to literal on production mode.
+        // "\BreakpointDebugging" character string should be used for "isDebug()" class method because this is replaced to literal on production mode.
         if (\BreakpointDebugging::isDebug()) {
             // A debug code...
             B::breakpoint('Error message.', debug_backtrace());
@@ -79,5 +79,3 @@ $newStaticStatus = 'Defines static status.'; // Static status can define at file
 // unset($bugReference);
 //
 // unset($_FILES); // The rule to keep static status: Static status must not be deleted at file load. (Autodetects)
-//
-// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Cannot detect)

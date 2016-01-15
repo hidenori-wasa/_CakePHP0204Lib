@@ -93,7 +93,7 @@ because this package has necessary minimum features.
 <span class="subtitle"><a name="2-1">Recommendation IDE.</a></span>
     "NetBeans IDE 8.0.2".
     Because HTML3, CSS3, JavaScript(JQuery) and PHP is useful for input helper and step execution.
-    NOTICE: We must code "if" statement of plural line as below because its line feed cannot delete by format.
+    NOTICE: "if" statement should be coded by plural line as below because line feed of "//" line is not deleted by format.
 
 <code>        if ($a              // Description 1.
             || $b           // Description 2.
@@ -118,7 +118,7 @@ because this package has necessary minimum features.
 
 <span class="subtitle"><a name="2-5">Recommendation setting procedure for development of "XAMPP 1.7.4".</a></span>
     ### "XAMPP" setting procedure. ###
-    // We must disconnect inbound connection except "BOOTPC" and "DOMAIN" of "C:\WINDOWS\system32\svchost.exe" by firewall of a software.
+    // Inbound connection must be disconnected except "BOOTPC" and "DOMAIN" of "C:\WINDOWS\system32\svchost.exe" by firewall of a software.
 
     // Disable "IIS" server because port 80 conflicts with "Apache".
 
@@ -160,9 +160,9 @@ because this package has necessary minimum features.
         collation-server=utf8_general_ci
         # Ignores character sets information which was sent from client, so it uses character sets of default of server.
         skip-character-set-client-handshake
-        # Database compression for performance. CAUTION: We must not use plural compression format in database.
+        # Database compression for performance. CAUTION: Database must not be used by plural compression format.
         #innodb_file_format=Barracuda
-        # Makes a file per table for performance. CAUTION: We must not use plural table format in database.
+        # Makes a file per table for performance. CAUTION: Database must not be used by plural table format.
         #innodb_file_per_table=1
             .
             .
@@ -304,9 +304,9 @@ because this package has necessary minimum features.
         collation-server=utf8_general_ci
         # Ignores character sets information which was sent from client, so it uses character sets of default of server.
         skip-character-set-client-handshake
-        # Database compression for performance. CAUTION: We must not use plural compression format in database.
+        # Database compression for performance. CAUTION: Database must not be used by plural compression format.
         #innodb_file_format=Barracuda
-        # Makes a file per table for performance. CAUTION: We must not use plural table format in database.
+        # Makes a file per table for performance. CAUTION: Database must not be used by plural table format.
         #innodb_file_per_table=1
             .
             .
@@ -513,7 +513,7 @@ Because this extension is stable.
 Also, this extension is fast.
     1. The speed decelerates hardly even if the number of users increases.
     2. This extention caches op code after optimization.
-            As the example, we can code to except debugging code from cache at release.
+            As the example, the following code excepts debugging code from cache at release.
             Example:
 
 <code>                if (false) { // Excepts from this line.
@@ -538,12 +538,12 @@ Usage of "php_opcache.dll" file:
         opcache.fast_shutdown = 1
         ; Constant Value: 0         We cannot call command to get result from CGI because a deprecated prefix is added in case of first time.
         opcache.enable_cli = 0
-        ; Constant Value: 1         Because we must cache modified "*.php" files.
+        ; Constant Value: 1         Because modified "*.php" files must be cached.
         opcache.validate_timestamps = 1
-        ; Development Value: 0      Because we must cache modified "*.php" files.
+        ; Development Value: 0      Because modified "*.php" files must be cached.
         ; Production Value: 2       Because production server want to modify a file during execution.
         opcache.file_update_protection = 0
-        ; Development Value: 0      Because we must cache modified "*.php" files.
+        ; Development Value: 0      Because modified "*.php" files must be cached.
         ; Production Value: 60      Because production server does not want to access a file as much as possible.
         opcache.revalidate_freq = 0
 </code>
@@ -596,9 +596,9 @@ Example:
 
     $logData = 'Data character string.';
     // If debug execution mode.
-    // We should use "\BreakpointDebugging" in "isDebug()" class method because this is replaced to literal on production mode.
+    // "\BreakpointDebugging" character string should be used for "isDebug()" class method because this is replaced to literal on production mode.
     if (\BreakpointDebugging::isDebug()) {
-        // We should use "\BreakpointDebugging" in "assert()" class method because this is commented out in production mode.
+        // "\BreakpointDebugging" character string should be used for "assert()" class method because this is commented out in production mode.
         \BreakpointDebugging::assert(is_string($logData));
         echo $logData;
     } else { // If release execution mode.
@@ -636,14 +636,14 @@ Please, run the following procedure.
         // define('BREAKPOINTDEBUGGING_MODE', 'DEBUG');                 // (Does not use too much.)
         // define('BREAKPOINTDEBUGGING_MODE', 'RELEASE');               // (Does not use too much.)
 </code>
-    Then, we can use "B::getExeMode()" to get execution mode.
+    Then, "B::getExeMode()" class method can be used to get execution mode.
     Also, see the file level document of "BreakpointDebugging_PHPUnit.php" file about unit test.
 
     Please, follow execution mode procedure.
         Procedure 1: Use "DEBUG_UNIT_TEST" mode at local server.
-                     Then, you can execute "unit test or code coverage report" of "debug mode and release mode" on local.
+                     Then, "unit test or code coverage report" of "debug mode and release mode" is executed on local server.
         Procedure 2: Use "DEBUG_UNIT_TEST" mode at remote server.
-                     Then, you can execute "unit test or code coverage report" of "debug mode and release mode"  on remote.
+                     Then, "unit test or code coverage report" of "debug mode and release mode" is executed on remote server.
 <span class="subtitle">Procedure 8:</span> Change "PHP" code to production mode by "./BreakpointDebugging_ProductionSwitcher.php" to decrease the script running time.
     See the class level document of "./BreakpointDebugging_ProductionSwitcher.php" file about procedure.
 <span class="subtitle">Procedure 9:</span> Optimize "*_MySetting.php" files by "./BreakpointDebugging_IniSetOptimizer.php" file
@@ -712,9 +712,10 @@ Class which locks php-code by "flock()".
 <span class="subtitle">About variable copy.</span>
     Variable copy is ID copy, and it increments reference count of movable memory.
     And, object type copy is ID copy too. However, object type is not scalar type.
-    Therefore, we must use "$cloneObject = clone $object;" if we want object internal copy.
+    Therefore, "$cloneObject = clone $object;" must be used if we want object copy.
     And, array type copy is its elements ID copy. However, element of reference specifies same ID area.
-    Therefore, copied element value may be changed if original copy element is changed even though we copied array type.
+    Therefore, copied element value may be changed if original copy element is changed even though array type was copied.
+    Also, reference copy of array element must be array which is passed by reference because reference of array element is copied in case of copy.
 
 <span class="subtitle">About variable reference copy.</span>
     Variable reference copy specifies same ID area, and it increments reference count of movable memory,
@@ -725,7 +726,7 @@ Class which locks php-code by "flock()".
     Then, memory area which is pointed is deleted if reference count became 0.
 
 <span class="subtitle">About "__destruct()" class method call.</span>
-    "__destruct()" class method is called if we overwrite null value to variable because value of all reference is disabled.
+    "__destruct()" class method is called if variable is overwritten by null value because value of all reference is disabled.
     However, memory area and reference count is kept.
 
 <span class="title"><a name="10">LICENSE:</a></span>

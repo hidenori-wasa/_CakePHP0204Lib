@@ -342,7 +342,7 @@ EOD;
             $openFirefoxWindow($uri);
         } else { // If "shmop" extension is invalid.
             if ($_SERVER['SERVER_ADDR'] === '127.0.0.1') { // If local server.
-                exit(B::getErrorHTML('You must enable "shmop" extention inside "php.ini" file.'));
+                exit(B::getErrorHTML('"shmop" extention must be enabled inside "php.ini" file.'));
             } else { // If remote server.
                 while (true) {
                     // If shared file exists.

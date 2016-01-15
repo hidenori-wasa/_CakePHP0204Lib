@@ -292,13 +292,14 @@ abstract class BreakpointDebugging_InAllCase
 
     ///////////////////////////// For package user from here. /////////////////////////////
     /**
-     * Debugs by using breakpoint.
-     * We must define this class method outside namespace, and we must not change method name when we call this method.
+     * Stops execution for debug.
      *
      * <pre>
      * Example:
      *
      * <code>
+     *      use \BreakpointDebugging as B;
+     *
      *      B::breakpoint('Error message.', debug_backtrace());
      * </code>
      *
@@ -628,7 +629,7 @@ abstract class BreakpointDebugging_InAllCase
     }
 
     /**
-     * Error exit. You can detect error exit location by call stack after break if you use this.
+     * Error exit. Error exit location can be detected by call stack after break.
      *
      * @param mixed $error Error message or error exception instance.
      *
@@ -659,13 +660,13 @@ abstract class BreakpointDebugging_InAllCase
         } else if ($error instanceof \Exception) {
             self::handleException($error);
         } else {
-            throw new \BreakpointDebugging_ErrorException('You mistook type of first parameter.');
+            throw new \BreakpointDebugging_ErrorException('First parameter type was mistaken.');
         }
         exit;
     }
 
     /**
-     * Checks security before we run development page.
+     * Checks security before development page is run.
      *
      * @param mixed $necessaryExeMode Necessary execution mode. Does not check execution mode if this is null.
      *
@@ -686,9 +687,8 @@ abstract class BreakpointDebugging_InAllCase
                         }
                         $message = <<<EOD
 <pre style="color:red"><strong>
-You must set
-    "define('BREAKPOINTDEBUGGING_MODE', 'RELEASE');"
-into "BreakpointDebugging_MySetting.php".
+"define('BREAKPOINTDEBUGGING_MODE', 'RELEASE');"
+    must be set into "BreakpointDebugging_MySetting.php".
 </strong></pre>
 EOD;
                         break;
@@ -724,7 +724,7 @@ EOD;
         if ($_SERVER['REMOTE_ADDR'] !== self::$_developerIP) {
             BW::virtualOpen(self::ERROR_WINDOW_NAME, self::getErrorHtmlFileTemplate());
             BW::htmlAddition(
-                self::ERROR_WINDOW_NAME, 'pre', 0, '<b>You must set "$developerIP = \'' . $_SERVER['REMOTE_ADDR'] . '\';" ' . PHP_EOL
+                self::ERROR_WINDOW_NAME, 'pre', 0, '<b>"$developerIP = \'' . $_SERVER['REMOTE_ADDR'] . '\';" must be set ' . PHP_EOL
                 . "\t" . 'into "' . BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME . 'BreakpointDebugging_MySetting.php" file.' . PHP_EOL
                 . 'Or, you mistook start "php" page.</b>'
             );
@@ -737,7 +737,7 @@ EOD;
         ) {
             BW::virtualOpen(self::ERROR_WINDOW_NAME, self::getErrorHtmlFileTemplate());
             BW::htmlAddition(
-                self::ERROR_WINDOW_NAME, 'pre', 0, '<b>You must use "https" protocol.' . PHP_EOL
+                self::ERROR_WINDOW_NAME, 'pre', 0, '<b>"https" protocol must be used.' . PHP_EOL
                 . 'Or, you mistook start "php" page.</b>'
             );
             return false;
@@ -781,10 +781,9 @@ EOD;
             BW::virtualOpen(self::ERROR_WINDOW_NAME, self::getErrorHtmlFileTemplate());
             $pearSettingDirName = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME;
             $errorMessage = <<<EOD
-You must set
-    "define('BREAKPOINTDEBUGGING_MODE', 'DEBUG_UNIT_TEST');" or
-    "define('BREAKPOINTDEBUGGING_MODE', 'RELEASE_UNIT_TEST');"
-into "{$pearSettingDirName}BreakpointDebugging_MySetting.php".
+"define('BREAKPOINTDEBUGGING_MODE', 'DEBUG_UNIT_TEST');" or
+"define('BREAKPOINTDEBUGGING_MODE', 'RELEASE_UNIT_TEST');"
+    must be set into "{$pearSettingDirName}BreakpointDebugging_MySetting.php".
 Or, set "const BREAKPOINTDEBUGGING_IS_PRODUCTION = false;" of "{$pearSettingDirName}BreakpointDebugging_MySetting.php"
 with "./BreakpointDebugging_ProductionSwitcher.php".
 EOD;
@@ -826,7 +825,7 @@ EOD;
     }
 
     /**
-     * Sets private property. We must invoke extended class method instead of this.
+     * Sets private property. Do not call this.
      *
      * @param bool $value Same as property.
      *
@@ -1831,7 +1830,7 @@ EOD;
         self::$_maxLogElementNumber = count($_SERVER); // Default value.
         $dirName = BREAKPOINTDEBUGGING_PEAR_SETTING_DIR_NAME;
         self::$iniDisplayString = <<<EOD
-### "\BreakpointDebugging::iniSet()" or "\BreakpointDebugging::iniCheck()": You must comment out following line of "{$dirName}[package name]_MySetting.php" because set value and value of php.ini is same.
+### "\BreakpointDebugging::iniSet()" or "\BreakpointDebugging::iniCheck()": The following line of "{$dirName}[package name]_MySetting.php" must be commented out because set value and value of php.ini is same.
 EOD;
 
         if (!BREAKPOINTDEBUGGING_IS_PRODUCTION) { // In case of development.

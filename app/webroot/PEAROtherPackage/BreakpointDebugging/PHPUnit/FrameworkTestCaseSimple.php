@@ -123,7 +123,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
             return;
         }
 
-        $message = 'You must not register autoload function "<span style="color:orange">' . $autoloadFunction . '()</span>" at top of stack by "spl_autoload_register()"' . PHP_EOL;
+        $message = 'Autoload function "<span style="color:orange">' . $autoloadFunction . '()</span>" must not be registered at top of stack by "spl_autoload_register()"' . PHP_EOL;
         $message .= 'during "setUp()", "test*()" or "tearDown()".' . PHP_EOL;
         $message .= PHP_EOL;
         if ($testMethodName) {

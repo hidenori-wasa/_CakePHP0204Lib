@@ -20,7 +20,7 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         // This is required at top.
         parent::setUp();
 
-        // We must construct the test instance here.
+        // A test instance must be constructed here.
         $this->_pTestObject = new \Sub_Example();
     }
 

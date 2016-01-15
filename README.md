@@ -56,4 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I autodetected static backup reference change error at file load.
+* I simplified description.
+* I repaired "Coding rule" section of "BreakpointDebugging_PHPUnit" manual.

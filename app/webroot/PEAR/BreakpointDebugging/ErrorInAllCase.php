@@ -690,7 +690,7 @@ abstract class BreakpointDebugging_ErrorInAllCase
         if (self::$exeMode === (B::REMOTE | B::RELEASE)) { // Remote release mode.
             // @codeCoverageIgnoreStart
             if (isset($endFlag)) {
-                // In case of release mode, we must exit this process when kind is error.
+                // In case of release mode, process must be exited when kind is error.
                 exit;
             }
         }
@@ -1160,7 +1160,7 @@ EOD;
         }
         // @codeCoverageIgnoreEnd
         if ($errorKind === 'E_NOTICE') {
-            // We had better debug by breakpoint than the display screen in case of "E_NOTICE".
+            // We had better debug by breakpoint than screen display in case of "E_NOTICE".
             // Also, breakpoint does not exist in case of release mode.
             return;
         }
@@ -1434,7 +1434,7 @@ EOD;
                     self::$_onceFlagOfCommand = false;
                     $firefoxStartCommand = BW::generateMozillaFirefoxStartCommand('file://' . realpath(B::ERROR_WINDOW_NAME . '.html'));
                     // Displays the note for error display.
-                    echo '<strong>You should execute following command for error display.</strong><br />';
+                    echo '<strong>The following command should be executed for error display.</strong><br />';
                     echo $firefoxStartCommand . '<br />';
                 }
             }
