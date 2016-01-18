@@ -1,7 +1,8 @@
 <?php
 
+// >
 // Changes current directory to web root.
-chdir('../');
+chdir('../../../../../');
 
 require_once './BreakpointDebugging_Inclusion.php';
 
@@ -18,6 +19,7 @@ function BreakpointDebugging_test()
         /*
          */
         'Sub/ExampleTest.php',
+        'RuleTest.php',
         /*
          */
     );
@@ -28,13 +30,14 @@ function BreakpointDebugging_test()
     $breakpointDebugging_PHPUnit->executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
     //
     // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
+    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTest.php', 'BreakpointDebugging/PHPUnit/docs/examples/Sub/Example.php'); exit;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Please, choose simple unit tests files by customizing.
     $breakpointDebugging_UnitTestFiles = array (
         /*
          */
         'Sub/ExampleTestSimple.php',
+        'RuleTestSimple.php',
         /*
          */
     );
@@ -43,7 +46,7 @@ function BreakpointDebugging_test()
     $breakpointDebugging_PHPUnit->executeUnitTestSimple($breakpointDebugging_UnitTestFiles); exit;
     //
     // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;
+    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'BreakpointDebugging/PHPUnit/docs/examples/Sub/Example.php', 'SIMPLE'); exit;
 }
 
 BreakpointDebugging_test();

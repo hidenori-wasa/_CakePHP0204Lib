@@ -12,7 +12,7 @@
  * Copyright (c) 2013-, Hidenori Wasa
  * All rights reserved.
  *
- * License content is written in "PEAR/BreakpointDebugging/BREAKPOINTDEBUGGING_LICENSE.txt".
+ * License content is written in "PEAR/BreakpointDebugging/docs/BREAKPOINTDEBUGGING_LICENSE.txt".
  *
  * @category PHP
  * @package  BreakpointDebugging_PHPUnit
@@ -487,27 +487,21 @@ EOD;
         // Initializes once's flag per test file.
         $onceFlagPerTestFile = &BSS::refOnceFlagPerTestFile(); // This is not rule violation because this property is not stored.
         $onceFlagPerTestFile = true;
-//        if (self::$_onceFlag) {
-//            self::$_onceFlag = false;
-//            // Stores global variables.
-//            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
-//            // Stores static properties.
-//            BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
-//        } else {
-//            // Restores global variables.
-//            //$globalRefs = BSS::refGlobalRefs();
-//            BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
-//            // Restores static properties.
-//            BSS::restoreProperties(BSS::refStaticProperties());
-//        }
         // Uses this package error handler.
         set_error_handler('\BreakpointDebugging_PHPUnit::handleError', -1);
+        $declaredClassesBefore = get_declared_classes();
         // Includes unit test file.
         include_once self::$unitTestDir . $testFilePath;
-        // Translates from a test file path to a test class name.
-        $testClassName = substr(str_replace(array ('/', '-'), '_', $testFilePath), 0, strlen($testFilePath) - strlen('.php'));
-        $declaredClasses = get_declared_classes();
-        B::assert($testClassName === array_pop($declaredClasses));
+        $declaredClassesAfter = get_declared_classes();
+        // Gets test-class-name.
+        while (true) {
+            foreach (array_diff($declaredClassesAfter, $declaredClassesBefore) as $testClassName) {
+                if (is_subclass_of($testClassName, '\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple')) {
+                    break 2;
+                }
+            }
+            B::assert(false);
+        }
         // Runs unit test continuously.
         \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple::runTestMethods($testClassName);
         // Uses "BreakpointDebugging" package error handler.

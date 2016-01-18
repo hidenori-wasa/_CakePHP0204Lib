@@ -1,5 +1,6 @@
 <?php
 
+// >
 require_once './BreakpointDebugging_Inclusion.php';
 
 // "use" syntax's alias has file scope except file which is including and is included.
@@ -7,7 +8,8 @@ require_once './BreakpointDebugging_Inclusion.php';
 // Therefore, it is not affected by other class name.
 use \BreakpointDebugging as B;
 
-class Sub_Example
+//class Sub_Example
+class BreakpointDebugging_PHPUnit_docs_examples_Sub_Example
 {
     private static $_something;
 

@@ -1,7 +1,8 @@
 <?php
 
+// >
 /**
- * Please, see "Coding rule." section of "PEAR/BreakpointDebugging/PHPUnit/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html" for detail.
+ * Please, see "Coding rule." section of "BreakpointDebugging/PHPUnit/docs/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html" for detail.
  */
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
@@ -38,7 +39,7 @@ class LocalStaticVariableOfStaticMethod
 // unset($_FILES); // The rule to keep static status: Static status must not be deleted at file load. (Does not autodetect)
 //
 // include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
-class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
+class BreakpointDebugging_PHPUnit_docs_examples_RuleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     private $_pTestObject;
 
@@ -88,16 +89,16 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 
         unset($_FILES); // Global variable can be deleted here.
         //
-        // spl_autoload_unregister('\ExampleTest::loadClass');
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\BreakpointDebugging_PHPUnit_docs_examples_RuleTest::loadClass');
+        // spl_autoload_register('\BreakpointDebugging_PHPUnit_docs_examples_RuleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
     }
 
     protected function tearDown()
     {
-        // spl_autoload_unregister('\ExampleTest::loadClass');
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\BreakpointDebugging_PHPUnit_docs_examples_RuleTest::loadClass');
+        // spl_autoload_register('\BreakpointDebugging_PHPUnit_docs_examples_RuleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // Destructs the test instance to reduce memory use.
         $this->_pTestObject = null;
@@ -115,7 +116,7 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
      * @covers \Example<extended>
      *
      * @expectedException        \BreakpointDebugging_ErrorException
-     * @expectedExceptionMessage CLASS=ExampleTest FUNCTION=isCalled ID=101.
+     * @expectedExceptionMessage CLASS=BreakpointDebugging_PHPUnit_docs_examples_RuleTest FUNCTION=isCalled ID=101.
      */
     public function testSomething_A()
     {
@@ -128,8 +129,8 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 
         unset($_FILES); // Global variable can be deleted here.
         //
-        // spl_autoload_unregister('\ExampleTest::loadClass');
-        // spl_autoload_register('\ExampleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\BreakpointDebugging_PHPUnit_docs_examples_RuleTest::loadClass');
+        // spl_autoload_register('\BreakpointDebugging_PHPUnit_docs_examples_RuleTest::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
 
@@ -155,7 +156,7 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
             B::assert(true, 101);
             B::assert(false, 102);
         } catch (\BreakpointDebugging_ErrorException $e) {
-            BU::assertExceptionMessage($e, 'CLASS=ExampleTest FUNCTION=testSomething_B ID=102.');
+            BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit_docs_examples_RuleTest FUNCTION=testSomething_B ID=102.');
             return;
         }
         parent::fail();

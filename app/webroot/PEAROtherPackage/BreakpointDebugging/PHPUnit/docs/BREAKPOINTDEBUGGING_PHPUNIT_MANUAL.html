@@ -140,384 +140,26 @@ because tests is executed on same process.
 <span class="title"><a id="3">Unit test sample codes.</a></span>
 
     <span class="subtitle"><a id="3-1">Code a php file with coding rule.</a></span>
-    About auto detection rules examples, please see "<span class="command">./tests/PEAR/ExampleTest.php</span>" and "<span class="command">./tests/PEAR/ExampleTestSimple.php</span>" file.
+    <a href="view-source:./examples/Sub/Example.php">"<span class="command">PEAR/BreakpointDebugging/PHPUnit/docs/examples/Sub/Example.php</span>" file.</a>
 
-    "<span class="command">./Sub/Example.php</span>" file. (Except auto detection rule.)
-
-<code>    &lt;?php
-
-    require_once './BreakpointDebugging_Inclusion.php';
-
-    // "use" syntax's alias has file scope except file which is including and is included.
-    // And, it has highest priority.
-    // Therefore, it is not affected by other class name.
-    use \BreakpointDebugging as B;
-
-    class Sub_Example
-    {
-        private static $_something;
-
-        static function expampleMethodA()
-        {
-            return false;
-        }
-
-        function expampleMethodB($param1)
-        {
-            // We should use "\BreakpointDebugging" in "assert()" class method because this is commented out in production mode.
-            \BreakpointDebugging::assert(is_string($param1), 1);
-
-            // A code both debug and release...
-            // If debug execution mode.
-            // We should use "\BreakpointDebugging" in "isDebug()" class method because this is replaced to literal on production mode.
-            if (\BreakpointDebugging::isDebug()) {
-                // A debug code...
-                B::breakpoint('Error message.', debug_backtrace());
-                throw new \BreakpointDebugging_ErrorException('An error exception.', 101);
-            } else { // If release execution mode.
-                // A release code...
-                throw new \BreakpointDebugging_ErrorException('An error exception.', 102);
-            }
-        }
-
-        private static function _expampleMethodC()
-        {
-            throw new \BreakpointDebugging_ErrorException('An error exception.', 101);
-        }
-
-        private function _expampleMethodD(&amp;$param)
-        {
-            // <a href="#4-S-1">The file search detection rule 1.</a>
-            self::$_something[0] = &amp;$param;
-
-            return true;
-        }
-
-        /**
-         * <a href="#4-S-2">The file search detection rule 2.</a>
-         * @codeCoverageIgnore
-         */
-        function notTestMethod()
-        {
-            null;
-        }
-
-        static function initialize($param)
-        {
-            // This is <a href="#4-S-1">not rule violation</a> because this line is executed at autoload.
-            self::$_something = &amp;$param;
-        }
-
-    }
-
-    if (B::isTopPage()) { // Skips the following if unit test execution.
-        // @codeCoverageIgnoreStart
-        Example::initialize(1);
-    }
-    // @codeCoverageIgnoreEnd
-</code>
     <span class="subtitle"><a id="3-2">Code a unit test php file.</a></span>
-    "<span class="command">./tests/Sub/ExampleTest.php</span>" file. (Except auto detection rule.)
+    <a href="view-source:./examples/Sub/ExampleTest.php">"<span class="command">PEAR/BreakpointDebugging/PHPUnit/docs/examples/Sub/ExampleTest.php</span>" file.</a>
 
-<code>    &lt;?php
-
-    use \BreakpointDebugging as B;
-    use \BreakpointDebugging_PHPUnit as BU;
-
-    B::assert(B::isDebug());
-    // class Sub_ExampleTest extends \CakeTestCase // If "CakePHP". Or, "extends \ControllerTestCase".
-    class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
-    {
-        private $_pTestObject;
-
-        static function setUpBeforeClass()
-        {
-            // Executes autoload or "include" here instead of execution at "setUp()", "test*()" and "tearDown()". (This is autodetected.)
-            // Because autoload or "include" is executed before object creation.
-            // Therefore, static backup can be stored correctly.
-            BU::loadClass('AClassName');
-            BU::includeClass('ADir/AFilename.php');
-                .
-                .
-                .
-            // This is required at bottom because static backup is stored here.
-            parent::setUpBeforeClass();
-        }
-
-        protected function setUp()
-        {
-            // This is required at top.
-            parent::setUp();
-
-            // Constructs the test instance.
-            $this->_pTestObject = new \Sub_Example();
-        }
-
-        protected function tearDown()
-        {
-            // Destructs the test instance to reduce memory use. Also, this is <a href="#4-1">The rule to delete object</a>.
-            $this->_pTestObject = null;
-
-            // This is required at bottom.
-            parent::tearDown();
-        }
-
-        /**
-         * @covers \Sub_ExampleTest&lt;extended>
-         */
-        function testExpampleMethodA()
-        {
-            $result = \Sub_Example::expampleMethodA();
-
-            parent::assertTrue($result === false);
-        }
-
-        /**
-         * @covers \Sub_ExampleTest&lt;extended>
-         *
-         * @expectedException        \BreakpointDebugging_ErrorException
-         * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.
-         */
-        function testExpampleMethodB_1()
-        {
-            BU::ignoreBreakpoint();
-            $this->_pTestObject->expampleMethodB('STRING');
-        }
-
-        /**
-         * @covers \Sub_ExampleTest&lt;extended>
-         *
-         * @expectedException        \BreakpointDebugging_ErrorException
-         * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.
-         */
-        function testExpampleMethodB_2()
-        {
-            BU::setRelease();
-            $this->_pTestObject->expampleMethodB('STRING');
-        }
-
-        /**
-         * @covers \Sub_ExampleTest&lt;extended>
-         *
-         * @expectedException        \BreakpointDebugging_ErrorException
-         * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.
-         */
-        function testExpampleMethodB_3()
-        {
-            $this->_pTestObject->expampleMethodB(1);
-        }
-
-        /**
-         * @covers \Sub_ExampleTest&lt;extended>
-         *
-         * @expectedException        \BreakpointDebugging_ErrorException
-         * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.
-         */
-        function test_expampleMethodC()
-        {
-            BU::callForTest(array (
-                'objectOrClassName' => 'Sub_Example',
-                'methodName' => '_expampleMethodC',
-                'params' => array ()
-            ));
-        }
-
-        /**
-         * @covers \Sub_ExampleTest&lt;extended>
-         */
-        function test_expampleMethodD()
-        {
-            $tmp = 'DUMMY';
-            $result = BU::callForTest(array (
-                    'objectOrClassName' => $this->_pTestObject,
-                    'methodName' => '_expampleMethodD',
-                    'params' => array (&amp;$tmp)
-            ));
-
-            parent::assertTrue($result === true);
-        }
-
-        /**
-         * @covers \Sub_ExampleTest&lt;extended>
-         */
-        function testInitialize()
-        {
-            \Sub_Example::initialize(1);
-        }
-
-    }
-</code>
     <span class="subtitle"><a id="3-3">Or, code simple unit test php file.</a></span>
-    "<span class="command">./tests/Sub/ExampleTestSimple.php</span>" file. (Except auto detection rule.)
+    <a href="view-source:./examples/Sub/ExampleTestSimple.php">"<span class="command">PEAR/BreakpointDebugging/PHPUnit/docs/examples/Sub/ExampleTestSimple.php</span>" file.</a>
 
-<code>    &lt;?php
+    <span class="subtitle">Tests auto detection rules of unit test.</span>
+    <a href="view-source:./examples/RuleTest.php">"<span class="command">PEAR/BreakpointDebugging/PHPUnit/docs/examples/RuleTest.php</span>" file.</a>
 
-    use \BreakpointDebugging as B;
-    use \BreakpointDebugging_PHPUnit as BU;
+    <span class="subtitle">Tests auto detection rules of simple unit test.</span>
+    <a href="view-source:./examples/RuleTestSimple.php">"<span class="command">PEAR/BreakpointDebugging/PHPUnit/docs/examples/RuleTestSimple.php</span>" file.</a>
 
-    B::assert(B::isDebug());
-    class Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
-    {
-        private $_pTestObject;
-
-        static function setUpBeforeClass()
-        {
-            // Executes autoload or "include" here instead of execution at "setUp()", "test*()" and "tearDown()". (This is autodetected.)
-            // Because autoload or "include" is executed before object creation.
-            // Therefore, static backup can be stored correctly.
-            BU::loadClass('AClassName');
-            BU::includeClass('ADir/AFilename.php');
-                .
-                .
-                .
-            // This is required at bottom because static backup is stored here.
-            parent::setUpBeforeClass();
-        }
-
-        protected function setUp()
-        {
-            // This is required at top.
-            parent::setUp();
-
-            // Constructs the test instance.
-            $this->_pTestObject = new \Sub_Example();
-        }
-
-        protected function tearDown()
-        {
-            // Destructs the test instance to reduce memory use. Also, this is <a href="#4-1">The rule to delete object</a>.
-            $this->_pTestObject = null;
-
-            // This is required at bottom.
-            parent::tearDown();
-        }
-
-        function testExpampleMethodA()
-        {
-            $result = \Sub_Example::expampleMethodA();
-
-            parent::assertTrue($result === false);
-        }
-
-        function testExpampleMethodB_1()
-        {
-            BU::ignoreBreakpoint();
-            try {
-                $this->_pTestObject->expampleMethodB('STRING');
-            } catch (\BreakpointDebugging_ErrorException $e) {
-                BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.');
-                return;
-            }
-            parent::fail();
-        }
-
-        function testExpampleMethodB_2()
-        {
-            BU::setRelease();
-            try {
-                $this->_pTestObject->expampleMethodB('STRING');
-            } catch (\BreakpointDebugging_ErrorException $e) {
-                BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.');
-                return;
-            }
-            parent::fail();
-        }
-
-        function testExpampleMethodB_3()
-        {
-            try {
-                $this->_pTestObject->expampleMethodB(1);
-            } catch (\BreakpointDebugging_ErrorException $e) {
-                BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.');
-                return;
-            }
-            parent::fail();
-        }
-
-        function test_expampleMethodC()
-        {
-            try {
-                BU::callForTest(array (
-                    'objectOrClassName' => 'Sub_Example',
-                    'methodName' => '_expampleMethodC',
-                    'params' => array ()
-                ));
-            } catch (\BreakpointDebugging_ErrorException $e) {
-                BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.');
-                return;
-            }
-            parent::fail();
-        }
-
-        function test_expampleMethodD()
-        {
-            $tmp = 'DUMMY';
-            $result = BU::callForTest(array (
-                    'objectOrClassName' => $this->_pTestObject,
-                    'methodName' => '_expampleMethodD',
-                    'params' => array (&amp;$tmp)
-            ));
-
-            parent::assertTrue($result === true);
-        }
-
-        function testInitialize()
-        {
-            \Sub_Example::initialize(1);
-        }
-
-    }
-</code>
     <span class="subtitle"><a id="3-4">Code a unit test execution and a code coverage report execution php file.</a></span>
-    "<span class="command">./tests/UnitTestExecutionExample.php</span>" file. (Except auto detection rule.)
+    <a href="view-source:./examples/UnitTestExecutionExample.php">"<span class="command">PEAR/BreakpointDebugging/PHPUnit/docs/examples/UnitTestExecutionExample.php</span>" file.</a>
 
-<code>    &lt;?php
-
-    // Changes current directory to web root.
-    chdir('../');
-
-    require_once './BreakpointDebugging_Inclusion.php';
-
-    use \BreakpointDebugging as B;
-
-    B::checkExeMode(true);
-    $breakpointDebugging_PHPUnit = new \BreakpointDebugging_PHPUnit();
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Please, choose unit tests files by customizing.
-    $breakpointDebugging_UnitTestFiles = array (
-        /*
-         */
-        'Sub/ExampleTest.php',
-        /*
-         */
-    );
-
-    // Specifies the test directory if "CakePHP".
-    // $breakpointDebugging_PHPUnit->setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
-    // Executes unit tests.
-    $breakpointDebugging_PHPUnit->executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
-    //
-    // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Please, choose simple unit tests files by customizing.
-    $breakpointDebugging_UnitTestFiles = array (
-        /*
-         */
-        'Sub/ExampleTestSimple.php',
-        /*
-         */
-    );
-
-    // Executes simple unit tests.
-    $breakpointDebugging_PHPUnit->executeUnitTestSimple($breakpointDebugging_UnitTestFiles); exit;
-    //
-    // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;
-</code>
 <span class="title"><a id="4">Coding rule.</a></span>
 
-<a id="4-1">The rule to delete object</a>: "<span class="inline-code">__destruct()</span>" call must execute by overwritten variable by "<span class="inline-code">null</span>".
+<a id="4-1">The rule to delete object</a>: "<span class="inline-code">__destruct()</span>" call must be executed by overwritten variable by "<span class="inline-code">null</span>".
     Because it deletes all reference of its variable.
     Example:
 <code>        $this->_pTestObject = null;
@@ -539,7 +181,7 @@ The rule to keep static status of code which is tested:
 
 <a id="4-S-1">The file search detection rule 1</a>: Property array element reference instead of property reference must be used in all code.
     Because "Reflection-" class cannot get property reference.
-    The rule violation example:
+    A rule violation example:
 <code>        ::$something = &amp;...
         or ::$something = array (&amp;...
 </code>
@@ -643,7 +285,7 @@ Caution: Don't test an unit when practical use server has been running with sync
 Copyright (c) 2015-, Hidenori Wasa
 All rights reserved.
 
-License content is written in "<a href="../../../PEAR/BreakpointDebugging/BREAKPOINTDEBUGGING_LICENSE.txt">PEAR/BreakpointDebugging/BREAKPOINTDEBUGGING_LICENSE.txt</a>".
+License content is written in "<a href="../../../../PEAR/BreakpointDebugging/docs/BREAKPOINTDEBUGGING_LICENSE.txt">PEAR/BreakpointDebugging/docs/BREAKPOINTDEBUGGING_LICENSE.txt</a>".
 
 @category PHP
 @package  BreakpointDebugging

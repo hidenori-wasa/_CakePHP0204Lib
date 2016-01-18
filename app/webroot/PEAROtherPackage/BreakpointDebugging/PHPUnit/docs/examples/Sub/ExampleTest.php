@@ -1,17 +1,19 @@
 <?php
 
+// >
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
+use \BreakpointDebugging_PHPUnit_docs_examples_Sub_Example as BUE;
 
 B::assert(B::isDebug());
-// class Sub_ExampleTest extends \CakeTestCase // If "CakePHP". Or, "extends \ControllerTestCase".
-class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
+// class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest extends \CakeTestCase // If "CakePHP". Or, "extends \ControllerTestCase".
+class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     private $_pTestObject;
 
     static function setUpBeforeClass()
     {
-        BU::loadClass('Sub_Example');
+        BU::loadClass('BreakpointDebugging_PHPUnit_docs_examples_Sub_Example');
         parent::setUpBeforeClass();
     }
 
@@ -21,7 +23,7 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         parent::setUp();
 
         // A test instance must be constructed here.
-        $this->_pTestObject = new \Sub_Example();
+        $this->_pTestObject = new BUE();
     }
 
     protected function tearDown()
@@ -34,20 +36,20 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     }
 
     /**
-     * @covers \Sub_ExampleTest<extended>
+     * @covers \BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest<extended>
      */
     function testExpampleMethodA()
     {
-        $result = \Sub_Example::expampleMethodA();
+        $result = BUE::expampleMethodA();
 
         parent::assertTrue($result === false);
     }
 
     /**
-     * @covers \Sub_ExampleTest<extended>
+     * @covers \BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest<extended>
      *
      * @expectedException        \BreakpointDebugging_ErrorException
-     * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.
+     * @expectedExceptionMessage CLASS=BreakpointDebugging_PHPUnit_docs_examples_Sub_Example FUNCTION=expampleMethodB ID=101.
      */
     function testExpampleMethodB_1()
     {
@@ -56,10 +58,10 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     }
 
     /**
-     * @covers \Sub_ExampleTest<extended>
+     * @covers \BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest<extended>
      *
      * @expectedException        \BreakpointDebugging_ErrorException
-     * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.
+     * @expectedExceptionMessage CLASS=BreakpointDebugging_PHPUnit_docs_examples_Sub_Example FUNCTION=expampleMethodB ID=102.
      */
     function testExpampleMethodB_2()
     {
@@ -68,10 +70,10 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     }
 
     /**
-     * @covers \Sub_ExampleTest<extended>
+     * @covers \BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest<extended>
      *
      * @expectedException        \BreakpointDebugging_ErrorException
-     * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.
+     * @expectedExceptionMessage CLASS=BreakpointDebugging_PHPUnit_docs_examples_Sub_Example FUNCTION=expampleMethodB ID=1.
      */
     function testExpampleMethodB_3()
     {
@@ -79,22 +81,22 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     }
 
     /**
-     * @covers \Sub_ExampleTest<extended>
+     * @covers \BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest<extended>
      *
      * @expectedException        \BreakpointDebugging_ErrorException
-     * @expectedExceptionMessage CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.
+     * @expectedExceptionMessage CLASS=BreakpointDebugging_PHPUnit_docs_examples_Sub_Example FUNCTION=_expampleMethodC ID=101.
      */
     function test_expampleMethodC()
     {
         BU::callForTest(array (
-            'objectOrClassName' => 'Sub_Example',
+            'objectOrClassName' => 'BreakpointDebugging_PHPUnit_docs_examples_Sub_Example',
             'methodName' => '_expampleMethodC',
             'params' => array ()
         ));
     }
 
     /**
-     * @covers \Sub_ExampleTest<extended>
+     * @covers \BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest<extended>
      */
     function test_expampleMethodD()
     {
@@ -109,11 +111,11 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
     }
 
     /**
-     * @covers \Sub_ExampleTest<extended>
+     * @covers \BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest<extended>
      */
     function testInitialize()
     {
-        \Sub_Example::initialize(1);
+        BUE::initialize(1);
     }
 
 }
