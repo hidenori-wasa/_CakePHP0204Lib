@@ -37,7 +37,8 @@ class LocalStaticVariableOfStaticMethod
 //
 // unset($_FILES); // The rule to keep static status: Static status must not be deleted at file load. (Does not autodetect)
 //
-// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
+//// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
+// include_once 'AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
 class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     private $_pTestObject;
@@ -60,7 +61,8 @@ class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         //
         // Please, preload classes by copying error display. Also, preloaded class files must apply to "Coding rule". (Autodetects)
         BU::loadClass('BreakpointDebugging_LockByFlock');
-        // BU::includeClass('tests/PEAR/AFile.php');
+        //// BU::includeClass('tests/PEAR/AFile.php');
+        // BU::includeClass('AFile.php');
         //
         // Stores static backup here. This line is required at bottom.
         parent::setUpBeforeClass();

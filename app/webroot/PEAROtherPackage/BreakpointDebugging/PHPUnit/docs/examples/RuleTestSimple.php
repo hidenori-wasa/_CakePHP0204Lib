@@ -38,8 +38,10 @@ class LocalStaticVariableOfStaticMethod2
 //
 // unset($_FILES); // The rule to keep static status: Static status must not be deleted at file load. (Does not autodetect)
 //
-// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
-class BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
+//// include_once 'tests/PEAR/AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
+// include_once 'AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
+//class BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
+class RuleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 {
     private $_pTestObject;
 
@@ -61,7 +63,8 @@ class BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple extends \Breakpoi
         //
         // Please, preload classes by copying error display. Also, preloaded class files must apply to "Coding rule". (Does not autodetect)
         BU::loadClass('BreakpointDebugging_LockByFlock');
-        // BU::includeClass('tests/PEAR/AFile.php');
+        //// BU::includeClass('tests/PEAR/AFile.php');
+        // BU::includeClass('AFile.php');
         //
         // Stores static backup here. This line is required at bottom.
         parent::setUpBeforeClass();
@@ -89,16 +92,16 @@ class BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple extends \Breakpoi
 
         unset($_FILES); // Global variable can be deleted here.
         //
-        // spl_autoload_unregister('\BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple::loadClass');
-        // spl_autoload_register('\BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\RuleTestSimple::loadClass');
+        // spl_autoload_register('\RuleTestSimple::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
     }
 
     protected function tearDown()
     {
-        // spl_autoload_unregister('\BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple::loadClass');
-        // spl_autoload_register('\BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\RuleTestSimple::loadClass');
+        // spl_autoload_register('\RuleTestSimple::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // Destructs the test instance to reduce memory use.
         $this->_pTestObject = null;
@@ -123,8 +126,8 @@ class BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple extends \Breakpoi
 
         unset($_FILES); // Global variable can be deleted here.
         //
-        // spl_autoload_unregister('\BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple::loadClass');
-        // spl_autoload_register('\BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
+        // spl_autoload_unregister('\RuleTestSimple::loadClass');
+        // spl_autoload_register('\RuleTestSimple::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
         if (parent::markTestSkippedInDebug()) {
@@ -138,7 +141,7 @@ class BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple extends \Breakpoi
         try {
             $this->isCalled();
         } catch (\BreakpointDebugging_ErrorException $e) {
-            BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple FUNCTION=isCalled ID=101.');
+            BU::assertExceptionMessage($e, 'CLASS=RuleTestSimple FUNCTION=isCalled ID=101.');
             return;
         }
         parent::fail();
@@ -156,7 +159,7 @@ class BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple extends \Breakpoi
             B::assert(true, 101);
             B::assert(false, 102);
         } catch (\BreakpointDebugging_ErrorException $e) {
-            BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit_docs_examples_RuleTestSimple FUNCTION=testSomething_B ID=102.');
+            BU::assertExceptionMessage($e, 'CLASS=RuleTestSimple FUNCTION=testSomething_B ID=102.');
             return;
         }
         parent::fail();

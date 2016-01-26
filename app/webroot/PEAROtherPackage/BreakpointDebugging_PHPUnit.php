@@ -230,6 +230,12 @@ class BreakpointDebugging_PHPUnit
     function __construct()
     {
         $this->_WasaCakeTestStartPagePath = getcwd() . '/WasaCakeTestStart.php';
+        // Reference path setting.
+        $includePaths = explode(PATH_SEPARATOR, ini_get('include_path'));
+        array_unshift($includePaths, $includePaths[0]);
+        $callStack = debug_backtrace();
+        $includePaths[1] = dirname($callStack[0]['file']);
+        ini_set('include_path', implode(PATH_SEPARATOR, $includePaths));
     }
 
     /**
@@ -489,21 +495,22 @@ EOD;
         $onceFlagPerTestFile = true;
         // Uses this package error handler.
         set_error_handler('\BreakpointDebugging_PHPUnit::handleError', -1);
-        $declaredClassesBefore = get_declared_classes();
+        $predeclaredClassesNumber = count(get_declared_classes());
         // Includes unit test file.
         include_once self::$unitTestDir . $testFilePath;
-        $declaredClassesAfter = get_declared_classes();
+        $postdeclaredClasses = get_declared_classes();
         // Gets test-class-name.
         while (true) {
-            foreach (array_diff($declaredClassesAfter, $declaredClassesBefore) as $testClassName) {
-                if (is_subclass_of($testClassName, '\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple')) {
+            for ($count = count($postdeclaredClasses) - 1; $count >= $predeclaredClassesNumber; $count--) {
+                $declaredClassName = $postdeclaredClasses[$count];
+                if (is_subclass_of($declaredClassName, '\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple')) {
                     break 2;
                 }
             }
             B::assert(false);
         }
         // Runs unit test continuously.
-        \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple::runTestMethods($testClassName);
+        \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple::runTestMethods($declaredClassName);
         // Uses "BreakpointDebugging" package error handler.
         restore_error_handler();
     }

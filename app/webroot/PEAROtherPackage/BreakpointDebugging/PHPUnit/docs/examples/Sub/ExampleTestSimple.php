@@ -3,16 +3,18 @@
 // >
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
-use \BreakpointDebugging_PHPUnit_docs_examples_Sub_Example as BUE;
+
+//use \BreakpointDebugging_PHPUnit_docs_examples_Sub_Example as BUE;
 
 B::assert(B::isDebug());
-class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
+//class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
+class Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 {
     private $_pTestObject;
 
     static function setUpBeforeClass()
     {
-        BU::loadClass('BreakpointDebugging_PHPUnit_docs_examples_Sub_Example');
+        BU::loadClass('Sub_Example');
         parent::setUpBeforeClass();
     }
 
@@ -22,7 +24,7 @@ class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \B
         parent::setUp();
 
         // A test instance must be constructed here.
-        $this->_pTestObject = new BUE();
+        $this->_pTestObject = new \Sub_Example();
     }
 
     protected function tearDown()
@@ -36,7 +38,7 @@ class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \B
 
     function testExpampleMethodA()
     {
-        $result = BUE::expampleMethodA();
+        $result = \Sub_Example::expampleMethodA();
 
         parent::assertTrue($result === false);
     }
@@ -47,7 +49,7 @@ class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \B
         try {
             $this->_pTestObject->expampleMethodB('STRING');
         } catch (\BreakpointDebugging_ErrorException $e) {
-            BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit_docs_examples_Sub_Example FUNCTION=expampleMethodB ID=101.');
+            BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=101.');
             return;
         }
         parent::fail();
@@ -59,7 +61,7 @@ class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \B
         try {
             $this->_pTestObject->expampleMethodB('STRING');
         } catch (\BreakpointDebugging_ErrorException $e) {
-            BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit_docs_examples_Sub_Example FUNCTION=expampleMethodB ID=102.');
+            BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=102.');
             return;
         }
         parent::fail();
@@ -70,7 +72,7 @@ class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \B
         try {
             $this->_pTestObject->expampleMethodB(1);
         } catch (\BreakpointDebugging_ErrorException $e) {
-            BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit_docs_examples_Sub_Example FUNCTION=expampleMethodB ID=1.');
+            BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=expampleMethodB ID=1.');
             return;
         }
         parent::fail();
@@ -80,12 +82,12 @@ class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \B
     {
         try {
             BU::callForTest(array (
-                'objectOrClassName' => 'BreakpointDebugging_PHPUnit_docs_examples_Sub_Example',
+                'objectOrClassName' => 'Sub_Example',
                 'methodName' => '_expampleMethodC',
                 'params' => array ()
             ));
         } catch (\BreakpointDebugging_ErrorException $e) {
-            BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit_docs_examples_Sub_Example FUNCTION=_expampleMethodC ID=101.');
+            BU::assertExceptionMessage($e, 'CLASS=Sub_Example FUNCTION=_expampleMethodC ID=101.');
             return;
         }
         parent::fail();
@@ -105,7 +107,7 @@ class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTestSimple extends \B
 
     function testInitialize()
     {
-        BUE::initialize(1);
+        \Sub_Example::initialize(1);
     }
 
 }

@@ -56,8 +56,7 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I moved document files to "<package directory>/docs/" directory.
-* I moved example code to "BreakpointDebugging/PHPUnit/docs/examples/" directory.
-* I changed "Unit test sample codes" section of "BreakpointDebugging_PHPUnit" manual from character string to links.
-* I repaired "BreakpointDebugging_PHPUnit::_runPHPUnitCommandSimple()" class method.
-* I executed regression unit tests.
+* I speeded up simple unit test.
+* I added "\BreakpointDebugging_PHPUnit::loadClass()" and "\BreakpointDebugging_PHPUnit::includeClass()" to "BreakpointDebugging/PHPUnit/docs/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html".
+* I moved "./tests/PEAR/BreakpointDebugging/" to "./PEAROtherPackage/BreakpointDebugging/PHPUnit/tests/".
+* I repaired by regression unit tests and code coverage report displays.

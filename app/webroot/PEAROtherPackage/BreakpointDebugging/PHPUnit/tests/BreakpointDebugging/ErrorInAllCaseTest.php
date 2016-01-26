@@ -41,9 +41,10 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
 
     static function setUpBeforeClass()
     {
-        $maxLogStringSize = &B::refMaxLogStringSize();
-        $maxLogStringSize = 8;
+        //$maxLogStringSize = &B::refMaxLogStringSize();
+        //$maxLogStringSize = 8;
         self::$_errorLogDir = \BreakpointDebugging_Error::getErrorLogDir();
+        BU::loadClass('BreakpointDebugging_LockByFileExisting');
         parent::setUpBeforeClass();
     }
 
@@ -51,6 +52,8 @@ class BreakpointDebugging_ErrorInAllCaseTest extends \BreakpointDebugging_PHPUni
     {
         parent::setUp();
 
+        $maxLogStringSize = &B::refMaxLogStringSize();
+        $maxLogStringSize = 8;
         $errorLogDirectory = BREAKPOINTDEBUGGING_WORK_DIR_NAME . self::$_errorLogDir;
         if (is_dir($errorLogDirectory)) {
             $errorLogDirElements = scandir($errorLogDirectory);

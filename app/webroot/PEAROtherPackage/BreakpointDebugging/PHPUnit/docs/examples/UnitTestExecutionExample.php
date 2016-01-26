@@ -26,11 +26,12 @@ function BreakpointDebugging_test()
 
     // Specifies the test directory if "CakePHP".
     // $breakpointDebugging_PHPUnit->setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
+    //
     // Executes unit tests.
     $breakpointDebugging_PHPUnit->executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
-    //
+
     // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTest.php', 'BreakpointDebugging/PHPUnit/docs/examples/Sub/Example.php'); exit;
+    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Please, choose simple unit tests files by customizing.
     $breakpointDebugging_UnitTestFiles = array (
@@ -44,9 +45,9 @@ function BreakpointDebugging_test()
 
     // Executes simple unit tests.
     $breakpointDebugging_PHPUnit->executeUnitTestSimple($breakpointDebugging_UnitTestFiles); exit;
-    //
+
     // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'BreakpointDebugging/PHPUnit/docs/examples/Sub/Example.php', 'SIMPLE'); exit;
+    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;
 }
 
 BreakpointDebugging_test();

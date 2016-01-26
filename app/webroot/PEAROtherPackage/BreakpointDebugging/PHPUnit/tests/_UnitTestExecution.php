@@ -1,7 +1,7 @@
 <?php
 
 // Changes current directory to web root.
-chdir('../../');
+chdir('../../../../');
 
 require_once './BreakpointDebugging_Inclusion.php';
 

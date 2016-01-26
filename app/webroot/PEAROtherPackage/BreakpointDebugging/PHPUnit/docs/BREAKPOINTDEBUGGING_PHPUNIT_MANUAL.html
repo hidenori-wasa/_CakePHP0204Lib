@@ -260,6 +260,8 @@ The special rule of "<span class="inline-code">\BreakpointDebugging_PHPUnit_Fram
 </code>
     The class methods and property which can be used are limited below.
 <code>        \BreakpointDebugging_PHPUnit::$exeMode
+        \BreakpointDebugging_PHPUnit::loadClass()
+        \BreakpointDebugging_PHPUnit::includeClass()
         \BreakpointDebugging_PHPUnit::setDebug()
         \BreakpointDebugging_PHPUnit::setRelease()
         \BreakpointDebugging_PHPUnit::ignoreBreakpoint()
@@ -278,7 +280,7 @@ Caution: Don't test an unit when practical use server has been running with sync
 
     Procedure 1: Use "<span class="inline-code">\BreakpointDebugging_CommandLine::popen()</span>" class method in your unit test code.
     Procedure 2: Use "<span class="inline-code">\BreakpointDebugging_CommandLine::waitForMultipleProcesses()</span>" class method in your unit test code.
-    Please, see "<span class="inline-code">tests_PEAR_BreakpointDebugging_MultiprocessTest_Main::test()</span>" class method as example.
+    Please, see "<span class="inline-code">BreakpointDebugging_MultiprocessTest_Main::test()</span>" class method as example.
 
 <span class="title"><a id="6">LICENSE:</a></span>
 

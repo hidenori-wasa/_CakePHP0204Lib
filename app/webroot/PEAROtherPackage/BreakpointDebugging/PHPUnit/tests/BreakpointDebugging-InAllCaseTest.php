@@ -455,7 +455,8 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
 
 T::$testAutoload = 1;
 if (T::$testAutoload === 1) { // The case which extends base class.
-    class AutoloadTest extends \tests_PEAR_AutoloadTestBase
+    //class AutoloadTest extends \tests_PEAR_AutoloadTestBase
+    class AutoloadTest extends \AutoloadTestBase
     {
 
     }

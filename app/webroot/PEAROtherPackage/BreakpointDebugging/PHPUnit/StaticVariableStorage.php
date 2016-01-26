@@ -353,6 +353,10 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             spl_autoload_call($className);
             // If class file has been loaded completely including dependency files.
             $isAutoloadDuringAutoload = false;
+            // If the class does not exist.
+            if (!class_exists($className)) {
+                return false;
+            }
             // If this autoload class method was called.
             self::_displayError(false, $className);
         }
