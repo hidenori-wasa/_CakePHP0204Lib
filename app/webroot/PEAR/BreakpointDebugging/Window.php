@@ -258,7 +258,8 @@ class BreakpointDebugging_Window
     {
         $openFirefoxWindow = function ($uri) {
             $command = BW::generateMozillaFirefoxStartCommand($uri);
-            if (BREAKPOINTDEBUGGING_IS_WINDOWS) { // If Windows.
+            if (BREAKPOINTDEBUGGING_IS_WINDOWS // If Windows.
+                && !(B::getExeMode() & B::REMOTE)) { // If local.
                 // Opens "BreakpointDebugging_DisplayToOtherProcess.php" page for display in other process.
                 `$command`;
                 return;

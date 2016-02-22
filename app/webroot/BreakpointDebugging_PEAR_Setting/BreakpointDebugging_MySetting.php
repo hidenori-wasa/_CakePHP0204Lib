@@ -51,6 +51,12 @@ if (!defined('BREAKPOINTDEBUGGING_MODE')) {
  */
 function BreakpointDebugging_userSetting($exeMode, &$language, &$timezone, &$SMTP, &$sendmailFrom, &$openBasedir)
 {
+    /**
+     * See "### Debug mode constant number ###" of class "BreakpointDebugging_InAllCase" in "BreakpointDebugging.php".
+     */
+    // ### Debug mode number ###
+    $REMOTE = 1;
+
     $developerIP = &B::refDeveloperIP();
     // Enter developer IP address for security.
     $developerIP = '127.0.0.1';

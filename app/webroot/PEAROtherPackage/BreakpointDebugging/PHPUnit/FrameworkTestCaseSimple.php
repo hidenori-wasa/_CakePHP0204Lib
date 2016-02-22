@@ -17,6 +17,7 @@
  * @link     http://pear.php.net/package/BreakpointDebugging_PHPUnit
  */
 use \BreakpointDebugging as B;
+use \BreakpointDebugging_PHPUnit as BU;
 use \BreakpointDebugging_Window as BW;
 use \BreakpointDebugging_PHPUnit_StaticVariableStorage as BSS;
 
@@ -38,12 +39,12 @@ use \BreakpointDebugging_PHPUnit_StaticVariableStorage as BSS;
  */
 class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 {
-    /**
-     * "\BreakpointDebugging_PHPUnit" instance.
-     *
-     * @var object
-     */
-    private static $_phpUnit;
+//    /**
+//     * "\BreakpointDebugging_PHPUnit" instance.
+//     *
+//     * @var object
+//     */
+//    private static $_phpUnit;
 
     /**
      * This class method is called first per "*Test.php" or "*TestSimple.php" file.
@@ -56,7 +57,18 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     static function setUpBeforeClass()
     {
-        self::$_phpUnit->displayProgress(300);
+//        $callStack = debug_backtrace();
+//        $callStart = array_pop($callStack);
+//        if ($callStart['class'] !== 'BreakpointDebugging_PHPUnit' // Parent class method must be called from "\BreakpointDebugging_PHPUnit" class.
+//            || ($callStart['function'] !== 'executeUnitTest' // Parent class method must be called from "executeUnitTest" class method.
+//            && $callStart['function'] !== 'executeUnitTestSimple' // Parent class method must be called from "executeUnitTest" class method.
+//            && $callStart['function'] !== 'displayCodeCoverageReport') // Parent class method must be called from "executeUnitTest" class method.
+//        ) {
+//            throw new \BreakpointDebugging_ErrorException('This unit test file must be executed by calling "\BreakpointDebugging_PHPUnit::executeUnitTest()" or "\BreakpointDebugging_PHPUnit::executeUnitTestSimple()" or "\BreakpointDebugging_PHPUnit::displayCodeCoverageReport()".');
+//        }
+        BU::checkStartCall();
+        //self::$_phpUnit->displayProgress(300);
+        BU::displayProgress(300);
         // Registers the check class method for purpose which stores correctly.
         $result = spl_autoload_register('\\' . BSS::AUTOLOAD_NAME, true, true);
         B::assert($result);
@@ -77,21 +89,23 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
         B::assert($result);
     }
 
-    /**
-     * Sets the "\BreakpointDebugging_PHPUnit" object.
-     *
-     * @param object $phpUnit "\BreakpointDebugging_PHPUnit".
-     *
-     * @return void
-     */
-    static function setPHPUnit($phpUnit)
-    {
-        B::limitAccess('BreakpointDebugging_PHPUnit.php', true);
-
-        if (!isset(self::$_phpUnit)) {
-            self::$_phpUnit = $phpUnit;
-        }
-    }
+//    /**
+//     * Sets the "\BreakpointDebugging_PHPUnit" object.
+//     *
+//     * @param object $phpUnit "\BreakpointDebugging_PHPUnit".
+//     *
+//     * @return void
+//     */
+//    static function setPHPUnit($phpUnit)
+//    {
+//        B::limitAccess('BreakpointDebugging_PHPUnit.php', true);
+//
+//        //if (!isset(self::$_phpUnit)) {
+//        if (!isset(self::$_phpUnit)) {
+//            //self::$_phpUnit = $phpUnit;
+//            self::$_phpUnit = $phpUnit;
+//        }
+//    }
 
     /**
      * Checks the autoload functions.
@@ -138,11 +152,12 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
     /**
      * Base of "setUp()" class method.
      *
-     * @param object $phpUnit "\BreakpointDebugging_PHPUnit" instance.
+     * @//param object $phpUnit "\BreakpointDebugging_PHPUnit" instance.
      *
      * @return void
      */
-    static function setUpBase($phpUnit)
+    //static function setUpBase($phpUnit)
+    static function setUpBase()
     {
         B::limitAccess(
             array (
@@ -153,7 +168,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 
         B::initializeSync();
         // Stores the output buffering level.
-        $obLevel = &$phpUnit->refObLevel();
+        //$obLevel = &$phpUnit->refObLevel();
+        $obLevel = &BU::refObLevel();
         $obLevel = ob_get_level();
     }
 
@@ -165,17 +181,19 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     protected function setUp()
     {
-        self::setUpBase(self::$_phpUnit);
+        //self::setUpBase(self::$_phpUnit);
+        self::setUpBase();
     }
 
     /**
      * Base of "tearDown()" class method.
      *
-     * @param object $phpUnit "\BreakpointDebugging_PHPUnit" instance.
+     * @//param object $phpUnit "\BreakpointDebugging_PHPUnit" instance.
      *
      * @return void
      */
-    static function tearDownBase($phpUnit)
+    //static function tearDownBase($phpUnit)
+    static function tearDownBase()
     {
         B::limitAccess(
             array ('BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
@@ -184,10 +202,12 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
         );
 
         // Restores the output buffering level.
-        while (ob_get_level() > $phpUnit->refObLevel()) {
+        //while (ob_get_level() > $phpUnit->refObLevel()) {
+        while (ob_get_level() > BU::refObLevel()) {
             ob_end_clean();
         }
-        B::assert(ob_get_level() === $phpUnit->refObLevel());
+        //B::assert(ob_get_level() === $phpUnit->refObLevel());
+        B::assert(ob_get_level() === BU::refObLevel());
     }
 
     /**
@@ -198,7 +218,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
      */
     protected function tearDown()
     {
-        self::tearDownBase(self::$_phpUnit);
+        //self::tearDownBase(self::$_phpUnit);
+        self::tearDownBase();
     }
 
     /**
@@ -220,7 +241,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
             // Invokes "setUpBeforeClass()" class method.
             $testClassName::setUpBeforeClass();
 
-            self::$_phpUnit->displayProgress(300);
+            //self::$_phpUnit->displayProgress(300);
+            BU::displayProgress(300);
             // Checks the autoload functions.
             self::checkAutoloadFunctions($testClassName);
             foreach ($methodReflections as $methodReflection) {
@@ -229,7 +251,8 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
                 if (strpos($methodReflection->name, 'test') !== 0) {
                     continue;
                 }
-                self::$_phpUnit->displayProgress(5);
+                //self::$_phpUnit->displayProgress(5);
+                BU::displayProgress(5);
                 // Start output buffering.
                 ob_start();
                 // Creates unit test instance.

@@ -56,7 +56,6 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I speeded up simple unit test.
-* I added "\BreakpointDebugging_PHPUnit::loadClass()" and "\BreakpointDebugging_PHPUnit::includeClass()" to "BreakpointDebugging/PHPUnit/docs/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html".
-* I moved "./tests/PEAR/BreakpointDebugging/" to "./PEAROtherPackage/BreakpointDebugging/PHPUnit/tests/".
-* I repaired by regression unit tests and code coverage report displays.
+* I improved "How to construct environment which can do step execution" section of "BreakpointDebugging/docs/BREAKPOINTDEBUGGING_MANUAL.html" file.
+* I changed "BreakpointDebugging_PHPUnit" class to static class for simplification.
+* I added justice check of "\BreakpointDebugging_PHPUnit::loadClass()" and "\BreakpointDebugging_PHPUnit::includeClass()" class method.

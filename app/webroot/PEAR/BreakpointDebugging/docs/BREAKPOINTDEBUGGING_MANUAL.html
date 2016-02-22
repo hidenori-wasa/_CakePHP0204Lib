@@ -81,18 +81,19 @@ because this package has necessary minimum features.
 <a href="#2-3">Recommendation environment for "PHP5.4" Windows.</a>
 <a href="#2-4">Recommendation environment for "PHP5.5" Windows.</a>
 <a href="#2-A">Recommendation environment for "PHP5.6" Windows.</a>
-<a href="#2-5">Recommendation setting procedure for development of "XAMPP 1.7.4".</a>
+
+<a href="#2-5">Recommendation setting procedure for development of "XAMPP 1.8.2".</a>
 
 <a href="#2-6">Recommendation environment for "PHP5.3" Linux.</a>
 <a href="#2-7">Recommendation environment for "PHP5.4" Linux.</a>
 <a href="#2-8">Recommendation environment for "PHP5.5" Linux.</a>
 <a href="#2-B">Recommendation environment for "PHP5.6" Linux.</a>
 
-<a href="#2-9">Recommendation setting procedure for development of "Ubuntu12.04LTS desktop".</a>
+<a href="#2-9">Recommendation setting procedure for development of "Ubuntu14.04LTS desktop".</a>
 
 <span class="subtitle"><a name="2-1">Recommendation IDE.</a></span>
-    "NetBeans IDE 8.0.2".
-    Because HTML3, CSS3, JavaScript(JQuery) and PHP is useful for input helper and step execution.
+    "NetBeans IDE 8.1".
+    Because "java" development team is making this IDE.
     NOTICE: "if" statement should be coded by plural line as below because line feed of "//" line is not deleted by format.
 
 <code>        if ($a              // Description 1.
@@ -114,9 +115,9 @@ because this package has necessary minimum features.
 <span class="subtitle"><a name="2-A">Recommendation environment for "PHP5.6" Windows.</a></span>
     "Windows8 (VC11 perhaps)" + "XAMPP 5.6.? (VC11 perhaps)" + "php_xdebug-?.?.?-5.6-vc11.dll (VC11 perhaps)".
 
-    Also, "Windows10" is "VC14 perhaps".
+    Also, "Windows10" is "VC14".
 
-<span class="subtitle"><a name="2-5">Recommendation setting procedure for development of "XAMPP 1.7.4".</a></span>
+<span class="subtitle"><a name="2-5">Recommendation setting procedure for development of "XAMPP 1.8.2".</a></span>
     ### "XAMPP" setting procedure. ###
     // Inbound connection must be disconnected except "BOOTPC" and "DOMAIN" of "C:\WINDOWS\system32\svchost.exe" by firewall of a software.
 
@@ -126,11 +127,6 @@ because this package has necessary minimum features.
     // [control panel] - [system] - [detail] - [environment variables] - "Path" - [edit...]
 
 <code>        ;C:\xampp\php;C:\xampp\mysql\bin
-</code>
-    // Create "lang.tmp" file (In case of Japan). This is bug of "XAMPP 1.7.4".
-    C:\xampp\htdocs\xampp\lang.tmp
-
-<code>        ja
 </code>
     // Disconnect outbound HTTP connection of Apache.
     C:\xampp\apache\conf\httpd.conf
@@ -160,10 +156,6 @@ because this package has necessary minimum features.
         collation-server=utf8_general_ci
         # Ignores character sets information which was sent from client, so it uses character sets of default of server.
         skip-character-set-client-handshake
-        # Database compression for performance. CAUTION: Database must not be used by plural compression format.
-        #innodb_file_format=Barracuda
-        # Makes a file per table for performance. CAUTION: Database must not be used by plural table format.
-        #innodb_file_per_table=1
             .
             .
             .
@@ -179,7 +171,7 @@ because this package has necessary minimum features.
             .
 </code>
     // Change setting of "phpMyAdmin".
-        // Execute "C:\xampp\phpMyAdmin\scripts\create_tables.sql" import by "phpMyAdmin".
+        // Execute "C:\xampp\phpMyAdmin\examples\create_tables.sql" import by "phpMyAdmin".
         // Then, change "C:\xampp\phpMyAdmin\config.inc.php" file.
             before:
 
@@ -203,10 +195,10 @@ because this package has necessary minimum features.
         "mcrypt"
 
     ### "XDebug" setting procedure. ###
-    // Place "php_xdebug-2.1.2-5.3-vc6.dll" file ( last versions for this OS ) to "C:\xampp\php\ext\".
+    // Place "php_xdebug-2.3.3-5.4-vc9.dll" file ( last versions for Windows7 ) to "C:\xampp\php\ext\".
     // Set "C:\xampp\php\php.ini" file as follows.
 
-<code>    zend_extension = "C:\xampp\php\ext\php_xdebug-2.1.2-5.3-vc6.dll"
+<code>    zend_extension = "C:\xampp\php\ext\php_xdebug-2.3.3-5.4-vc9.dll"
     xdebug.remote_enable = 1
     xdebug.remote_handler = dbgp
     xdebug.remote_mode = req
@@ -216,45 +208,24 @@ because this package has necessary minimum features.
     // Then, use this package.
 
 <span class="subtitle"><a name="2-6">Recommendation environment for "PHP5.3" Linux.</a></span>
-    "Ubuntu12.04LTS desktop (VC9 perhaps)" + "This Ubuntu's LAMP" + "This Ubuntu's XDebug".
-    Because "apt-get" command controls version of "LAMP", "phpMyAdmin" and "XDebug" for OS.
-    Therefore, we can do step execution.
-
-    Or, "Ubuntu12.04LTS desktop (VC9 perhaps)" + "XAMPP 1.7.7 (VC9 perhaps)" + "php_xdebug-?.?.?-5.3-vc9.os (VC9)".
+    "Ubuntu12.04LTS desktop (Linux kernel v3.2-)" + "xampp-linux-1.7.7" + "xdebug.so" which made by command.
+    Or, "Ubuntu14.04LTS desktop (Linux kernel v3.13-)" + "xampp-linux-1.7.7" + "xdebug.so" which made by command.
 <span class="subtitle"><a name="2-7">Recommendation environment for "PHP5.4" Linux.</a></span>
-    "Ubuntu13.10 desktop (VC11)" + "This Ubuntu's LAMP" + "This Ubuntu's XDebug".
-
-    Or, "Ubuntu12.04LTS desktop (VC9 perhaps)" + "XAMPP 1.8.2 (VC9 perhaps)" + "php_xdebug-?.?.?-5.4-vc9.os (VC9)".
+    "Ubuntu12.04LTS desktop (Linux kernel v3.2-)" + "xampp-linux-1.8.2" + "xdebug.so" which made by command.
+    Or, "Ubuntu14.04LTS desktop (Linux kernel v3.13-)" + "xampp-linux-1.8.2" + "xdebug.so" which made by command.
 <span class="subtitle"><a name="2-8">Recommendation environment for "PHP5.5" Linux.</a></span>
-    "Ubuntu14.04LTS desktop (VC11)" + "This Ubuntu's LAMP" + "This Ubuntu's XDebug".
-
-    Or, "Ubuntu14.04LTS desktop (VC11 perhaps)" + "XAMPP 5.5.? (VC11 perhaps)" + "php_xdebug-?.?.?-5.5-vc11.os (VC11)".
+    "Ubuntu12.04LTS desktop (Linux kernel v3.2-)" + "xampp-linux-5.5.?" + "xdebug.so" which made by command.
+    Or, "Ubuntu14.04LTS desktop (Linux kernel v3.13-)" + "xampp-linux-5.5.?" + "xdebug.so" which made by command.
 <span class="subtitle"><a name="2-B">Recommendation environment for "PHP5.6" Linux.</a></span>
-    "Ubuntu14.04LTS desktop (VC11 perhaps)" + "XAMPP 5.6.? (VC11 perhaps)" + "php_xdebug-?.?.?-5.6-vc11.os (VC11)".
+    "Ubuntu12.04LTS desktop (Linux kernel v3.2-)" + "xampp-linux-5.6.?" + "xdebug.so" which made by command.
+    Or, "Ubuntu14.04LTS desktop (Linux kernel v3.13-)" + "xampp-linux-5.6.?" + "xdebug.so" which made by command.
 
-<span class="subtitle"><a name="2-9">Recommendation setting procedure for development of "Ubuntu12.04LTS desktop".</a></span>
-    ### Uninstalling procedure. ###
-    // Uninstalls "PEAR".
-    <span class="command">sudo apt-get purge php-pear</span>
-    // Uninstalls "phpMyAdmin".
-    <span class="command">sudo apt-get purge phpmyadmin</span>
-    // Uninstalls "LAMP".
-    <span class="command">sudo tasksel remove lamp-server</span>
+"XAMPP For Linux" Recommendation reason 1: We can specify php version.
+"XAMPP For Linux" Recommendation reason 2: We can maintain version consistency of "Apache", "MySQL", "PHP" and "PHPMyAdmin".
+"XAMPP For Linux" Recommendation reason 3: We can fix php version.
 
-    ### installing procedure. ###
-    // Installs "LAMP".
-    <span class="command">sudo apt-get update</span>
-    <span class="command">sudo apt-get install tasksel</span>
-    <span class="command">sudo tasksel install lamp-server</span>
-    // Installs "phpMyAdmin".
-    <span class="command">sudo apt-get install phpmyadmin</span>
-    <span class="command">sudo firefox "/usr/share/doc/phpmyadmin/Documentation.html"</span>
-    // Installs "PEAR".
-    <span class="command">sudo apt-get install php-pear</span>
-    // Deletes unnecessary package.
-    <span class="command">sudo apt-get autoremove</span>
-
-    ### "LAMPP" setting procedure. ###
+<span class="subtitle"><a name="2-9">Recommendation setting procedure for development of "Ubuntu14.04LTS desktop".</a></span>
+    ### Preparation before connection to internet. ###
     // Disconnect inbound connection by using "ufw".
         // Enables firewall.
         <span class="command">sudo ufw enable</span>
@@ -264,188 +235,24 @@ because this package has necessary minimum features.
         <span class="command">sudo ufw logging off</span>
         // Confirms status of firewall.
         <span class="command">sudo ufw status verbose</span>
-    // Disconnects outbound connection of Apache and enables SSL of Apache.
-    <span class="command">gksudo gedit /etc/apache2/ports.conf</span>
 
-<code>        // before:
-        Listen 80
-        // after:
-        Listen 127.0.0.1:80
-        // before:
-        Listen 443
-        // after:
-        NameVirtualHost *:443
-        Listen 127.0.0.1:443
-</code>
-    // Sets user and group of Apache, and sets symbolic link to "phpMyAdmin".
-    <span class="command">gksudo gedit /etc/apache2/httpd.conf</span>
+    ### Uninstalling procedure. ###
+    // Uninstalls "PEAR" of "Ubuntu".
+    <span class="command">sudo apt-get purge php-pear</span>
+    // Uninstalls "phpMyAdmin" of "Ubuntu".
+    <span class="command">sudo apt-get purge phpmyadmin</span>
+    // Uninstalls "LAMP" of "Ubuntu".
+    <span class="command">sudo tasksel remove lamp-server</span>
 
-<code>        User &lt;your user name&gt;
-        Group &lt;your group name&gt;
-
-        Alias /phpmyadmin "/usr/share/phpmyadmin"
-        &lt;Directory "/usr/share/phpmyadmin/"&gt;
-            Options MultiViews FollowSymLinks
-            AllowOverride None
-            Order deny,allow
-            Deny from all
-            Allow from 127.0.0.1
-        &lt;/Directory&gt;
-</code>
-    // Set "MySQLi".
-    <span class="command">gksudo gedit /etc/mysql/my.cnf</span>
-
-<code>            .
-            .
-            .
-        [mysqld]
-        default-storage-engine=innodb
-        character-set-server=utf8
-        collation-server=utf8_general_ci
-        # Ignores character sets information which was sent from client, so it uses character sets of default of server.
-        skip-character-set-client-handshake
-        # Database compression for performance. CAUTION: Database must not be used by plural compression format.
-        #innodb_file_format=Barracuda
-        # Makes a file per table for performance. CAUTION: Database must not be used by plural table format.
-        #innodb_file_per_table=1
-            .
-            .
-            .
-        [mysqldump]
-        default-character-set=utf8
-            .
-            .
-            .
-        [mysql]
-        default-character-set=utf8
-            .
-            .
-            .
-</code>
-    // Change setting of "phpMyAdmin".
-        // Executes "/usr/share/doc/phpmyadmin/examples/create_tables_sql.gz" import by "phpMyAdmin".
-        // Copies the sample configuration file to configuration file.
-        <span class="command">sudo cp /usr/share/phpmyadmin/config.sample.inc.php /etc/phpmyadmin/config.inc.php</span>
-        // Edits the configuration file.
-        <span class="command">sudo gedit /etc/phpmyadmin/config.inc.php</span>
-            before:
-
-<code>            $cfg['Servers'][$i]['auth_type'] = 'cookie';
-</code>
-            after:
-
-<code>            $cfg['Servers'][$i]['auth_type']     = 'config';
-            $cfg['Servers'][$i]['user']          = 'root';
-            $cfg['Servers'][$i]['password']      = 'wasapass'; // use here your password
-</code>
-            before:
-
-<code>            // $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
-            // $cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
-            // $cfg['Servers'][$i]['relation'] = 'pma_relation';
-            // $cfg['Servers'][$i]['table_info'] = 'pma_table_info';
-            // $cfg['Servers'][$i]['table_coords'] = 'pma_table_coords';
-            // $cfg['Servers'][$i]['pdf_pages'] = 'pma_pdf_pages';
-            // $cfg['Servers'][$i]['column_info'] = 'pma_column_info';
-            // $cfg['Servers'][$i]['history'] = 'pma_history';
-            // $cfg['Servers'][$i]['tracking'] = 'pma_tracking';
-            // $cfg['Servers'][$i]['designer_coords'] = 'pma_designer_coords';
-            // $cfg['Servers'][$i]['userconfig'] = 'pma_userconfig';
-</code>
-            after:
-
-<code>            $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
-            $cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
-            $cfg['Servers'][$i]['relation'] = 'pma_relation';
-            $cfg['Servers'][$i]['table_info'] = 'pma_table_info';
-            $cfg['Servers'][$i]['table_coords'] = 'pma_table_coords';
-            $cfg['Servers'][$i]['pdf_pages'] = 'pma_pdf_pages';
-            $cfg['Servers'][$i]['column_info'] = 'pma_column_info';
-            $cfg['Servers'][$i]['history'] = 'pma_history';
-            $cfg['Servers'][$i]['tracking'] = 'pma_tracking';
-            $cfg['Servers'][$i]['designer_coords'] = 'pma_designer_coords';
-            $cfg['Servers'][$i]['userconfig'] = 'pma_userconfig';
-</code>
-    // Extensions which "phpMyAdmin" needs. ( Confirms by "phpinfo()" )
-        "zlib" or "bz2"
-        "mbstring"
-        "ctype"
-        "GD2"
-        "mcrypt"
-    // Creates a document root.
-    <span class="command">mkdir ~/private-www</span>
-    // Copies the default virtual host setting file to new file "mysite".
-    <span class="command">sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/mysite</span>
-    // Copies the default SSL virtual host setting file to new file "mysite-ssl".
-    <span class="command">sudo cp /etc/apache2/sites-available/default-ssl /etc/apache2/sites-available/mysite-ssl</span>
-    // Edits the "mysite" file.
-    <span class="command">gksudo gedit /etc/apache2/sites-available/mysite</span>
-        // before:
-
-<code>        DocumentRoot /var/www
-</code>
-        // after:
-
-<code>        DocumentRoot /home/&lt;your user name&gt;/private-www
-</code>
-        // before:
-
-<code>        &lt;Directory /var/www/&gt;
-</code>
-        // after:
-
-<code>        &lt;Directory /home/&lt;your user name&gt;/private-www/&gt;
-</code>
-    // Edits the "mysite-ssl" file.
-    <span class="command">gksudo gedit /etc/apache2/sites-available/mysite-ssl</span>
-        // before:
-
-<code>        &lt;VirtualHost _default_:443&gt;
-</code>
-        // after:
-
-<code>        &lt;VirtualHost *:443&gt;
-</code>
-        // before:
-
-<code>        DocumentRoot /var/www
-</code>
-        // after:
-
-<code>        DocumentRoot /home/&lt;your user name&gt;/private-www
-</code>
-        // before:
-
-<code>        &lt;Directory /var/www/&gt;
-</code>
-        // after:
-
-<code>        &lt;Directory /home/&lt;your user name&gt;/private-www/&gt;
-</code>
-    // Disables default virtual host and enables new virtual host.
-    <span class="command">sudo a2dissite default && sudo a2ensite mysite</span>
-    // Disables default SSL virtual host and enables new SSL virtual host.
-    <span class="command">sudo a2dissite default-ssl && sudo a2ensite mysite-ssl</span>
-    // // Readjusts the root user password of "MySQLi". ( If necessary )
-    // <span class="command">mysql -u root -p</span>
-    // <span class="command">mysql&gt;SET PASSWORD FOR 'root'@'localhost' = PASSWORD('&lt;your password&gt;');</span>
-
-    ### "XDebug" setting procedure. ###
-    // Installs "XDebug" package.
-    <span class="command">sudo apt-get install php5-xdebug</span>
-    // Displays the file path of "xdebug.so".
-    <span class="command">sudo find "/usr/lib/php5" -name "xdebug.so"</span>
-    // Adds setting of "XDebug" package to "php.ini" file.
-    <span class="command">gksudo gedit /etc/php5/apache2/php.ini</span>
-
-<code>        [xdebug]
-        zend_extension = "/usr/lib/php5/&lt;DATE+lfs&gt;/xdebug.so"
-        xdebug.remote_enable = 1
-        xdebug.remote_handler = dbgp
-        xdebug.remote_mode = req
-        xdebug.remote_host = 127.0.0.1
-        xdebug.remote_port = 9000
-</code>
+    ### installing procedure. ###
+    // Installs "XAMPP For Linux".
+        .
+        .
+        .
+    *** Researching... ***
+        .
+        .
+        .
     // Confirms by CLI.
     <span class="command">php -v</span>
     // Confirms by CGI.

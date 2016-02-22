@@ -131,13 +131,13 @@ abstract class BreakpointDebugging_InAllCase
 //     * @var string
 //     */
 //    private static $_includePaths;
-
-    /**
-     * "\BreakpointDebugging_PHPUnit" instance.
-     *
-     * @var object
-     */
-    private static $_phpUnit;
+//
+//    /**
+//     * "\BreakpointDebugging_PHPUnit" instance.
+//     *
+//     * @var object
+//     */
+//    private static $_phpUnit;
 
     /**
      * Temporary variable.
@@ -618,19 +618,19 @@ abstract class BreakpointDebugging_InAllCase
         return http_build_query(array_merge($additionalElements, self::$_get));
     }
 
-    /**
-     * Sets the "\BreakpointDebugging_PHPUnit" object.
-     *
-     * @param object $phpUnit "\BreakpointDebugging_PHPUnit".
-     *
-     * @return void
-     */
-    static function setPHPUnit($phpUnit)
-    {
-        \BreakpointDebugging::limitAccess('BreakpointDebugging_PHPUnit.php', true);
-
-        self::$_phpUnit = $phpUnit;
-    }
+//    /**
+//     * Sets the "\BreakpointDebugging_PHPUnit" object.
+//     *
+//     * @param object $phpUnit "\BreakpointDebugging_PHPUnit".
+//     *
+//     * @return void
+//     */
+//    static function setPHPUnit($phpUnit)
+//    {
+//        \BreakpointDebugging::limitAccess('BreakpointDebugging_PHPUnit.php', true);
+//
+//        self::$_phpUnit = $phpUnit;
+//    }
 
     /**
      * Error exit. Error exit location can be detected by call stack after break.

@@ -125,6 +125,7 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
     private static $_backupStaticPropertiesBlacklist = array (
         'BreakpointDebugging_InAllCase' => array ('_callLocations', '_phpUnit'),
         'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple' => array ('_phpUnit'),
+        //'BreakpointDebugging_PHPUnit_StaticVariableStorage' => array ('_restorationClassName', '_restorationElementName', '_prevDeclaredClassesNumberStorage', '_globalRefs', '_staticProperties'),
         'Cache' => array ('_engines'), // "CakePHP" class.
         'CakeLog' => array ('_Collection'), // "CakePHP" class.
     );
@@ -140,6 +141,8 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      * Initializes this static class.
      *
      * @param Closure $isUnitTestClass Is it unit test class?
+     *
+     * @return void
      */
     static function initialize($isUnitTestClass)
     {
@@ -156,10 +159,12 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      */
     static function &refCurrentTestClassName()
     {
-        B::limitAccess(array (
+        B::limitAccess(
+            array (
             'BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
             'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php',
-            ), true);
+            ), true
+        );
 
         return self::$_currentTestClassName;
     }
@@ -171,10 +176,12 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      */
     static function &refCurrentTestMethodName()
     {
-        B::limitAccess(array (
+        B::limitAccess(
+            array (
             'BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
             'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php',
-            ), true);
+            ), true
+        );
 
         return self::$_currentTestMethodName;
     }
@@ -266,10 +273,12 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      */
     static function &refBackupStaticPropertiesBlacklist()
     {
-        B::limitAccess(array (
+        B::limitAccess(
+            array (
             'BreakpointDebugging_PHPUnit.php',
             'BreakpointDebugging/PHPUnit/FrameworkTestCase.php'
-            ), true);
+            ), true
+        );
 
         return self::$_backupStaticPropertiesBlacklist;
     }
@@ -510,7 +519,6 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      * @param array $src      Source value.
      * @param bool  $forCheck For check?
      * @param bool  $isGlobal Is this a global variable?
-     *
      *
      * @return void
      */
@@ -945,10 +953,12 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      */
     static function checkIncludeError()
     {
-        B::limitAccess(array (
-            'BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
-            'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'
-        ));
+        B::limitAccess(
+            array (
+                'BreakpointDebugging/PHPUnit/FrameworkTestCase.php',
+                'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'
+            )
+        );
 
         foreach (self::$_declaredClasses as $key => $currentDeclaredClass) {
             if (stripos($currentDeclaredClass, 'PHPUnit_Framework_') === 0) {

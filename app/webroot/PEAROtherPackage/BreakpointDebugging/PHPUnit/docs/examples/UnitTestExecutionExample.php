@@ -7,47 +7,42 @@ chdir('../../../../../');
 require_once './BreakpointDebugging_Inclusion.php';
 
 use \BreakpointDebugging as B;
+use BreakpointDebugging_PHPUnit as BU;
 
 B::checkExeMode(true);
 
-function BreakpointDebugging_test()
-{
-    $breakpointDebugging_PHPUnit = new \BreakpointDebugging_PHPUnit();
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Please, choose unit tests files by customizing.
-    $breakpointDebugging_UnitTestFiles = array (
-        /*
-         */
-        'Sub/ExampleTest.php',
-        'RuleTest.php',
-        /*
-         */
-    );
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Please, choose unit tests files by customizing.
+$breakpointDebugging_UnitTestFiles = array (
+    /*
+     */
+    'Sub/ExampleTest.php',
+    'RuleTest.php',
+    /*
+     */
+);
 
-    // Specifies the test directory if "CakePHP".
-    // $breakpointDebugging_PHPUnit->setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
-    //
-    // Executes unit tests.
-    $breakpointDebugging_PHPUnit->executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
+// Specifies the test directory if "CakePHP".
+// BU::setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
+//
+// Executes unit tests.
+BU::executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
 
-    // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Please, choose simple unit tests files by customizing.
-    $breakpointDebugging_UnitTestFiles = array (
-        /*
-         */
-        'Sub/ExampleTestSimple.php',
-        'RuleTestSimple.php',
-        /*
-         */
-    );
+// Makes up code coverage report, then displays in browser.
+BU::displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Please, choose simple unit tests files by customizing.
+$breakpointDebugging_UnitTestFiles = array (
+    /*
+     */
+    'Sub/ExampleTestSimple.php',
+    'RuleTestSimple.php',
+    /*
+     */
+);
 
-    // Executes simple unit tests.
-    $breakpointDebugging_PHPUnit->executeUnitTestSimple($breakpointDebugging_UnitTestFiles); exit;
+// Executes simple unit tests.
+BU::executeUnitTestSimple($breakpointDebugging_UnitTestFiles); exit;
 
-    // Makes up code coverage report, then displays in browser.
-    $breakpointDebugging_PHPUnit->displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;
-}
-
-BreakpointDebugging_test();
+// Makes up code coverage report, then displays in browser.
+BU::displayCodeCoverageReport('Sub/ExampleTestSimple.php', 'Sub/Example.php', 'SIMPLE'); exit;

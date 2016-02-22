@@ -51,8 +51,9 @@ class BreakpointDebugging_PHPUnitTestSimple extends \BreakpointDebugging_PHPUnit
             'ExampleTest.php',
         );
         BU::setPropertyForTest('BreakpointDebugging_PHPUnit', '$unitTestDir', null);
-        $breakpointDebuggingPHPUnit = new \BreakpointDebugging_PHPUnit();
-        $breakpointDebuggingPHPUnit->executeUnitTest($testFileNames, 'PHPUNIT_OWN');
+        //$breakpointDebuggingPHPUnit = new \BreakpointDebugging_PHPUnit();
+        //$breakpointDebuggingPHPUnit->executeUnitTest($testFileNames, 'PHPUNIT_OWN');
+        BU::executeUnitTest($testFileNames, 'PHPUNIT_OWN');
 
         $testFileNames = array (
             'ExampleTest.php',
@@ -60,7 +61,8 @@ class BreakpointDebugging_PHPUnitTestSimple extends \BreakpointDebugging_PHPUnit
         BU::ignoreBreakpoint();
         BU::setPropertyForTest('BreakpointDebugging_PHPUnit', '$unitTestDir', null);
         try {
-            $breakpointDebuggingPHPUnit->executeUnitTest($testFileNames, 'PHPUNIT_OWN');
+            //$breakpointDebuggingPHPUnit->executeUnitTest($testFileNames, 'PHPUNIT_OWN');
+            BU::executeUnitTest($testFileNames, 'PHPUNIT_OWN');
         } catch (\BreakpointDebugging_ErrorException $e) {
             BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit FUNCTION=executeUnitTest ID=101.');
             return;
@@ -79,9 +81,10 @@ class BreakpointDebugging_PHPUnitTestSimple extends \BreakpointDebugging_PHPUnit
             'NotExistTest.php',
         );
         BU::setPropertyForTest('BreakpointDebugging_PHPUnit', '$unitTestDir', null);
-        $breakpointDebuggingPHPUnit = new \BreakpointDebugging_PHPUnit();
+        //$breakpointDebuggingPHPUnit = new \BreakpointDebugging_PHPUnit();
         try {
-            $breakpointDebuggingPHPUnit->executeUnitTest($testFileNames, 'PHPUNIT_OWN');
+            //$breakpointDebuggingPHPUnit->executeUnitTest($testFileNames, 'PHPUNIT_OWN');
+            BU::executeUnitTest($testFileNames, 'PHPUNIT_OWN');
         } catch (\BreakpointDebugging_ErrorException $e) {
             BU::assertExceptionMessage($e, 'CLASS=BreakpointDebugging_PHPUnit FUNCTION=executeUnitTest ID=102.');
             return;
@@ -218,15 +221,24 @@ class BreakpointDebugging_PHPUnitTestSimple extends \BreakpointDebugging_PHPUnit
         parent::fail();
     }
 
-//    function testDisplayCodeCoverageReport()
-//    {
-//        ob_start();
-//        //$breakpointDebuggingPHPUnit = new \BreakpointDebugging_PHPUnit();
-//        $breakpointDebugging_PHPUnit = new \BreakpointDebugging_PHPUnit();
-//        //$breakpointDebuggingPHPUnit->displayCodeCoverageReport('BreakpointDebugging/LockByFileExistingTest.php', array ('PEAR/BreakpointDebugging/Lock.php', 'PEAR/BreakpointDebugging/LockByFileExisting.php'));
-//        //$breakpointDebuggingPHPUnit->displayCodeCoverageReport('BreakpointDebugging/OverrideClassTest.php', 'PEAR/BreakpointDebugging/OverrideClass.php');
-//        //$breakpointDebugging_PHPUnit->displayCodeCoverageReport('ExampleTestSimple.php', array ('BreakpointDebugging/LockByFlock.php', 'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'), 'SIMPLE'); exit;
-//        $breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging-PHPUnitTestSimple.php', 'BreakpointDebugging_PHPUnit.php', 'SIMPLE_OWN'); exit;
-//        $breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging-PHPUnitTestSimple.php', 'BreakpointDebugging/PHPUnit/FrameworkTestCase.php', 'SIMPLE_OWN'); exit;
-//    }
+    function testDisplayCodeCoverageReport()
+    {
+        ob_start();
+        //$breakpointDebuggingPHPUnit = new \BreakpointDebugging_PHPUnit();
+        //$breakpointDebuggingPHPUnit->displayCodeCoverageReport('BreakpointDebugging/LockByFileExistingTest.php', array ('PEAR/BreakpointDebugging/Lock.php', 'PEAR/BreakpointDebugging/LockByFileExisting.php'));
+        BU::displayCodeCoverageReport('BreakpointDebugging/LockByFileExistingTest.php', array ('PEAR/BreakpointDebugging/Lock.php', 'PEAR/BreakpointDebugging/LockByFileExisting.php'));
+        //
+        //$breakpointDebuggingPHPUnit->displayCodeCoverageReport('BreakpointDebugging/OverrideClassTest.php', 'PEAR/BreakpointDebugging/OverrideClass.php');
+        BU::displayCodeCoverageReport('BreakpointDebugging/OverrideClassTest.php', 'PEAR/BreakpointDebugging/OverrideClass.php');
+        //
+        //$breakpointDebugging_PHPUnit->displayCodeCoverageReport('ExampleTestSimple.php', array ('BreakpointDebugging/LockByFlock.php', 'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'), 'SIMPLE'); exit;
+        BU::displayCodeCoverageReport('ExampleTestSimple.php', array ('BreakpointDebugging/LockByFlock.php', 'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'), 'SIMPLE'); exit;
+        //
+        //$breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging-PHPUnitTestSimple.php', 'BreakpointDebugging_PHPUnit.php', 'SIMPLE_OWN'); exit;
+        BU::displayCodeCoverageReport('BreakpointDebugging-PHPUnitTestSimple.php', 'BreakpointDebugging_PHPUnit.php', 'SIMPLE_OWN'); exit;
+        //
+        //$breakpointDebugging_PHPUnit->displayCodeCoverageReport('BreakpointDebugging-PHPUnitTestSimple.php', 'BreakpointDebugging/PHPUnit/FrameworkTestCase.php', 'SIMPLE_OWN'); exit;
+        BU::displayCodeCoverageReport('BreakpointDebugging-PHPUnitTestSimple.php', 'BreakpointDebugging/PHPUnit/FrameworkTestCase.php', 'SIMPLE_OWN'); exit;
+    }
+
 }
