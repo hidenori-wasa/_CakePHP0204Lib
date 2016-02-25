@@ -41,7 +41,8 @@ class BreakpointDebugging_PHPUnitTestSimple extends \BreakpointDebugging_PHPUnit
         if (BU::$exeMode & B::REMOTE) {
             return;
         }
-        if (parent::markTestSkippedInDebug()) {
+        //if (parent::markTestSkippedInDebug()) {
+        if (BU::markTestSkippedInDebug()) {
             return;
         }
 

@@ -332,30 +332,29 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
         B::exitForError($message); // Displays error call stack information.
     }
 
-    /**
-     * Marks the test as skipped in debug.
-     *
-     * @return void
-     */
-    static function markTestSkippedInDebug()
-    {
-        if (B::isDebug()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Marks the test as skipped in release.
-     *
-     * @return void
-     */
-    static function markTestSkippedInRelease()
-    {
-        if (B::isDebug()) {
-            return false;
-        }
-        return true;
-    }
-
+//    /**
+//     * Marks the test as skipped in debug.
+//     *
+//     * @return void
+//     */
+//    static function markTestSkippedInDebug()
+//    {
+//        if (B::isDebug()) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    /**
+//     * Marks the test as skipped in release.
+//     *
+//     * @return void
+//     */
+//    static function markTestSkippedInRelease()
+//    {
+//        if (B::isDebug()) {
+//            return false;
+//        }
+//        return true;
+//    }
 }

@@ -570,27 +570,58 @@ EOD;
     }
 
     /**
-     * Marks the test as skipped in debug.
+     * Marks the test as skipped.
      *
      * @return void
+     * @throws PHPUnit_Framework_SkippedTestError
+     */
+    private static function _markTestSkipped()
+    {
+        if (self::$_phpUnitUse) {
+            \PHPUnit_Framework_Assert::markTestSkipped();
+        }
+        // Stop output buffering.
+        ob_end_clean();
+        // Displays skipped test.
+        echo 'S';
+        // Start output buffering.
+        ob_start();
+    }
+
+    /**
+     * Marks the test as skipped in debug.
+     *
+     * @return bool TRUE if debug mode of simple unit test.
+     * @throws PHPUnit_Framework_SkippedTestError if debug mode of unit test.
      */
     static function markTestSkippedInDebug()
     {
+//        if (B::isDebug()) {
+//            \PHPUnit_Framework_Assert::markTestSkipped();
+//        }
         if (B::isDebug()) {
-            \PHPUnit_Framework_Assert::markTestSkipped();
+            self::_markTestSkipped();
+            return true;
         }
+        return false;
     }
 
     /**
      * Marks the test as skipped in release.
      *
-     * @return void
+     * @return bool TRUE if release mode of simple unit test.
+     * @throws PHPUnit_Framework_SkippedTestError if release mode of unit test.
      */
     static function markTestSkippedInRelease()
     {
+//        if (!B::isDebug()) {
+//            \PHPUnit_Framework_Assert::markTestSkipped();
+//        }
         if (!B::isDebug()) {
-            \PHPUnit_Framework_Assert::markTestSkipped();
+            self::_markTestSkipped();
+            return true;
         }
+        return false;
     }
 
     /**
@@ -1449,6 +1480,13 @@ EOD;
      */
     static function checkStartCall()
     {
+        B::limitAccess(
+            array (
+            'BreakpointDebugging_PHPUnit.php',
+            'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'
+            ), true
+        );
+
         if (self::$_onceFlag) {
             return;
         }
@@ -1474,17 +1512,7 @@ EOD;
     {
         self::checkStartCall();
         $callStack = debug_backtrace();
-//        $callStart = array_pop($callStack);
         $call = $callStack[2];
-//        if ($callStart['class'] !== 'BreakpointDebugging_PHPUnit' // Parent class method must be called from "\BreakpointDebugging_PHPUnit" class.
-//            || ($callStart['function'] !== 'executeUnitTest' // Parent class method must be called from "executeUnitTest" class method.
-//            && $callStart['function'] !== 'executeUnitTestSimple' // Parent class method must be called from "executeUnitTest" class method.
-//            && $callStart['function'] !== 'displayCodeCoverageReport' // Parent class method must be called from "executeUnitTest" class method.
-//            ) || (!is_subclass_of($call['class'], '\BreakpointDebugging_PHPUnit_FrameworkTestCase') // Parent class method must be called from subclass of "\BreakpointDebugging_PHPUnit_FrameworkTestCase" class.
-//            && !is_subclass_of($call['class'], '\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple')) // Or, Parent class method must be called from subclass of "\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple" class.
-//        ) {
-//            throw new \BreakpointDebugging_ErrorException('This unit test file must be executed by calling "\BreakpointDebugging_PHPUnit::executeUnitTest()" or "\BreakpointDebugging_PHPUnit::executeUnitTestSimple()" or "\BreakpointDebugging_PHPUnit::displayCodeCoverageReport()".');
-//        }
         if ($call['function'] !== 'setUpBeforeClass') {
             throw new \BreakpointDebugging_ErrorException('"\BreakpointDebugging_PHPUnit::loadClass()" or "\BreakpointDebugging_PHPUnit::includeClass()" class method must be called inside "setUpBeforeClass()" class method.');
         }

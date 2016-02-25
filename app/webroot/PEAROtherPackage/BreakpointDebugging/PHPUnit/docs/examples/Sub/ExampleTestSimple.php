@@ -5,7 +5,7 @@ use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
 
 B::assert(B::isDebug());
-class Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
+class Sub_ExampleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple // This can change to "BreakpointDebugging_PHPUnit_FrameworkTestCase" if we need native feature.
 {
     private $_pTestObject;
 

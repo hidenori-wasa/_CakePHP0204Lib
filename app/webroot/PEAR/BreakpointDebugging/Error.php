@@ -91,6 +91,7 @@ final class BreakpointDebugging_Error extends \BreakpointDebugging_ErrorInAllCas
         \BreakpointDebugging::assert(is_string($prependLog));
 
         if (\BreakpointDebugging::isDebug()) { // In case of debug mode.
+            include_once 'BreakpointDebugging/Lock.php'; // Avoids "\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError()".
             // Forces unlocking to avoid lock-count assertion error if forces a exit.
             \BreakpointDebugging_Lock::forceUnlocking();
         }

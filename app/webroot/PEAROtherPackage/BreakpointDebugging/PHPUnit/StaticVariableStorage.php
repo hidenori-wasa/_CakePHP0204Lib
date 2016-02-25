@@ -352,6 +352,13 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             if (stripos($className, 'PHPUnit_Framework_') === 0) {
                 return;
             }
+            // Skips "CakePHP" class.
+            if (BREAKPOINTDEBUGGING_IS_CAKE //
+                && ($className === 'FileLog' //
+                || $className === 'BaseLog') //
+            ) {
+                return;
+            }
             if ($onceFlag) {
                 B::exitForError('Autoload error must be fixed per a bug. Double click call stack window about "' . $serchClassName . '".');
             }

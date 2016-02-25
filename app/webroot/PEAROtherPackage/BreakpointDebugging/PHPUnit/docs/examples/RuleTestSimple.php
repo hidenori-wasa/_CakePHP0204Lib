@@ -127,7 +127,8 @@ class RuleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimpl
         // spl_autoload_register('\RuleTestSimple::loadClass', true, true); // Autoload function must not be registered at top of stack by "spl_autoload_register()". (Autodetects)
         //
         // include_once __DIR__ . '/AFile.php'; // "include" must not be executed during "setUp()", "test*()" or "tearDown()" because a class is declared newly. (Autodetects)
-        if (parent::markTestSkippedInDebug()) {
+        //if (parent::markTestSkippedInDebug()) {
+        if (BU::markTestSkippedInDebug()) {
             return;
         }
 
@@ -146,7 +147,8 @@ class RuleTestSimple extends \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimpl
 
     public function testSomething_B()
     {
-        if (parent::markTestSkippedInRelease()) {
+        //if (parent::markTestSkippedInRelease()) {
+        if (BU::markTestSkippedInRelease()) {
             return;
         }
 

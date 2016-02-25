@@ -56,6 +56,7 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I improved "How to construct environment which can do step execution" section of "BreakpointDebugging/docs/BREAKPOINTDEBUGGING_MANUAL.html" file.
-* I changed "BreakpointDebugging_PHPUnit" class to static class for simplification.
-* I added justice check of "\BreakpointDebugging_PHPUnit::loadClass()" and "\BreakpointDebugging_PHPUnit::includeClass()" class method.
+* I changed "\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple::markTestSkippedInDebug()" to "\BreakpointDebugging_PHPUnit::markTestSkippedInDebug()" for portability.
+* I changed "\BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple::markTestSkippedInRelease()" to "\BreakpointDebugging_PHPUnit::markTestSkippedInRelease()" for portability.
+* I deleted "@covers" annotation check because code coverage report does not use its annotation.
+* I repaired bug which does not display error exception by avoiding autoload call inside global exception handler.

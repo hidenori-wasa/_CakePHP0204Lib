@@ -165,12 +165,13 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
     }
 
     /**
-     * Checks an annotation.
+     * Checks a document comment existence.
      *
      * @return void
      * @author Hidenori Wasa <public@hidenori-wasa.com>
      */
-    private function _checkAnnotation()
+    //private function _checkAnnotation()
+    private function _checkDocCommentExistence()
     {
         $className = get_class($this);
         $methodName = $this->name;
@@ -181,14 +182,14 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
             B::exitForError($errorMessage . 'document comment.');
         }
 
-        if (preg_match('`@covers [[:blank:]]+ \\\\? [_[:alpha:]] [_[:alnum:]]* <extended> [[:space:]]+`xX', $docComment) !== 1) {
-            B::exitForError(
-                PHP_EOL
-                . $errorMessage . '"@covers ...<extended>" annotation' . PHP_EOL
-                . "\t" . 'because we may use code coverage report of base abstract class.' . PHP_EOL
-                . "\t" . 'Also, a test-class method calls a base class method, then its base class method may call a test-class method.' . PHP_EOL
-            );
-        }
+        //if (preg_match('`@covers [[:blank:]]+ \\\\? [_[:alpha:]] [_[:alnum:]]* <extended> [[:space:]]+`xX', $docComment) !== 1) {
+        //    B::exitForError(
+        //        PHP_EOL
+        //        . $errorMessage . '"@covers ...<extended>" annotation' . PHP_EOL
+        //        . "\t" . 'because we may use code coverage report of base abstract class.' . PHP_EOL
+        //        . "\t" . 'Also, a test-class method calls a base class method, then its base class method may call a test-class method.' . PHP_EOL
+        //    );
+        //}
     }
 
     /**
@@ -243,8 +244,10 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
         try {
             $this->setExpectedExceptionFromAnnotation();
 
-            // Checks an annotation.
-            $this->_checkAnnotation();
+            //// Checks an annotation.
+            //$this->_checkAnnotation();
+            // Checks a document comment existence.
+            $this->_checkDocCommentExistence();
 
             $this->setUp();
 

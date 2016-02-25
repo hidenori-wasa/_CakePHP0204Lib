@@ -26,10 +26,10 @@ $breakpointDebugging_UnitTestFiles = array (
 // BU::setTestDir('../../Plugin/WasaPhpUnit/Test/Case/');
 //
 // Executes unit tests.
-BU::executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
+// BU::executeUnitTest($breakpointDebugging_UnitTestFiles); exit;
 
 // Makes up code coverage report, then displays in browser.
-BU::displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
+// BU::displayCodeCoverageReport('Sub/ExampleTest.php', 'Sub/Example.php'); exit;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Please, choose simple unit tests files by customizing.
 $breakpointDebugging_UnitTestFiles = array (

@@ -1165,6 +1165,7 @@ EOD;
             return;
         }
 
+        include_once 'BreakpointDebugging/LockByFileExisting.php'; // Avoids "\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError()".
         // Locks the error log files.
         $this->_lockByFileExisting = &\BreakpointDebugging_LockByFileExisting::internalSingleton();
         $this->_lockByFileExisting->lock();
