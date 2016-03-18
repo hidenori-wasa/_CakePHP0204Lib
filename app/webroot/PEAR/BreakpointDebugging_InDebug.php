@@ -44,6 +44,9 @@ final class BreakpointDebugging extends \BreakpointDebugging_InAllCase
      */
     static function checkSuperUserExecution()
     {
+        //if (ob_get_level() > 0) {
+        //    ob_end_flush();
+        //}
         if (BREAKPOINTDEBUGGING_IS_WINDOWS) { // In case of Windows.
             return;
         }

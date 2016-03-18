@@ -596,6 +596,9 @@ EOD;
      */
     static function markTestSkippedInDebug()
     {
+//        if (B::isDebug()) {
+//            \PHPUnit_Framework_Assert::markTestSkipped();
+//        }
         if (B::isDebug()) {
             self::_markTestSkipped();
             return true;
@@ -611,6 +614,9 @@ EOD;
      */
     static function markTestSkippedInRelease()
     {
+//        if (!B::isDebug()) {
+//            \PHPUnit_Framework_Assert::markTestSkipped();
+//        }
         if (!B::isDebug()) {
             self::_markTestSkipped();
             return true;
