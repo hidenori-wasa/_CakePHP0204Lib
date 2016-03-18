@@ -125,20 +125,6 @@ abstract class BreakpointDebugging_InAllCase
      */
     private static $_callLocations = array ();
 
-//    /**
-//     * Include-paths.
-//     *
-//     * @var string
-//     */
-//    private static $_includePaths;
-
-    /**
-     * "\BreakpointDebugging_PHPUnit" instance.
-     *
-     * @var object
-     */
-    private static $_phpUnit;
-
     /**
      * Temporary variable.
      *
@@ -489,21 +475,15 @@ abstract class BreakpointDebugging_InAllCase
             // Keeps the project work directory at "__destruct" and shutdown.
             chdir(self::$pwd);
         }
-        //if (!isset(self::$_includePaths)) {
-        //  self::$_includePaths = ini_get('include_path');
         $includePaths = ini_get('include_path');
-        //  self::$_includePaths = explode(PATH_SEPARATOR, self::$_includePaths);
         $includePaths = explode(PATH_SEPARATOR, $includePaths);
-        //}
         if (is_array($invokerFilePaths)) {
             foreach ($invokerFilePaths as $invokerFilePath) {
-                //if (self::_checkInvokerFilePath(self::$_includePaths, $invokerFilePath, $fullFilePath)) {
                 if (self::_checkInvokerFilePath($includePaths, $invokerFilePath, $fullFilePath)) {
                     return;
                 }
             }
         } else {
-            //if (self::_checkInvokerFilePath(self::$_includePaths, $invokerFilePaths, $fullFilePath)) {
             if (self::_checkInvokerFilePath($includePaths, $invokerFilePaths, $fullFilePath)) {
                 return;
             }
@@ -616,20 +596,6 @@ abstract class BreakpointDebugging_InAllCase
         \BreakpointDebugging::assert(count(array_diff_key($additionalElements, self::$_get)) === count($additionalElements));
 
         return http_build_query(array_merge($additionalElements, self::$_get));
-    }
-
-    /**
-     * Sets the "\BreakpointDebugging_PHPUnit" object.
-     *
-     * @param object $phpUnit "\BreakpointDebugging_PHPUnit".
-     *
-     * @return void
-     */
-    static function setPHPUnit($phpUnit)
-    {
-        \BreakpointDebugging::limitAccess('BreakpointDebugging_PHPUnit.php', true);
-
-        self::$_phpUnit = $phpUnit;
     }
 
     /**
@@ -839,18 +805,6 @@ EOD;
     {
         self::$_xdebugExists = $value;
     }
-
-//    /**
-//     * Refers to this class's property.
-//     *
-//     * @return string This class's property.
-//     */
-//    static function &refIncludePaths()
-//    {
-//        \BreakpointDebugging::limitAccess('');
-//
-//        return self::$_includePaths;
-//    }
 
     /**
      * Gets this class's property.

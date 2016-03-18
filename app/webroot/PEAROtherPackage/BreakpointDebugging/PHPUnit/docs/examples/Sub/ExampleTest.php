@@ -4,11 +4,8 @@
 use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
 
-//use \BreakpointDebugging_PHPUnit_docs_examples_Sub_Example as BUE;
-
 B::assert(B::isDebug());
 // class Sub_ExampleTest extends \CakeTestCase // If "CakePHP". Or, "extends \ControllerTestCase".
-//class BreakpointDebugging_PHPUnit_docs_examples_Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 {
     private $_pTestObject;
@@ -19,7 +16,7 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         parent::setUpBeforeClass();
     }
 
-    protected function setUp()
+    function setUp()
     {
         // This is required at top.
         parent::setUp();
@@ -28,7 +25,7 @@ class Sub_ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
         $this->_pTestObject = new \Sub_Example();
     }
 
-    protected function tearDown()
+    function tearDown()
     {
         // Destructs the test instance to reduce memory use. Also, this is the rule 1.
         $this->_pTestObject = null;

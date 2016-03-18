@@ -36,12 +36,13 @@ use \BreakpointDebugging_Window as BW;
  */
 class BreakpointDebugging_Window
 {
+
     /**
      * Shared memory byte size.
      *
      * @const int
      */
-    const SHARED_MEMORY_SIZE = 1048576;
+    const SHARED_MEMORY_SIZE = 10485760;
 
     /**
      * This instance.
@@ -198,6 +199,9 @@ class BreakpointDebugging_Window
                 B::assert($javaScriptWritingPtr !== false);
                 // If area to write overruns shared memory area.
                 if ($javaScriptWritingPtr + strlen($javaScriptDispatcher) >= self::SHARED_MEMORY_SIZE) {
+                    if (strlen($javaScriptDispatcher) > self::SHARED_MEMORY_SIZE) {
+                        xdebug_break();
+                    }
                     $lastStrLen = self::SHARED_MEMORY_SIZE - $javaScriptWritingPtr;
                     $javaScriptDispatcherBefore = substr($javaScriptDispatcher, 0, $lastStrLen);
                     $javaScriptDispatcher = substr($javaScriptDispatcher, $lastStrLen);
@@ -258,7 +262,8 @@ class BreakpointDebugging_Window
     {
         $openFirefoxWindow = function ($uri) {
             $command = BW::generateMozillaFirefoxStartCommand($uri);
-            if (BREAKPOINTDEBUGGING_IS_WINDOWS) { // If Windows.
+            if (BREAKPOINTDEBUGGING_IS_WINDOWS // If Windows.
+                && !(B::getExeMode() & B::REMOTE)) { // If local.
                 // Opens "BreakpointDebugging_DisplayToOtherProcess.php" page for display in other process.
                 `$command`;
                 return;
@@ -333,11 +338,11 @@ EOD;
                 }
                 break;
             }
-            // If "CakePHP".
-            if (BREAKPOINTDEBUGGING_IS_CAKE) {
-                $uri = str_replace('\\', '/', $uri);
-                $uri = str_replace('/app/webroot/', '/', $uri);
-            }
+            //// If "CakePHP".
+            //if (BREAKPOINTDEBUGGING_IS_CAKE) {
+            //    $uri = str_replace('\\', '/', $uri);
+            //    $uri = str_replace('/app/webroot/', '/', $uri);
+            //}
             // Opens "Mozilla Firefox" window.
             $openFirefoxWindow($uri);
         } else { // If "shmop" extension is invalid.

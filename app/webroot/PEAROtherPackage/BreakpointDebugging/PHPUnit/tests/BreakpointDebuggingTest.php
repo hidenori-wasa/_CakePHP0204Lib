@@ -13,7 +13,6 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
 
     static function setUpBeforeClass()
     {
-        //BU::loadClass('FileLog');
         BU::loadClass('BreakpointDebugging_Lock');
         BU::loadClass('BreakpointDebugging_LockByFileExisting');
         parent::setUpBeforeClass();
@@ -162,37 +161,18 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
 
     function limitAccess_A1()
     {
-        //B::limitAccess('tests/PEAR/BreakpointDebuggingTest.php');
         B::limitAccess('BreakpointDebuggingTest.php');
     }
 
     function limitAccess_A2()
     {
-        //B::limitAccess('tests/PEAR/BreakpointDebuggingTest.php', true);
         B::limitAccess('BreakpointDebuggingTest.php', true);
     }
-
-//    function limitAccess_A3()
-//    {
-//        $includePaths = &B::refIncludePaths();
-//        $includePaths = null;
-//        //B::limitAccess('tests/PEAR/BreakpointDebuggingTest.php');
-//        B::limitAccess('BreakpointDebuggingTest.php');
-//    }
-//
-//    function limitAccess_A4()
-//    {
-//        $includePaths = &B::refIncludePaths();
-//        $includePaths = null;
-//        //B::limitAccess('tests/PEAR/BreakpointDebuggingTest.php', true);
-//        B::limitAccess('BreakpointDebuggingTest.php', true);
-//    }
 
     function limitAccess_A5()
     {
         try {
             BU::ignoreBreakpoint();
-            //B::limitAccess(array ('tests/PEAR/Dummy1.php', 'tests/PEAR/Dummy2.php'), true);
             B::limitAccess(array ('Dummy1.php', 'Dummy2.php'), true);
         } catch (\Exception $e) {
 
@@ -201,7 +181,6 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
 
     function limitAccess_A6()
     {
-        //B::limitAccess(array ('tests/PEAR/Dummy1.php', 'tests/PEAR/BreakpointDebuggingTest.php'), true);
         B::limitAccess(array ('Dummy1.php', 'BreakpointDebuggingTest.php'), true);
     }
 
@@ -212,8 +191,6 @@ class BreakpointDebuggingTest extends \BreakpointDebugging_PHPUnit_FrameworkTest
     {
         $this->limitAccess_A1();
         $this->limitAccess_A2();
-        //$this->limitAccess_A3();
-        //$this->limitAccess_A4();
         $this->limitAccess_A5();
         $this->limitAccess_A6();
     }

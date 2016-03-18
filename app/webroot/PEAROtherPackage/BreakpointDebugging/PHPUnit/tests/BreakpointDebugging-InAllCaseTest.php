@@ -4,7 +4,6 @@ use \BreakpointDebugging as B;
 use \BreakpointDebugging_InAllCase as BA;
 use \BreakpointDebugging_PHPUnit as BU;
 use \BreakpointDebugging_InAllCaseTest as T;
-use \BreakpointDebugging_Window as BW;
 
 /**
  * Test class for BreakpointDebugging_InAllCase.
@@ -455,12 +454,9 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
 
 T::$testAutoload = 1;
 if (T::$testAutoload === 1) { // The case which extends base class.
-    //class AutoloadTest extends \tests_PEAR_AutoloadTestBase
     class AutoloadTest extends \AutoloadTestBase
     {
 
     }
 
 }
-
-?>

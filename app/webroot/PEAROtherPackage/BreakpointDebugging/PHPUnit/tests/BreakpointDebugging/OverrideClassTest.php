@@ -14,7 +14,6 @@ class NativeClassOverriding extends \BreakpointDebugging_OverrideClass
     function __construct()
     {
         // This creates a native class object.
-        //$pNativeClass = self::newArray(self::$pr_nativeClassName, func_get_args());
         $pNativeClass = parent::newArray(self::$pr_nativeClassName, func_get_args());
         // This is the code to override a class without inheritance.
         parent::__construct($pNativeClass);
@@ -122,5 +121,3 @@ class BreakpointDebugging_OverrideClassTest extends \BreakpointDebugging_PHPUnit
     }
 
 }
-
-?>

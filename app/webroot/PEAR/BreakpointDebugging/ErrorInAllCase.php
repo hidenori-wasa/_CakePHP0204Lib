@@ -728,7 +728,6 @@ abstract class BreakpointDebugging_ErrorInAllCase
             $log = B::convertMbString($log);
 
             if (\BreakpointDebugging::isDebug()) { // If this displays.
-                //BW::htmlAddition(B::ERROR_WINDOW_NAME, 'pre', 0, $log);
                 BW::exitForError($log);
             } else { // If this does a log.
                 $errorLogDirectory = BREAKPOINTDEBUGGING_WORK_DIR_NAME . self::ERROR_LOG_DIR;
@@ -1165,6 +1164,7 @@ EOD;
             return;
         }
 
+        include_once 'BreakpointDebugging/LockByFileExisting.php'; // Avoids "\BreakpointDebugging_PHPUnit_StaticVariableStorage::displayAutoloadError()".
         // Locks the error log files.
         $this->_lockByFileExisting = &\BreakpointDebugging_LockByFileExisting::internalSingleton();
         $this->_lockByFileExisting->lock();

@@ -51,6 +51,12 @@ if (!defined('BREAKPOINTDEBUGGING_MODE')) {
  */
 function BreakpointDebugging_userSetting($exeMode, &$language, &$timezone, &$SMTP, &$sendmailFrom, &$openBasedir)
 {
+    /**
+     * See "### Debug mode constant number ###" of class "BreakpointDebugging_InAllCase" in "BreakpointDebugging.php".
+     */
+    // ### Debug mode number ###
+    $REMOTE = 1;
+
     $developerIP = &B::refDeveloperIP();
     // Enter developer IP address for security.
     $developerIP = '127.0.0.1';
@@ -68,6 +74,9 @@ function BreakpointDebugging_userSetting($exeMode, &$language, &$timezone, &$SMT
             // $openBasedir = '/opt/lampp/:./:' . sys_get_temp_dir();
             $openBasedir = '/usr/share/php/:./:' . sys_get_temp_dir();
         }
+    }
+    if (BREAKPOINTDEBUGGING_IS_CAKE) {
+        $openBasedir = ':../../';
     }
     // Set "mbstring.detect_order = UTF-8, UTF-7, ASCII, EUC-JP,SJIS, eucJP-win, SJIS-win, JIS, ISO-2022-JP" of "php.ini" file because this is purpose to define default value of character code detection.
     $result = mb_detect_order('UTF-8, UTF-7, ASCII, EUC-JP,SJIS, eucJP-win, SJIS-win, JIS, ISO-2022-JP');

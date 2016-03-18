@@ -102,39 +102,32 @@ class BreakpointDebugging_Exception extends \BreakpointDebugging_Exception_InAll
 class BreakpointDebugging_PHPUnit
 {
     /**
+     * The once flag.
+     *
+     * @var bool
+     */
+    private static $_onceFlag;
+
+    /**
      * The test directory.
      *
      * @var string
      */
-    private $_testDir;
-
-    /**
-     * Full file path of "WasaCakeTestStart.php".
-     *
-     * @var string
-     */
-    private $_WasaCakeTestStartPagePath;
-
-//    /**
-//     * "\StaticVariableStorage" instance.
-//     *
-//     * @var object
-//     */
-//    private $_staticVariableStorage;
+    private static $_testDir;
 
     /**
      * Unit test window name.
      *
      * @var string
      */
-    private $_unitTestWindowName;
+    private static $_unitTestWindowName;
 
     /**
      * Does it use "PHPUnit" package?
      *
      * @var bool
      */
-    private $_phpUnitUse;
+    private static $_phpUnitUse;
 
     /**
      * Unit test file paths storage.
@@ -178,26 +171,19 @@ class BreakpointDebugging_PHPUnit
      */
     private static $_separator;
 
-//    /**
-//     * Flag of once.
-//     *
-//     * @var bool
-//     */
-//    private static $_onceFlag = true;
-
     /**
      * Unit test result.
      *
      * @var string
      */
-    private $_unitTestResult = 'DONE';
+    private static $_unitTestResult = 'DONE';
 
     /**
      * The output buffering level.
      *
      * @var int
      */
-    private $_obLevel;
+    private static $_obLevel;
 
     /**
      * How to test?
@@ -225,20 +211,6 @@ class BreakpointDebugging_PHPUnit
     }
 
     /**
-     * Sets the start page file path.
-     */
-    function __construct()
-    {
-        $this->_WasaCakeTestStartPagePath = getcwd() . '/WasaCakeTestStart.php';
-        // Reference path setting.
-        $includePaths = explode(PATH_SEPARATOR, ini_get('include_path'));
-        array_unshift($includePaths, $includePaths[0]);
-        $callStack = debug_backtrace();
-        $includePaths[1] = dirname($callStack[0]['file']);
-        ini_set('include_path', implode(PATH_SEPARATOR, $includePaths));
-    }
-
-    /**
      * Gets this class's property.
      *
      * @return mixed This class's property.
@@ -263,11 +235,11 @@ class BreakpointDebugging_PHPUnit
      *
      * @return int The output buffering level.
      */
-    function &refObLevel()
+    static function &refObLevel()
     {
         B::limitAccess('BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php', true);
 
-        return $this->_obLevel;
+        return self::$_obLevel;
     }
 
     /**
@@ -275,9 +247,9 @@ class BreakpointDebugging_PHPUnit
      *
      * @return void
      */
-    function getHtmlFileContent()
+    static function getHtmlFileContent()
     {
-        if ($this->_phpUnitUse) {
+        if (self::$_phpUnitUse) {
             $title = 'PHPUnit';
         } else {
             $title = 'PHPUnitSimple';
@@ -305,13 +277,11 @@ EOD;
     /**
      * Gets unit test window name.
      *
-     * @param object $phpUnit "\BreakpointDebugging_PHPUnit" instance.
-     *
      * @return string Unit test window name.
      */
-    static function getUnitTestWindowName($phpUnit)
+    static function getUnitTestWindowName()
     {
-        return $phpUnit->_unitTestWindowName;
+        return self::$_unitTestWindowName;
     }
 
     /**
@@ -381,7 +351,7 @@ EOD;
      *
      * @return void
      */
-    private function _getUnitTestDir()
+    private static function _getUnitTestDir()
     {
         $callStack = debug_backtrace();
         $callStack = array_reverse($callStack);
@@ -424,7 +394,7 @@ EOD;
      *
      * @return void
      */
-    private function _runPHPUnitCommand($command)
+    private static function _runPHPUnitCommand($command)
     {
         $commandElements = explode(' ', $command);
         $testFileName = array_pop($commandElements);
@@ -436,25 +406,10 @@ EOD;
         }
         $command = ltrim($command);
         echo self::$_separator;
-        echo 'Runs <b>"' . str_replace('\\', '/', substr(realpath(self::$unitTestDir . $testFileName), strlen(realpath(self::$unitTestDir . $this->_testDir)) + 1)) . '"</b>.' . PHP_EOL;
+        echo 'Runs <b>"' . str_replace('\\', '/', substr(realpath(self::$unitTestDir . $testFileName), strlen(realpath(self::$unitTestDir . self::$_testDir)) + 1)) . '"</b>.' . PHP_EOL;
         // Initializes once's flag per test file.
         $onceFlagPerTestFile = &BSS::refOnceFlagPerTestFile(); // This is not rule violation because this property is not stored.
         $onceFlagPerTestFile = true;
-//        if (self::$_onceFlag) {
-//            self::$_onceFlag = false;
-//            // Stores global variables.
-//            //BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), array ());
-//            BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
-//            // Stores static properties.
-//            //$staticProperties = &BSS::refStaticProperties();
-//            //BSS::storeProperties($staticProperties, BSS::refBackupStaticPropertiesBlacklist());
-//            BSS::storeProperties(BSS::refStaticProperties(), BSS::refBackupStaticPropertiesBlacklist());
-//        } else {
-//            // Restores global variables.
-//            BSS::restoreGlobals(BSS::refGlobalRefs(), BSS::refGlobals());
-//            // Restores static properties.
-//            BSS::restoreProperties(BSS::refStaticProperties());
-//        }
         // Uses "PHPUnit" package error handler.
         set_error_handler('\PHPUnit_Util_ErrorHandler::handleError', E_ALL | E_STRICT);
         // Runs unit test continuously.
@@ -486,7 +441,7 @@ EOD;
      *
      * @return void
      */
-    private function _runPHPUnitCommandSimple($testFilePath)
+    private static function _runPHPUnitCommandSimple($testFilePath)
     {
         echo self::$_separator;
         echo "Runs <b>a unit test of \"$testFilePath\"</b> file." . PHP_EOL;
@@ -522,7 +477,7 @@ EOD;
      *
      * @return void
      */
-    function displayProgress($dy = 0)
+    static function displayProgress($dy = 0)
     {
         B::limitAccess(
             array (basename(__FILE__),
@@ -537,14 +492,14 @@ EOD;
             $result = ob_get_clean();
             if (is_string($result)) {
                 if (strpos($result, 'I') === 0) {
-                    $this->_unitTestResult = 'INCOMPLETE';
+                    self::$_unitTestResult = 'INCOMPLETE';
                     $result = '<strong>I</strong>' . substr($result, 1);
                 }
                 $buffer .= $result;
             }
         }
-        BW::htmlAddition($this->_unitTestWindowName, 'pre', 0, $buffer);
-        BW::scrollBy($this->_unitTestWindowName, $dy);
+        BW::htmlAddition(self::$_unitTestWindowName, 'pre', 0, $buffer);
+        BW::scrollBy(self::$_unitTestWindowName, $dy);
         flush();
         for (; $count > 0; $count--) {
             ob_start();
@@ -615,27 +570,52 @@ EOD;
     }
 
     /**
-     * Marks the test as skipped in debug.
+     * Marks the test as skipped.
      *
      * @return void
+     * @throws PHPUnit_Framework_SkippedTestError
+     */
+    private static function _markTestSkipped()
+    {
+        if (self::$_phpUnitUse) {
+            \PHPUnit_Framework_Assert::markTestSkipped();
+        }
+        // Stop output buffering.
+        ob_end_clean();
+        // Displays skipped test.
+        echo 'S';
+        // Start output buffering.
+        ob_start();
+    }
+
+    /**
+     * Marks the test as skipped in debug.
+     *
+     * @return bool TRUE if debug mode of simple unit test.
+     * @throws PHPUnit_Framework_SkippedTestError if debug mode of unit test.
      */
     static function markTestSkippedInDebug()
     {
         if (B::isDebug()) {
-            \PHPUnit_Framework_Assert::markTestSkipped();
+            self::_markTestSkipped();
+            return true;
         }
+        return false;
     }
 
     /**
      * Marks the test as skipped in release.
      *
-     * @return void
+     * @return bool TRUE if release mode of simple unit test.
+     * @throws PHPUnit_Framework_SkippedTestError if release mode of unit test.
      */
     static function markTestSkippedInRelease()
     {
         if (!B::isDebug()) {
-            \PHPUnit_Framework_Assert::markTestSkipped();
+            self::_markTestSkipped();
+            return true;
         }
+        return false;
     }
 
     /**
@@ -838,69 +818,6 @@ EOD;
         'TextCoverageReport' => true, // "CakePHP" class.
         'WasaTestArrayCommand' => true, // Wasa's "CakePHP" class.
         'WasaTestArrayDispatcher' => true, // Wasa's "CakePHP" class.
-//        // Optional class names.
-//        'AclException' => true, // "CakePHP" class.
-//        'BadRequestException' => true, // "CakePHP" class.
-//        'BaseLog' => true, // "CakePHP" class.
-//        'BreakpointDebugging_Error' => true,
-//        'BreakpointDebugging_ErrorInAllCase' => true,
-//        'BreakpointDebugging_PHPUnit' => true,
-//        'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple' => true,
-//        'BreakpointDebugging_Shmop' => true,
-//        'BreakpointDebugging\NativeFunctions' => true,
-//        'Cache' => true, // "CakePHP" class.
-//        'CacheEngine' => true, // "CakePHP" class.
-//        'CacheException' => true, // "CakePHP" class.
-//        'CakeBaseException' => true, // "CakePHP" class.
-//        'CakeException' => true, // "CakePHP" class.
-//        'CakeLog' => true, // "CakePHP" class.
-//        'CakeLogException' => true, // "CakePHP" class.
-//        'CakePlugin' => true, // "CakePHP" class.
-//        'CakeSessionException' => true, // "CakePHP" class.
-//        'Configure' => true, // "CakePHP" class.
-//        'ConfigureException' => true, // "CakePHP" class.
-//        'ConsoleException' => true, // "CakePHP" class.
-//        'Debugger' => true, // "CakePHP" class.
-//        'ErrorHandler' => true, // "CakePHP" class.
-//        'FatalErrorException' => true, // "CakePHP" class.
-//        'FileEngine' => true, // "CakePHP" class.
-//        'FileLog' => true, // "CakePHP" class.
-//        'ForbiddenException' => true, // "CakePHP" class.
-//        'Hash' => true, // "CakePHP" class.
-//        'HttpException' => true, // "CakePHP" class.
-//        'Inflector' => true, // "CakePHP" class.
-//        'InternalErrorException' => true, // "CakePHP" class.
-//        'LogEngineCollection' => true, // "CakePHP" class.
-//        'MethodNotAllowedException' => true, // "CakePHP" class.
-//        'MissingActionException' => true, // "CakePHP" class.
-//        'MissingBehaviorException' => true, // "CakePHP" class.
-//        'MissingComponentException' => true, // "CakePHP" class.
-//        'MissingConnectionException' => true, // "CakePHP" class.
-//        'MissingControllerException' => true, // "CakePHP" class.
-//        'MissingDatabaseException' => true, // "CakePHP" class.
-//        'MissingDatasourceConfigException' => true, // "CakePHP" class.
-//        'MissingDatasourceException' => true, // "CakePHP" class.
-//        'MissingDispatcherFilterException' => true, // "CakePHP" class.
-//        'MissingHelperException' => true, // "CakePHP" class.
-//        'MissingLayoutException' => true, // "CakePHP" class.
-//        'MissingModelException' => true, // "CakePHP" class.
-//        'MissingPluginException' => true, // "CakePHP" class.
-//        'MissingShellException' => true, // "CakePHP" class.
-//        'MissingShellMethodException' => true, // "CakePHP" class.
-//        'MissingTableException' => true, // "CakePHP" class.
-//        'MissingTaskException' => true, // "CakePHP" class.
-//        'MissingTestLoaderException' => true, // "CakePHP" class.
-//        'MissingViewException' => true, // "CakePHP" class.
-//        'NotFoundException' => true, // "CakePHP" class.
-//        'NotImplementedException' => true, // "CakePHP" class.
-//        'ObjectCollection' => true, // "CakePHP" class.
-//        'PEAR_Exception' => true,
-//        'PrivateActionException' => true, // "CakePHP" class.
-//        'RouterException' => true, // "CakePHP" class.
-//        'SocketException' => true, // "CakePHP" class.
-//        'String' => true, // "CakePHP" class.
-//        'UnauthorizedException' => true, // "CakePHP" class.
-//        'XmlException' => true, // "CakePHP" class.
     );
 
     /**
@@ -911,13 +828,18 @@ EOD;
      * @return bool "false" if failure.
      * @throws \BreakpointDebugging_ErrorException
      */
-    private function _prepareUnitTest($howToTest = 'PHPUNIT')
+    private static function _prepareUnitTest($howToTest = 'PHPUNIT')
     {
         // Preloads error classes.
         class_exists('BreakpointDebugging_Error');
-        // Sets component pear package inclusion paths.
+        // Adds pear package component directory into "include_path".
         $pearDir = `pear config-get php_dir`;
         if (isset($pearDir)) {
+            if (BREAKPOINTDEBUGGING_IS_WINDOWS) {
+                if ($pearDir[1] !== ':') {
+                    $pearDir = 'C:' . $pearDir;
+                }
+            }
             $componentDir = PATH_SEPARATOR . rtrim($pearDir) . '/BreakpointDebugging/Component';
         } else {
             $componentDir = '';
@@ -925,6 +847,9 @@ EOD;
         $includePaths = explode(PATH_SEPARATOR, ini_get('include_path'));
         array_unshift($includePaths, $includePaths[0]);
         $includePaths[1] = __DIR__ . '/BreakpointDebugging/Component' . $componentDir;
+        // Adds the unit test file directory into "include_path".
+        array_unshift($includePaths, $includePaths[0]);
+        $includePaths[1] = self::$unitTestDir;
         ini_set('include_path', implode(PATH_SEPARATOR, $includePaths));
 
         switch ($howToTest) {
@@ -942,8 +867,8 @@ EOD;
                     restore_error_handler();
                     return false;
                 };
-                $this->_phpUnitUse = false;
-                $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnitSimple';
+                self::$_phpUnitUse = false;
+                self::$_unitTestWindowName = 'BreakpointDebugging_PHPUnitSimple';
                 break;
             case 'PHPUNIT':
                 $isUnitTestClass = function ($declaredClassName) {
@@ -959,9 +884,8 @@ EOD;
                     restore_error_handler();
                     return false;
                 };
-                $this->_phpUnitUse = true;
-                $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnit';
-                \BreakpointDebugging_PHPUnit_FrameworkTestCase::setPHPUnit($this);
+                self::$_phpUnitUse = true;
+                self::$_unitTestWindowName = 'BreakpointDebugging_PHPUnit';
                 break;
             case 'PHPUNIT_OWN':
                 $isUnitTestClass = function ($declaredClassName) {
@@ -977,9 +901,8 @@ EOD;
                     restore_error_handler();
                     return false;
                 };
-                $this->_phpUnitUse = true;
-                $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnit';
-                \BreakpointDebugging_PHPUnit_FrameworkTestCase::setPHPUnit($this);
+                self::$_phpUnitUse = true;
+                self::$_unitTestWindowName = 'BreakpointDebugging_PHPUnit';
             case 'SIMPLE_OWN':
                 $isUnitTestClass = function ($declaredClassName) {
                     set_error_handler('\BreakpointDebugging::handleError', 0);
@@ -995,32 +918,16 @@ EOD;
                     restore_error_handler();
                     return false;
                 };
-                if (!isset($this->_phpUnitUse)) {
-                    $this->_phpUnitUse = false;
-                    $this->_unitTestWindowName = 'BreakpointDebugging_PHPUnitSimple';
+                if (!isset(self::$_phpUnitUse)) {
+                    self::$_phpUnitUse = false;
+                    self::$_unitTestWindowName = 'BreakpointDebugging_PHPUnitSimple';
                 }
                 break;
             default:
                 throw new \BreakpointDebugging_ErrorException('Class method parameter is incorrect.');
         }
-        //$this->_staticVariableStorage = new \BreakpointDebugging_PHPUnit_StaticVariableStorage($isUnitTestClass);
         \BreakpointDebugging_PHPUnit_StaticVariableStorage::initialize($isUnitTestClass);
-        //\BreakpointDebugging_PHPUnit_StaticVariableStorage::initialize($howToTest);
-        //$this->_staticVariableStorage = new \BreakpointDebugging_PHPUnit_StaticVariableStorage($howToTest);
-        // Sets this instance to unit test class.
-        \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple::setPHPUnit($this);
-        B::setPHPUnit($this);
     }
-
-//    /**
-//     * Gets "\StaticVariableStorage" instance.
-//     *
-//     * @return object "\StaticVariableStorage" instance.
-//     */
-//    function getStaticVariableStorageInstance()
-//    {
-//        return $this->_staticVariableStorage;
-//    }
 
     /**
      * Gets verification test file paths.
@@ -1033,7 +940,7 @@ EOD;
      *
      * @return array Verification test file paths.
      */
-    private function _getVerificationTestFilePaths($howToTest)
+    private static function _getVerificationTestFilePaths($howToTest)
     {
         // Sets regular expression to get test file paths.
         if ($howToTest === 'SIMPLE' || $howToTest === 'SIMPLE_OWN') {
@@ -1043,7 +950,7 @@ EOD;
         }
         $verificationTestFilePaths = array ();
         // Sets the full test directory path.
-        $fullTestDirPath = self::$unitTestDir . $this->_testDir;
+        $fullTestDirPath = self::$unitTestDir . self::$_testDir;
         // If test directory specification is mistaken.
         if (!is_dir($fullTestDirPath)) {
             throw new \BreakpointDebugging_ErrorException('Mistaken test directory specification.', 101);
@@ -1082,9 +989,9 @@ EOD;
      *
      * @return void
      */
-    function setTestDir($testDir)
+    static function setTestDir($testDir)
     {
-        $this->_testDir = $testDir;
+        self::$_testDir = $testDir;
     }
 
     /**
@@ -1100,7 +1007,7 @@ EOD;
      *
      * @return void
      */
-    function executeUnitTest($testFilePaths, $howToTest = 'PHPUNIT', $commandLineSwitches = '')
+    static function executeUnitTest($testFilePaths, $howToTest = 'PHPUNIT', $commandLineSwitches = '')
     {
         B::assert(func_num_args() <= 3);
         B::assert(is_array($testFilePaths));
@@ -1111,7 +1018,8 @@ EOD;
             exit;
         }
 
-        $this->_prepareUnitTest($howToTest);
+        self::_getUnitTestDir();
+        self::_prepareUnitTest($howToTest);
 
         foreach ($testFilePaths as $testFilePath) {
             if (($howToTest === 'SIMPLE' || $howToTest === 'SIMPLE_OWN') //
@@ -1125,7 +1033,7 @@ EOD;
             self::$_unitTestFilePathsStorage[$testFilePath] = true;
         }
 
-        BW::virtualOpen($this->_unitTestWindowName, $this->getHtmlFileContent());
+        BW::virtualOpen(self::$_unitTestWindowName, self::getHtmlFileContent());
         ob_start();
 
         if (B::isDebug()) {
@@ -1134,8 +1042,7 @@ EOD;
             echo '<b>\'RELEASE_UNIT_TEST\' execution mode.</b>' . PHP_EOL;
         }
 
-        $this->_getUnitTestDir();
-        echo 'The test current directory = <b>"' . str_replace('\\', '/', realpath(self::$unitTestDir . $this->_testDir)) . '/"</b>' . PHP_EOL;
+        echo 'The test current directory = <b>"' . str_replace('\\', '/', realpath(self::$unitTestDir . self::$_testDir)) . '/"</b>' . PHP_EOL;
 
         if (BREAKPOINTDEBUGGING_IS_CAKE //
             && spl_autoload_functions() === array (array ('BreakpointDebugging', 'loadClass')) //
@@ -1143,7 +1050,7 @@ EOD;
             // Changes autoload class method order.
             $result = spl_autoload_unregister('\BreakpointDebugging::loadClass');
             B::assert($result === true);
-            include $this->_WasaCakeTestStartPagePath;
+            include getcwd() . '/WasaCakeTestStart.php';
             $result = spl_autoload_register('\BreakpointDebugging::loadClass');
             B::assert($result === true);
 
@@ -1157,7 +1064,7 @@ EOD;
         }
 
         foreach ($testFilePaths as $testFilePath) {
-            $testFullFilePath = $this->_testDir . $testFilePath;
+            $testFullFilePath = self::$_testDir . $testFilePath;
             // If unit test file does not exist.
             if (!is_file(self::$unitTestDir . $testFullFilePath)) {
                 throw new \BreakpointDebugging_ErrorException('Unit test file "' . $testFullFilePath . '" does not exist.', 102);
@@ -1177,23 +1084,21 @@ EOD;
             if ($howToTest === 'SIMPLE' //
                 || $howToTest === 'SIMPLE_OWN' //
             ) {
-                $this->_runPHPUnitCommandSimple($testFullFilePath);
+                self::_runPHPUnitCommandSimple($testFullFilePath);
             } else {
-                $this->_runPHPUnitCommand($commandLineSwitches . ' --stop-on-failure --static-backup ' . $testFullFilePath);
+                self::_runPHPUnitCommand($commandLineSwitches . ' --stop-on-failure --static-backup ' . $testFullFilePath);
             }
             // Moves unit test window in front.
-            BW::front($this->_unitTestWindowName);
-            BW::scrollBy($this->_unitTestWindowName, PHP_INT_MAX, PHP_INT_MAX);
+            BW::front(self::$_unitTestWindowName);
+            BW::scrollBy(self::$_unitTestWindowName, PHP_INT_MAX, PHP_INT_MAX);
             gc_collect_cycles();
         }
-        $this->displayProgress();
+        self::displayProgress();
         echo self::$_separator;
-        //$this->_staticVariableStorage->checkFunctionLocalStaticVariable();
         BSS::checkFunctionLocalStaticVariable();
-        //$this->_staticVariableStorage->checkMethodLocalStaticVariable();
         BSS::checkMethodLocalStaticVariable();
 
-        switch ($this->_unitTestResult) {
+        switch (self::$_unitTestResult) {
             case 'DONE':
                 echo '<b>Unit tests was completed.</b>' . PHP_EOL;
                 break;
@@ -1204,7 +1109,7 @@ EOD;
                 B::assert(false);
         }
 
-        $diffTestFilePaths = array_diff($this->_getVerificationTestFilePaths($howToTest), $executedTestFilePaths);
+        $diffTestFilePaths = array_diff(self::_getVerificationTestFilePaths($howToTest), $executedTestFilePaths);
         if (!empty($diffTestFilePaths)) {
             echo self::$_separator;
             echo '<b>The following test file paths had not been executed.</b>' . PHP_EOL;
@@ -1213,9 +1118,9 @@ EOD;
             echo '<strong>\'' . $diffTestFilePath . '\',</strong>' . PHP_EOL;
         }
 
-        BW::htmlAddition($this->_unitTestWindowName, 'pre', 0, ob_get_clean());
-        BW::front($this->_unitTestWindowName);
-        BW::scrollBy($this->_unitTestWindowName, PHP_INT_MAX, PHP_INT_MAX);
+        BW::htmlAddition(self::$_unitTestWindowName, 'pre', 0, ob_get_clean());
+        BW::front(self::$_unitTestWindowName);
+        BW::scrollBy(self::$_unitTestWindowName, PHP_INT_MAX, PHP_INT_MAX);
     }
 
     /**
@@ -1229,9 +1134,9 @@ EOD;
      *
      * @return void
      */
-    function executeUnitTestSimple($testFilePaths, $howToTest = 'SIMPLE', $commandLineSwitches = '')
+    static function executeUnitTestSimple($testFilePaths, $howToTest = 'SIMPLE', $commandLineSwitches = '')
     {
-        $this->executeUnitTest($testFilePaths, $howToTest, $commandLineSwitches);
+        self::executeUnitTest($testFilePaths, $howToTest, $commandLineSwitches);
     }
 
     /**
@@ -1243,7 +1148,7 @@ EOD;
      *
      * @return void
      */
-    private function _checkLinesToIgnoreInCodeCoverageReport($filename, $pFile, &$codeCoverageReport)
+    private static function _checkLinesToIgnoreInCodeCoverageReport($filename, $pFile, &$codeCoverageReport)
     {
         $checkCodeCoverageReport = function($startLineNumber, $endLineNumber, &$codeCoverageReport, $filename) {
             $codeCoverageReportEndElement = array_slice($codeCoverageReport, count($codeCoverageReport) - 1, 1, true);
@@ -1361,7 +1266,7 @@ EOD;
      *
      * @return void
      */
-    function displayCodeCoverageReport($testFilePaths, $classFileRelativePaths, $howToTest = 'PHPUNIT', $commandLineSwitches = '')
+    static function displayCodeCoverageReport($testFilePaths, $classFileRelativePaths, $howToTest = 'PHPUNIT', $commandLineSwitches = '')
     {
         xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
 
@@ -1386,7 +1291,7 @@ EOD;
         }
 
         self::$_codeCoverageKind = $howToTest;
-        $this->executeUnitTestSimple($testFilePaths, $howToTest, $commandLineSwitches);
+        self::executeUnitTestSimple($testFilePaths, $howToTest, $commandLineSwitches);
         $codeCoverages = xdebug_get_code_coverage();
         xdebug_stop_code_coverage();
 
@@ -1563,6 +1468,51 @@ EOD;
     }
 
     /**
+     * Checks the start function call.
+     *
+     * @return void
+     */
+    static function checkStartCall()
+    {
+        B::limitAccess(
+            array (
+            'BreakpointDebugging_PHPUnit.php',
+            'BreakpointDebugging/PHPUnit/FrameworkTestCaseSimple.php'
+            ), true
+        );
+
+        if (self::$_onceFlag) {
+            return;
+        }
+        self::$_onceFlag = true;
+
+        $callStack = debug_backtrace();
+        $callStart = array_pop($callStack);
+        if ($callStart['class'] !== 'BreakpointDebugging_PHPUnit' // Parent class method must be called from "\BreakpointDebugging_PHPUnit" class.
+            || ($callStart['function'] !== 'executeUnitTest' // Parent class method must be called from "executeUnitTest" class method.
+            && $callStart['function'] !== 'executeUnitTestSimple' // Parent class method must be called from "executeUnitTest" class method.
+            && $callStart['function'] !== 'displayCodeCoverageReport') // Parent class method must be called from "executeUnitTest" class method.
+        ) {
+            throw new \BreakpointDebugging_ErrorException('This unit test file must be executed by calling "\BreakpointDebugging_PHPUnit::executeUnitTest()" or "\BreakpointDebugging_PHPUnit::executeUnitTestSimple()" or "\BreakpointDebugging_PHPUnit::displayCodeCoverageReport()".');
+        }
+    }
+
+    /**
+     * Checks a parent call.
+     *
+     * @return void
+     */
+    private static function _checkCall()
+    {
+        self::checkStartCall();
+        $callStack = debug_backtrace();
+        $call = $callStack[2];
+        if ($call['function'] !== 'setUpBeforeClass') {
+            throw new \BreakpointDebugging_ErrorException('"\BreakpointDebugging_PHPUnit::loadClass()" or "\BreakpointDebugging_PHPUnit::includeClass()" class method must be called inside "setUpBeforeClass()" class method.');
+        }
+    }
+
+    /**
      * Loads a class file and checks static status change error during it.
      *
      * @param type $className
@@ -1571,6 +1521,8 @@ EOD;
      */
     static function loadClass($className)
     {
+        // Checks this call.
+        self::_checkCall();
         // Stores global variables.
         BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
         // Stores static properties.
@@ -1590,6 +1542,8 @@ EOD;
      */
     static function includeClass($filePath)
     {
+        // Checks this call.
+        self::_checkCall();
         // Stores global variables.
         BSS::storeGlobals(BSS::refGlobalRefs(), BSS::refGlobals(), BSS::refBackupGlobalsBlacklist());
         // Stores static properties.

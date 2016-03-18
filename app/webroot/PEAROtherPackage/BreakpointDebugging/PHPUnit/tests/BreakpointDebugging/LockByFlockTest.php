@@ -1,6 +1,5 @@
 <?php
 
-use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
 
 class BreakpointDebugging_LockByFlockTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
@@ -37,7 +36,6 @@ class BreakpointDebugging_LockByFlockTest extends \BreakpointDebugging_PHPUnit_F
     {
         // Destructs instance.
         $this->lockByFlock = null;
-        //$main = new \tests_PEAR_BreakpointDebugging_MultiprocessTest_Main();
         $main = new \BreakpointDebugging_MultiprocessTest_Main();
         if (!$main->test(1234, '\BreakpointDebugging_LockByFlock')) {
             // Displays error call stack information, then stops at breakpoint, then exits.

@@ -56,7 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I speeded up simple unit test.
-* I added "\BreakpointDebugging_PHPUnit::loadClass()" and "\BreakpointDebugging_PHPUnit::includeClass()" to "BreakpointDebugging/PHPUnit/docs/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html".
-* I moved "./tests/PEAR/BreakpointDebugging/" to "./PEAROtherPackage/BreakpointDebugging/PHPUnit/tests/".
-* I repaired by regression unit tests and code coverage report displays.
+* I improved "BreakpointDebugging/docs/BREAKPOINTDEBUGGING_MANUAL.html" file for "LAMPP" and IDE installation correctly.
+* I have been doing debugging with "PHP5.4" on "Ubuntu12.04LTS".

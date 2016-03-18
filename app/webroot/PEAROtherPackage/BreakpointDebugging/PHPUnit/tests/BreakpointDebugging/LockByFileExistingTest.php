@@ -1,6 +1,5 @@
 <?php
 
-use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
 
 class BreakpointDebugging_LockByFileExistingTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
@@ -9,7 +8,6 @@ class BreakpointDebugging_LockByFileExistingTest extends \BreakpointDebugging_PH
 
     static function setUpBeforeClass()
     {
-        //BU::loadClass('\tests_PEAR_BreakpointDebugging_MultiprocessTest_Main');
         BU::loadClass('\BreakpointDebugging_MultiprocessTest_Main');
         BU::loadClass('\BreakpointDebugging_LockByFileExisting');
         BU::loadClass('\BreakpointDebugging_CommandLine');
@@ -41,7 +39,6 @@ class BreakpointDebugging_LockByFileExistingTest extends \BreakpointDebugging_PH
         // Destructs instance.
         $this->lockByFileExisting = null;
         $this->lockByFileExistingInternal = null;
-        //$main = new \tests_PEAR_BreakpointDebugging_MultiprocessTest_Main();
         $main = new \BreakpointDebugging_MultiprocessTest_Main();
         if (!$main->test(1111, '\BreakpointDebugging_LockByFileExisting')) {
             parent::fail();

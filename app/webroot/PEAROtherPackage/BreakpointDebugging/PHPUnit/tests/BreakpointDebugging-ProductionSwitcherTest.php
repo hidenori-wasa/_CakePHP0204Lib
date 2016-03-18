@@ -2,7 +2,6 @@
 
 require_once './BreakpointDebugging_ProductionSwitcher.php';
 
-use \BreakpointDebugging as B;
 use \BreakpointDebugging_PHPUnit as BU;
 
 class BreakpointDebugging_ProductionSwitcherTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase

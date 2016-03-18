@@ -9,7 +9,6 @@ require_once './BreakpointDebugging_Inclusion.php';
 use \BreakpointDebugging as B;
 
 class Sub_Example
-//class BreakpointDebugging_PHPUnit_docs_examples_Sub_Example
 {
     private static $_something;
 
