@@ -56,5 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I improved "BreakpointDebugging/docs/BREAKPOINTDEBUGGING_MANUAL.html" file for "LAMPP" and IDE installation correctly.
+* I changed "BreakpointDebugging/docs/BREAKPOINTDEBUGGING_MANUAL.html" file for "PEAR coding standard" rule.
 * I have been doing debugging with "PHP5.4" on "Ubuntu12.04LTS".

@@ -240,28 +240,28 @@ because this package has necessary minimum features.
     <span class="command">sudo apt-get purge phpmyadmin</span>
     // Uninstalls "LAMP" of "tasksel".
     <span class="command">sudo tasksel remove lamp-server</span>
-    // Uninstalls "PHP5" パッケージ群.
+    // Uninstalls "PHP5" packages.
     <span class="command">sudo apt-get purge php5 php5-cli php5-common php5-curl php5-fpm php5-gd php5-intl php5-json php5-mcrypt php5-mysql php5-xdebug</span>
-    // PHP5 パッケージをリストアップし、無いことを確認します。
+    // Confirms that "PHP5" package listing does not exist.
     <span class="command">dpkg -l | grep php5</span>
     // Deletes unnecessary package.
     <span class="command">sudo apt-get autoremove</span>
 
     ### "LAMPP" installation procedure. ###
-    // パッケージインデックスを更新します
+    // Updates the packages index.
     <span class="command">sudo apt-get update</span>
-    // "add-apt-repository" コマンドを使用できるようにします
+    // The command which will be able to use "add-apt-repository".
     <span class="command">sudo apt-get install software-properties-common</span>
-    // "PHP" リポジトリ群を表示します
+    // Displays "PHP" repositories.
     <span class="command">cd /etc/apt/sources.list.d/</span>
     <span class="command">gedit ondrej-php*</span>
-    // "PHP" リポジトリ群を削除します
+    // Deletes "PHP" repositories.
     <span class="command">sudo add-apt-repository --remove ppa:ondrej/php5-oldstable</span>
     <span class="command">sudo add-apt-repository --remove ppa:ondrej/php5</span>
     <span class="command">sudo add-apt-repository --remove ppa:ondrej/php5-5.6</span>
     <span class="command">sudo add-apt-repository --remove ppa:ondrej/php-7.0</span>
     <span class="command">sudo add-apt-repository --remove ppa:ondrej/php</span>
-    // "PHP" リポジトリが無いことを確認します
+    // Confirms that "PHP" repository does not exist.
     <span class="command">cd /etc/apt/sources.list.d/</span>
     <span class="command">ls -la ondrej-php*</span>
         // Adds "PHP5.4" repository (Ubuntu 12.04 LTS).
@@ -272,7 +272,7 @@ because this package has necessary minimum features.
         <span class="command">sudo add-apt-repository ppa:ondrej/php5-5.6</span>
         // Or, adds "PHP7.0" repository (Ubuntu 14.04 LTS - Ubuntu 16.04 LTS).
         <span class="command">sudo add-apt-repository ppa:ondrej/php-7.0</span>
-    // パッケージインデックスを更新します
+    // Updates the packages index.
     <span class="command">sudo apt-get update</span>
         // Installs "PHP5.4-5.6". And, installs "Apache" for current "PHP" version.
         <span class="command">sudo apt-get install php5</span>
@@ -287,43 +287,43 @@ because this package has necessary minimum features.
 
     // Installs "phpMyAdmin" for current "PHP" and "MySQLi" version.
     <span class="command">sudo apt-get install phpmyadmin</span>
-    // "phpMyAdmin" のドキュメントを表示します
+    // Displays the document of "phpMyAdmin".
     <span class="command">firefox "/usr/share/doc/phpmyadmin/Documentation.html"</span>
 
     ### "PEAR" installation procedure. ###
-    // パッケージインデックスを更新します
+    // Updates the packages index.
     <span class="command">sudo apt-get update</span>
     // Installs "PEAR".
     <span class="command">sudo apt-get install php-pear</span>
 
     ### "NetBeans IDE" installation procedure. ###
-    // パッケージインデックスを更新します
+    // Updates the packages index.
     <span class="command">sudo apt-get update</span>
-        // "NetBeans IDE" インストールファイルをダウンロードしてください(Ubuntu 12.04 LTS - Ubuntu 14.04 LTS)
+        // Please, download the file to install "NetBeans IDE". (Ubuntu 12.04 LTS - Ubuntu 14.04 LTS)
         <span class="command">firefox "https://netbeans.org/downloads/8.0.2/"</span>
-        // "NetBeans IDE" インストールファイルをダウンロードしてください(Ubuntu 16.04 LTS)
+        // Please, download the file to install "NetBeans IDE". (Ubuntu 16.04 LTS)
         <span class="command">firefox "https://netbeans.org/downloads/8.1/"</span>
-    // ダウンロードディレクトリへ移動します
+    // Moves to the download directory.
     <span class="command">cd ~/&lt;download></span>
-    // "NetBeans IDE" インストールファイル名を表示します
+    // Displays the "NetBeans IDE" installation filename.
     <span class="command">ls -la netbeans*</span>
-        // "NetBeans IDE" インストールファイルを実行可能にします(Ubuntu 12.04 LTS - Ubuntu 14.04 LTS)
+        // Makes the "NetBeans IDE" installation file executable.(Ubuntu 12.04 LTS - Ubuntu 14.04 LTS)
         <span class="command">chmod u+x netbeans-8.0.2-php-linux.sh</span>
-        // "NetBeans IDE" インストールファイルを実行可能にします(Ubuntu 16.04 LTS)
+        // Makes the "NetBeans IDE" installation file executable.(Ubuntu 16.04 LTS)
         <span class="command">chmod u+x netbeans-8.1-php-linux.sh</span>
-    // "Java" をアンインストールします
+    // Uninstalls "Java".
     <span class="command">sudo apt-get purge openjdk*</span>
-        // "Java7" をインストールします(Ubuntu 12.04 LTS - Ubuntu 14.04 LTS)
+        // Installs "Java7".(Ubuntu 12.04 LTS - Ubuntu 14.04 LTS)
         <span class="command">sudo apt-get install openjdk-7-jre</span>
-        // "Java8" をインストールします(Ubuntu 16.04 LTS)
+        // Installs "Java8".(Ubuntu 16.04 LTS)
         <span class="command">sudo apt-get install openjdk-8-jre</span>
-    // "Java" のバージョンを表示します
+    // Displays the version of "Java".
     <span class="command">java -version</span>
-    // "Java" のパスを表示します
+    // Displays the path of "Java".
     <span class="command">sudo update-alternatives --config java</span>
-        // "NetBeans IDE" をインストールします(Ubuntu 12.04 LTS - Ubuntu 14.04 LTS)
+        // Installs "NetBeans IDE".(Ubuntu 12.04 LTS - Ubuntu 14.04 LTS)
         <span class="command">./netbeans-8.0.2-php-linux.sh</span>
-        // "NetBeans IDE" をインストールします(Ubuntu 16.04 LTS)
+        // Installs "NetBeans IDE".(Ubuntu 16.04 LTS)
         <span class="command">./netbeans-8.1-php-linux.sh</span>
 
     ### "LAMPP" setting procedure. ###
