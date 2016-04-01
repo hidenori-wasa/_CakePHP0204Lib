@@ -223,7 +223,7 @@ because this package has necessary minimum features.
     "Ubuntu 14.04 LTS - Ubuntu 16.04 LTS desktop" + "LAMPP of Ubuntu" + "xdebug.so of Ubuntu".
 
 <span class="subtitle"><a name="2-9">Recommendation setting procedure for development of "Ubuntu *.* LTS desktop".</a></span>
-    ### Disconnect inbound connection by using "ufw". ###
+    ### Disconnect inbound connection by using "ufw" before online. ###
     // Enables firewall.
     <span class="command">sudo ufw enable</span>
     // Disconnects inbound connection.
@@ -233,7 +233,7 @@ because this package has necessary minimum features.
     // Confirms status of firewall.
     <span class="command">sudo ufw status verbose</span>
 
-    ### Uninstalling procedure. ###
+    ### Uninstallation procedure. ###
     // Uninstalls "PEAR".
     <span class="command">sudo apt-get purge php-pear</span>
     // Uninstalls "phpMyAdmin".
@@ -392,7 +392,7 @@ because this package has necessary minimum features.
     // Change setting of "phpMyAdmin".
         // Executes "/usr/share/doc/phpmyadmin/examples/create_tables_sql.gz" import by "phpMyAdmin".
         // Copies the sample configuration file to configuration file.
-        <span class="command">sudo cp /usr/share/phpmyadmin/config.sample.inc.php /etc/phpmyadmin/config.inc.php</span>
+        <span class="command">sudo cp --verbose --interactive --update /usr/share/phpmyadmin/config.sample.inc.php /etc/phpmyadmin/config.inc.php</span>
         // Edits the configuration file.
         <span class="command">sudo gedit /etc/phpmyadmin/config.inc.php</span>
             before:
@@ -442,9 +442,9 @@ because this package has necessary minimum features.
     // Creates a document root.
     <span class="command">mkdir ~/private-www</span>
     // Copies the default virtual host setting file to new file "mysite".
-    <span class="command">sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/mysite</span>
+    <span class="command">sudo cp --verbose --interactive --update /etc/apache2/sites-available/default /etc/apache2/sites-available/mysite</span>
     // Copies the default SSL virtual host setting file to new file "mysite-ssl".
-    <span class="command">sudo cp /etc/apache2/sites-available/default-ssl /etc/apache2/sites-available/mysite-ssl</span>
+    <span class="command">sudo cp --verbose --interactive --update /etc/apache2/sites-available/default-ssl /etc/apache2/sites-available/mysite-ssl</span>
     // Edits the "mysite" file.
     <span class="command">gksudo gedit /etc/apache2/sites-available/mysite</span>
         // before:
