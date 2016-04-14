@@ -250,19 +250,19 @@ class BreakpointDebugging_InAllCaseTest extends \BreakpointDebugging_PHPUnit_Fra
         B::iniSet('default_charset', 'utf8');
     }
 
-    /**
-     * @covers \BreakpointDebugging_InAllCase<extended>
-     */
-    public function testRegisterNotFixedLocation()
-    {
-        BA::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
-        BA::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
-        $notFixedLocations = BA::getNotFixedLocations();
-        $notFixedLocation = $notFixedLocations[count($notFixedLocations) - 1];
-        parent::assertTrue($notFixedLocation['function'] === 'testRegisterNotFixedLocation');
-        parent::assertTrue($notFixedLocation['class'] === 'BreakpointDebugging_InAllCaseTest');
-        parent::assertTrue(!array_key_exists('file', $notFixedLocation));
-    }
+//    /**
+//     * @covers \BreakpointDebugging_InAllCase<extended>
+//     */
+//    public function testRegisterNotFixedLocation()
+//    {
+//        BA::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
+//        BA::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
+//        $notFixedLocations = BA::getNotFixedLocations();
+//        $notFixedLocation = $notFixedLocations[count($notFixedLocations) - 1];
+//        parent::assertTrue($notFixedLocation['function'] === 'testRegisterNotFixedLocation');
+//        parent::assertTrue($notFixedLocation['class'] === 'BreakpointDebugging_InAllCaseTest');
+//        parent::assertTrue(!array_key_exists('file', $notFixedLocation));
+//    }
 
     /**
      * @covers \BreakpointDebugging_InAllCase<extended>

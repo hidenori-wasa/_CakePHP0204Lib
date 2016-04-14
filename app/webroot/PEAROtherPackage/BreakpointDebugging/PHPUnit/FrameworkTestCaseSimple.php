@@ -26,7 +26,7 @@ use \BreakpointDebugging_PHPUnit_StaticVariableStorage as BSS;
  *
  * We can use for unit tests of this package and "PHPUnit" package because this class is instance and this class does not use "PHPUnit" package.
  * Also, we can use instead of "*.phpt".
- * See the "BreakpointDebugging_PHPUnit.php" file-level document for usage.
+ * See the "BreakpointDebugging/PHPUnit/docs/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html" for usage.
  *
  * PHP version 5.3.2-5.4.x
  *
@@ -91,9 +91,11 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 
         // Checks the autoload functions.
         $autoloadFunctions = spl_autoload_functions();
-        if (is_array($autoloadFunctions[0]) //
-            && is_object($autoloadFunctions[0][0]) //
-        ) {
+        B::assert(is_array($autoloadFunctions[0]));
+        //if (is_array($autoloadFunctions[0]) //
+        //    && is_object($autoloadFunctions[0][0]) //
+        //) {
+        if (is_object($autoloadFunctions[0][0])) {
             $className = get_class($autoloadFunctions[0][0]);
         } else {
             $className = $autoloadFunctions[0][0];
@@ -137,7 +139,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
 
     /**
      * This method is called before a test class method is executed.
-     * Sets up initializing which is needed at least in unit test.
+     * Sets up initialization which is needed at least in unit test.
      *
      * @return void
      */

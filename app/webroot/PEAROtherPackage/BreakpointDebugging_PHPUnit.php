@@ -193,12 +193,12 @@ class BreakpointDebugging_PHPUnit
     private static $_codeCoverageKind = 'PHPUNIT';
 
     /**
-     * Limits static properties accessing of class.
+     * Initializes this static class.
      *
      * @return void
      *
      * @codeCoverageIgnore
-     * Because this is code for unit test.
+     * Because this code is executed before unit test.
      */
     static function initialize()
     {
@@ -804,24 +804,24 @@ EOD;
 
     static $exclusionClassNames = array (
         // Required class names.
-        'App' => true, // "CakePHP" class.
-        'BaseCoverageReport' => true, // "CakePHP" class.
-        'CakeBaseReporter' => true, // "CakePHP" class.
-        'CakeFixtureManager' => true, // "CakePHP" class.
-        'CakeHtmlReporter' => true, // "CakePHP" class.
-        'CakeTestCase' => true, // "CakePHP" class.
-        'CakeTestFixture' => true, // "CakePHP" class.
-        'CakeTestLoader' => true, // "CakePHP" class.
-        'CakeTestModel' => true, // "CakePHP" class.
-        'CakeTestRunner' => true, // "CakePHP" class.
-        'CakeTestSuite' => true, // "CakePHP" class.
-        'CakeTestSuiteCommand' => true, // "CakePHP" class.
-        'CakeTestSuiteDispatcher' => true, // "CakePHP" class.
-        'CakeTextReporter' => true, // "CakePHP" class.
-        'ClassRegistry' => true, // "CakePHP" class.
-        'ControllerTestCase' => true, // "CakePHP" class.
-        'HtmlCoverageReport' => true, // "CakePHP" class.
-        'TextCoverageReport' => true, // "CakePHP" class.
+        //'App' => true, // "CakePHP" class.
+        //'BaseCoverageReport' => true, // "CakePHP" class.
+        //'CakeBaseReporter' => true, // "CakePHP" class.
+        //'CakeFixtureManager' => true, // "CakePHP" class.
+        //'CakeHtmlReporter' => true, // "CakePHP" class.
+        //'CakeTestCase' => true, // "CakePHP" class.
+        //'CakeTestFixture' => true, // "CakePHP" class.
+        //'CakeTestLoader' => true, // "CakePHP" class.
+        //'CakeTestModel' => true, // "CakePHP" class.
+        //'CakeTestRunner' => true, // "CakePHP" class.
+        //'CakeTestSuite' => true, // "CakePHP" class.
+        //'CakeTestSuiteCommand' => true, // "CakePHP" class.
+        //'CakeTestSuiteDispatcher' => true, // "CakePHP" class.
+        //'CakeTextReporter' => true, // "CakePHP" class.
+        //'ClassRegistry' => true, // "CakePHP" class.
+        //'ControllerTestCase' => true, // "CakePHP" class.
+        //'HtmlCoverageReport' => true, // "CakePHP" class.
+        //'TextCoverageReport' => true, // "CakePHP" class.
         'WasaTestArrayCommand' => true, // Wasa's "CakePHP" class.
         'WasaTestArrayDispatcher' => true, // Wasa's "CakePHP" class.
     );
@@ -909,6 +909,7 @@ EOD;
                 };
                 self::$_phpUnitUse = true;
                 self::$_unitTestWindowName = 'BreakpointDebugging_PHPUnit';
+                break;
             case 'SIMPLE_OWN':
                 $isUnitTestClass = function ($declaredClassName) {
                     set_error_handler('\BreakpointDebugging::handleError', 0);

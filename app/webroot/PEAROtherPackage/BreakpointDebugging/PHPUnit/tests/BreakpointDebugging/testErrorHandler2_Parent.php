@@ -1,11 +1,11 @@
 <?php
 
-use \BreakpointDebugging as B;
+//use \BreakpointDebugging as B;
 use \BreakpointDebugging_ErrorInAllCaseTest as T;
 
 function test4($error)
 {
-    B::registerNotFixedLocation(\TestErrorHandler2Parent::$isRegister);
+    //B::registerNotFixedLocation(\TestErrorHandler2Parent::$isRegister);
 
     trigger_error2($error);
     T::$lineA = __LINE__ - 1;

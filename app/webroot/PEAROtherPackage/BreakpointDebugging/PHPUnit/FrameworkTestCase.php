@@ -76,6 +76,7 @@ use \BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple as BTCS;
  *      PEAR/PHPUnit/
  *          Copyright (c) 2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * Then, I added "Hidenori Wasa added." to line which I coded into "BreakpointDebugging/Component/" directory.
+ * See the "BreakpointDebugging/PHPUnit/docs/BREAKPOINTDEBUGGING_PHPUNIT_MANUAL.html" for usage.
  *
  * @category   PHPUnit
  * @package    PHPUnit
@@ -94,6 +95,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
      * This class method is called first per "*TestSimple.php" file.
      *
      * @return void
+     * @author Hidenori Wasa <public@hidenori-wasa.com>
      */
     static function setUpBeforeClass()
     {
@@ -106,6 +108,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
      * This class method is called lastly per "*Test.php" file.
      *
      * @return void
+     * @author Hidenori Wasa <public@hidenori-wasa.com>
      */
     public static function tearDownAfterClass()
     {
@@ -114,7 +117,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
 
     /**
      * This method is called before a test class method is executed.
-     * Sets up initializing which is needed at least in unit test.
+     * Sets up initialization which is needed at least in unit test.
      *
      * @return void
      * @author Hidenori Wasa <public@hidenori-wasa.com>
@@ -445,7 +448,7 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
      * @param string $message The fail message.
      *
      * @return void
-     * @throws PHPUnit_Framework_AssertionFailedError
+     * @//throws PHPUnit_Framework_AssertionFailedError
      * @author Hidenori Wasa <public@hidenori-wasa.com>
      */
     static function fail($message = '')

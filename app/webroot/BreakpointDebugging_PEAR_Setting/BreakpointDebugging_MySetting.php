@@ -64,20 +64,37 @@ function BreakpointDebugging_userSetting($exeMode, &$language, &$timezone, &$SMT
     $timezone = 'Asia/Tokyo';
     $SMTP = '<Your SMTP server>';
     $sendmailFrom = '<Your Windows mail address>';
+
+    $openBasedir = array ();
+    $openBasedir[] = stream_resolve_include_path('./');
+    $openBasedir[] = sys_get_temp_dir();
+    // Adds pear package component directory.
+    $pearDir = `pear config-get php_dir`;
+    if (strpos($pearDir, "'pear'") !== 0) {
+        $openBasedir[] = $pearDir;
+    }
     if (BREAKPOINTDEBUGGING_IS_WINDOWS) { // In case of Windows.
-        $openBasedir = 'C:\xampp\;.\\;' . sys_get_temp_dir();
+        //$openBasedir = 'C:\xampp\;.\\;' . sys_get_temp_dir();
+        if (array_key_exists(2, $openBasedir)) {
+            if ($openBasedir[2][1] !== ':') {
+                $openBasedir[2] = 'C:' . $openBasedir[2];
+            }
+        }
     } else { // In case of Unix.
         if ($exeMode & $REMOTE) { // In case of remote.
-            $openBasedir = '/usr/local/php5.3/php/:/home/users/2/lolipop.jp-92350a29e84a878a/web/:./:' . sys_get_temp_dir();
-            // $openBasedir = '/opt/lampp/:./:' . sys_get_temp_dir(); // Emulates remote by local host.
+            $openBasedir[] = '/usr/local/php5.3/php/:/home/users/2/lolipop.jp-92350a29e84a878a/web/';
+            // $openBasedir[] = '/usr/share/php/'; // Emulates remote by local host.
+            // $openBasedir[] = '/opt/lampp/'; // Emulates remote by local host.
         } else { // In case of local.
-            // $openBasedir = '/opt/lampp/:./:' . sys_get_temp_dir();
-            $openBasedir = '/usr/share/php/:./:' . sys_get_temp_dir();
+            $openBasedir[] = '/usr/share/php/';
+            // $openBasedir[] = '/opt/lampp/';
         }
     }
     if (BREAKPOINTDEBUGGING_IS_CAKE) {
-        $openBasedir = ':../../';
+        $openBasedir[0] = stream_resolve_include_path('../../');
     }
+    $openBasedir = implode(DIRECTORY_SEPARATOR . PATH_SEPARATOR, $openBasedir) . DIRECTORY_SEPARATOR . PATH_SEPARATOR;
+
     // Set "mbstring.detect_order = UTF-8, UTF-7, ASCII, EUC-JP,SJIS, eucJP-win, SJIS-win, JIS, ISO-2022-JP" of "php.ini" file because this is purpose to define default value of character code detection.
     $result = mb_detect_order('UTF-8, UTF-7, ASCII, EUC-JP,SJIS, eucJP-win, SJIS-win, JIS, ISO-2022-JP');
     \BreakpointDebugging::assert($result === true);

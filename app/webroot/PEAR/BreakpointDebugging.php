@@ -1105,36 +1105,36 @@ EOD;
         return true;
     }
 
-    /**
-     * This registers as function or method being not fixed.
-     *
-     * @param bool $isRegister Is this registered?
-     *
-     * @return void
-     *
-     * Example: \BreakpointDebugging::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
-     */
-    final static function registerNotFixedLocation(&$isRegister)
-    {
-        \BreakpointDebugging::assert(func_num_args() === 1);
-
-        // When it has been registered.
-        if (!empty($isRegister)) {
-            return;
-        }
-        $isRegister = true;
-
-        $backTrace = debug_backtrace();
-        // In case of scope of method or function or included file.
-        if (array_key_exists(1, $backTrace)) {
-            $backTrace2 = &$backTrace[1];
-        } else { // In case of scope of start page file.
-            // @codeCoverageIgnoreStart
-            $backTrace2['file'] = &$backTrace[0]['file'];
-            // @codeCoverageIgnoreEnd
-        }
-        self::$_notFixedLocations[] = $backTrace2;
-    }
+//    /**
+//     * This registers as function or method being not fixed.
+//     *
+//     * @param bool $isRegister Is this registered?
+//     *
+//     * @return void
+//     *
+//     * Example: \BreakpointDebugging::registerNotFixedLocation(self::$_isRegister[__METHOD__]);
+//     */
+//    final static function registerNotFixedLocation(&$isRegister)
+//    {
+//        \BreakpointDebugging::assert(func_num_args() === 1);
+//
+//        // When it has been registered.
+//        if (!empty($isRegister)) {
+//            return;
+//        }
+//        $isRegister = true;
+//
+//        $backTrace = debug_backtrace();
+//        // In case of scope of method or function or included file.
+//        if (array_key_exists(1, $backTrace)) {
+//            $backTrace2 = &$backTrace[1];
+//        } else { // In case of scope of start page file.
+//            // @codeCoverageIgnoreStart
+//            $backTrace2['file'] = &$backTrace[0]['file'];
+//            // @codeCoverageIgnoreEnd
+//        }
+//        self::$_notFixedLocations[] = $backTrace2;
+//    }
 
     /**
      * Add values to trace.
@@ -1578,37 +1578,41 @@ EOD;
         return self::_clearRecursiveArrayElement($recursiveArray, $parentsArray);
     }
 
-    /**
-     * Changes from full file path to a class name.
-     *
-     * @param string $fullFilePath Full file path.
-     *
-     * @return mixed Class name or false.
-     */
-    static function fullFilePathToClassName($fullFilePath)
-    {
-        if (empty($fullFilePath)) {
-            return false;
-        }
-        $includePaths = explode(PATH_SEPARATOR, get_include_path());
-        if (self::$exeMode & self::UNIT_TEST) {
-            array_unshift($includePaths, dirname($_SERVER['SCRIPT_FILENAME']));
-        }
-        foreach ($includePaths as $includePath) {
-            $fullIncludePath = realpath($includePath);
-            $result = strpos($fullFilePath, $fullIncludePath);
-            if ($result === 0) {
-                $className = substr($fullFilePath, strlen($fullIncludePath) + 1, - strlen('.php'));
-                // Changes directory separator and '-' to underscore.
-                $className = str_replace(array ('/', '\\', '-'), '_', $className);
-                if (!in_array($className, get_declared_classes())) {
-                    continue;
-                }
-                return $className;
-            }
-        }
-        return false;
-    }
+//    /**
+//     * Changes from full file path to a class name.
+//     *
+//     * @param string $fullFilePath Full file path.
+//     *
+//     * @return mixed Class name or false.
+//     */
+//    static function fullFilePathToClassName($fullFilePath)
+//    {
+//        if (empty($fullFilePath)) {
+//            return false;
+//        }
+//        //$includePaths = explode(PATH_SEPARATOR, get_include_path());
+//        foreach (explode(PATH_SEPARATOR, get_include_path()) as $includePath) {
+//            $includePaths[] = rtrim($includePath, '\/') . '/';
+//        }
+//        if (self::$exeMode & self::UNIT_TEST) {
+//            array_unshift($includePaths, dirname($_SERVER['SCRIPT_FILENAME']) . '/');
+//        }
+//        foreach ($includePaths as $includePath) {
+//            //$fullIncludePath = realpath($includePath);
+//            $fullIncludePath = stream_resolve_include_path($includePath);
+//            $result = strpos($fullFilePath, $fullIncludePath);
+//            if ($result === 0) {
+//                $className = substr($fullFilePath, strlen($fullIncludePath) + 1, - strlen('.php'));
+//                // Changes directory separator and '-' to underscore.
+//                $className = str_replace(array ('/', '\\', '-'), '_', $className);
+//                if (!in_array($className, get_declared_classes())) {
+//                    continue;
+//                }
+//                return $className;
+//            }
+//        }
+//        return false;
+//    }
 
     /**
      * Copies resource to current work directory.
@@ -1635,7 +1639,8 @@ EOD;
             B::iniSet('include_path', implode(PATH_SEPARATOR, $tmpIncludePaths));
             $resourceFilePath = stream_resolve_include_path($resourceDirectoryPath . $resourceFileName);
             B::iniSet('include_path', $includePaths);
-            $destResourceFilePath = self::$pwd . DIRECTORY_SEPARATOR . $resourceFileName;
+            //$destResourceFilePath = self::$pwd . DIRECTORY_SEPARATOR . $resourceFileName;
+            $destResourceFilePath = self::$pwd . '/' . $resourceFileName;
             // If destination file does not exist.
             if (!is_file($destResourceFilePath)) {
                 // Copies resource to current work directory.
@@ -1780,7 +1785,8 @@ EOD;
 
         \BreakpointDebugging::limitAccess(array ('BreakpointDebugging_InDebug.php'));
 
-        self::$pwd = getcwd();
+        //self::$pwd = getcwd();
+        self::$pwd = str_replace('\\', '/', getcwd());
         self::$_get = $_BreakpointDebugging_get;
         unset($_BreakpointDebugging_get);
         self::$_nativeExeMode = self::$exeMode = $_BreakpointDebugging_EXE_MODE;

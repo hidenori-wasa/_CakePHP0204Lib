@@ -389,7 +389,8 @@ abstract class BreakpointDebugging_ErrorInAllCase
                         $onceFlag = true;
                     }
                     // Analyze values part of trace array, and return character string.
-                    $this->searchDebugBacktraceArgsToString($pTmpLog2, $trace['values'], strlen($tabs) + 1);
+                    //$this->searchDebugBacktraceArgsToString($pTmpLog2, $trace['values'], strlen($tabs) + 1);
+                    $this->searchDebugBacktraceArgsToString($pTmpLog2, $trace['values'], $func, $class, strlen($tabs) + 1);
                 }
             }
         }
@@ -433,11 +434,14 @@ abstract class BreakpointDebugging_ErrorInAllCase
      * @param mixed $pTmpLog   Error temporary log pointer.
      * @param mixed $paramName Parameter name or number.
      * @param array $array     The array to reflect.
+     * @param mixed $func      Function name of call stack.
+     * @param mixed $class     Class name of call stack.
      * @param int   $tabNumber The tab number to indent.
      *
      * @return void
      */
-    protected function reflectArray(&$pTmpLog, $paramName, $array, $tabNumber = 1)
+    //protected function reflectArray(&$pTmpLog, $paramName, $array, $tabNumber = 1)
+    protected function reflectArray(&$pTmpLog, $paramName, $array, $func, $class, $tabNumber)
     {
         $this->checkLogByteSize($pTmpLog);
         $isOverMaxLogElementNumber = false;
@@ -449,7 +453,7 @@ abstract class BreakpointDebugging_ErrorInAllCase
         $onceFlag2 = false;
         $pTmpLog2 = $this->logPointerOpening();
         // For "Exception::$trace".
-        $this->outputFixedFunctionToLogging($array, $pTmpLog2, $onceFlag2, $func, $class, '', '', "\t" . $tabs);
+        //$this->outputFixedFunctionToLogging($array, $pTmpLog2, $onceFlag2, $func, $class, '', '', "\t" . $tabs);
         $this->addFunctionValuesToLog($pTmpLog2, $pTmpLog, $onceFlag2, $func, $class, '', "\t" . $tabs);
         foreach ($this->_loggedArrays as $loggedArrayNumber => $loggedArray) {
             if ($loggedArray === $array) {
@@ -473,12 +477,15 @@ abstract class BreakpointDebugging_ErrorInAllCase
                 }
                 if (is_array($paramValue)) {
                     // Reduces call stack nest level.
-                    $this->reflectArray($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    //$this->reflectArray($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    $this->reflectArray($pTmpLog, $paramName, $paramValue, $func, $class, $tabNumber + 1);
                 } else if (is_object($paramValue)) {
                     // Reduces call stack nest level.
-                    $this->reflectObject($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    //$this->reflectObject($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    $this->reflectObject($pTmpLog, $paramName, $paramValue, $func, $class, $tabNumber + 1);
                 } else {
-                    $this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    //$this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    $this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber + 1, $func, $class);
                 }
             }
             if ($isOverMaxLogElementNumber !== false) {
@@ -497,11 +504,14 @@ abstract class BreakpointDebugging_ErrorInAllCase
      * @param mixed  $pTmpLog   Error temporary log pointer.
      * @param mixed  $paramName Parameter name or number.
      * @param object $object    The object to reflect.
+     * @param mixed  $func      Function name of call stack.
+     * @param mixed  $class     Class name of call stack.
      * @param int    $tabNumber The tab number to indent.
      *
      * @return void
      */
-    protected function reflectObject(&$pTmpLog, $paramName, $object, $tabNumber = 1)
+    //protected function reflectObject(&$pTmpLog, $paramName, $object, $tabNumber = 1)
+    protected function reflectObject(&$pTmpLog, $paramName, $object, $func, $class, $tabNumber)
     {
         $this->checkLogByteSize($pTmpLog);
         $className = get_class($object);
@@ -527,7 +537,8 @@ abstract class BreakpointDebugging_ErrorInAllCase
             $this->logBufferWriting($pTmpLog, PHP_EOL . $tabs . "\t...");
         } else {
             foreach ($constants as $constName => $constValue) {
-                $this->getTypeAndValue($pTmpLog, $this->tags['i'] . 'const ' . $this->tags['/i'] . $constName, $constValue, $tabNumber + 1);
+                //$this->getTypeAndValue($pTmpLog, $this->tags['i'] . 'const ' . $this->tags['/i'] . $constName, $constValue, $tabNumber + 1);
+                $this->getTypeAndValue($pTmpLog, $this->tags['i'] . 'const ' . $this->tags['/i'] . $constName, $constValue, $tabNumber + 1, $func, $class);
             }
             count($constants) ? $this->logBufferWriting($pTmpLog, PHP_EOL) : null;
             foreach ($propertyReflections as $propertyReflection) {
@@ -548,12 +559,15 @@ abstract class BreakpointDebugging_ErrorInAllCase
                     // Clears recursive array element.
                     $paramValue = B::clearRecursiveArrayElement($paramValue);
                     // Reduces call stack nest level.
-                    $this->reflectArray($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    //$this->reflectArray($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    $this->reflectArray($pTmpLog, $paramName, $paramValue, $func, $class, $tabNumber + 1);
                 } else if (is_object($paramValue)) {
                     // Reduces call stack nest level.
-                    $this->reflectObject($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    //$this->reflectObject($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    $this->reflectObject($pTmpLog, $paramName, $paramValue, $func, $class, $tabNumber + 1);
                 } else {
-                    $this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    //$this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber + 1);
+                    $this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber + 1, $func, $class);
                 }
             }
         }
@@ -590,8 +604,19 @@ abstract class BreakpointDebugging_ErrorInAllCase
                 unset($callStackInfo[0]);
             } else {
                 // @codeCoverageIgnoreEnd
+                $logInfo['file'] = $pCurrentException->getFile();
+                $logInfo['line'] = $pCurrentException->getLine();
+                if (array_key_exists(0, $callStackInfo)) {
+                    if (array_key_exists('class', $callStackInfo[0])) {
+                        $logInfo['class'] = $callStackInfo[0]['class'];
+                    }
+                    if (array_key_exists('function', $callStackInfo[0])) {
+                        $logInfo['function'] = $callStackInfo[0]['function'];
+                    }
+                }
                 // Array top is set to location which throws exception because this location is registered to logging.
-                array_unshift($callStackInfo, array ('file' => $pCurrentException->getFile(), 'line' => $pCurrentException->getLine()));
+                //array_unshift($callStackInfo, array ('file' => $pCurrentException->getFile(), 'line' => $pCurrentException->getLine()));
+                array_unshift($callStackInfo, $logInfo);
             }
             // Clears recursive array element.
             $this->_callStack = B::clearRecursiveArrayElement($callStackInfo);
@@ -838,9 +863,11 @@ abstract class BreakpointDebugging_ErrorInAllCase
         \BreakpointDebugging::assert(is_string($func));
         \BreakpointDebugging::assert(is_string($class));
 
-        $className = B::fullFilePathToClassName($file);
-        if ($className //
-            && (is_subclass_of($className, 'BreakpointDebugging_PHPUnit_FrameworkTestCase') || is_subclass_of($className, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple')) //
+        //$className = B::fullFilePathToClassName($file);
+        //if ($className //
+        if ($class //
+            //    && (is_subclass_of($className, 'BreakpointDebugging_PHPUnit_FrameworkTestCase') || is_subclass_of($className, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple')) //
+            && (is_subclass_of($class, 'BreakpointDebugging_PHPUnit_FrameworkTestCase') || is_subclass_of($class, 'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple')) //
         ) {
             $this->logBufferWriting($pTmpLog, $this->tags['uint test anchor name']);
             $this->tags['uint test anchor name'] = '';
@@ -866,63 +893,63 @@ abstract class BreakpointDebugging_ErrorInAllCase
         }
     }
 
-    /**
-     * Output fixed-function to logging.
-     *
-     * @param array  $callStack The call stack.
-     * @param mixed  $pTmpLog   Error temporary log pointer.
-     * @param bool   $onceFlag2 False means logging parameter header.
-     * @param mixed  $func      Function name of call stack.
-     * @param mixed  $class     Class name of call stack.
-     * @param string $file      File name of call stack.
-     * @param mixed  $line      Line number of call stack.
-     * @param string $tabs      Tabs to indent.
-     *
-     * @return void
-     */
-    protected function outputFixedFunctionToLogging($callStack, &$pTmpLog, &$onceFlag2, &$func, &$class, $file, $line, $tabs = '')
-    {
-        \BreakpointDebugging::assert(func_num_args() <= 8);
-        \BreakpointDebugging::assert(is_array($callStack) || is_string($callStack));
-        \BreakpointDebugging::assert(is_array($pTmpLog) || is_resource($pTmpLog) || $pTmpLog === null);
-        \BreakpointDebugging::assert(is_bool($onceFlag2));
-        \BreakpointDebugging::assert(is_null($func) || is_string($func));
-        \BreakpointDebugging::assert(is_null($class) || is_string($class));
-        \BreakpointDebugging::assert(is_string($file));
-        \BreakpointDebugging::assert(is_string($line) || is_int($line));
-        \BreakpointDebugging::assert(is_string($tabs));
-
-        array_key_exists('function', $callStack) ? $func = $callStack['function'] : $func = '';
-        array_key_exists('class', $callStack) ? $class = $callStack['class'] : $class = '';
-        if (is_array(B::getNotFixedLocations())) {
-            foreach (B::getNotFixedLocations() as $notFixedLocation) {
-                array_key_exists('function', $notFixedLocation) ? $noFixFunc = $notFixedLocation['function'] : $noFixFunc = '';
-                array_key_exists('class', $notFixedLocation) ? $noFixClass = $notFixedLocation['class'] : $noFixClass = '';
-                array_key_exists('file', $notFixedLocation) ? $noFixFile = $notFixedLocation['file'] : $noFixFile = '';
-                // $notFixedLocation of file scope is "$noFixFunc === '' && $noFixClass === '' && $tabs !== ''".
-                if ($noFixFunc === '' //
-                    && $noFixClass === '' //
-                    && $tabs !== '' //
-                ) {
-                    // @codeCoverageIgnoreStart
-                    continue;
-                    // @codeCoverageIgnoreEnd
-                }
-                if ($func === $noFixFunc //
-                    && $class === $noFixClass //
-                    && $file === $noFixFile //
-                ) {
-                    $marks = str_repeat($this->mark, 10);
-                    $this->logBufferWriting($pTmpLog, PHP_EOL . $tabs . $this->tags['font']['caution'] . $this->tags['b'] . $marks . ' This function has been not fixed. ' . $marks . $this->tags['/b'] . $this->tags['/font']);
-                    if ($onceFlag2) {
-                        $onceFlag2 = false;
-                        $this->addParameterHeaderToLog($pTmpLog, $noFixFile, $line, $func, $class);
-                    }
-                    break;
-                }
-            }
-        }
-    }
+//    /**
+//     * Output fixed-function to logging.
+//     *
+//     * @param array  $callStack The call stack.
+//     * @param mixed  $pTmpLog   Error temporary log pointer.
+//     * @param bool   $onceFlag2 False means logging parameter header.
+//     * @param mixed  $func      Function name of call stack.
+//     * @param mixed  $class     Class name of call stack.
+//     * @param string $file      File name of call stack.
+//     * @param mixed  $line      Line number of call stack.
+//     * @param string $tabs      Tabs to indent.
+//     *
+//     * @return void
+//     */
+//    protected function outputFixedFunctionToLogging($callStack, &$pTmpLog, &$onceFlag2, &$func, &$class, $file, $line, $tabs = '')
+//    {
+//        \BreakpointDebugging::assert(func_num_args() <= 8);
+//        \BreakpointDebugging::assert(is_array($callStack) || is_string($callStack));
+//        \BreakpointDebugging::assert(is_array($pTmpLog) || is_resource($pTmpLog) || $pTmpLog === null);
+//        \BreakpointDebugging::assert(is_bool($onceFlag2));
+//        \BreakpointDebugging::assert(is_null($func) || is_string($func));
+//        \BreakpointDebugging::assert(is_null($class) || is_string($class));
+//        \BreakpointDebugging::assert(is_string($file));
+//        \BreakpointDebugging::assert(is_string($line) || is_int($line));
+//        \BreakpointDebugging::assert(is_string($tabs));
+//
+//        array_key_exists('function', $callStack) ? $func = $callStack['function'] : $func = '';
+//        array_key_exists('class', $callStack) ? $class = $callStack['class'] : $class = '';
+//        if (is_array(B::getNotFixedLocations())) {
+//            foreach (B::getNotFixedLocations() as $notFixedLocation) {
+//                array_key_exists('function', $notFixedLocation) ? $noFixFunc = $notFixedLocation['function'] : $noFixFunc = '';
+//                array_key_exists('class', $notFixedLocation) ? $noFixClass = $notFixedLocation['class'] : $noFixClass = '';
+//                array_key_exists('file', $notFixedLocation) ? $noFixFile = $notFixedLocation['file'] : $noFixFile = '';
+//                // $notFixedLocation of file scope is "$noFixFunc === '' && $noFixClass === '' && $tabs !== ''".
+//                if ($noFixFunc === '' //
+//                    && $noFixClass === '' //
+//                    && $tabs !== '' //
+//                ) {
+//                    // @codeCoverageIgnoreStart
+//                    continue;
+//                    // @codeCoverageIgnoreEnd
+//                }
+//                if ($func === $noFixFunc //
+//                    && $class === $noFixClass //
+//                    && $file === $noFixFile //
+//                ) {
+//                    $marks = str_repeat($this->mark, 10);
+//                    $this->logBufferWriting($pTmpLog, PHP_EOL . $tabs . $this->tags['font']['caution'] . $this->tags['b'] . $marks . ' This function has been not fixed. ' . $marks . $this->tags['/b'] . $this->tags['/font']);
+//                    if ($onceFlag2) {
+//                        $onceFlag2 = false;
+//                        $this->addParameterHeaderToLog($pTmpLog, $noFixFile, $line, $func, $class);
+//                    }
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Is called from child.
@@ -1342,28 +1369,35 @@ EOD;
                         continue;
                     }
                     \BreakpointDebugging::assert(is_array($call), 102);
+
+                    array_key_exists('file', $call) ? $file = $call['file'] : $file = '';
+                    array_key_exists('line', $call) ? $line = $call['line'] : $line = '';
+                    array_key_exists('function', $call) ? $func = $call['function'] : $func = '';
+                    array_key_exists('class', $call) ? $class = $call['class'] : $class = '';
+
                     foreach ($this->_loggedCallStacks as $loggedCallNumber => $loggedCall) {
                         if ($loggedCall === $call) {
                             // Skips same call stack.
                             $loggedCallNumber++;
                             $this->logBufferWriting($dummy, PHP_EOL . $this->tags['b'] . $this->_lowerHypertextReferenceAnchor('function call #' . $loggedCallNumber) . $this->tags['/b'] . " ...");
-                            $file = '';
-                            $line = '';
-                            $func = '';
-                            $class = '';
+                            //$file = '';
+                            //$line = '';
+                            //$func = '';
+                            //$class = '';
                             goto AFTER_TREATMENT;
                         }
                     }
-                    array_key_exists('file', $call) ? $file = $call['file'] : $file = '';
-                    array_key_exists('line', $call) ? $line = $call['line'] : $line = '';
+                    //array_key_exists('file', $call) ? $file = $call['file'] : $file = '';
+                    //array_key_exists('line', $call) ? $line = $call['line'] : $line = '';
                     $this->_loggedCallStacks[] = $call;
                     $this->logBufferWriting($dummy, PHP_EOL . $this->tags['b'] . $this->_setHypertextReference('function call #' . count($this->_loggedCallStacks)) . $this->tags['/b']);
-                    $this->outputFixedFunctionToLogging($call, $dummy, $onceFlag2, $func, $class, $file, $line);
+                    //$this->outputFixedFunctionToLogging($call, $dummy, $onceFlag2, $func, $class, $file, $line);
                     if (is_array($call) //
                         && array_key_exists('args', $call) //
                     ) {
                         // Analyze parameters part of trace array, and return character string.
-                        $this->searchDebugBacktraceArgsToString($pTmpLog2, $call['args']);
+                        //$this->searchDebugBacktraceArgsToString($pTmpLog2, $call['args']);
+                        $this->searchDebugBacktraceArgsToString($pTmpLog2, $call['args'], $func, $class);
                         $this->logBufferWriting($pTmpLog2, PHP_EOL . ');');
                     }
                     $this->addFunctionValuesToLog($pTmpLog, $dummy, $onceFlag2, $func, $class, $line);
@@ -1471,12 +1505,15 @@ EOD;
      * @param mixed $paramName  Parameter name or number.
      * @param mixed $paramValue Parameter value.
      * @param int   $tabNumber  The tab number to indent.
+     * @param mixed $func       Function name of call stack.
+     * @param mixed $class      Class name of call stack.
      *
      * @return void
      */
-    protected function getTypeAndValue(&$pTmpLog, $paramName, $paramValue, $tabNumber)
+    protected function getTypeAndValue(&$pTmpLog, $paramName, $paramValue, $tabNumber, $func, $class)
     {
-        \BreakpointDebugging::assert(func_num_args() === 4);
+        //\BreakpointDebugging::assert(func_num_args() === 4);
+        \BreakpointDebugging::assert(func_num_args() === 6);
         \BreakpointDebugging::assert(is_array($pTmpLog) || is_resource($pTmpLog) || $pTmpLog === null);
         \BreakpointDebugging::assert(is_string($paramName) || is_int($paramName));
         \BreakpointDebugging::assert(is_int($tabNumber));
@@ -1484,10 +1521,13 @@ EOD;
         if (is_array($paramValue)) {
             // Clears recursive array element.
             $paramValue = B::clearRecursiveArrayElement($paramValue);
-            $this->reflectArray($pTmpLog, $paramName, $paramValue, $tabNumber);
+            //$this->reflectArray($pTmpLog, $paramName, $paramValue, $tabNumber);
+            $this->reflectArray($pTmpLog, $paramName, $paramValue, $func, $class, $tabNumber);
+
             return;
         } else if (is_object($paramValue)) {
-            $this->reflectObject($pTmpLog, $paramName, $paramValue, $tabNumber);
+            //$this->reflectObject($pTmpLog, $paramName, $paramValue, $tabNumber);
+            $this->reflectObject($pTmpLog, $paramName, $paramValue, $func, $class, $tabNumber);
             return;
         }
 
@@ -1544,13 +1584,17 @@ EOD;
      *
      * @param mixed $pTmpLog         Error temporary log pointer.
      * @param array $backtraceParams Back trace parameters.
+     * @param mixed $func            Function name of call stack.
+     * @param mixed $class           Class name of call stack.
      * @param int   $tabNumber       The tab number to indent.
      *
      * @return void
      */
-    protected function searchDebugBacktraceArgsToString(&$pTmpLog, $backtraceParams, $tabNumber = 1)
+    //protected function searchDebugBacktraceArgsToString(&$pTmpLog, $backtraceParams, $tabNumber = 1)
+    protected function searchDebugBacktraceArgsToString(&$pTmpLog, $backtraceParams, $func, $class, $tabNumber = 1)
     {
-        \BreakpointDebugging::assert(func_num_args() <= 3);
+        //\BreakpointDebugging::assert(func_num_args() <= 3);
+        \BreakpointDebugging::assert(func_num_args() <= 5);
         \BreakpointDebugging::assert(is_array($pTmpLog) || is_resource($pTmpLog) || $pTmpLog === null);
         \BreakpointDebugging::assert(is_array($backtraceParams));
         \BreakpointDebugging::assert(is_int($tabNumber));
@@ -1571,7 +1615,8 @@ EOD;
             } else {
                 $this->logBufferWriting($pTmpLog, PHP_EOL . str_repeat("\t", $tabNumber) . ',');
             }
-            $this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber);
+            //$this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber);
+            $this->getTypeAndValue($pTmpLog, $paramName, $paramValue, $tabNumber, $func, $class);
         }
     }
 

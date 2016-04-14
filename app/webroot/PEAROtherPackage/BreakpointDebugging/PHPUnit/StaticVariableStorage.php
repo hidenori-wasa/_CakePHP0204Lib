@@ -34,6 +34,15 @@ use \BreakpointDebugging_Window as BW;
 class BreakpointDebugging_PHPUnit_StaticVariableStorage
 {
     /**
+     * //Whitelist paths.
+     * The blacklist paths.
+     *
+     * @var array
+     */
+    //private static $_whitelistPaths;
+    private static $_blacklistPaths;
+
+    /**
      * Autoload name to display autoload error at top of stack.
      *
      * @const string
@@ -150,6 +159,16 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
 
         // "\Closure" object should be static because of function.
         self::$_isUnitTestClass = $isUnitTestClass;
+
+        if (BREAKPOINTDEBUGGING_IS_CAKE) {
+            //self::$_whitelistPaths[] = realpath('../../app/');
+            //self::$_whitelistPaths[] = realpath('../../plugins/');
+            //self::$_whitelistPaths[] = realpath('../../vendors/');
+            self::$_blacklistPaths[] = stream_resolve_include_path('./../../lib/Cake/') . DIRECTORY_SEPARATOR;
+        } else {
+            //self::$_whitelistPaths[] = realpath('.');
+            self::$_blacklistPaths = array ();
+        }
     }
 
     /**
@@ -760,6 +779,32 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
     }
 
     /**
+     * //Is it whitelist path?
+     * Is it blacklist path?
+     *
+     * @param type $filename Filename to check.
+     *
+     * @//return boolean "true" if whitelist path.
+     * @return boolean "true" if blacklist path.
+     */
+    //static function _isWhitelistPath($filename)
+    private static function _isBlacklistPath($filename)
+    {
+        //foreach (self::$_whitelistPaths as $whitelistPath) {
+        foreach (self::$_blacklistPaths as $blacklistPath) {
+            //// If our class.
+            //if (strpos($filename, $whitelistPath) === 0) {
+            // If framework class and so on.
+            if (strpos($filename, $blacklistPath) === 0) {
+                return true;
+            }
+        }
+        //// If framework class.
+        // If our class.
+        return false;
+    }
+
+    /**
      * Stores static properties.
      *
      * @param array $staticProperties Static properties storage.
@@ -797,6 +842,12 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             $classReflection = new \ReflectionClass($declaredClassName);
             // If it is not user defined class.
             if (!$classReflection->isUserDefined()) {
+                continue;
+            }
+            $fileName = $classReflection->getFileName();
+            // If it is not our class.
+            //if (!self::_isWhitelistPath($fileName)) {
+            if (self::_isBlacklistPath($fileName)) {
                 continue;
             }
 
@@ -889,6 +940,11 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                         continue;
                     }
                 }
+                // If it is not our class.
+                //if (!self::_isWhitelistPath($fileName)) {
+                if (self::_isBlacklistPath($fileName)) {
+                    continue;
+                }
                 echo PHP_EOL
                 . 'Code which is tested must use private static property in class method instead of use local static variable in function' . PHP_EOL
                 . 'because "php" version 5.3.0 cannot restore its value.' . PHP_EOL
@@ -923,6 +979,11 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             $classReflection = new \ReflectionClass($declaredClassName);
             // If it is not user defined class.
             if (!$classReflection->isUserDefined()) {
+                continue;
+            }
+            // If it is not our class.
+            //if (!self::_isWhitelistPath($classReflection->getFileName())) {
+            if (self::_isBlacklistPath($classReflection->getFileName())) {
                 continue;
             }
             // Checks existence of local static variable per class method.
@@ -967,6 +1028,7 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             )
         );
 
+        // Excepts "PHPUnit_Framework_..." class because its class may be defined from last storing of "setUpBeforeClass()" until here.
         foreach (self::$_declaredClasses as $key => $currentDeclaredClass) {
             if (stripos($currentDeclaredClass, 'PHPUnit_Framework_') === 0) {
                 unset(self::$_declaredClasses[$key]);

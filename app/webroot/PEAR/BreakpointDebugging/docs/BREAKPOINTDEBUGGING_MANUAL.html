@@ -736,11 +736,6 @@ Caution: Do not execute "ini_set('error_log', ...)" because this package uses lo
                 exit;
             }
 </code>
-<span class="subtitle">Option procedure:</span> Register at top of the function or method or file which has been not fixed. Copy following.
-
-<code>    "\BreakpointDebugging::registerNotFixedLocation(self::$_isRegister[__METHOD__]);"
-</code>
-    Then, we can discern function or method or file which has been not fixed with browser screen or log.
 <span class="subtitle">Option procedure:</span> Register local variable or global variable which you want to see with "\BreakpointDebugging::addValuesToTrace()".
 
 <span class="title"><a name="11">How to use logger.</a></span>
