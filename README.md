@@ -56,5 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I deleted garbage comment.
+* I improved "\BreakpointDebugging_InAllCase::checkRecursiveDataError()" class method.
 * I have been doing debugging with "PHP5.4" on "Ubuntu12.04LTS".

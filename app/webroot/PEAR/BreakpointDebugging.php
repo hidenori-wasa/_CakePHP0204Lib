@@ -1607,6 +1607,17 @@ EOD;
      */
     static function checkRecursiveDataError($value)
     {
+        $setXdebugVarDisplayValue = function ($displayMaxChildren, $displayMaxData, $displayMaxDepth) {
+            ini_set('xdebug.var_display_max_children', $displayMaxChildren);
+            ini_set('xdebug.var_display_max_data', $displayMaxData);
+            ini_set('xdebug.var_display_max_depth', $displayMaxDepth);
+        };
+
+        $displayMaxChildren = ini_get('xdebug.var_display_max_children');
+        $displayMaxData = ini_get('xdebug.var_display_max_data');
+        $displayMaxDepth = ini_get('xdebug.var_display_max_depth');
+        $setXdebugVarDisplayValue('1000', '100', '100');
+
         ob_start();
         var_dump($value);
         $varDumpResult = ob_get_clean();
@@ -1622,9 +1633,11 @@ EOD;
             $result = preg_match('`^ [[:blank:]]* &`xX', $line);
             B::assert($result !== false);
             if ($result === 1) {
+                $setXdebugVarDisplayValue($displayMaxChildren, $displayMaxData, $displayMaxDepth);
                 throw new \BreakpointDebugging_ErrorException('Recursive data must not be used because of error cause. Also, "\Closure" object must not be used as auto property because it may be included to static variable.');
             }
         }
+        $setXdebugVarDisplayValue($displayMaxChildren, $displayMaxData, $displayMaxDepth);
     }
 
     ///////////////////////////// For package user until here. /////////////////////////////

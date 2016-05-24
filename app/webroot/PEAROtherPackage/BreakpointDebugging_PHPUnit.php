@@ -797,7 +797,7 @@ EOD;
     }
 
     static $exclusionClassNames = array (
-        // Required class names.
+        // Required class-names in unit test.
         'WasaTestArrayCommand' => true, // Wasa's "CakePHP" class.
         'WasaTestArrayDispatcher' => true, // Wasa's "CakePHP" class.
     );
