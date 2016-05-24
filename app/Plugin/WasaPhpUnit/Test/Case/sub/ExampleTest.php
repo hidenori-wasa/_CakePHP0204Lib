@@ -38,7 +38,7 @@ class LocalStaticVariableOfStaticMethod
 // unset($_FILES); // The rule to keep static status: Static status must not be deleted at file load. (Does not autodetect)
 //
 // include_once 'AFile.php'; // The rule to keep static status: "include" must not be executed at file load because a class may be declared newly. (Does not autodetect)
-//class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
+// class ExampleTest extends \BreakpointDebugging_PHPUnit_FrameworkTestCase
 class ExampleTest extends \CakeTestCase
 {
     private $_pTestObject;

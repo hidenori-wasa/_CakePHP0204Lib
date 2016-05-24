@@ -36,7 +36,6 @@ use \BreakpointDebugging_Window as BW;
  */
 class BreakpointDebugging_Window
 {
-
     /**
      * Shared memory byte size.
      *
@@ -338,11 +337,6 @@ EOD;
                 }
                 break;
             }
-            //// If "CakePHP".
-            //if (BREAKPOINTDEBUGGING_IS_CAKE) {
-            //    $uri = str_replace('\\', '/', $uri);
-            //    $uri = str_replace('/app/webroot/', '/', $uri);
-            //}
             // Opens "Mozilla Firefox" window.
             $openFirefoxWindow($uri);
         } else { // If "shmop" extension is invalid.

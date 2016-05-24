@@ -56,7 +56,5 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I excepted static backup and its check about framework class because framework supports unit test continuation execution.
-* I changed "\BreakpointDebugging_ErrorInAllCase" class to support other autoload of "PEAR" autoload.
-* I deleted "\BreakpointDebugging_InAllCase::registerNotFixedLocation()" feature because code coverage report is same feature.
+* I deleted garbage comment.
 * I have been doing debugging with "PHP5.4" on "Ubuntu12.04LTS".

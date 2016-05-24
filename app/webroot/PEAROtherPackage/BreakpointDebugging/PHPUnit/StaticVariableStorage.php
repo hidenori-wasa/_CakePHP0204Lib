@@ -34,12 +34,10 @@ use \BreakpointDebugging_Window as BW;
 class BreakpointDebugging_PHPUnit_StaticVariableStorage
 {
     /**
-     * //Whitelist paths.
      * The blacklist paths.
      *
      * @var array
      */
-    //private static $_whitelistPaths;
     private static $_blacklistPaths;
 
     /**
@@ -132,9 +130,7 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
      * @var array
      */
     private static $_backupStaticPropertiesBlacklist = array (
-        //'BreakpointDebugging_InAllCase' => array ('_callLocations', '_phpUnit'),
         'BreakpointDebugging_InAllCase' => array ('_callLocations'),
-        //'BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple' => array ('_phpUnit'),
         'Cache' => array ('_engines'), // "CakePHP" class.
         'CakeLog' => array ('_Collection'), // "CakePHP" class.
     );
@@ -161,12 +157,8 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
         self::$_isUnitTestClass = $isUnitTestClass;
 
         if (BREAKPOINTDEBUGGING_IS_CAKE) {
-            //self::$_whitelistPaths[] = realpath('../../app/');
-            //self::$_whitelistPaths[] = realpath('../../plugins/');
-            //self::$_whitelistPaths[] = realpath('../../vendors/');
             self::$_blacklistPaths[] = stream_resolve_include_path('./../../lib/Cake/') . DIRECTORY_SEPARATOR;
         } else {
-            //self::$_whitelistPaths[] = realpath('.');
             self::$_blacklistPaths = array ();
         }
     }
@@ -779,27 +771,20 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
     }
 
     /**
-     * //Is it whitelist path?
      * Is it blacklist path?
      *
      * @param type $filename Filename to check.
      *
-     * @//return boolean "true" if whitelist path.
      * @return boolean "true" if blacklist path.
      */
-    //static function _isWhitelistPath($filename)
     private static function _isBlacklistPath($filename)
     {
-        //foreach (self::$_whitelistPaths as $whitelistPath) {
         foreach (self::$_blacklistPaths as $blacklistPath) {
-            //// If our class.
-            //if (strpos($filename, $whitelistPath) === 0) {
             // If framework class and so on.
             if (strpos($filename, $blacklistPath) === 0) {
                 return true;
             }
         }
-        //// If framework class.
         // If our class.
         return false;
     }
@@ -846,7 +831,6 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
             }
             $fileName = $classReflection->getFileName();
             // If it is not our class.
-            //if (!self::_isWhitelistPath($fileName)) {
             if (self::_isBlacklistPath($fileName)) {
                 continue;
             }
@@ -941,7 +925,6 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                     }
                 }
                 // If it is not our class.
-                //if (!self::_isWhitelistPath($fileName)) {
                 if (self::_isBlacklistPath($fileName)) {
                     continue;
                 }
@@ -982,7 +965,6 @@ class BreakpointDebugging_PHPUnit_StaticVariableStorage
                 continue;
             }
             // If it is not our class.
-            //if (!self::_isWhitelistPath($classReflection->getFileName())) {
             if (self::_isBlacklistPath($classReflection->getFileName())) {
                 continue;
             }

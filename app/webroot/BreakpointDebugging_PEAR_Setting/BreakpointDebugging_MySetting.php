@@ -74,7 +74,6 @@ function BreakpointDebugging_userSetting($exeMode, &$language, &$timezone, &$SMT
         $openBasedir[] = $pearDir;
     }
     if (BREAKPOINTDEBUGGING_IS_WINDOWS) { // In case of Windows.
-        //$openBasedir = 'C:\xampp\;.\\;' . sys_get_temp_dir();
         if (array_key_exists(2, $openBasedir)) {
             if ($openBasedir[2][1] !== ':') {
                 $openBasedir[2] = 'C:' . $openBasedir[2];

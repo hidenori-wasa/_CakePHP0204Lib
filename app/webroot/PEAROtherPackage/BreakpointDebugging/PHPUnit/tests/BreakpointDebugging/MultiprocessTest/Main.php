@@ -4,7 +4,6 @@ use \BreakpointDebugging as B;
 use \BreakpointDebugging_Window as BW;
 use \BreakpointDebugging_CommandLine as BCL;
 
-//class tests_PEAR_BreakpointDebugging_MultiprocessTest_Main
 class BreakpointDebugging_MultiprocessTest_Main
 {
 

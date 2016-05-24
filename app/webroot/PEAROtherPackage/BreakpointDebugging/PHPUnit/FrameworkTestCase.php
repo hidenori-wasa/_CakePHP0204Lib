@@ -448,7 +448,6 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCase extends \PHPUnit_Framework_T
      * @param string $message The fail message.
      *
      * @return void
-     * @//throws PHPUnit_Framework_AssertionFailedError
      * @author Hidenori Wasa <public@hidenori-wasa.com>
      */
     static function fail($message = '')

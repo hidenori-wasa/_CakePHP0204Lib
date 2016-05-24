@@ -596,9 +596,6 @@ EOD;
      */
     static function markTestSkippedInDebug()
     {
-//        if (B::isDebug()) {
-//            \PHPUnit_Framework_Assert::markTestSkipped();
-//        }
         if (B::isDebug()) {
             self::_markTestSkipped();
             return true;
@@ -614,9 +611,6 @@ EOD;
      */
     static function markTestSkippedInRelease()
     {
-//        if (!B::isDebug()) {
-//            \PHPUnit_Framework_Assert::markTestSkipped();
-//        }
         if (!B::isDebug()) {
             self::_markTestSkipped();
             return true;
@@ -804,24 +798,6 @@ EOD;
 
     static $exclusionClassNames = array (
         // Required class names.
-        //'App' => true, // "CakePHP" class.
-        //'BaseCoverageReport' => true, // "CakePHP" class.
-        //'CakeBaseReporter' => true, // "CakePHP" class.
-        //'CakeFixtureManager' => true, // "CakePHP" class.
-        //'CakeHtmlReporter' => true, // "CakePHP" class.
-        //'CakeTestCase' => true, // "CakePHP" class.
-        //'CakeTestFixture' => true, // "CakePHP" class.
-        //'CakeTestLoader' => true, // "CakePHP" class.
-        //'CakeTestModel' => true, // "CakePHP" class.
-        //'CakeTestRunner' => true, // "CakePHP" class.
-        //'CakeTestSuite' => true, // "CakePHP" class.
-        //'CakeTestSuiteCommand' => true, // "CakePHP" class.
-        //'CakeTestSuiteDispatcher' => true, // "CakePHP" class.
-        //'CakeTextReporter' => true, // "CakePHP" class.
-        //'ClassRegistry' => true, // "CakePHP" class.
-        //'ControllerTestCase' => true, // "CakePHP" class.
-        //'HtmlCoverageReport' => true, // "CakePHP" class.
-        //'TextCoverageReport' => true, // "CakePHP" class.
         'WasaTestArrayCommand' => true, // Wasa's "CakePHP" class.
         'WasaTestArrayDispatcher' => true, // Wasa's "CakePHP" class.
     );

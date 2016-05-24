@@ -92,9 +92,6 @@ class BreakpointDebugging_PHPUnit_FrameworkTestCaseSimple
         // Checks the autoload functions.
         $autoloadFunctions = spl_autoload_functions();
         B::assert(is_array($autoloadFunctions[0]));
-        //if (is_array($autoloadFunctions[0]) //
-        //    && is_object($autoloadFunctions[0][0]) //
-        //) {
         if (is_object($autoloadFunctions[0][0])) {
             $className = get_class($autoloadFunctions[0][0]);
         } else {

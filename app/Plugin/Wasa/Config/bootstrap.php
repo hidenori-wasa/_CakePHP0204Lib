@@ -26,8 +26,6 @@
  */
 require_once './BreakpointDebugging_Inclusion.php';
 
-//use \BreakpointDebugging as B;
-
 if (BREAKPOINTDEBUGGING_IS_PRODUCTION) { // Production mode.
     // Defines debug level automatically.
     \Configure::write('debug', 0);
