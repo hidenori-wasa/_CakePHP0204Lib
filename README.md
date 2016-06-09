@@ -56,5 +56,13 @@ class WasaBootstrap3FormSample extends \WasaAppModel
 Change log
 ----------
 
-* I improved "\BreakpointDebugging_InAllCase::checkRecursiveDataError()" class method.
+* I changed display of "BreakpointDebugging_ProductionSwitcher.php" to "WARNING" from "NOTICE".
 * I have been doing debugging with "PHP5.4" on "Ubuntu12.04LTS".
+
+I hope that someone take over these request because of my sickness
+----------
+
+* Please, integrate "Error_InAllCase" class into "Error" class.
+* Please, omit reading and writing to temporary file by fixed class method display feature deletion by logger.
+* Please, output the log by the HTML, putting a sequence number per error. Also, please, reflect its change to "BreakpointDebugging_ErrorLogFilesManager.php".
+* Please, utilize the file cache of OS by dividing "reading and writing opening" of logger to "reading opening" and "writing opening".

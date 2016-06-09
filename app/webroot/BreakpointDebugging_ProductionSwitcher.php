@@ -356,7 +356,7 @@ EOD;
         } else { // In case of first time when this page was called.
             $html = '<h1>ProductionSwitcher</h1>';
             $whiteListPaths = self::_getWhiteListPaths();
-            $html .= '<h3>NOTICE: Inside of the following directory is processed about "*.php" files recursively.</h3>';
+            $html .= '<h3><span style="color:red">WARNING: Inside of the following directory is processed about "*.php" files recursively.</span></h3>';
             $html .= '<ul><span style="color:yellow">';
             foreach ($whiteListPaths as $whiteListPath) {
                 $html .= "<li>$whiteListPath</li>";
